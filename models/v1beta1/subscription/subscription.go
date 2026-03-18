@@ -79,7 +79,7 @@ type Subscription struct {
 
 	// OrgId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
 	OrgId corev1alpha1.Uuid  `db:"org_id" json:"org_id" yaml:"org_id"`
-	Plan  *planv1beta1.Plan `fk_id:"PlanId" belongs_to:"plans" json:"plan,omitempty" yaml:"plan,omitempty"`
+	Plan  planv1beta1.Plan `fk_id:"PlanId" belongs_to:"plans" json:"plan,omitempty" yaml:"plan,omitempty"`
 
 	// PlanId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
 	PlanId    corev1alpha1.Uuid `db:"plan_id" json:"plan_id" yaml:"plan_id"`
@@ -120,17 +120,17 @@ type UpgradeSubscriptionRequest struct {
 // WebhookEvent Payload for webhook events from payment processors
 type WebhookEvent = map[string]interface{}
 
-// Corev1alpha1Order defines model for order.
-type Corev1alpha1Order = string
+// Order defines model for order.
+type Order = string
 
-// Corev1alpha1Page defines model for page.
-type Corev1alpha1Page = string
+// Page defines model for page.
+type Page = string
 
-// Corev1alpha1Pagesize defines model for pagesize.
-type Corev1alpha1Pagesize = string
+// Pagesize defines model for pagesize.
+type Pagesize = string
 
-// Corev1alpha1PagesizeWithAll defines model for pagesizeWithAll.
-type Corev1alpha1PagesizeWithAll = string
+// PagesizeWithAll defines model for pagesizeWithAll.
+type PagesizeWithAll = string
 
 // SubscriptionId defines model for subscriptionId.
 type SubscriptionId = string
