@@ -74,7 +74,7 @@ The `api.yml` is the entry point. It references subschemas via `$ref` and define
 
 ## Naming conventions
 
-These conventions are non-negotiable for consistency across all APIs:
+These conventions apply to all new fields for consistency across APIs. Some legacy and DB-mirrored fields are explicit exceptions, as noted below:
 
 | Element | Convention | Examples |
 |---------|-----------|----------|
@@ -88,6 +88,10 @@ These conventions are non-negotiable for consistency across all APIs:
 | operationId | camelCase VerbNoun | `registerMeshmodels`, `getAllRoles` |
 | Version strings | k8s-style | `v1alpha1`, `v1beta1` |
 | schemaVersion | group/version | `models.meshery.io/v1beta1` |
+
+**Exceptions for DB-mirrored/system fields**
+
+Some fields intentionally remain `snake_case` to mirror existing database columns and historical schemas. Common examples are `created_at`, `updated_at`, and `user_id`. Do **not** rename these to camelCase in existing schemas; instead, ensure that any new, non-DB-mirrored fields you add follow the camelCase rules above.
 
 ## Common schema references
 
