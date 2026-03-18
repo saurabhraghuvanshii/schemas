@@ -541,6 +541,42 @@ function addSchemaExtraTags(filePath, inputPath) {
   fs.writeFileSync(filePath, lines.join("\n"), "utf-8");
 }
 
+function addCompatibilityParameterAliases(filePath, inputPath) {
+  const document = loadYamlFile(inputPath) || {};
+  const parameterNames = Object.keys(document.components?.parameters || {});
+  if (parameterNames.length === 0) {
+    return;
+  }
+
+  let content = fs.readFileSync(filePath, "utf-8");
+
+  for (const parameterName of parameterNames) {
+    const exportedName = exportGoIdentifier(parameterName);
+    const aliasPattern = new RegExp(`(^// .*\\n)?^type (\\w+${exportedName}) = (.+)$`, "m");
+    const aliasMatch = content.match(aliasPattern);
+    if (!aliasMatch || aliasMatch[2] === exportedName) {
+      continue;
+    }
+
+    const typeExpression = aliasMatch[3];
+    const directAliasPattern = new RegExp(
+      `(^// ${exportedName} defines model for ${parameterName}\\.\\n)?^type ${exportedName} = .+$`,
+      "m",
+    );
+    const directAlias = `// ${exportedName} defines model for ${parameterName}.\ntype ${exportedName} = ${typeExpression}`;
+
+    if (directAliasPattern.test(content)) {
+      content = content.replace(directAliasPattern, directAlias);
+      content = content.replace(new RegExp(`${aliasMatch[0]}\\n+`, "m"), "");
+      continue;
+    }
+
+    content = content.replace(aliasPattern, directAlias);
+  }
+
+  fs.writeFileSync(filePath, content, "utf-8");
+}
+
 function validateGeneratedDbTags(filePath, inputPath) {
   const extraTagsByStruct = collectSchemaExtraTags(inputPath);
   const generatedTagsByStruct = collectGeneratedStructTags(filePath);
@@ -984,6 +1020,7 @@ async function generateGoModels(pkg) {
     addYamlTags(outputPath);
     addSchemaExtraTags(outputPath, inputPath);
     rewriteExternalRefAliases(outputPath);
+    addCompatibilityParameterAliases(outputPath, inputPath);
     validateGeneratedDbTags(outputPath, inputPath);
     writeGeneratedHelperFile(pkg, outputDir);
 

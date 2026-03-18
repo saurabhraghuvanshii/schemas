@@ -179,6 +179,9 @@ function writeGeneratedHelperFile(pkg, outputDir) {
 
   const filePath = path.join(outputDir, "zz_generated.helpers.go");
   const content = renderGeneratedHelperFile(pkg, spec);
+  if (!content) {
+    return null;
+  }
 
   fs.writeFileSync(filePath, content, "utf-8");
   return filePath;
