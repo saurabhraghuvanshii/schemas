@@ -44,7 +44,7 @@ type Adapter = map[string]interface{}
 
 // GetUserResponse defines model for GetUserResponse.
 type GetUserResponse struct {
-	AcceptedTermsAt corev1alpha1.Time `json:"accepted_terms_at,omitempty" yaml:"accepted_terms_at,omitempty"`
+	AcceptedTermsAt corev1alpha1.Time `db:"accepted_terms_at" json:"accepted_terms_at,omitempty" yaml:"accepted_terms_at,omitempty"`
 
 	// AvatarUrl URL to user's avatar image
 	AvatarUrl *string `db:"avatar_url" json:"avatar_url" yaml:"avatar_url"`
@@ -54,21 +54,21 @@ type GetUserResponse struct {
 
 	// Country User's country information stored as JSONB
 	Country   *core.Map         `db:"country" json:"country" yaml:"country"`
-	CreatedAt corev1alpha1.Time `json:"created_at" yaml:"created_at"`
+	CreatedAt corev1alpha1.Time `db:"created_at" json:"created_at" yaml:"created_at"`
 
 	// DeletedAt Timestamp when the user record was soft-deleted (null if not deleted)
 	DeletedAt *core.NullTime `db:"deleted_at" json:"deleted_at" yaml:"deleted_at"`
 
 	// Email User's email address
 	Email          openapi_types.Email `db:"email" json:"email" yaml:"email"`
-	FirstLoginTime corev1alpha1.Time   `json:"first_login_time,omitempty" yaml:"first_login_time,omitempty"`
+	FirstLoginTime corev1alpha1.Time   `db:"first_login_time" json:"first_login_time,omitempty" yaml:"first_login_time,omitempty"`
 
 	// FirstName User's first name
 	FirstName string `db:"first_name" json:"first_name" yaml:"first_name"`
 
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id            corev1alpha1.Uuid `json:"id" yaml:"id"`
-	LastLoginTime corev1alpha1.Time `json:"last_login_time" yaml:"last_login_time"`
+	ID            corev1alpha1.Uuid `db:"id" json:"id" yaml:"id"`
+	LastLoginTime corev1alpha1.Time `db:"last_login_time" json:"last_login_time" yaml:"last_login_time"`
 
 	// LastName User's last name
 	LastName string `db:"last_name" json:"last_name" yaml:"last_name"`
@@ -78,7 +78,7 @@ type GetUserResponse struct {
 		OrganizationsWithRoles *[]map[string]interface{} `db:"organizations_with_roles" json:"organizations_with_roles" yaml:"organizations_with_roles"`
 		TotalCount             *int                      `db:"total_count" json:"total_count" yaml:"total_count"`
 	} `db:"organizations" json:"organizations" yaml:"organizations"`
-	Preferences *Preference `json:"preferences,omitempty" yaml:"preferences,omitempty"`
+	Preferences *Preference `db:"preferences" json:"preferences,omitempty" yaml:"preferences,omitempty"`
 
 	// Provider Authentication provider (e.g., Layer5 Cloud, Twitter, Facebook, Github)
 	Provider string `db:"provider" json:"provider" yaml:"provider"`
@@ -100,7 +100,7 @@ type GetUserResponse struct {
 		TeamsWithRoles *[]map[string]interface{} `db:"teams_with_roles" json:"teams_with_roles" yaml:"teams_with_roles"`
 		TotalCount     *int                      `db:"total_count" json:"total_count" yaml:"total_count"`
 	} `db:"teams" json:"teams" yaml:"teams"`
-	UpdatedAt corev1alpha1.Time `json:"updated_at" yaml:"updated_at"`
+	UpdatedAt corev1alpha1.Time `db:"updated_at" json:"updated_at" yaml:"updated_at"`
 
 	// UserId User identifier (username or external ID)
 	UserId string `db:"user_id" json:"user_id" yaml:"user_id"`

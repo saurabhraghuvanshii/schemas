@@ -85,7 +85,7 @@ type ComponentDefinition struct {
 	Configuration map[string]interface{} `gorm:"type:bytes;serializer:json" json:"configuration" yaml:"configuration"`
 
 	// Component data related to the third party capability that Component Defintion wraps , this is herematicaly sealed an
-	Component Component `json:"component" yaml:"component"`
+	Component Component `gorm:"type:bytes;serializer:json" json:"component" yaml:"component"`
 
 	// CreatedAt Timestamp when the resource was created.
 	CreatedAt corev1alpha1.CreatedAt `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`
@@ -94,7 +94,7 @@ type ComponentDefinition struct {
 	UpdatedAt corev1alpha1.UpdatedAt `db:"updated_at" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
 
 	// ModelId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	ModelId corev1alpha1.Uuid `json:"modelId" yaml:"modelId"`
+	ModelId corev1alpha1.Uuid `gorm:"index:idx_component_definition_dbs_model_id,column:model_id" json:"modelId" yaml:"modelId"`
 }
 
 // ComponentDefinitionFormat Format specifies the format used in the `component.schema` field. JSON is the default.

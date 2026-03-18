@@ -155,46 +155,136 @@ function rewriteExternalRefAliases(filePath) {
 
 function collectSchemaExtraTags(inputPath) {
   const extraTagsByStruct = new Map();
+  const document = loadYamlFile(inputPath) || {};
+  const inputDir = path.dirname(inputPath);
+  const resolvedSchemaCache = new Map();
+
+  function decodeJsonPointerSegment(segment) {
+    return segment.replace(/~1/g, "/").replace(/~0/g, "~");
+  }
+
+  function getNodeByFragment(targetDocument, fragment, ref) {
+    if (!fragment) {
+      return targetDocument;
+    }
+
+    if (!fragment.startsWith("/")) {
+      throw new Error(`Unsupported JSON pointer fragment '${fragment}' in ref '${ref}'`);
+    }
+
+    let currentNode = targetDocument;
+    for (const segment of fragment.slice(1).split("/").map(decodeJsonPointerSegment)) {
+      if (!currentNode || typeof currentNode !== "object" || !(segment in currentNode)) {
+        throw new Error(`Unable to resolve fragment '#${fragment}' from ref '${ref}'`);
+      }
+
+      currentNode = currentNode[segment];
+    }
+
+    return currentNode;
+  }
+
+  function resolveSchemaRef(ref, seenRefs = new Set()) {
+    if (seenRefs.has(ref)) {
+      return null;
+    }
+
+    if (resolvedSchemaCache.has(ref)) {
+      return resolvedSchemaCache.get(ref);
+    }
+
+    const nextSeenRefs = new Set(seenRefs);
+    nextSeenRefs.add(ref);
+
+    const { refPath, fragment } = splitRef(ref);
+    let targetDocument = document;
+
+    if (refPath) {
+      if (/^https?:\/\//.test(refPath)) {
+        return null;
+      }
+
+      const resolvedRefPath = path.resolve(inputDir, refPath);
+      if (!fs.existsSync(resolvedRefPath)) {
+        throw new Error(`Unable to resolve referenced schema file '${refPath}' from ${inputPath}`);
+      }
+
+      targetDocument = loadYamlFile(resolvedRefPath);
+    }
+
+    const resolvedNode = getNodeByFragment(targetDocument, fragment, ref);
+    resolvedSchemaCache.set(ref, resolvedNode);
+    return resolvedNode;
+  }
+
+  function createPropertyTagEntry(propertyName, propertyDefinition) {
+    if (!propertyDefinition || typeof propertyDefinition !== "object") {
+      return null;
+    }
+
+    const extraTags = propertyDefinition["x-oapi-codegen-extra-tags"];
+    if (!extraTags || typeof extraTags !== "object") {
+      return null;
+    }
+
+    const candidateJsonNames = new Set([propertyName]);
+    if (typeof extraTags.json === "string" && extraTags.json.length > 0) {
+      candidateJsonNames.add(extraTags.json);
+      candidateJsonNames.add(extraTags.json.split(",", 1)[0]);
+    }
+
+    return {
+      propertyName,
+      candidateJsonNames: [...candidateJsonNames],
+      extraTags: { ...extraTags },
+      goName:
+        typeof propertyDefinition["x-go-name"] === "string" &&
+        propertyDefinition["x-go-name"].length > 0
+          ? propertyDefinition["x-go-name"]
+          : null,
+    };
+  }
+
+  function collectPropertyTags(schemaDefinition, seenRefs = new Set()) {
+    if (!schemaDefinition || typeof schemaDefinition !== "object") {
+      return [];
+    }
+
+    const propertyTags = new Map();
+
+    if (typeof schemaDefinition.$ref === "string") {
+      const resolvedSchema = resolveSchemaRef(schemaDefinition.$ref, seenRefs);
+      for (const entry of collectPropertyTags(resolvedSchema, new Set([...seenRefs, schemaDefinition.$ref]))) {
+        propertyTags.set(entry.propertyName, entry);
+      }
+    }
+
+    if (Array.isArray(schemaDefinition.allOf)) {
+      for (const subschema of schemaDefinition.allOf) {
+        for (const entry of collectPropertyTags(subschema, new Set(seenRefs))) {
+          propertyTags.set(entry.propertyName, entry);
+        }
+      }
+    }
+
+    if (schemaDefinition.properties && typeof schemaDefinition.properties === "object") {
+      for (const [propertyName, propertyDefinition] of Object.entries(schemaDefinition.properties)) {
+        const entry = createPropertyTagEntry(propertyName, propertyDefinition);
+        if (entry) {
+          propertyTags.set(propertyName, entry);
+        }
+      }
+    }
+
+    return [...propertyTags.values()];
+  }
 
   function appendPropertyTags(structName, schemaDefinition) {
     if (!schemaDefinition || typeof schemaDefinition !== "object") {
       return;
     }
 
-    if (schemaDefinition.type !== "object" || !schemaDefinition.properties) {
-      return;
-    }
-
-    const propertyTags = [];
-
-    for (const [propertyName, propertyDefinition] of Object.entries(
-      schemaDefinition.properties,
-    )) {
-      if (!propertyDefinition || typeof propertyDefinition !== "object") {
-        continue;
-      }
-
-      const extraTags = propertyDefinition["x-oapi-codegen-extra-tags"];
-      if (!extraTags || typeof extraTags !== "object") {
-        continue;
-      }
-
-      const candidateJsonNames = new Set([propertyName]);
-      if (typeof extraTags.json === "string" && extraTags.json.length > 0) {
-        candidateJsonNames.add(extraTags.json);
-      }
-
-      propertyTags.push({
-        propertyName,
-        candidateJsonNames: [...candidateJsonNames],
-        extraTags: { ...extraTags },
-        goName:
-          typeof propertyDefinition["x-go-name"] === "string" &&
-          propertyDefinition["x-go-name"].length > 0
-            ? propertyDefinition["x-go-name"]
-            : null,
-      });
-    }
+    const propertyTags = collectPropertyTags(schemaDefinition);
 
     if (propertyTags.length > 0) {
       extraTagsByStruct.set(structName, propertyTags);
@@ -208,10 +298,7 @@ function collectSchemaExtraTags(inputPath) {
 
     return schemaName.charAt(0).toUpperCase() + schemaName.slice(1);
   }
-
-  const document = loadYamlFile(inputPath) || {};
   const componentSchemas = document.components?.schemas || {};
-  const inputDir = path.dirname(inputPath);
 
   for (const [schemaName, schemaDefinition] of Object.entries(componentSchemas)) {
     if (!schemaDefinition || typeof schemaDefinition !== "object") {
@@ -220,24 +307,6 @@ function collectSchemaExtraTags(inputPath) {
 
     appendPropertyTags(schemaName, schemaDefinition);
     appendPropertyTags(toGeneratedStructName(schemaName), schemaDefinition);
-
-    if (typeof schemaDefinition.$ref !== "string" || schemaDefinition.$ref.startsWith("#")) {
-      continue;
-    }
-
-    const { refPath } = splitRef(schemaDefinition.$ref);
-    if (!refPath || /^https?:\/\//.test(refPath)) {
-      continue;
-    }
-
-    const resolvedRefPath = path.resolve(inputDir, refPath);
-    if (!fs.existsSync(resolvedRefPath)) {
-      continue;
-    }
-
-    const referencedSchema = loadYamlFile(resolvedRefPath);
-    appendPropertyTags(schemaName, referencedSchema);
-    appendPropertyTags(toGeneratedStructName(schemaName), referencedSchema);
   }
 
   return extraTagsByStruct;
@@ -248,6 +317,7 @@ function collectGeneratedStructTags(filePath) {
   const generatedTagsByStruct = new Map();
   let currentStructName = null;
   let structDepth = 0;
+  const anonymousStructFields = [];
 
   for (const line of lines) {
     const structMatch = line.match(/^type\s+(\w+)\s+struct\s*\{$/);
@@ -264,7 +334,27 @@ function collectGeneratedStructTags(filePath) {
       continue;
     }
 
+    const anonymousStructEndMatch = line.match(/^\s*}\s*`([^`]*)`/);
+    if (anonymousStructEndMatch && anonymousStructFields.length > 0) {
+      const rawTags = anonymousStructEndMatch[1];
+      const jsonMatch = rawTags.match(/json:"([^",]+)(?:,[^"]*)?"/);
+      const fieldName = anonymousStructFields.pop();
+      if (jsonMatch) {
+        generatedTagsByStruct
+          .get(currentStructName)
+          .set(jsonMatch[1], {
+            rawTags,
+            fieldName,
+          });
+      }
+    }
+
     if (structDepth === 1) {
+      const anonymousStructStartMatch = line.match(/^\s*(\w+)\s+.+\bstruct\s*\{$/);
+      if (anonymousStructStartMatch) {
+        anonymousStructFields.push(anonymousStructStartMatch[1]);
+      }
+
       const fieldMatch = line.match(/^\s*\w+[^`]*`([^`]*)`/);
       if (fieldMatch) {
         const rawTags = fieldMatch[1];
@@ -280,8 +370,8 @@ function collectGeneratedStructTags(filePath) {
       }
     }
 
-    const opens = (line.match(/struct\s*\{/g) || []).length;
-    const closes = (line.match(/}/g) || []).length;
+    const opens = (line.match(/\bstruct\s*\{/g) || []).length;
+    const closes = /^\s*}/.test(line) ? 1 : 0;
     structDepth += opens - closes;
 
     if (structDepth <= 0) {
@@ -302,6 +392,7 @@ function addSchemaExtraTags(filePath, inputPath) {
   const lines = fs.readFileSync(filePath, "utf-8").split("\n");
   let currentStructName = null;
   let structDepth = 0;
+  const anonymousStructFields = [];
 
   for (let index = 0; index < lines.length; index += 1) {
     const line = lines[index];
@@ -316,7 +407,42 @@ function addSchemaExtraTags(filePath, inputPath) {
       continue;
     }
 
+    const anonymousStructEndMatch = line.match(/^(\s*})\s*`([^`]*)`/);
+    if (anonymousStructEndMatch && anonymousStructFields.length > 0) {
+      const rawTags = anonymousStructEndMatch[2];
+      const jsonMatch = rawTags.match(/json:"([^",]+)(?:,[^"]*)?"/);
+      const propertyTags = jsonMatch
+        ? extraTagsByStruct
+            .get(currentStructName)
+            ?.find((entry) => entry.candidateJsonNames.includes(jsonMatch[1]))
+        : null;
+
+      if (propertyTags) {
+        let updatedTags = rawTags;
+
+        for (const [tagName, tagValue] of Object.entries(propertyTags.extraTags)) {
+          if (updatedTags.includes(`${tagName}:"`)) {
+            continue;
+          }
+
+          const sanitizedValue = String(tagValue).replace(/"/g, '\\"');
+          updatedTags = `${tagName}:"${sanitizedValue}" ${updatedTags}`;
+        }
+
+        if (updatedTags !== rawTags) {
+          lines[index] = line.replace(`\`${rawTags}\``, `\`${updatedTags}\``);
+        }
+      }
+
+      anonymousStructFields.pop();
+    }
+
     if (structDepth === 1) {
+      const anonymousStructStartMatch = line.match(/^\s*(\w+)\s+.+\bstruct\s*\{$/);
+      if (anonymousStructStartMatch) {
+        anonymousStructFields.push(anonymousStructStartMatch[1]);
+      }
+
       const fieldMatch = line.match(/^\s*\w+[^`]*`([^`]*)`/);
       if (fieldMatch) {
         const rawTags = fieldMatch[1];
@@ -356,8 +482,8 @@ function addSchemaExtraTags(filePath, inputPath) {
       }
     }
 
-    const opens = (line.match(/struct\s*\{/g) || []).length;
-    const closes = (line.match(/}/g) || []).length;
+    const opens = (line.match(/\bstruct\s*\{/g) || []).length;
+    const closes = /^\s*}/.test(line) ? 1 : 0;
     structDepth += opens - closes;
 
     if (structDepth <= 0) {
