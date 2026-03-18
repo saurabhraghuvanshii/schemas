@@ -38,7 +38,7 @@ Understanding this pipeline matters because schema design decisions directly aff
 - Collects `x-oapi-codegen-extra-tags`, `x-go-name`, and `x-go-type` metadata across direct `$ref` and `allOf` composition
 - Builds import mappings from external `$ref` targets so cross-package types resolve correctly
 - Rewrites external import aliases using explicit `x-go-type-import.name` values when provided
-- Uses `oapi-codegen` v2.x (see go.mod/tools) under the hood
+- Uses `oapi-codegen` v2.x (see the `tool github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen` directive in `go.mod`) under the hood
 
 **TypeScript generator** (`build/generate-typescript.js`):
 - Reads the same bundled JSON
