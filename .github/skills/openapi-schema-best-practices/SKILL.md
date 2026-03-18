@@ -85,7 +85,7 @@ These conventions are non-negotiable for consistency across all APIs:
 | File/folder names | lowercase, underscores OK | `model.yaml`, `model_core.yml`, `api.yml` |
 | API paths | `/api` prefix, kebab-case, plural nouns | `/api/workspaces`, `/api/environments` |
 | Path parameters | camelCase | `{subscriptionId}`, `{connectionId}` |
-| operationId | camelCase VerbNoun | `registerMeshmodels`, `GetAllRoles` |
+| operationId | camelCase VerbNoun | `registerMeshmodels`, `getAllRoles` |
 | Version strings | k8s-style | `v1alpha1`, `v1beta1` |
 | schemaVersion | group/version | `models.meshery.io/v1beta1` |
 
