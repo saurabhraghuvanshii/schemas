@@ -428,6 +428,17 @@ function addSchemaExtraTags(filePath, inputPath) {
     return;
   }
 
+  function mergeTag(rawTags, tagName, tagValue) {
+    const sanitizedValue = String(tagValue).replace(/"/g, '\\"');
+    const tagPattern = new RegExp(`${tagName}:"[^"]*"`);
+
+    if (tagPattern.test(rawTags)) {
+      return rawTags.replace(tagPattern, `${tagName}:"${sanitizedValue}"`);
+    }
+
+    return `${tagName}:"${sanitizedValue}" ${rawTags}`;
+  }
+
   const lines = fs.readFileSync(filePath, "utf-8").split("\n");
   let currentStructName = null;
   let structDepth = 0;
@@ -460,12 +471,7 @@ function addSchemaExtraTags(filePath, inputPath) {
         let updatedTags = rawTags;
 
         for (const [tagName, tagValue] of Object.entries(propertyTags.extraTags)) {
-          if (updatedTags.includes(`${tagName}:"`)) {
-            continue;
-          }
-
-          const sanitizedValue = String(tagValue).replace(/"/g, '\\"');
-          updatedTags = `${tagName}:"${sanitizedValue}" ${updatedTags}`;
+          updatedTags = mergeTag(updatedTags, tagName, tagValue);
         }
 
         if (updatedTags !== rawTags) {
@@ -510,12 +516,7 @@ function addSchemaExtraTags(filePath, inputPath) {
             }
 
             for (const [tagName, tagValue] of Object.entries(propertyTags.extraTags)) {
-              if (updatedTags.includes(`${tagName}:"`)) {
-                continue;
-              }
-
-              const sanitizedValue = String(tagValue).replace(/"/g, '\\"');
-              updatedTags = `${tagName}:"${sanitizedValue}" ${updatedTags}`;
+              updatedTags = mergeTag(updatedTags, tagName, tagValue);
             }
 
             if (updatedTags !== rawTags) {
