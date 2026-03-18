@@ -89,7 +89,7 @@ properties:
     x-go-type: connection.Connection
     x-go-type-import:
       path: github.com/meshery/schemas/models/v1beta1/connection
-    $ref: ../connection/connection.yaml
+    $ref: ../connection/api.yml#/components/schemas/Connection
   registrantId:
     description: ID of the registrant.
     $ref: ../../v1alpha1/core/api.yml#/components/schemas/uuid
@@ -107,7 +107,7 @@ properties:
       gorm: categoryID
     x-order: 8
   category:
-    $ref: ../category/category.yaml
+    $ref: ../category/api.yml#/components/schemas/CategoryDefinition
     x-order: 9
     x-oapi-codegen-extra-tags:
       yaml: category
@@ -117,7 +117,7 @@ properties:
     x-go-type-import:
       path: github.com/meshery/schemas/models/v1beta1/category
   subCategory:
-    $ref: ../subcategory/subcategory.yaml
+    $ref: ../subcategory/api.yml#/components/schemas/SubCategoryDefinition
     x-order: 10
     x-go-type: subcategory.SubCategoryDefinition
     x-go-type-import:
@@ -133,7 +133,7 @@ properties:
         type: array
         description: Capabilities associated with the model
         items:
-          $ref: ../../v1alpha1/capability/capability.yaml
+          $ref: ../../v1alpha1/capability/api.yml#/components/schemas/Capability
           x-go-type: capability.Capability
           x-go-type-import:
             path: github.com/meshery/schemas/models/v1alpha1/capability

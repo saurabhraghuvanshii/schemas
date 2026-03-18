@@ -54,7 +54,7 @@ properties:
       yaml: format
       json: format
   model:
-    $ref: ../model/model.yaml
+    $ref: ../model/api.yml#/components/schemas/ModelDefinition
     x-go-type: model.ModelDefinition
     x-go-type-import:
       path: github.com/meshery/schemas/models/v1beta1/model
@@ -95,7 +95,7 @@ properties:
     type: array
     description: Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.
     items:
-      $ref: ../../v1alpha1/capability/capability.yaml
+      $ref: ../../v1alpha1/capability/api.yml#/components/schemas/Capability
       x-go-type: capability.Capability
       x-go-type-import:
         path: github.com/meshery/schemas/models/v1alpha1/capability

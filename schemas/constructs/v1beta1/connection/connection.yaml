@@ -119,7 +119,7 @@ properties:
       x-go-type: "*environment.Environment"
       x-go-type-import:
         path: github.com/meshery/schemas/models/v1beta1/environment
-      $ref: ../environment/environment.yaml
+      $ref: ../environment/api.yml#/components/schemas/environment
     x-oapi-codegen-extra-tags:
       db: "-"
       yaml: environments

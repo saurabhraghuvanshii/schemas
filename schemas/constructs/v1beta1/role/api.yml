@@ -155,7 +155,7 @@ paths:
       tags:
         - roles
       summary: Get keychains for role
-      operationId: getKeychains
+      operationId: getRoleKeychains
       description: Returns all keychains assigned to the specified role.
       parameters:
         - $ref: "#/components/parameters/orgID"
