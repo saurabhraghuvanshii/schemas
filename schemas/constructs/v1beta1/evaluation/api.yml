@@ -36,7 +36,7 @@ components:
         - design
       properties:
         design:
-          $ref: ../design/design.yaml
+          $ref: ../design/api.yml#/components/schemas/PatternFile
 
           "x-go-type": "pattern.PatternFile"
           "x-go-type-import":
@@ -65,7 +65,7 @@ components:
           description: Specifies the version of the schema to which the evaluation response conforms.
 
         design:
-          $ref: ../design/design.yaml
+          $ref: ../design/api.yml#/components/schemas/PatternFile
 
           "x-go-type": "pattern.PatternFile"
           "x-go-type-import":

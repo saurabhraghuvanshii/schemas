@@ -887,8 +887,9 @@ components:
             json: "title"
 
         orgId:
-          $ref: "#/components/schemas/AcademyCirricula/properties/orgId"
+          type: string
           description: Organization ID that owns this curricula
+          example: layer5
           x-go-name: OrgId
           x-oapi-codegen-extra-tags:
             json: "org_id"
@@ -896,10 +897,20 @@ components:
             yaml: "org_id"
 
         workspace_id:
-          $ref: "#/components/schemas/AcademyCirricula/properties/workspace_id"
+          $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
+          description: ID of the workspace to which this curricula belongs
+          x-oapi-codegen-extra-tags:
+            json: "workspace_id"
+            db: "workspace_id"
+            yaml: "workspace_id"
 
         badge_id:
-          $ref: "#/components/schemas/AcademyCirricula/properties/badge_id"
+          $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
+          description: ID of the badge to be awarded on completion of this curricula
+          x-oapi-codegen-extra-tags:
+            json: "badge_id"
+            db: "badge_id"
+            yaml: "badge_id"
 
         team_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
@@ -933,7 +944,18 @@ components:
             yaml: "access_status"
 
         metadata:
-          $ref: "#/components/schemas/AcademyCirricula/properties/metadata"
+          type: object
+          description: Additional metadata about the curricula
+          additionalProperties: true
+          x-go-type: "core.Map"
+          x-go-type-skip-optional-pointer: true
+          x-oapi-codegen-extra-tags:
+            json: "metadata"
+            db: "metadata"
+            yaml: "metadata"
+          oneOf:
+            - $ref: "#/components/schemas/CurriculaMetadata"
+              x-go-type: "CurriculaMetadata"
 
       required:
         - type
