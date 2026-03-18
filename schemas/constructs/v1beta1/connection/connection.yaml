@@ -113,9 +113,10 @@ properties:
     type: array
     description: Associated environments for this connection
     items:
-      x-go-type: "*environment.Environment"
+      x-go-type: "*environmentv1beta1.Environment"
       x-go-type-import:
         path: github.com/meshery/schemas/models/v1beta1/environment
+        name: environmentv1beta1
       $ref: ../environment/api.yml#/components/schemas/environment
     x-oapi-codegen-extra-tags:
       db: "-"

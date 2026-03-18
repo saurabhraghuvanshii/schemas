@@ -35,6 +35,10 @@ func (p *PatternFile) ConvertTo(pattern conversion.Hub) error {
 	patternFile.Version = p.Version
 
 	for _, component := range p.Components {
+		if component == nil {
+			continue
+		}
+
 		service := v1alpha2.Service{}
 
 		service.ApiVersion = component.Component.Version
@@ -46,12 +50,12 @@ func (p *PatternFile) ConvertTo(pattern conversion.Hub) error {
 		service.Version = component.Version
 		service.Name = component.DisplayName
 
-		err := p.convertToSettings(&service, &component)
+		err := p.convertToSettings(&service, component)
 		if err != nil {
 			return err
 		}
 
-		err = p.convertToTraits(&service, &component)
+		err = p.convertToTraits(&service, component)
 		if err != nil {
 			return err
 		}
@@ -91,7 +95,7 @@ func (p *PatternFile) ConvertFrom(pattern conversion.Hub) error {
 				Kind:    service.Type,
 				Version: service.ApiVersion,
 			},
-			Model: &model.ModelDefinition{
+			Model: model.ModelDefinition{
 				SchemaVersion: v1beta1.ModelSchemaVersion,
 				Name:          service.Model,
 			},
@@ -106,9 +110,9 @@ func (p *PatternFile) ConvertFrom(pattern conversion.Hub) error {
 			return err
 		}
 
-		p.Components = append(p.Components, component)
+		p.Components = append(p.Components, &component)
 	}
-	p.Relationships = make([]relationship.RelationshipDefinition, 0)
+	p.Relationships = make([]*relationship.RelationshipDefinition, 0)
 	return nil
 
 }

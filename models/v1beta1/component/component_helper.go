@@ -87,19 +87,23 @@ func (c ComponentDefinition) WriteComponentDefinition(componentDirPath string, f
 func (c *ComponentDefinition) ReplaceSVGData(baseDir string) error {
 
 	compStyle := c.Styles
-	if compStyle != nil {
+	if compStyle.SvgColor != "" {
 		svgColor, err := utils.ReadSVGData(baseDir, compStyle.SvgColor)
 		if err == nil {
 			compStyle.SvgColor = svgColor
 		} else {
 			return err
 		}
+	}
+	if compStyle.SvgWhite != "" {
 		svgWhite, err := utils.ReadSVGData(baseDir, compStyle.SvgWhite)
 		if err == nil {
 			compStyle.SvgWhite = svgWhite
 		} else {
 			return err
 		}
+	}
+	if compStyle.SvgComplete != "" {
 		svgComplete, err := utils.ReadSVGData(baseDir, compStyle.SvgComplete)
 		if err == nil {
 			compStyle.SvgComplete = svgComplete

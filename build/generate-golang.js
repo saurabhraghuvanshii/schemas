@@ -94,6 +94,21 @@ function buildReadableImportAlias(importPath, usedAliases) {
   return alias;
 }
 
+function rewriteGoTypeAlias(goType, importInfo) {
+  if (typeof goType !== "string" || goType.length === 0) {
+    return null;
+  }
+
+  if (!importInfo?.path || typeof importInfo?.name !== "string" || importInfo.name.length === 0) {
+    return goType;
+  }
+
+  return goType.replace(
+    /([A-Za-z_][A-Za-z0-9_]*)\.(\w+(?:\.\w+)*)/,
+    `${importInfo.name}.$2`,
+  );
+}
+
 function rewriteExternalRefAliases(filePath) {
   let content = fs.readFileSync(filePath, "utf-8");
   const importBlockMatch = content.match(/import \(([^]*?)\n\)/m);
@@ -223,25 +238,48 @@ function collectSchemaExtraTags(inputPath) {
     }
 
     const extraTags = propertyDefinition["x-oapi-codegen-extra-tags"];
-    if (!extraTags || typeof extraTags !== "object") {
+    const normalizedExtraTags = extraTags && typeof extraTags === "object" ? { ...extraTags } : {};
+    const propertyGoType =
+      typeof propertyDefinition["x-go-type"] === "string"
+        ? rewriteGoTypeAlias(
+            propertyDefinition["x-go-type"],
+            propertyDefinition["x-go-type-import"],
+          )
+        : null;
+    const itemGoType =
+      !propertyGoType &&
+      propertyDefinition.type === "array" &&
+      propertyDefinition.items &&
+      typeof propertyDefinition.items === "object" &&
+      typeof propertyDefinition.items["x-go-type"] === "string"
+        ? `[]${rewriteGoTypeAlias(
+            propertyDefinition.items["x-go-type"],
+            propertyDefinition.items["x-go-type-import"],
+          )}`
+        : null;
+    const goType = propertyGoType || itemGoType;
+    const goName =
+      typeof propertyDefinition["x-go-name"] === "string" &&
+      propertyDefinition["x-go-name"].length > 0
+        ? propertyDefinition["x-go-name"]
+        : null;
+
+    if (Object.keys(normalizedExtraTags).length === 0 && !goName && !goType) {
       return null;
     }
 
     const candidateJsonNames = new Set([propertyName]);
-    if (typeof extraTags.json === "string" && extraTags.json.length > 0) {
-      candidateJsonNames.add(extraTags.json);
-      candidateJsonNames.add(extraTags.json.split(",", 1)[0]);
+    if (typeof normalizedExtraTags.json === "string" && normalizedExtraTags.json.length > 0) {
+      candidateJsonNames.add(normalizedExtraTags.json);
+      candidateJsonNames.add(normalizedExtraTags.json.split(",", 1)[0]);
     }
 
     return {
       propertyName,
       candidateJsonNames: [...candidateJsonNames],
-      extraTags: { ...extraTags },
-      goName:
-        typeof propertyDefinition["x-go-name"] === "string" &&
-        propertyDefinition["x-go-name"].length > 0
-          ? propertyDefinition["x-go-name"]
-          : null,
+      extraTags: normalizedExtraTags,
+      goName,
+      goType,
     };
   }
 
@@ -460,6 +498,13 @@ function addSchemaExtraTags(filePath, inputPath) {
               const fieldNameMatch = updatedLine.match(/^(\s*)(\w+)(\s+.+`[^`]*`)$/);
               if (fieldNameMatch && fieldNameMatch[2] !== propertyTags.goName) {
                 updatedLine = `${fieldNameMatch[1]}${propertyTags.goName}${fieldNameMatch[3]}`;
+              }
+            }
+
+            if (propertyTags.goType) {
+              const fieldTypeMatch = updatedLine.match(/^(\s*\w+\s+)(\S+)(\s+`[^`]*`.*)$/);
+              if (fieldTypeMatch && fieldTypeMatch[2] !== propertyTags.goType) {
+                updatedLine = `${fieldTypeMatch[1]}${propertyTags.goType}${fieldTypeMatch[3]}`;
               }
             }
 

@@ -86,9 +86,10 @@ properties:
       json: registrant
       gorm: foreignKey:RegistrantId;references:ID
     x-order: 8
-    x-go-type: connection.Connection
+    x-go-type: connectionv1beta1.Connection
     x-go-type-import:
       path: github.com/meshery/schemas/models/v1beta1/connection
+      name: connectionv1beta1
     $ref: ../connection/api.yml#/components/schemas/Connection
   registrantId:
     description: ID of the registrant.
@@ -113,15 +114,17 @@ properties:
       yaml: category
       json: category
       gorm: foreignKey:CategoryId;references:Id
-    x-go-type: category.CategoryDefinition
+    x-go-type: categoryv1beta1.CategoryDefinition
     x-go-type-import:
       path: github.com/meshery/schemas/models/v1beta1/category
+      name: categoryv1beta1
   subCategory:
     $ref: ../subcategory/api.yml#/components/schemas/SubCategoryDefinition
     x-order: 10
-    x-go-type: subcategory.SubCategoryDefinition
+    x-go-type: subcategoryv1beta1.SubCategoryDefinition
     x-go-type-import:
       path: github.com/meshery/schemas/models/v1beta1/subcategory
+      name: subcategoryv1beta1
   metadata:
     type: object
     description: Metadata containing additional information associated with the model.
@@ -134,9 +137,10 @@ properties:
         description: Capabilities associated with the model
         items:
           $ref: ../../v1alpha1/capability/api.yml#/components/schemas/Capability
-          x-go-type: capability.Capability
+          x-go-type: capabilityv1alpha1.Capability
           x-go-type-import:
             path: github.com/meshery/schemas/models/v1alpha1/capability
+            name: capabilityv1alpha1
         x-order: 1
       isAnnotation:
         type: boolean
