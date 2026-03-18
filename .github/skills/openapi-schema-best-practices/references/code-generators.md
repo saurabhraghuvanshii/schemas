@@ -143,9 +143,9 @@ Note: The property name in `["schemas"]["..."]` matches the schema component nam
 The algorithm:
 1. Walk `schemas/constructs/<version>/`
 2. Find directories containing `api.yml`
-3. Discover all such packages, but mark some (like `core`, `capability`) in `excludeFromMerge` so they are skipped when specs are merged
+3. Discover all such packages and collect their metadata (e.g. `{name, version, dirName, openapiPath}`)
 4. Apply name overrides (`design` → `pattern`)
-5. Return `{version, package, excludeFromMerge}` tuples (or equivalent metadata)
+5. Return an array of discovered package metadata; merge-time exclusion (e.g. `excludeFromMerge`) is applied later by `getMergePackages()` based on this discovery result
 
 This means:
 - **Adding a new construct**: just create the directory with `api.yml` — it's auto-discovered
@@ -178,4 +178,4 @@ Usually means invalid `$ref` path. Check:
 ### Package not discovered by build
 
 - Ensure `api.yml` exists in the construct directory (not just `<construct>.yaml`)
-- Check `build/lib/config.js` to see whether the directory is listed in `excludeFromMerge` (it will still be discovered, but its spec may be skipped during merging)
+- Check `build/lib/config.js` to see whether the directory is filtered out during the merge step (for example, via `getMergePackages()` or an `excludeFromMerge` list) — it will still be discovered, but its spec may be skipped during merging
