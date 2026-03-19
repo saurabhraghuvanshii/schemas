@@ -337,7 +337,7 @@ When reviewing or auditing schemas, check every item on this list:
 
 ### Naming audit
 
-- [ ] All property names are camelCase (not snake_case, not PascalCase)
+- [ ] All non-DB-mirrored property names are camelCase (DB-mirrored fields like `created_at`, `updated_at`, `user_id` are explicit exceptions)
 - [ ] Identifier fields end with "Id" suffix (e.g., `modelId` not `model_id` or `modelID`)
 - [ ] Enum values are lowercase
 - [ ] Schema component names under `components/schemas` are PascalCase
