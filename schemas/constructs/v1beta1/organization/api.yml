@@ -230,6 +230,12 @@ paths:
           description: Internal server error
 
 components:
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   responses:
     400:
       $ref: "../../v1alpha1/core/api.yml#/components/responses/400"
