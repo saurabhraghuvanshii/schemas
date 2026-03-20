@@ -283,11 +283,7 @@ components:
     order:
       $ref: "../../v1alpha1/core/api.yml#/components/parameters/order"
     all:
-      name: all
-      in: query
-      description: Whether to return all roles without pagination filtering.
-      schema:
-        type: boolean
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/all"
     selector:
       name: selector
       in: query

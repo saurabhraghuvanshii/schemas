@@ -11,9 +11,6 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 
-security:
-  - jwt: []
-
 tags:
   - name: events
     description: APIs for Meshery Cloud events.
@@ -61,6 +58,17 @@ paths:
           application/json:
             schema:
               type: object
+      responses:
+        "200":
+          description: Event created successfully
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
     delete:
       summary: Bulk delete events
       requestBody:
@@ -168,6 +176,8 @@ paths:
       x-internal: ["cloud"]
       tags:
         - events
+      security:
+        - jwt: []
       operationId: GetEventsOfWorkspace
       summary: Get workspace events
       description: Gets events for a workspace.
@@ -207,29 +217,13 @@ components:
         $ref: "../../v1alpha1/core/api.yml#/components/schemas/workspace_id"
       required: true
     page:
-      name: page
-      in: query
-      description: Page number.
-      schema:
-        type: integer
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/page"
     pagesize:
-      name: pagesize
-      in: query
-      description: Number of items per page.
-      schema:
-        type: integer
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/pagesize"
     search:
-      name: search
-      in: query
-      description: Search term.
-      schema:
-        type: string
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/search"
     order:
-      name: order
-      in: query
-      description: Sort order.
-      schema:
-        type: string
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/order"
 
   securitySchemes:
     jwt:

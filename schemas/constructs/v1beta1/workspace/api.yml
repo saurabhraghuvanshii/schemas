@@ -524,29 +524,13 @@ components:
         $ref: "../../v1alpha1/core/api.yml#/components/schemas/view_id"
       required: true
     search:
-      name: search
-      in: query
-      description: Search term.
-      schema:
-        type: string
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/search"
     order:
-      name: order
-      in: query
-      description: Sort order.
-      schema:
-        type: string
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/order"
     page:
-      name: page
-      in: query
-      description: Page number.
-      schema:
-        type: integer
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/page"
     pagesize:
-      name: pagesize
-      in: query
-      description: Number of items per page.
-      schema:
-        type: integer
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/pagesize"
     filter:
       name: filter
       in: query
@@ -653,38 +637,8 @@ components:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/Time"
         deleted_at:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/nullTime"
-    workspaceUpdatePayload:
-      properties:
-        name:
-          $ref: "../../v1alpha1/core/api.yml#/components/schemas/Text"
-          description: Name of workspace
-        description:
-          $ref: "../../v1alpha1/core/api.yml#/components/schemas/Text"
-          description: Environment description
-        organization_id:
-          $ref: ../../v1alpha1/core/api.yml#/components/schemas/uuid
-          description: Organization ID
-          x-go-type-skip-optional-pointer: true
-          x-go-name: OrganizationID
-          x-oapi-codegen-extra-tags:
-            json: organization_id
-      required:
-        - organization_id
     workspacePayload:
-      properties:
-        name:
-          $ref: "../../v1alpha1/core/api.yml#/components/schemas/Text"
-          description: Provide a name that meaningfully represents this workspace. You can change the name of the workspace even after its creation.
-        description:
-          $ref: "../../v1alpha1/core/api.yml#/components/schemas/Text"
-          description: Workspaces serve as a virtual space for your team-based work, allows you to control access and more, Provide a detailed description to clarify the purpose of this workspace. Remember you can changes description of workspace after it's creations too. Learn more about workspaces [here](https://docs.meshery.io/concepts/logical/workspaces)
-        organization_id:
-          $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
-          description: Select an organization in which you want to create this new workspace. Keep in mind that the organization cannot be changed after creation.
-          x-go-type-skip-optional-pointer: true
-          x-go-name: OrganizationID
-          x-oapi-codegen-extra-tags:
-            json: organization_id
+      type: object
       required:
         - name
         - organization_id
@@ -696,12 +650,13 @@ components:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/Text"
           description: Description of the workspace.
         organization_id:
-          type: string
+          $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           description: Organization ID.
           x-go-type-skip-optional-pointer: true
           x-go-name: OrganizationID
           x-oapi-codegen-extra-tags:
             json: organization_id
+            yaml: organization_id
 
     workspaceUpdatePayload:
       type: object
@@ -715,12 +670,13 @@ components:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/Text"
           description: Description of the workspace.
         organization_id:
-          type: string
+          $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           description: Organization ID.
           x-go-type-skip-optional-pointer: true
           x-go-name: OrganizationID
           x-oapi-codegen-extra-tags:
             json: organization_id
+            yaml: organization_id
 
     workspacePage:
       type: object
