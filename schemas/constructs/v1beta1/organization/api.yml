@@ -78,13 +78,13 @@ paths:
         "500":
           description: Internal server error
 
-  /api/identity/orgs/{orgID}:
+  /api/identity/orgs/{orgId}:
     get:
       summary: Read an organization
       description: Returns the organization in the single-item page wrapper currently emitted by meshery-cloud.
       operationId: getOrg
       parameters:
-        - $ref: "#/components/parameters/orgID"
+        - $ref: "#/components/parameters/orgId"
       responses:
         "200":
           description: Single-organization page response
@@ -101,7 +101,7 @@ paths:
       description: Deletes the organization.
       operationId: deleteOrg
       parameters:
-        - $ref: "#/components/parameters/orgID"
+        - $ref: "#/components/parameters/orgId"
       responses:
         "200":
           description: Single-organization page response for the deleted organization
@@ -122,7 +122,7 @@ paths:
       description: Updates the organization.
       operationId: handleUpdateOrg
       parameters:
-        - $ref: "#/components/parameters/orgID"
+        - $ref: "#/components/parameters/orgId"
       requestBody:
         $ref: "#/components/requestBodies/organizationPayload"
       responses:
@@ -139,13 +139,13 @@ paths:
         "500":
           $ref: "#/components/responses/500"
 
-  /api/identity/orgs/{orgID}/preferences:
+  /api/identity/orgs/{orgId}/preferences:
     get:
       summary: Get organization preferences
       description: Returns preferences for the specified organization.
       operationId: getOrgPreferences
       parameters:
-        - $ref: "#/components/parameters/orgID"
+        - $ref: "#/components/parameters/orgId"
       responses:
         "200":
           description: Organization metadata, including preferences
@@ -158,13 +158,13 @@ paths:
         "500":
           $ref: "#/components/responses/500"
 
-  /api/identity/orgs/{orgID}/teams/{teamId}:
+  /api/identity/orgs/{orgId}/teams/{teamId}:
     post:
       summary: Add team to organization or soft delete team
       description: Adds a team to an organization. If request body contains action=delete, tombstones a team by setting its deleted_at timestamp. The team's organization mapping remains intact.
       operationId: AddTeamToOrg
       parameters:
-        - $ref: "#/components/parameters/orgID"
+        - $ref: "#/components/parameters/orgId"
         - $ref: "#/components/parameters/teamId"
       requestBody:
         required: false
@@ -195,7 +195,7 @@ paths:
       description: Removes (unassigns) a team from an organization.
       operationId: RemoveTeamFromOrg
       parameters:
-        - $ref: "#/components/parameters/orgID"
+        - $ref: "#/components/parameters/orgId"
         - $ref: "#/components/parameters/teamId"
       responses:
         "200":
@@ -225,8 +225,8 @@ components:
       $ref: "../../v1alpha1/core/api.yml#/components/responses/500"
 
   parameters:
-    orgID:
-      name: orgID
+    orgId:
+      name: orgId
       in: path
       required: true
       schema:
@@ -281,7 +281,7 @@ components:
 
     OrgTeamActionPayload:
       type: object
-      description: Optional action payload for POST on /api/identity/orgs/{orgID}/teams/{teamId}.
+      description: Optional action payload for POST on /api/identity/orgs/{orgId}/teams/{teamId}.
       properties:
         action:
           type: string
