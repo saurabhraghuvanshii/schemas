@@ -3,7 +3,8 @@
  * validate-schemas.js — Schema Design Validation
  *
  * DESCRIPTION:
- *   Validates that all v1beta1+ entity schemas follow the Dual-Schema Pattern:
+ *   Validates that all v1beta1+ entity schemas follow the design rules documented in
+ *   AGENTS.md.
  *
  *   Rule 1 — Entity schemas (<construct>.yaml) must have `additionalProperties: false`
  *             at the top level.
@@ -12,6 +13,18 @@
  *             (id, created_at, updated_at, deleted_at) in their `required` array.
  *             This indicates the full entity schema is being used as a request body
  *             instead of a dedicated *Payload schema.
+ *
+ *   Rule 3 — `operationId` values must start with a lowercase letter (lower camelCase).
+ *             PascalCase operationIds (e.g. GetConnections, CreateTeam) violate the
+ *             naming convention. All schemas have been updated; new additions must
+ *             follow lower camelCase verbNoun (e.g. getConnections, createTeam).
+ *
+ *   Rule 4 — Path parameters must use camelCase with the "Id" suffix, never
+ *             SCREAMING_CASE (e.g. {orgID}) or snake_case (e.g. {org_id}).
+ *
+ *   Rule 5 — DELETE operations must not have a requestBody. Bulk deletes must use a
+ *             POST sub-resource (e.g. POST /api/designs/delete) because REST semantics
+ *             do not define a request body for DELETE and many clients strip it silently.
  *
  * USAGE:
  *   node build/validate-schemas.js          # exits 0 if clean, 1 if violations found
@@ -84,14 +97,7 @@ function getRequiredFields(schema, components) {
   return Array.isArray(schema.required) ? schema.required : [];
 }
 
-function validateApiSpec(filePath) {
-  let doc;
-  try {
-    doc = yaml.load(fs.readFileSync(filePath, "utf-8"));
-  } catch (e) {
-    return;
-  }
-
+function validateApiSpec(filePath, doc) {
   if (!doc?.paths) return;
   const components = doc.components ?? {};
 
@@ -119,6 +125,103 @@ function validateApiSpec(filePath) {
           );
         }
       }
+    }
+  }
+}
+
+// ─── Rule 3: operationId must be lower camelCase ──────────────────────────────
+
+// Enforce lower camelCase verbNoun identifiers such as getPatterns.
+// This rejects PascalCase, underscores, punctuation, and single-word lowercase IDs.
+const OPERATION_ID_RE = /^[a-z][a-z0-9]*(?:[A-Z][a-z0-9]*)+$/;
+
+function validateOperationIds(filePath, doc) {
+  if (!doc?.paths) return;
+
+  for (const [routePath, pathItem] of Object.entries(doc.paths)) {
+    for (const method of ["get", "post", "put", "patch", "delete"]) {
+      const op = pathItem[method];
+      if (!op?.operationId) continue;
+
+      if (!OPERATION_ID_RE.test(op.operationId)) {
+        warn(
+          filePath,
+          `${method.toUpperCase()} ${routePath} — operationId "${op.operationId}" ` +
+            `must use lower camelCase verbNoun without underscores or other separators (e.g. "getPatterns"). ` +
+            `See AGENTS.md § "Naming conventions".`,
+        );
+      }
+    }
+  }
+}
+
+// ─── Rule 4: path parameters must be camelCase with Id suffix ─────────────────
+
+// Matches all path parameters like {somethingId}; actual validity checks happen in
+// isBadPathParam, which flags forms like {somethingID} and {something_id}.
+const PATH_PARAM_RE = /\{([^}]+)\}/g;
+
+function isBadPathParam(param) {
+  // Path params should use lower camelCase.
+  if (/^[A-Z]/.test(param)) return true;
+  // Flag SCREAMING_CASE suffix: ends with ID (two uppercase letters)
+  if (param.endsWith("ID")) return true;
+  // Keep plain legacy {id} allowed, but flag lowercase id suffixes like orgid;
+  // canonical form for multiword names is orgId.
+  if (param === "id") return false;
+  if (/id$/.test(param) && !param.endsWith("Id")) return true;
+  // Flag snake_case: contains underscore
+  if (/_/.test(param)) return true;
+  return false;
+}
+
+function suggestPathParam(param) {
+  if (param === "id") return param;
+
+  const normalized = param
+    .replace(/[_-]+([a-zA-Z0-9])/g, (_, c) => c.toUpperCase())
+    .replace(/^([A-Z])/, (match) => match.toLowerCase());
+
+  return normalized.replace(/(?:ID|id)$/, "Id");
+}
+
+function validatePathParams(filePath, doc) {
+  if (!doc?.paths) return;
+
+  for (const routePath of Object.keys(doc.paths)) {
+    let match;
+    PATH_PARAM_RE.lastIndex = 0;
+    while ((match = PATH_PARAM_RE.exec(routePath)) !== null) {
+      const param = match[1];
+      if (isBadPathParam(param)) {
+        const suggestion = suggestPathParam(param);
+        warn(
+          filePath,
+          `Path "${routePath}" — parameter {${param}} uses incorrect casing. ` +
+            `Use camelCase with "Id" suffix: {${suggestion}}. ` +
+            `See AGENTS.md § "Naming conventions".`,
+        );
+      }
+    }
+  }
+}
+
+// ─── Rule 5: DELETE must not have a requestBody ───────────────────────────────
+
+function validateDeleteNoBody(filePath, doc) {
+  if (!doc?.paths) return;
+
+  for (const [routePath, pathItem] of Object.entries(doc.paths)) {
+    const op = pathItem["delete"];
+    if (!op) continue;
+
+    if (op.requestBody) {
+      warn(
+        filePath,
+        `DELETE ${routePath} — DELETE operations must not have a requestBody. ` +
+          `Use a POST sub-resource for bulk deletes (e.g. POST ${routePath}/delete). ` +
+          `See AGENTS.md § "HTTP API Design Principles".`,
+      );
     }
   }
 }
@@ -157,10 +260,21 @@ function walk(dir) {
         }
       }
 
-      // Rule 2: check api.yml for bad requestBody references
+      // Rules 2–5: check api.yml
       const apiYml = path.join(constructDir, "api.yml");
       if (fs.existsSync(apiYml)) {
-        validateApiSpec(apiYml);
+        let doc;
+        try {
+          doc = yaml.load(fs.readFileSync(apiYml, "utf-8"));
+        } catch (e) {
+          doc = null;
+        }
+        if (doc) {
+          validateApiSpec(apiYml, doc);
+          validateOperationIds(apiYml, doc);
+          validatePathParams(apiYml, doc);
+          validateDeleteNoBody(apiYml, doc);
+        }
       }
     }
   }

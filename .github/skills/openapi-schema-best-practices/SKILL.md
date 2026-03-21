@@ -95,7 +95,33 @@ These conventions apply to all new additions (properties, paths, operationIds, e
 | Version strings | k8s-style | `v1alpha1`, `v1beta1` |
 | schemaVersion | group/version | `models.meshery.io/v1beta1` |
 
-Note: Some existing `operationId` values use PascalCase (for example, `RegisterMeshmodels`) and are treated as legacy. Do not rename these in existing schemas, but ensure any new `operationId` you add follows the lower camelCase convention above.
+Path parameters must use camelCase with the `Id` suffix — never SCREAMING\_CASE or snake\_case:
+
+| Correct | Wrong |
+|---|---|
+| `{orgId}` | `{orgID}`, `{org_id}` |
+| `{workspaceId}` | `{workspaceID}` |
+| `{connectionId}` | `{connectionID}`, `{connection_id}` |
+
+## Casing rules — single authoritative reference
+
+Every element has exactly one correct casing. Use this table for all decisions:
+
+| Element | Casing | Example | Counter-example |
+|---|---|---|---|
+| Schema property names (non-DB) | camelCase | `schemaVersion`, `displayName` | ~~`schema_version`~~, ~~`SchemaVersion`~~ |
+| ID-suffix properties | camelCase + `Id` | `modelId`, `registrantId` | ~~`modelID`~~, ~~`model_id`~~ |
+| **DB-mirrored fields** | **snake\_case** | `created_at`, `updated_at`, `user_id` | ~~`createdAt`~~ |
+| Enum values | lowercase | `enabled`, `ignored` | ~~`Enabled`~~, ~~`ENABLED`~~ |
+| `components/schemas` names | PascalCase | `ModelDefinition`, `KeychainPayload` | ~~`modelDefinition`~~ |
+| File and folder names | lowercase | `api.yml`, `keychain.yaml` | ~~`Keychain.yaml`~~ |
+| Path segments | kebab-case plural nouns | `/api/role-holders` | ~~`/api/roleHolders`~~ |
+| Path parameters | camelCase + `Id` suffix | `{orgId}`, `{workspaceId}` | ~~`{orgID}`~~, ~~`{org_id}`~~ |
+| `operationId` | lower camelCase verbNoun | `getAllRoles`, `createWorkspace` | ~~`GetAllRoles`~~, ~~`get_all_roles`~~ |
+| Go type names | PascalCase (generated) | `Connection`, `KeychainPayload` | — |
+| TypeScript type names | PascalCase (generated) | `Connection`, `KeychainPayload` | — |
+
+**snake\_case is reserved exclusively for DB-mirrored fields** — `created_at`, `updated_at`, `deleted_at`, `user_id`, and any other property that maps directly to an identically-named database column. Everything else follows camelCase or PascalCase as shown above.
 
 **Exceptions for DB-mirrored/system fields**
 
@@ -132,6 +158,74 @@ When using a `$ref` to a core schema that already defines `x-oapi-codegen-extra-
 For schemas in `v1alpha3`, the relative path is shorter: `../v1alpha1/core/api.yml#/...`
 
 ## Schema design patterns
+
+## HTTP API Design Principles
+
+These rules govern how endpoints are structured. Violations are caught by `make validate-schemas`.
+
+### HTTP method semantics
+
+| Use case | Method | Example |
+|---|---|---|
+| Create a resource | `POST` | `POST /api/workspaces` → **201** |
+| Upsert (create or update) | `POST` | `POST /api/keys` → 200 |
+| Update an existing resource | `PUT` or `PATCH` | `PUT /api/workspaces/{workspaceId}` → 200 |
+| Non-CRUD action | `POST` to a sub-resource | `POST /api/invitations/{invitationId}/accept` → 200 |
+| Bulk delete | `POST` to a `/delete` sub-resource | `POST /api/designs/delete` → 200 |
+| Single delete | `DELETE` | `DELETE /api/keys/{keyId}` → 204 |
+
+**Critical: Never use `DELETE` with a request body.** REST semantics don't define request bodies for `DELETE`; HTTP clients and proxies may strip them silently. Bulk deletes must use `POST /api/{resources}/delete`.
+
+```yaml
+# WRONG — DELETE with a body; clients/proxies may silently strip it
+delete:
+  operationId: deletePatterns
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PatternIds'
+
+# CORRECT — POST sub-resource for bulk delete
+post:
+  operationId: deletePatterns
+  summary: Bulk delete patterns by ID
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PatternIds'
+  responses:
+    "200":
+      description: Patterns deleted
+```
+
+### HTTP response codes
+
+| Code | Meaning | When to use |
+|---|---|---|
+| 200 | OK | Request succeeded; body contains result (queries, upserts, actions) |
+| 201 | Created | A new resource was created; body contains the new resource |
+| 202 | Accepted | Request accepted; operation completes asynchronously |
+| 204 | No Content | Request succeeded; no response body (e.g., single-resource `DELETE`) |
+
+Use 201 (not 200) when a `POST` endpoint exclusively creates a new resource.
+
+### Resource grouping
+
+Endpoints are grouped into logical categories:
+
+| Category prefix | Domain |
+|---|---|
+| `/api/identity/` | Users, orgs, roles, teams, invitations |
+| `/api/integrations/` | Connections, environments, credentials |
+| `/api/content/` | Designs, views, components, models |
+| `/api/entitlement/` | Plans, subscriptions, features |
+| `/api/auth/` | Tokens, keychains, keys |
+
+New endpoints must be placed in the appropriate category. Path segments are kebab-case plural nouns.
+
+---
 
 ### The Dual-Schema Pattern (REQUIRED for all entity schemas)
 
@@ -528,6 +622,15 @@ Only commit the schema YAML files and template files. The generated code is prod
 
 When reviewing or auditing schemas, check every item on this list:
 
+### HTTP API audit
+
+- [ ] All `operationId` values are lower camelCase verbNoun (not `GetPatterns`, not `get_patterns`)
+- [ ] Path parameters are camelCase with `Id` suffix (`{workspaceId}`, not `{workspaceID}`, not `{workspace_id}`)
+- [ ] No `DELETE` operation has a `requestBody` — bulk deletes use `POST .../delete`
+- [ ] `POST` endpoints that exclusively create a new resource return 201, not 200
+- [ ] `DELETE` endpoints with no response body return 204
+- [ ] Long-running async operations return 202
+
 ### Naming audit
 
 - [ ] All non-DB-mirrored property names are camelCase (DB-mirrored fields like `created_at`, `updated_at`, `user_id` are explicit exceptions)
@@ -535,8 +638,8 @@ When reviewing or auditing schemas, check every item on this list:
 - [ ] Enum values are lowercase
 - [ ] Schema component names under `components/schemas` are PascalCase
 - [ ] API paths use kebab-case with plural nouns under `/api`
-- [ ] Path parameters are camelCase
-- [ ] `operationId` values follow camelCase VerbNoun pattern
+- [ ] Path parameters are camelCase with `Id` suffix
+- [ ] `operationId` values follow lower camelCase VerbNoun pattern
 
 ### Reference audit
 

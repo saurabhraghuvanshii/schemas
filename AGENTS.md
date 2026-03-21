@@ -129,8 +129,95 @@ Before opening a PR, verify:
 - `components/schemas` names: PascalCase nouns (`Model`, `Component`, `KeychainPayload`)
 - Files/folders: lowercase (`api.yml`, `keychain.yaml`, `templates/keychain_template.json`)
 - Endpoint paths: `/api` prefix, kebab-case, plural nouns (`/api/workspaces`, `/api/environments`)
-- Path params: camelCase (`{subscriptionId}`, `{connectionId}`)
-- `operationId`: camelCase VerbNoun (`createKeychain`, `updateEnvironment`)
+- Path params: camelCase with `Id` suffix (`{subscriptionId}`, `{connectionId}`, `{orgId}` — NOT `{orgID}`, NOT `{org_id}`)
+- `operationId`: lower camelCase verbNoun (`createKeychain`, `updateEnvironment` — NOT `CreateKeychain`, NOT `UpdateEnvironment`)
+
+## Casing rules at a glance
+
+Every element in the API has exactly one correct casing. The table below is the single authoritative reference:
+
+| Element | Casing | Example | Counter-example |
+|---|---|---|---|
+| Schema property names (non-DB) | camelCase | `schemaVersion`, `displayName` | ~~`schema_version`~~, ~~`SchemaVersion`~~ |
+| ID-suffix properties | camelCase + `Id` | `modelId`, `registrantId` | ~~`modelID`~~, ~~`model_id`~~ |
+| DB-mirrored fields | snake_case | `created_at`, `updated_at`, `user_id` | ~~`createdAt`~~ |
+| Enum values | lowercase | `enabled`, `ignored` | ~~`Enabled`~~, ~~`ENABLED`~~ |
+| `components/schemas` names | PascalCase | `ModelDefinition`, `KeychainPayload` | ~~`modelDefinition`~~ |
+| File and folder names | lowercase | `api.yml`, `keychain.yaml` | ~~`Keychain.yaml`~~ |
+| Path segments | kebab-case, plural nouns | `/api/role-holders` | ~~`/api/roleHolders`~~ |
+| Path parameters | camelCase + `Id` | `{orgId}`, `{workspaceId}` | ~~`{orgID}`~~, ~~`{org_id}`~~ |
+| `operationId` | lower camelCase verbNoun | `getAllRoles`, `createWorkspace` | ~~`GetAllRoles`~~, ~~`get_all_roles`~~ |
+| Go type names | PascalCase (generated) | `Connection`, `KeychainPayload` | — |
+| Go field names | PascalCase (generated) | `CreatedAt`, `UpdatedAt` | — |
+| TypeScript type names | PascalCase (generated) | `Connection`, `KeychainPayload` | — |
+
+**snake\_case is only for DB-mirrored fields** — `created_at`, `updated_at`, `deleted_at`, `user_id`, and similar fields that map directly to a database column named with underscores. All other names follow the rules above.
+
+## HTTP API Design Principles
+
+These rules govern how endpoints are structured. They are enforced in part by `make validate-schemas`.
+
+### HTTP method semantics
+
+| Use case | Method | Example |
+|---|---|---|
+| Create a resource | `POST` | `POST /api/workspaces` → 201 |
+| Upsert a resource | `POST` | `POST /api/keys` → 200 |
+| Update an existing resource | `PUT` or `PATCH` | `PUT /api/workspaces/{workspaceId}` → 200 |
+| Non-CRUD action on a resource | `POST` to a sub-resource path | `POST /api/invitations/{invitationId}/accept` |
+| Bulk delete | `POST` to a `/delete` sub-resource | `POST /api/designs/delete` → 200 |
+| Single delete | `DELETE` | `DELETE /api/keys/{keyId}` → 204 |
+
+**Do NOT use `DELETE` with a request body for bulk operations.** REST semantics do not define a request body for `DELETE`; many HTTP clients and proxies strip it silently. Use a `POST /api/{resources}/delete` sub-resource instead:
+
+```yaml
+# WRONG — DELETE with a request body
+delete:
+  operationId: deletePatterns
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PatternIds'
+
+# CORRECT — POST sub-resource for bulk delete
+post:
+  operationId: deletePatterns
+  summary: Bulk delete patterns by ID
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PatternIds'
+  responses:
+    "200":
+      description: Patterns deleted
+```
+
+### HTTP response codes
+
+| Code | Meaning | When to use |
+|---|---|---|
+| 200 | OK | Request succeeded; body contains the result (queries, upserts, actions) |
+| 201 | Created | A new resource was created; body contains the new resource |
+| 202 | Accepted | Request received; operation will complete asynchronously |
+| 204 | No Content | Request succeeded; no response body (e.g., a single-resource `DELETE`) |
+
+Use **201** (not 200) for `POST` endpoints that exclusively create a new resource. Use **200** for upsert operations where the resource may already exist.
+
+### Resource grouping and path structure
+
+Endpoints are grouped into logical categories under `/api`:
+
+| Category prefix | Domain |
+|---|---|
+| `/api/identity/` | Users, orgs, roles, teams, invitations |
+| `/api/integrations/` | Connections, environments, credentials |
+| `/api/content/` | Designs, views, components, models |
+| `/api/entitlement/` | Plans, subscriptions, features |
+| `/api/auth/` | Tokens, keychains, keys |
+
+New endpoints must be placed in the appropriate category. Path segments must be kebab-case plural nouns matching the resource name.
 
 ## File structure for a construct
 
@@ -286,6 +373,10 @@ case nil:
 14. ❌ Omitting `additionalProperties: false` from entity `<construct>.yaml` files
 15. ❌ Returning `(nil, nil)` from `Value()` in SQL driver implementations — always marshal, even for nil maps
 16. ❌ Returning without zeroing the receiver in `Scan()` when `src` is nil — set `*m = nil` first
+17. ❌ Using PascalCase for new `operationId` values — always lower camelCase (`getPatterns`, not `GetPatterns`)
+18. ❌ Using SCREAMING\_CASE path parameters (`{orgID}`, `{roleID}`) — always camelCase with `Id` suffix (`{orgId}`, `{roleId}`)
+19. ❌ Using `DELETE` with a request body for bulk operations — use `POST /api/{resources}/delete` instead
+20. ❌ Returning 200 from a `POST` that exclusively creates a new resource — use 201
 
 ## Checklist for Schema Changes
 
@@ -306,6 +397,10 @@ case nil:
 - [ ] (New entity with writes) All `POST`/`PUT` `requestBody` entries reference `{Construct}Payload`, not `{Construct}`
 - [ ] (New SQL driver) `Value()` always marshals — never returns `(nil, nil)`
 - [ ] (New SQL driver) `Scan()` sets `*m = nil` when `src` is nil
+- [ ] (New endpoint) `operationId` is lower camelCase verbNoun
+- [ ] (New endpoint) Path parameters are camelCase with `Id` suffix (e.g., `{workspaceId}`, not `{workspaceID}`)
+- [ ] (New endpoint) No `DELETE` operation has a `requestBody` — bulk deletes use `POST .../delete`
+- [ ] (New `POST` for creation only) Response code is 201, not 200
 
 ## Questions?
 
