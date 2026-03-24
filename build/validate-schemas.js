@@ -83,6 +83,9 @@ const DB_MIRRORED_FIELDS = new Set([
   "accepted_terms_at",
 ]);
 
+// HTTP methods checked when iterating over path-item operations.
+const HTTP_METHODS = ["get", "post", "put", "patch", "delete"];
+
 const warnOnly = process.argv.includes("--warn");
 const violations = [];
 const refDocCache = new Map();
@@ -324,7 +327,7 @@ function validateOperationIds(filePath, doc) {
   if (!doc?.paths) return;
 
   for (const [routePath, pathItem] of Object.entries(doc.paths)) {
-    for (const method of ["get", "post", "put", "patch", "delete"]) {
+    for (const method of HTTP_METHODS) {
       const op = pathItem[method];
       if (!op?.operationId) continue;
 
@@ -551,7 +554,7 @@ function validateQueryParamNames(filePath, doc) {
     }
 
     // Operation-level parameters
-    for (const method of ["get", "post", "put", "patch", "delete"]) {
+    for (const method of HTTP_METHODS) {
       const op = pathItem[method];
       if (op && Array.isArray(op.parameters)) {
         allParams.push(...op.parameters);
@@ -688,7 +691,7 @@ function validateXInternal(filePath, doc) {
   if (!doc?.paths) return;
 
   for (const [routePath, pathItem] of Object.entries(doc.paths)) {
-    for (const method of ["get", "post", "put", "patch", "delete"]) {
+    for (const method of HTTP_METHODS) {
       const op = pathItem[method];
       if (!op) continue;
 
@@ -762,7 +765,7 @@ function validateCrossConstructRefs(filePath, doc) {
   // Also check inline cross-construct refs in path responses and requestBodies
   if (doc.paths) {
     for (const [routePath, pathItem] of Object.entries(doc.paths)) {
-      for (const method of ["get", "post", "put", "patch", "delete"]) {
+      for (const method of HTTP_METHODS) {
         const op = pathItem[method];
         if (!op) continue;
 
@@ -1066,7 +1069,7 @@ function validateErrorResponses(filePath, doc) {
   if (!doc?.paths) return;
 
   for (const [routePath, pathItem] of Object.entries(doc.paths)) {
-    for (const method of ["get", "post", "put", "patch", "delete"]) {
+    for (const method of HTTP_METHODS) {
       const op = pathItem[method];
       if (!op) continue;
 
@@ -1117,7 +1120,7 @@ function validateSecurityScheme(filePath, doc) {
   if (!doc?.paths) return;
   const operations = [];
   for (const [routePath, pathItem] of Object.entries(doc.paths)) {
-    for (const method of ["get", "post", "put", "patch", "delete"]) {
+    for (const method of HTTP_METHODS) {
       if (pathItem?.[method]) {
         operations.push({ routePath, method, operation: pathItem[method] });
       }
@@ -1300,7 +1303,7 @@ function validateInlineSchemaExtraction(filePath, doc) {
   if (!doc?.paths) return;
 
   for (const [routePath, pathItem] of Object.entries(doc.paths)) {
-    for (const method of ["get", "post", "put", "patch", "delete"]) {
+    for (const method of HTTP_METHODS) {
       const op = pathItem[method];
       if (!op) continue;
       const opLabel = `${method.toUpperCase()} ${routePath}`;
@@ -1534,7 +1537,7 @@ function validateResponseSchemaRefs(filePath, doc) {
   if (!doc?.paths) return;
 
   for (const [routePath, pathItem] of Object.entries(doc.paths)) {
-    for (const method of ["get", "post", "put", "patch", "delete"]) {
+    for (const method of HTTP_METHODS) {
       const op = pathItem[method];
       if (!op?.responses) continue;
 
