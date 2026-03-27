@@ -44,6 +44,7 @@
  * USAGE:
  *   node build/validate-schemas.js          # exits 0 if no blocking violations found
  *   node build/validate-schemas.js --warn   # also prints non-blocking advisories and exits 0
+ *   node build/validate-schemas.js --warn --no-baseline   # prints full advisory backlog
  *
  * DEPENDENCIES:
  *   js-yaml (already a project dependency)
@@ -57,6 +58,7 @@ const yaml = require("js-yaml");
 
 const ROOT = path.resolve(__dirname, "..");
 const CONSTRUCTS_DIR = path.join(ROOT, "schemas", "constructs");
+const ADVISORY_BASELINE_FILE = path.join(ROOT, "build", "validate-schemas.advisory-baseline.txt");
 
 // Fields that are always server-generated and should never be required in write payloads.
 const SERVER_GENERATED_FIELDS = new Set(["id", "created_at", "updated_at", "deleted_at"]);
@@ -90,13 +92,42 @@ const DB_MIRRORED_FIELDS = new Set([
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"];
 
 const warnOnly = process.argv.includes("--warn");
+const noAdvisoryBaseline = process.argv.includes("--no-baseline") || process.argv.includes("--warn-all");
 const blockingViolations = [];
 const advisoryViolations = [];
 const refDocCache = new Map();
+const advisoryBaseline = loadAdvisoryBaseline();
+
+function loadAdvisoryBaseline() {
+  if (!warnOnly || noAdvisoryBaseline) {
+    return new Set();
+  }
+
+  if (!fs.existsSync(ADVISORY_BASELINE_FILE)) {
+    return new Set();
+  }
+
+  return new Set(
+    fs
+      .readFileSync(ADVISORY_BASELINE_FILE, "utf-8")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0 && !line.startsWith("#")),
+  );
+}
 
 function recordIssue(file, message, severity = "error") {
   const bucket = severity === "warning" ? advisoryViolations : blockingViolations;
-  bucket.push({ file: path.relative(ROOT, file), message });
+  const relativeFile = path.relative(ROOT, file);
+
+  if (severity === "warning") {
+    const baselineKey = `${relativeFile}\t${message}`;
+    if (advisoryBaseline.has(baselineKey)) {
+      return;
+    }
+  }
+
+  bucket.push({ file: relativeFile, message });
 }
 
 function warn(file, message) {
@@ -1741,6 +1772,12 @@ if (blockingViolations.length === 0) {
     console.error(`\nvalidate-schemas: ${advisoryViolations.length} advisory issue(s) found:\n`);
     for (const { file, message } of advisoryViolations) {
       console.error(`  ${file}\n    → ${message}\n`);
+    }
+  } else if (warnOnly) {
+    if (noAdvisoryBaseline) {
+      console.log("✓ validate-schemas: no advisory issues found.");
+    } else {
+      console.log("✓ validate-schemas: no unbaselined advisory issues found.");
     }
   } else {
     console.log("✓ validate-schemas: no blocking violations found.");
