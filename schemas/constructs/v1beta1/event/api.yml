@@ -43,13 +43,13 @@ paths:
                     type: string
                     format: uuid
         "400":
-          description: Invalid event ID
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
-          description: Server error
+          $ref: "#/components/responses/500"
 
   /events:
     post:
@@ -66,13 +66,11 @@ paths:
         "200":
           description: Event created successfully
         "400":
-          description: Invalid request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
         "500":
-          description: Server error
+          $ref: "#/components/responses/500"
 
   /events/delete:
     post:
@@ -99,13 +97,11 @@ paths:
                       type: string
                       format: uuid
         "400":
-          description: Invalid request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
         "500":
-          description: Server error
+          $ref: "#/components/responses/500"
 
   /events/status:
     put:
@@ -132,13 +128,11 @@ paths:
                       type: string
                       format: uuid
         "400":
-          description: Invalid request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
         "500":
-          description: Server error
+          $ref: "#/components/responses/500"
 
   /events/{id}/status:
     put:
@@ -175,13 +169,13 @@ paths:
                   status:
                     type: string
         "400":
-          description: Invalid request or status
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
-          description: Server error
+          $ref: "#/components/responses/500"
 
   /api/workspaces/{workspaceId}/events:
     get:
@@ -303,6 +297,9 @@ paths:
         - events
       operationId: getEventTypes
       summary: Get event types
+      parameters:
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pagesize"
       responses:
         "200":
           description: Event types
@@ -320,6 +317,16 @@ paths:
           description: Server error
 
 components:
+  responses:
+    400:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/400"
+    401:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/401"
+    404:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/404"
+    500:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/500"
+
   parameters:
     workspaceId:
       name: workspaceId
