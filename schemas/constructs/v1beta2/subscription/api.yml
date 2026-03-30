@@ -370,6 +370,8 @@ components:
           x-oapi-codegen-extra-tags:
             db: "updated_at"
         deleted_at:
+          # Uses SqlNullTime (not NullTime) for backward compatibility with
+          # v1beta1 Subscription entities and downstream GORM/Pop consumers.
           $ref: "../core/api.yml#/components/schemas/SqlNullTime"
           x-oapi-codegen-extra-tags:
             db: "deleted_at"
