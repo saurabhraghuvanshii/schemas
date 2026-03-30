@@ -811,7 +811,7 @@ components:
       description: Expiry time for curricula access
       x-go-type: "*time.Time"
       x-oapi-codegen-extra-tags:
-        json: "accessExpiresAt"
+        json: "access_expires_at"
         db: "access_expires_at"
 
     RegisterToAcademyContentRequest:
@@ -873,7 +873,7 @@ components:
           x-go-type: "ContentType"
           x-oapi-codegen-extra-tags:
             db: "type"
-        orgId:
+        org_id:
           $ref: "#/components/schemas/AcademyCurriculaOrgId"
         visibility:
           $ref: "#/components/schemas/Visibility"
@@ -916,18 +916,18 @@ components:
             db: "badge_id"
             json: "badge_id"
 
-        inviteId:
+        invite_id:
           $ref: "#/components/schemas/AcademyCurriculaInviteId"
 
         workspace_id:
           $ref: "#/components/schemas/AcademyCurriculaWorkspaceId"
 
-        createdAt:
+        created_at:
           $ref: "#/components/schemas/AcademyCurriculaCreatedAt"
 
-        updatedAt:
+        updated_at:
           $ref: "#/components/schemas/AcademyCurriculaUpdatedAt"
-        deletedAt:
+        deleted_at:
           $ref: "#/components/schemas/AcademyCurriculaDeletedAt"
         metadata:
           $ref: "#/components/schemas/AcademyCurriculaMetadata"
@@ -935,13 +935,13 @@ components:
       required:
         - id
         - type
-        - orgId
+        - org_id
         - visibility
         - status
         - slug
-        - createdAt
-        - updatedAt
-        - deletedAt
+        - created_at
+        - updated_at
+        - deleted_at
         - metadata
         - level
 
@@ -984,7 +984,7 @@ components:
           x-oapi-codegen-extra-tags:
             json: "title"
 
-        orgId:
+        org_id:
           $ref: "#/components/schemas/AcademyCurriculaOrgId"
 
         workspace_id:
@@ -1010,7 +1010,7 @@ components:
             json: "team_id"
             db: "team_id"
 
-        accessExpiresAt:
+        access_expires_at:
           $ref: "#/components/schemas/AcademyCurriculaAccessExpiresAt"
 
         access_status:
@@ -1031,7 +1031,7 @@ components:
       required:
         - type
         - title
-        - orgId
+        - org_id
         - workspace_id
         - team_id
         - access_status

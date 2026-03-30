@@ -20,7 +20,11 @@ Enum schemas annotated with `x-enum-casing-exempt: true` contain published enum 
 
 Pagination envelope fields use `page_size` and `total_count` (snake_case) as a published API contract. These are NOT database-backed fields — the snake_case is a deliberate exception. Do not suggest renaming to `pageSize`/`totalCount`.
 
-### 5. Deprecated v1beta1 constructs
+### 5. Shared query parameter names `page`, `pagesize`, `search`, `order`
+
+The shared query parameters defined in `core/api.yml` (`page`, `pagesize`, `search`, `order`, `filter`) use their current casing as a published contract. `pagesize` is intentionally all-lowercase (not `pageSize`) because it is a live wire-format parameter name referenced across all list endpoints. Do not suggest renaming.
+
+### 6. Deprecated v1beta1 constructs
 
 Files with `x-deprecated: true` in their `info` section are intentionally kept for backward compatibility. They contain known style/casing violations that are fixed in the v1beta2 replacement. Do not flag issues in deprecated constructs.
 

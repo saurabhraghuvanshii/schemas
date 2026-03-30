@@ -89,6 +89,7 @@ const DB_MIRRORED_FIELDS = new Set([
   "updated_at",
   "deleted_at",
   "user_id",
+  "org_id",
   "organization_id",
   "environment_id",
   "workspace_id",
@@ -100,6 +101,11 @@ const DB_MIRRORED_FIELDS = new Set([
   "operation_id",
   "view_id",
   "general_id",
+  "invite_id",
+  "content_id",
+  "badge_id",
+  "plan_id",
+  "access_expires_at",
   "avatar_url",
   "accepted_terms_at",
   "page_size",
@@ -284,13 +290,29 @@ function getDbTagValue(definition) {
   return getTagBaseValue(getExtraTags(definition)?.db);
 }
 
+/**
+ * Extract the column name from a GORM tag. Handles patterns like:
+ * - gorm: "column:model_id"
+ * - gorm: "index:...,column:model_id"
+ * Returns the column name or null.
+ */
+function getGormColumnValue(definition) {
+  const gormTag = getExtraTags(definition)?.gorm;
+  if (typeof gormTag !== "string") return null;
+  const match = gormTag.match(/column:([a-z_][a-z0-9_]*)/);
+  return match ? match[1] : null;
+}
+
 function getJsonTagValue(definition) {
   return getTagBaseValue(getExtraTags(definition)?.json);
 }
 
 function isDbBackedSnakeCaseProperty(name, definition) {
   const dbTag = getDbTagValue(definition);
-  return Boolean(dbTag && DB_TAG_PATTERN.test(dbTag) && hasUnderscore(dbTag) && name === dbTag);
+  if (dbTag && DB_TAG_PATTERN.test(dbTag) && hasUnderscore(dbTag) && name === dbTag) return true;
+  const gormCol = getGormColumnValue(definition);
+  if (gormCol && DB_TAG_PATTERN.test(gormCol) && hasUnderscore(gormCol) && name === gormCol) return true;
+  return false;
 }
 
 function isAllowedSnakeCaseProperty(name, definition) {
@@ -685,20 +707,28 @@ function validateDbBackedPropertyTree(filePath, scope, schema) {
       if (!propDef || typeof propDef !== "object") continue;
 
       const dbValue = getDbTagValue(propDef);
+      const gormCol = getGormColumnValue(propDef);
+      const columnName = dbValue || gormCol;
       const jsonValue = getJsonTagValue(propDef);
-      if (dbValue && DB_TAG_PATTERN.test(dbValue) && hasUnderscore(dbValue) && propName !== dbValue) {
+
+      // If property name differs from column name but json tag already matches the column,
+      // this is a deliberate semantic alias (e.g. registrantId with json:"connection_id") — skip.
+      const jsonMatchesColumn = jsonValue && jsonValue !== "-" && jsonValue === columnName;
+      if (columnName && DB_TAG_PATTERN.test(columnName) && hasUnderscore(columnName) && propName !== columnName && !jsonMatchesColumn) {
+        const tagSource = dbValue ? "db" : "gorm column";
         warn(
           filePath,
-          `Schema "${scope}" — property "${propName}" maps to database column "${dbValue}". ` +
+          `Schema "${scope}" — property "${propName}" maps to database column "${columnName}" (via ${tagSource} tag). ` +
             `DB-backed property names are stable wire-format fields and must use the exact snake_case db name. ` +
-            `Rename the schema property to "${dbValue}" or introduce a new API version for a full casing migration.`,
+            `Rename the schema property to "${columnName}" or introduce a new API version for a full casing migration.`,
         );
       }
 
-      if (dbValue && DB_TAG_PATTERN.test(dbValue) && hasUnderscore(dbValue) && jsonValue && jsonValue !== "-" && jsonValue !== dbValue) {
+      if (columnName && DB_TAG_PATTERN.test(columnName) && hasUnderscore(columnName) && jsonValue && jsonValue !== "-" && jsonValue !== columnName) {
+        const tagSource = dbValue ? "db" : "gorm column";
         warn(
           filePath,
-          `Schema "${scope}" — property "${propName}" has json tag "${jsonValue}" but db tag "${dbValue}". ` +
+          `Schema "${scope}" — property "${propName}" has json tag "${jsonValue}" but ${tagSource} tag "${columnName}". ` +
             `DB-backed property names and JSON tags must both use the exact snake_case db name in this API version.`,
         );
       }
@@ -1302,7 +1332,7 @@ function validateTemplateTypes(constructDir) {
               `Use an empty array [] as the default value.`,
           );
         }
-        if (prop.type === "integer" && jsType === "string" && value !== "") {
+        if (prop.type === "integer" && jsType === "string") {
           warn(
             tmplPath,
             `Template property "${key}" is a string but schema declares type: integer. ` +
