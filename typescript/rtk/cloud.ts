@@ -1411,6 +1411,7 @@ export type CreateOrUpdateBadgeApiArg = {
   };
 };
 export type GetAvailableBadgesApiResponse = /** status 200 Available badges */ {
+  /** The badges of the badgespage. */
   badges?: {
     [key: string]: {
       /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
@@ -1440,12 +1441,16 @@ export type AssignBadgesApiResponse = /** status 200 Badge assignment result */ 
 };
 export type AssignBadgesApiArg = {
   body: {
+    /** The badges of the badgeassignment. */
     badges?: string[];
+    /** ID of the user who owns or created this resource. */
     user_id?: string;
+    /** The notify of the badgeassignment. */
     notify?: boolean;
   };
 };
 export type GetUserCredentialsApiResponse = /** status 200 Credentials response */ {
+  /** The credentials of the credentialpage. */
   credentials: {
     /** Unique identifier for the credential. */
     id?: string;
@@ -1621,6 +1626,7 @@ export type GetEnvironmentsApiResponse = /** status 200 Environments */ {
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** Environments associated with this resource. */
   environments?: {
     /** ID */
     id: string;
@@ -1660,6 +1666,7 @@ export type GetEnvironmentByIdApiResponse = /** status 200 Environment page */ {
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** Environments associated with this resource. */
   environments?: {
     /** ID */
     id: string;
@@ -1693,6 +1700,7 @@ export type UpdateEnvironmentApiResponse = /** status 200 Environment page */ {
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** Environments associated with this resource. */
   environments?: {
     /** ID */
     id: string;
@@ -1735,9 +1743,13 @@ export type DeleteEnvironmentApiArg = {
   environmentId: string;
 };
 export type GetEnvironmentConnectionsApiResponse = /** status 200 Environment connections */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The connections of the environmentconnectionspage. */
   connections?: {
     [key: string]: any;
   }[];
@@ -1826,6 +1838,7 @@ export type GetUserKeysApiResponse = /** status 200 Returns user keys based on r
   page: number;
   page_size: number;
   total_count: number;
+  /** The keys of the keypage. */
   keys: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id: string;
@@ -1859,6 +1872,7 @@ export type GetKeysApiResponse = /** status 200 Keys fetched */ {
   page: number;
   page_size: number;
   total_count: number;
+  /** The keys of the keypage. */
   keys: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id: string;
@@ -1957,6 +1971,7 @@ export type GetKeychainsApiResponse = /** status 200 Keychain(s) fetched */ {
   page: number;
   page_size: number;
   total_count: number;
+  /** The keychains of the keychainpage. */
   keychains: {
     /** Unique identifier for the keychain. */
     id: string;
@@ -2069,6 +2084,7 @@ export type GetKeysOfKeychainApiResponse = /** status 200 Keys response */ {
   page: number;
   page_size: number;
   total_count: number;
+  /** The keys of the keypage. */
   keys: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id: string;
@@ -2132,13 +2148,18 @@ export type RegisterMeshmodelsApiArg = {
         };
     /** Choose the method you prefer to upload your model file. Select 'File Import' or 'CSV Import' if you have the file on your local system or 'URL Import' if you have the file hosted online. */
     uploadType: "file" | "urlImport" | "csv" | "url";
+    /** The register of the importrequest. */
     register: boolean;
   };
 };
 export type GetMeshModelModelsApiResponse = /** status 200 Model and capabilities registry entries retrieved. */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The models of the meshmodelmodelspage. */
   models?: {
     [key: string]: any;
   }[];
@@ -2150,9 +2171,13 @@ export type GetMeshModelModelsApiArg = {
   order?: string;
 };
 export type GetOrgsApiResponse = /** status 200 Organizations response */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The organizations of the organizationspage. */
   organizations?: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id?: string;
@@ -2164,25 +2189,35 @@ export type GetOrgsApiResponse = /** status 200 Organizations response */ {
     metadata?: {
       preferences: {
         theme: {
+          /** Theme ID. */
           id: string;
           logo: {
             desktopView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
             mobileView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
             darkDesktopView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
             darkMobileView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
           };
+          /** The vars of the theme. */
           vars?: {
             [key: string]: any;
           };
@@ -2211,9 +2246,13 @@ export type GetOrgsApiArg = {
   all?: boolean;
 };
 export type CreateOrgApiResponse = /** status 201 Single-organization page response */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The organizations of the organizationpage. */
   organizations?: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id?: string;
@@ -2225,25 +2264,35 @@ export type CreateOrgApiResponse = /** status 201 Single-organization page respo
     metadata?: {
       preferences: {
         theme: {
+          /** Theme ID. */
           id: string;
           logo: {
             desktopView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
             mobileView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
             darkDesktopView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
             darkMobileView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
           };
+          /** The vars of the theme. */
           vars?: {
             [key: string]: any;
           };
@@ -2266,28 +2315,39 @@ export type CreateOrgApiArg = {
     country?: string;
     region?: string;
     description?: string;
+    /** The notify org update of the organization. */
     notifyOrgUpdate?: boolean;
     preferences?: {
       theme: {
+        /** Theme ID. */
         id: string;
         logo: {
           desktopView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
           mobileView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
           darkDesktopView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
           darkMobileView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
         };
+        /** The vars of the theme. */
         vars?: {
           [key: string]: any;
         };
@@ -2302,34 +2362,48 @@ export type CreateOrgApiArg = {
 export type GetOrgByDomainApiResponse = /** status 200 Successful response */ {
   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
   id: string;
+  /** Name of the organization. */
   name: string;
+  /** The country of the organization. */
   country: string;
+  /** The region of the organization. */
   region: string;
+  /** Description of the organization. */
   description: string;
   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
   owner: string;
   metadata: {
     preferences: {
       theme: {
+        /** Theme ID. */
         id: string;
         logo: {
           desktopView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
           mobileView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
           darkDesktopView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
           darkMobileView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
         };
+        /** The vars of the theme. */
         vars?: {
           [key: string]: any;
         };
@@ -2343,15 +2417,20 @@ export type GetOrgByDomainApiResponse = /** status 200 Successful response */ {
   created_at: string;
   updated_at: string;
   deleted_at?: string;
+  /** The domain of the organization. */
   domain?: string | null;
 };
 export type GetOrgByDomainApiArg = {
   domain: string;
 };
 export type GetOrgApiResponse = /** status 200 Single-organization page response */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The organizations of the organizationpage. */
   organizations?: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id?: string;
@@ -2363,25 +2442,35 @@ export type GetOrgApiResponse = /** status 200 Single-organization page response
     metadata?: {
       preferences: {
         theme: {
+          /** Theme ID. */
           id: string;
           logo: {
             desktopView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
             mobileView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
             darkDesktopView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
             darkMobileView: {
+              /** The svg of the location. */
               svg: string;
+              /** The location of the location. */
               location: string;
             };
           };
+          /** The vars of the theme. */
           vars?: {
             [key: string]: any;
           };
@@ -2406,9 +2495,13 @@ export type DeleteOrgApiArg = {
 };
 export type HandleUpdateOrgApiResponse =
   /** status 200 Single-organization page response for the updated organization */ {
+    /** Current page number of the result set. */
     page?: number;
+    /** Number of items per page. */
     page_size?: number;
+    /** Total number of items available. */
     total_count?: number;
+    /** The organizations of the organizationpage. */
     organizations?: {
       /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
       id?: string;
@@ -2420,25 +2513,35 @@ export type HandleUpdateOrgApiResponse =
       metadata?: {
         preferences: {
           theme: {
+            /** Theme ID. */
             id: string;
             logo: {
               desktopView: {
+                /** The svg of the location. */
                 svg: string;
+                /** The location of the location. */
                 location: string;
               };
               mobileView: {
+                /** The svg of the location. */
                 svg: string;
+                /** The location of the location. */
                 location: string;
               };
               darkDesktopView: {
+                /** The svg of the location. */
                 svg: string;
+                /** The location of the location. */
                 location: string;
               };
               darkMobileView: {
+                /** The svg of the location. */
                 svg: string;
+                /** The location of the location. */
                 location: string;
               };
             };
+            /** The vars of the theme. */
             vars?: {
               [key: string]: any;
             };
@@ -2462,28 +2565,39 @@ export type HandleUpdateOrgApiArg = {
     country?: string;
     region?: string;
     description?: string;
+    /** The notify org update of the organization. */
     notifyOrgUpdate?: boolean;
     preferences?: {
       theme: {
+        /** Theme ID. */
         id: string;
         logo: {
           desktopView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
           mobileView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
           darkDesktopView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
           darkMobileView: {
+            /** The svg of the location. */
             svg: string;
+            /** The location of the location. */
             location: string;
           };
         };
+        /** The vars of the theme. */
         vars?: {
           [key: string]: any;
         };
@@ -2498,25 +2612,35 @@ export type HandleUpdateOrgApiArg = {
 export type GetOrgPreferencesApiResponse = /** status 200 Organization metadata, including preferences */ {
   preferences: {
     theme: {
+      /** Theme ID. */
       id: string;
       logo: {
         desktopView: {
+          /** The svg of the location. */
           svg: string;
+          /** The location of the location. */
           location: string;
         };
         mobileView: {
+          /** The svg of the location. */
           svg: string;
+          /** The location of the location. */
           location: string;
         };
         darkDesktopView: {
+          /** The svg of the location. */
           svg: string;
+          /** The location of the location. */
           location: string;
         };
         darkMobileView: {
+          /** The svg of the location. */
           svg: string;
+          /** The location of the location. */
           location: string;
         };
       };
+      /** The vars of the theme. */
       vars?: {
         [key: string]: any;
       };
@@ -2532,9 +2656,13 @@ export type GetOrgPreferencesApiArg = {
 };
 export type AddTeamToOrgApiResponse = /** status 201 Team added to organization or team tombstoned */
   | {
+      /** Current page number of the result set. */
       page?: number;
+      /** Number of items per page. */
       page_size?: number;
+      /** Total number of items available. */
       total_count?: number;
+      /** The teams organizations mapping of the teamsorganizationsmappingpage. */
       teamsOrganizationsMapping?: {
         id?: string;
         orgId?: string;
@@ -2545,9 +2673,13 @@ export type AddTeamToOrgApiResponse = /** status 201 Team added to organization 
       }[];
     }
   | {
+      /** Current page number of the result set. */
       page?: number;
+      /** Number of items per page. */
       page_size?: number;
+      /** Total number of items available. */
       total_count?: number;
+      /** The teams of the teamspage. */
       teams?: {
         id?: string;
         name?: string;
@@ -2628,9 +2760,13 @@ export type DeleteTeamApiArg = {
   teamId: string;
 };
 export type RemoveTeamFromOrgApiResponse = /** status 200 Team removed from organization */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The teams organizations mapping of the teamsorganizationsmappingpage. */
   teamsOrganizationsMapping?: {
     id?: string;
     orgId?: string;
@@ -2677,6 +2813,7 @@ export type GetAllRolesApiResponse = /** status 200 Roles response */ {
   page_size: number;
   /** Total number of roles across all pages. */
   total_count: number;
+  /** The roles of the rolespage. */
   roles: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id?: string;
@@ -2751,11 +2888,17 @@ export type BulkEditRoleHolderApiArg = {
     id?: string;
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     user_id?: string;
+    /** The username of the userroleupdaterequest. */
     username?: string;
+    /** Email address. */
     email?: string;
+    /** The first name of the userroleupdaterequest. */
     firstName?: string;
+    /** The last name of the userroleupdaterequest. */
     lastName?: string;
+    /** Current status of the resource. */
     status?: string;
+    /** The role names of the userroleupdaterequest. */
     roleNames?: string[];
     created_at?: string;
     updated_at?: string;
@@ -2767,6 +2910,7 @@ export type GetRoleKeychainsApiResponse = /** status 200 Keychains response */ {
   page: number;
   page_size: number;
   total_count: number;
+  /** The keychains of the keychainpage. */
   keychains: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id: string;
@@ -2821,6 +2965,7 @@ export type GetSchedulesApiResponse = /** status 200 Schedules response */ {
   page_size: number;
   /** Total number of schedules across all pages. */
   total_count: number;
+  /** The schedules of the schedulepage. */
   schedules: {
     /** Unique identifier for the schedule. */
     id?: string;
@@ -2907,6 +3052,7 @@ export type GetTeamsApiResponse = /** status 200 Teams */ {
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The teams of the teampage. */
   teams?: {
     /** Team ID */
     id: string;
@@ -2967,6 +3113,7 @@ export type GetTeamUsersApiResponse = /** status 200 Team users mapping */ {
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The teams users mapping of the teamsusersmappingpage. */
   teamsUsersMapping?: {
     id?: string;
     team_id?: string;
@@ -3022,9 +3169,13 @@ export type RemoveUserFromTeamApiArg = {
   userId: string;
 };
 export type ListUsersNotInTeamApiResponse = /** status 200 Users not currently in the team */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The data of the teammemberspage. */
   data?: {
     [key: string]: any;
   }[];
@@ -3044,9 +3195,13 @@ export type ListUsersNotInTeamApiArg = {
   pagesize?: string;
 };
 export type GetUsersForOrgApiResponse = /** status 200 Paginated list of organization users */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The data of the userspageforadmin. */
   data?: {
     /** Unique identifier for the user */
     id: string;
@@ -3076,23 +3231,33 @@ export type GetUsersForOrgApiResponse = /** status 200 Paginated list of organiz
     };
     /** User preferences stored as JSONB */
     preferences?: {
+      /** The mesh adapters of the preference. */
       meshAdapters?: object[];
       grafana?: {
+        /** Grafana URL for the user configuration. */
         grafanaURL?: string;
+        /** Grafana API key for the user configuration. */
         grafanaAPIKey?: string;
+        /** Selected Grafana board configurations for the user. */
         selectedBoardsConfigs?: {
           /** Placeholder for GrafanaBoard definition (define fields as needed) */
           board?: object;
+          /** Panels selected for the Grafana board configuration. */
           panels?: object[];
+          /** Template variables applied to the selected Grafana board configuration. */
           templateVars?: string[];
         }[];
       };
       prometheus?: {
+        /** The prometheus u r l of the prometheus. */
         prometheusURL?: string;
+        /** The selected prometheus boards configs of the prometheus. */
         selectedPrometheusBoardsConfigs?: {
           /** Placeholder for GrafanaBoard definition (define fields as needed) */
           board?: object;
+          /** Panels selected for the Grafana board configuration. */
           panels?: object[];
+          /** Template variables applied to the selected Grafana board configuration. */
           templateVars?: string[];
         }[];
       };
@@ -3106,19 +3271,27 @@ export type GetUsersForOrgApiResponse = /** status 200 Paginated list of organiz
         /** Load generator */
         gen?: string;
       };
+      /** The anonymous usage stats of the preference. */
       anonymousUsageStats: boolean;
+      /** The anonymous perf results of the preference. */
       anonymousPerfResults: boolean;
+      /** Timestamp of when the resource was last updated. */
       updated_at: string;
+      /** The dashboard preferences of the preference. */
       dashboardPreferences: {
         [key: string]: any;
       };
+      /** ID of the associated selectedOrganization. */
       selectedOrganizationId: string;
+      /** The selected workspace for organizations of the preference. */
       selectedWorkspaceForOrganizations: {
         [key: string]: string;
       };
+      /** The users extension preferences of the preference. */
       usersExtensionPreferences: {
         [key: string]: any;
       };
+      /** The remote provider preferences of the preference. */
       remoteProviderPreferences: {
         [key: string]: any;
       };
@@ -3135,7 +3308,9 @@ export type GetUsersForOrgApiResponse = /** status 200 Paginated list of organiz
     updated_at: string;
     /** Various online profiles associated with the user account */
     socials?: {
+      /** The site of the social. */
       site: string;
+      /** The link of the social. */
       link: string;
     }[];
     /** Timestamp when the user record was soft-deleted (null if not deleted) */
@@ -3153,12 +3328,16 @@ export type GetUsersForOrgApiResponse = /** status 200 Paginated list of organiz
     )[];
     /** Teams the user belongs to with role information */
     teams?: {
+      /** Team memberships for the user with their assigned roles. */
       teams_with_roles?: object[];
+      /** Total number of team memberships returned for the user. */
       total_count?: number;
     };
     /** Organizations the user belongs to with role information */
     organizations?: {
+      /** Organization memberships for the user with their assigned roles. */
       organizations_with_roles?: object[];
+      /** Total number of organization memberships returned for the user. */
       total_count?: number;
     };
   }[];
@@ -3180,9 +3359,13 @@ export type GetUsersForOrgApiArg = {
   teamId?: string;
 };
 export type GetUsersApiResponse = /** status 200 Paginated list of public users */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The data of the userspagefornonadmin. */
   data?: {
     /** Unique identifier for the user */
     id: string;
@@ -3212,23 +3395,33 @@ export type GetUsersApiResponse = /** status 200 Paginated list of public users 
     };
     /** User preferences stored as JSONB */
     preferences?: {
+      /** The mesh adapters of the preference. */
       meshAdapters?: object[];
       grafana?: {
+        /** Grafana URL for the user configuration. */
         grafanaURL?: string;
+        /** Grafana API key for the user configuration. */
         grafanaAPIKey?: string;
+        /** Selected Grafana board configurations for the user. */
         selectedBoardsConfigs?: {
           /** Placeholder for GrafanaBoard definition (define fields as needed) */
           board?: object;
+          /** Panels selected for the Grafana board configuration. */
           panels?: object[];
+          /** Template variables applied to the selected Grafana board configuration. */
           templateVars?: string[];
         }[];
       };
       prometheus?: {
+        /** The prometheus u r l of the prometheus. */
         prometheusURL?: string;
+        /** The selected prometheus boards configs of the prometheus. */
         selectedPrometheusBoardsConfigs?: {
           /** Placeholder for GrafanaBoard definition (define fields as needed) */
           board?: object;
+          /** Panels selected for the Grafana board configuration. */
           panels?: object[];
+          /** Template variables applied to the selected Grafana board configuration. */
           templateVars?: string[];
         }[];
       };
@@ -3242,19 +3435,27 @@ export type GetUsersApiResponse = /** status 200 Paginated list of public users 
         /** Load generator */
         gen?: string;
       };
+      /** The anonymous usage stats of the preference. */
       anonymousUsageStats: boolean;
+      /** The anonymous perf results of the preference. */
       anonymousPerfResults: boolean;
+      /** Timestamp of when the resource was last updated. */
       updated_at: string;
+      /** The dashboard preferences of the preference. */
       dashboardPreferences: {
         [key: string]: any;
       };
+      /** ID of the associated selectedOrganization. */
       selectedOrganizationId: string;
+      /** The selected workspace for organizations of the preference. */
       selectedWorkspaceForOrganizations: {
         [key: string]: string;
       };
+      /** The users extension preferences of the preference. */
       usersExtensionPreferences: {
         [key: string]: any;
       };
+      /** The remote provider preferences of the preference. */
       remoteProviderPreferences: {
         [key: string]: any;
       };
@@ -3271,7 +3472,9 @@ export type GetUsersApiResponse = /** status 200 Paginated list of public users 
     updated_at: string;
     /** Various online profiles associated with the user account */
     socials?: {
+      /** The site of the social. */
       site: string;
+      /** The link of the social. */
       link: string;
     }[];
     /** Timestamp when the user record was soft-deleted (null if not deleted) */
@@ -3289,12 +3492,16 @@ export type GetUsersApiResponse = /** status 200 Paginated list of public users 
     )[];
     /** Teams the user belongs to with role information */
     teams?: {
+      /** Team memberships for the user with their assigned roles. */
       teams_with_roles?: object[];
+      /** Total number of team memberships returned for the user. */
       total_count?: number;
     };
     /** Organizations the user belongs to with role information */
     organizations?: {
+      /** Organization memberships for the user with their assigned roles. */
       organizations_with_roles?: object[];
+      /** Total number of organization memberships returned for the user. */
       total_count?: number;
     };
   }[];
@@ -3340,23 +3547,33 @@ export type GetUserProfileByIdApiResponse = /** status 200 User profile for the 
   };
   /** User preferences stored as JSONB */
   preferences?: {
+    /** The mesh adapters of the preference. */
     meshAdapters?: object[];
     grafana?: {
+      /** Grafana URL for the user configuration. */
       grafanaURL?: string;
+      /** Grafana API key for the user configuration. */
       grafanaAPIKey?: string;
+      /** Selected Grafana board configurations for the user. */
       selectedBoardsConfigs?: {
         /** Placeholder for GrafanaBoard definition (define fields as needed) */
         board?: object;
+        /** Panels selected for the Grafana board configuration. */
         panels?: object[];
+        /** Template variables applied to the selected Grafana board configuration. */
         templateVars?: string[];
       }[];
     };
     prometheus?: {
+      /** The prometheus u r l of the prometheus. */
       prometheusURL?: string;
+      /** The selected prometheus boards configs of the prometheus. */
       selectedPrometheusBoardsConfigs?: {
         /** Placeholder for GrafanaBoard definition (define fields as needed) */
         board?: object;
+        /** Panels selected for the Grafana board configuration. */
         panels?: object[];
+        /** Template variables applied to the selected Grafana board configuration. */
         templateVars?: string[];
       }[];
     };
@@ -3370,19 +3587,27 @@ export type GetUserProfileByIdApiResponse = /** status 200 User profile for the 
       /** Load generator */
       gen?: string;
     };
+    /** The anonymous usage stats of the preference. */
     anonymousUsageStats: boolean;
+    /** The anonymous perf results of the preference. */
     anonymousPerfResults: boolean;
+    /** Timestamp of when the resource was last updated. */
     updated_at: string;
+    /** The dashboard preferences of the preference. */
     dashboardPreferences: {
       [key: string]: any;
     };
+    /** ID of the associated selectedOrganization. */
     selectedOrganizationId: string;
+    /** The selected workspace for organizations of the preference. */
     selectedWorkspaceForOrganizations: {
       [key: string]: string;
     };
+    /** The users extension preferences of the preference. */
     usersExtensionPreferences: {
       [key: string]: any;
     };
+    /** The remote provider preferences of the preference. */
     remoteProviderPreferences: {
       [key: string]: any;
     };
@@ -3399,7 +3624,9 @@ export type GetUserProfileByIdApiResponse = /** status 200 User profile for the 
   updated_at: string;
   /** Various online profiles associated with the user account */
   socials?: {
+    /** The site of the social. */
     site: string;
+    /** The link of the social. */
     link: string;
   }[];
   /** Timestamp when the user record was soft-deleted (null if not deleted) */
@@ -3417,12 +3644,16 @@ export type GetUserProfileByIdApiResponse = /** status 200 User profile for the 
   )[];
   /** Teams the user belongs to with role information */
   teams?: {
+    /** Team memberships for the user with their assigned roles. */
     teams_with_roles?: object[];
+    /** Total number of team memberships returned for the user. */
     total_count?: number;
   };
   /** Organizations the user belongs to with role information */
   organizations?: {
+    /** Organization memberships for the user with their assigned roles. */
     organizations_with_roles?: object[];
+    /** Total number of organization memberships returned for the user. */
     total_count?: number;
   };
 };
@@ -3459,23 +3690,33 @@ export type GetUserApiResponse = /** status 200 Current user profile and role co
   };
   /** User preferences stored as JSONB */
   preferences?: {
+    /** The mesh adapters of the preference. */
     meshAdapters?: object[];
     grafana?: {
+      /** Grafana URL for the user configuration. */
       grafanaURL?: string;
+      /** Grafana API key for the user configuration. */
       grafanaAPIKey?: string;
+      /** Selected Grafana board configurations for the user. */
       selectedBoardsConfigs?: {
         /** Placeholder for GrafanaBoard definition (define fields as needed) */
         board?: object;
+        /** Panels selected for the Grafana board configuration. */
         panels?: object[];
+        /** Template variables applied to the selected Grafana board configuration. */
         templateVars?: string[];
       }[];
     };
     prometheus?: {
+      /** The prometheus u r l of the prometheus. */
       prometheusURL?: string;
+      /** The selected prometheus boards configs of the prometheus. */
       selectedPrometheusBoardsConfigs?: {
         /** Placeholder for GrafanaBoard definition (define fields as needed) */
         board?: object;
+        /** Panels selected for the Grafana board configuration. */
         panels?: object[];
+        /** Template variables applied to the selected Grafana board configuration. */
         templateVars?: string[];
       }[];
     };
@@ -3489,19 +3730,27 @@ export type GetUserApiResponse = /** status 200 Current user profile and role co
       /** Load generator */
       gen?: string;
     };
+    /** The anonymous usage stats of the preference. */
     anonymousUsageStats: boolean;
+    /** The anonymous perf results of the preference. */
     anonymousPerfResults: boolean;
+    /** Timestamp of when the resource was last updated. */
     updated_at: string;
+    /** The dashboard preferences of the preference. */
     dashboardPreferences: {
       [key: string]: any;
     };
+    /** ID of the associated selectedOrganization. */
     selectedOrganizationId: string;
+    /** The selected workspace for organizations of the preference. */
     selectedWorkspaceForOrganizations: {
       [key: string]: string;
     };
+    /** The users extension preferences of the preference. */
     usersExtensionPreferences: {
       [key: string]: any;
     };
+    /** The remote provider preferences of the preference. */
     remoteProviderPreferences: {
       [key: string]: any;
     };
@@ -3518,7 +3767,9 @@ export type GetUserApiResponse = /** status 200 Current user profile and role co
   updated_at: string;
   /** Various online profiles associated with the user account */
   socials?: {
+    /** The site of the social. */
     site: string;
+    /** The link of the social. */
     link: string;
   }[];
   /** Timestamp when the user record was soft-deleted (null if not deleted) */
@@ -3536,12 +3787,16 @@ export type GetUserApiResponse = /** status 200 Current user profile and role co
   )[];
   /** Teams the user belongs to with role information */
   teams?: {
+    /** Team memberships for the user with their assigned roles. */
     teams_with_roles?: object[];
+    /** Total number of team memberships returned for the user. */
     total_count?: number;
   };
   /** Organizations the user belongs to with role information */
   organizations?: {
+    /** Organization memberships for the user with their assigned roles. */
     organizations_with_roles?: object[];
+    /** Total number of organization memberships returned for the user. */
     total_count?: number;
   };
 };
@@ -3550,6 +3805,7 @@ export type GetWorkspacesApiResponse = /** status 200 Workspaces */ {
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The workspaces of the workspacepage. */
   workspaces?: {
     id?: string;
     name?: string;
@@ -3668,6 +3924,7 @@ export type GetTeamsOfWorkspaceApiResponse = /** status 200 Teams */ {
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The teams of the teampage. */
   teams?: {
     /** Team ID */
     id: string;
@@ -3703,6 +3960,7 @@ export type AssignTeamToWorkspaceApiResponse = /** status 200 Workspace team map
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The workspaces teams mapping of the workspacesteamsmappingpage. */
   workspacesTeamsMapping?: {
     id?: string;
     team_id?: string;
@@ -3732,6 +3990,7 @@ export type GetEnvironmentsOfWorkspaceApiResponse = /** status 200 Environments 
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** Environments associated with this resource. */
   environments?: {
     /** ID */
     id: string;
@@ -3773,6 +4032,7 @@ export type AssignEnvironmentToWorkspaceApiResponse = /** status 200 Workspace e
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The workspaces environments mapping of the workspacesenvironmentsmappingpage. */
   workspacesEnvironmentsMapping?: {
     id?: string;
     environment_id?: string;
@@ -3802,6 +4062,7 @@ export type GetDesignsOfWorkspaceApiResponse = /** status 200 Designs */ {
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The designs of the mesherydesignpage. */
   designs?: {
     catalogData?: {
       /** Tracks the specific content version that has been made available in the Catalog. */
@@ -4105,7 +4366,9 @@ export type GetDesignsOfWorkspaceApiResponse = /** status 200 Designs */ {
             /** Version of the model as defined by the registrant. */
             version: string;
           };
+          /** The relationships of the model. */
           relationships: any;
+          /** The components of the model. */
           components: any;
           /** Number of components associated with the model. */
           componentsCount: number;
@@ -4132,6 +4395,7 @@ export type GetDesignsOfWorkspaceApiResponse = /** status 200 Designs */ {
             version: string;
           };
           registrant: {
+            /** Kind of the registrant. */
             kind: string;
           };
         };
@@ -4522,6 +4786,7 @@ export type GetDesignsOfWorkspaceApiResponse = /** status 200 Designs */ {
             version: string;
           };
           registrant: {
+            /** Kind of the registrant. */
             kind: string;
           };
         };
@@ -4576,6 +4841,7 @@ export type GetDesignsOfWorkspaceApiResponse = /** status 200 Designs */ {
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -4641,6 +4907,7 @@ export type GetDesignsOfWorkspaceApiResponse = /** status 200 Designs */ {
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -4709,6 +4976,7 @@ export type GetDesignsOfWorkspaceApiResponse = /** status 200 Designs */ {
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -4774,6 +5042,7 @@ export type GetDesignsOfWorkspaceApiResponse = /** status 200 Designs */ {
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -4823,6 +5092,7 @@ export type AssignDesignToWorkspaceApiResponse = /** status 200 Workspace design
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The workspaces designs mapping of the workspacesdesignsmappingpage. */
   workspacesDesignsMapping?: {
     id?: string;
     design_id?: string;
@@ -4852,6 +5122,7 @@ export type GetViewsOfWorkspaceApiResponse = /** status 200 Views */ {
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The views of the mesheryviewpage. */
   views?: {
     id?: string;
     name?: string;
@@ -4889,6 +5160,7 @@ export type AssignViewToWorkspaceApiResponse = /** status 200 Workspace view map
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The workspaces views mapping of the workspacesviewsmappingpage. */
   workspacesViewsMapping?: {
     id?: string;
     view_id?: string;
@@ -4917,6 +5189,7 @@ export type UnassignViewFromWorkspaceApiArg = {
 export type GetMyAcademyCurriculaApiResponse = /** status 200 A list of content with total count */ {
   /** Total number of Curricula */
   total: number;
+  /** The data of the academycurriculalistresponse. */
   data: {
     /** Id of the Curricula */
     id: string;
@@ -5185,6 +5458,7 @@ export type CreateAcademyCurriculaApiArg = {
 export type GetAcademyCurriculaApiResponse = /** status 200 A list of content with total count */ {
   /** Total number of Curricula */
   total: number;
+  /** The data of the academycurriculawithmetricslistresponse. */
   data: ({
     /** Id of the Curricula */
     id: string;
@@ -5273,6 +5547,7 @@ export type GetAcademyCurriculaApiResponse = /** status 200 A list of content wi
       [key: string]: any;
     };
   } & {
+    /** Number of registrations associated with this curriculum. */
     registration_count: number;
   })[];
 };
@@ -5598,6 +5873,7 @@ export type UpdateAcademyCurriculaByIdApiResponse = /** status 200 updated the c
     [key: string]: any;
   };
 } & {
+  /** Number of registrations associated with this curriculum. */
   registration_count: number;
   /** Invitation entity schema. */
   invitation?: {
@@ -5611,8 +5887,9 @@ export type UpdateAcademyCurriculaByIdApiResponse = /** status 200 updated the c
     name: string;
     /** Description of the invitation, which can be used to provide additional information about the invitation, null or empty string means the invitation does not have a description */
     description: string;
+    /** The emails of the invitation. */
     emails: string[];
-    /** ID of the organization to which the user is invited */
+    /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     org_id: string;
     /** Timestamp when the invitation expires, if applicable , null or empty string means the invitation does not expire */
     expires_at?: string;
@@ -5620,7 +5897,9 @@ export type UpdateAcademyCurriculaByIdApiResponse = /** status 200 updated the c
     quota?: number;
     /** List of user ids that have already accepted the invitation, null or empty string means the invitation has not been used yet */
     accepted_by: string[];
+    /** The roles of the invitation. */
     roles: string[];
+    /** The teams of the invitation. */
     teams: string[];
     /** Status of the invitation, where enabled means the invitation is active and can be used, disabled means the invitation is no longer valid and is temporarily inactive, disabled invitations can be re-enabled later. */
     status: "enabled" | "disabled";
@@ -5809,6 +6088,7 @@ export type GetAcademyCurriculaByIdApiResponse = /** status 200 A single curricu
     [key: string]: any;
   };
 } & {
+  /** Number of registrations associated with this curriculum. */
   registration_count: number;
   /** Invitation entity schema. */
   invitation?: {
@@ -5822,8 +6102,9 @@ export type GetAcademyCurriculaByIdApiResponse = /** status 200 A single curricu
     name: string;
     /** Description of the invitation, which can be used to provide additional information about the invitation, null or empty string means the invitation does not have a description */
     description: string;
+    /** The emails of the invitation. */
     emails: string[];
-    /** ID of the organization to which the user is invited */
+    /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     org_id: string;
     /** Timestamp when the invitation expires, if applicable , null or empty string means the invitation does not expire */
     expires_at?: string;
@@ -5831,7 +6112,9 @@ export type GetAcademyCurriculaByIdApiResponse = /** status 200 A single curricu
     quota?: number;
     /** List of user ids that have already accepted the invitation, null or empty string means the invitation has not been used yet */
     accepted_by: string[];
+    /** The roles of the invitation. */
     roles: string[];
+    /** The teams of the invitation. */
     teams: string[];
     /** Status of the invitation, where enabled means the invitation is active and can be used, disabled means the invitation is no longer valid and is temporarily inactive, disabled invitations can be re-enabled later. */
     status: "enabled" | "disabled";
@@ -5907,85 +6190,139 @@ export type GetApiAcademyRegistrationsByContentIdApiArg = {
   status?: string;
 };
 export type UpdateCurrentItemInProgressTrackerApiResponse = /** status 200 Progress tracker updated */ {
+  /** The message of the updatecurrentitemprogressresponse. */
   message?: string;
   progressTracker?: {
+    /** The current item of the curriculaprogresstracker. */
     currentItem: {
       [key: string]: {
+        /** CurriculaCurrentItemData ID. */
         id: string;
+        /** The last opened of the curriculacurrentitemdata. */
         lastOpened: string;
         contentType: "learning-path" | "challenge" | "certification";
       };
     };
+    /** The grades of the curriculaprogresstracker. */
     grades: {
       [key: string]: {
+        /** The score of the quizevaluationresult. */
         score: number;
+        /** The passed of the quizevaluationresult. */
         passed: boolean;
+        /** The percentage scored of the quizevaluationresult. */
         percentageScored: number;
+        /** The total marks of the quizevaluationresult. */
         totalMarks: number;
+        /** The pass percentage of the quizevaluationresult. */
         passPercentage: number;
+        /** The correct submissions of the quizevaluationresult. */
         correctSubmissions: {
           [key: string]: boolean;
         };
         quiz: {
+          /** Quiz ID. */
           id: string;
           /** Organization ID that owns this quiz */
           org_id: string;
           /** Indicates if the quiz is final . i.e this quiz will used to evaluate the completion of parent section eg course , module , learning path */
           final: boolean;
+          /** The title of the quiz. */
           title: string;
+          /** Description of the quiz. */
           description: string;
+          /** The slug of the quiz. */
           slug: string;
+          /** The rel permalink of the quiz. */
           relPermalink: string;
+          /** The permalink of the quiz. */
           permalink: string;
+          /** Type of the resource. */
           type: string;
+          /** The section of the quiz. */
           section: string;
+          /** The layout of the quiz. */
           layout: string;
+          /** The date of the quiz. */
           date: string;
+          /** The lastmod of the quiz. */
           lastmod: string;
+          /** The draft of the quiz. */
           draft: boolean;
+          /** The file path of the quiz. */
           filePath: string;
+          /** The pass percentage of the quiz. */
           passPercentage: number;
           /** Time limit for the quiz in minutes. A value of 0 indicates no time limit. */
           timeLimit: number;
           /** Maximum number of attempts allowed for the quiz. A value of 0 indicates unlimited attempts. */
           maxAttempts: number;
+          /** The questions of the quiz. */
           questions: {
+            /** Question ID. */
             id: string;
+            /** The text of the question. */
             text: string;
             type: "multiple-answers" | "single-answer" | "short-answer" | "essay";
+            /** The marks of the question. */
             marks: number;
+            /** The multiple answers of the question. */
             multipleAnswers?: boolean;
+            /** The options of the question. */
             options: {
+              /** QuestionOption ID. */
               id: string;
+              /** The text of the questionoption. */
               text: string;
+              /** The is correct of the questionoption. */
               isCorrect: boolean;
             }[];
+            /** The correct answer of the question. */
             correctAnswer: string;
           }[];
+          /** The total questions of the quiz. */
           totalQuestions: number;
+          /** The total questions in bank of the quiz. */
           totalQuestionsInBank: number;
+          /** The total question sets of the quiz. */
           totalQuestionSets: number;
+          /** The total marks of the quiz. */
           totalMarks: number;
+          /** The prerequisites of the quiz. */
           prerequisites: {
+            /** Parent ID. */
             id: string;
+            /** The title of the parent. */
             title: string;
+            /** The rel permalink of the parent. */
             relPermalink: string;
+            /** Type of the resource. */
             type: string;
           }[];
           parent?: {
+            /** Parent ID. */
             id: string;
+            /** The title of the parent. */
             title: string;
+            /** The rel permalink of the parent. */
             relPermalink: string;
+            /** Type of the resource. */
             type: string;
           };
           nextPage: {
+            /** Parent ID. */
             id: string;
+            /** The title of the parent. */
             title: string;
+            /** The rel permalink of the parent. */
             relPermalink: string;
+            /** Type of the resource. */
             type: string;
           };
         };
+        /** The attempted at of the quizevaluationresult. */
         attemptedAt: string;
+        /** The attempts of the quizevaluationresult. */
         attempts: number;
       };
     };
@@ -5997,19 +6334,27 @@ export type UpdateCurrentItemInProgressTrackerApiResponse = /** status 200 Progr
         /** Timestamp when the item was completed */
         completedAt: string;
         itemData: {
+          /** Parent ID. */
           id: string;
+          /** The title of the parent. */
           title: string;
+          /** The rel permalink of the parent. */
           relPermalink: string;
+          /** Type of the resource. */
           type: string;
         };
       };
     };
+    /** The completed of the curriculaprogresstracker. */
     completed: string;
   };
+  /** ID of the associated registration. */
   registrationId?: string;
   contentType?: "learning-path" | "challenge" | "certification";
   itemData?: {
+    /** CurriculaCurrentItemData ID. */
     id: string;
+    /** The last opened of the curriculacurrentitemdata. */
     lastOpened: string;
     contentType: "learning-path" | "challenge" | "certification";
   };
@@ -6020,68 +6365,111 @@ export type UpdateCurrentItemInProgressTrackerApiArg = {
   body: {
     contentType: "learning-path" | "challenge" | "certification";
     itemData: {
+      /** CurriculaCurrentItemData ID. */
       id: string;
+      /** The last opened of the curriculacurrentitemdata. */
       lastOpened: string;
       contentType: "learning-path" | "challenge" | "certification";
     };
   };
 };
 export type GetTestByAbsPathApiResponse = /** status 200 A single test */ {
+  /** Quiz ID. */
   id: string;
   /** Organization ID that owns this quiz */
   org_id: string;
   /** Indicates if the quiz is final . i.e this quiz will used to evaluate the completion of parent section eg course , module , learning path */
   final: boolean;
+  /** The title of the quiz. */
   title: string;
+  /** Description of the quiz. */
   description: string;
+  /** The slug of the quiz. */
   slug: string;
+  /** The rel permalink of the quiz. */
   relPermalink: string;
+  /** The permalink of the quiz. */
   permalink: string;
+  /** Type of the resource. */
   type: string;
+  /** The section of the quiz. */
   section: string;
+  /** The layout of the quiz. */
   layout: string;
+  /** The date of the quiz. */
   date: string;
+  /** The lastmod of the quiz. */
   lastmod: string;
+  /** The draft of the quiz. */
   draft: boolean;
+  /** The file path of the quiz. */
   filePath: string;
+  /** The pass percentage of the quiz. */
   passPercentage: number;
   /** Time limit for the quiz in minutes. A value of 0 indicates no time limit. */
   timeLimit: number;
   /** Maximum number of attempts allowed for the quiz. A value of 0 indicates unlimited attempts. */
   maxAttempts: number;
+  /** The questions of the quiz. */
   questions: {
+    /** Question ID. */
     id: string;
+    /** The text of the question. */
     text: string;
     type: "multiple-answers" | "single-answer" | "short-answer" | "essay";
+    /** The marks of the question. */
     marks: number;
+    /** The multiple answers of the question. */
     multipleAnswers?: boolean;
+    /** The options of the question. */
     options: {
+      /** QuestionOption ID. */
       id: string;
+      /** The text of the questionoption. */
       text: string;
+      /** The is correct of the questionoption. */
       isCorrect: boolean;
     }[];
+    /** The correct answer of the question. */
     correctAnswer: string;
   }[];
+  /** The total questions of the quiz. */
   totalQuestions: number;
+  /** The total questions in bank of the quiz. */
   totalQuestionsInBank: number;
+  /** The total question sets of the quiz. */
   totalQuestionSets: number;
+  /** The total marks of the quiz. */
   totalMarks: number;
+  /** The prerequisites of the quiz. */
   prerequisites: {
+    /** Parent ID. */
     id: string;
+    /** The title of the parent. */
     title: string;
+    /** The rel permalink of the parent. */
     relPermalink: string;
+    /** Type of the resource. */
     type: string;
   }[];
   parent?: {
+    /** Parent ID. */
     id: string;
+    /** The title of the parent. */
     title: string;
+    /** The rel permalink of the parent. */
     relPermalink: string;
+    /** Type of the resource. */
     type: string;
   };
   nextPage: {
+    /** Parent ID. */
     id: string;
+    /** The title of the parent. */
     title: string;
+    /** The rel permalink of the parent. */
     relPermalink: string;
+    /** Type of the resource. */
     type: string;
   };
 };
@@ -6090,140 +6478,232 @@ export type GetTestByAbsPathApiArg = {
   absPath: string;
 };
 export type StartTestByIdApiResponse = /** status 200 A single test */ {
+  /** Quiz ID. */
   id: string;
   /** Organization ID that owns this quiz */
   org_id: string;
   /** Indicates if the quiz is final . i.e this quiz will used to evaluate the completion of parent section eg course , module , learning path */
   final: boolean;
+  /** The title of the quiz. */
   title: string;
+  /** Description of the quiz. */
   description: string;
+  /** The slug of the quiz. */
   slug: string;
+  /** The rel permalink of the quiz. */
   relPermalink: string;
+  /** The permalink of the quiz. */
   permalink: string;
+  /** Type of the resource. */
   type: string;
+  /** The section of the quiz. */
   section: string;
+  /** The layout of the quiz. */
   layout: string;
+  /** The date of the quiz. */
   date: string;
+  /** The lastmod of the quiz. */
   lastmod: string;
+  /** The draft of the quiz. */
   draft: boolean;
+  /** The file path of the quiz. */
   filePath: string;
+  /** The pass percentage of the quiz. */
   passPercentage: number;
   /** Time limit for the quiz in minutes. A value of 0 indicates no time limit. */
   timeLimit: number;
   /** Maximum number of attempts allowed for the quiz. A value of 0 indicates unlimited attempts. */
   maxAttempts: number;
+  /** The questions of the quiz. */
   questions: {
+    /** Question ID. */
     id: string;
+    /** The text of the question. */
     text: string;
     type: "multiple-answers" | "single-answer" | "short-answer" | "essay";
+    /** The marks of the question. */
     marks: number;
+    /** The multiple answers of the question. */
     multipleAnswers?: boolean;
+    /** The options of the question. */
     options: {
+      /** QuestionOption ID. */
       id: string;
+      /** The text of the questionoption. */
       text: string;
+      /** The is correct of the questionoption. */
       isCorrect: boolean;
     }[];
+    /** The correct answer of the question. */
     correctAnswer: string;
   }[];
+  /** The total questions of the quiz. */
   totalQuestions: number;
+  /** The total questions in bank of the quiz. */
   totalQuestionsInBank: number;
+  /** The total question sets of the quiz. */
   totalQuestionSets: number;
+  /** The total marks of the quiz. */
   totalMarks: number;
+  /** The prerequisites of the quiz. */
   prerequisites: {
+    /** Parent ID. */
     id: string;
+    /** The title of the parent. */
     title: string;
+    /** The rel permalink of the parent. */
     relPermalink: string;
+    /** Type of the resource. */
     type: string;
   }[];
   parent?: {
+    /** Parent ID. */
     id: string;
+    /** The title of the parent. */
     title: string;
+    /** The rel permalink of the parent. */
     relPermalink: string;
+    /** Type of the resource. */
     type: string;
   };
   nextPage: {
+    /** Parent ID. */
     id: string;
+    /** The title of the parent. */
     title: string;
+    /** The rel permalink of the parent. */
     relPermalink: string;
+    /** Type of the resource. */
     type: string;
   };
 };
 export type StartTestByIdApiArg = {
   body: {
+    /** The test abs path of the starttestrequest. */
     testAbsPath: string;
+    /** ID of the associated registration. */
     registrationId: string;
   };
 };
 export type GetAllTestSessionsForRegistrationApiResponse =
   /** status 200 A list of tests for the specified registration */ {
+    /** The score of the quizevaluationresult. */
     score: number;
+    /** The passed of the quizevaluationresult. */
     passed: boolean;
+    /** The percentage scored of the quizevaluationresult. */
     percentageScored: number;
+    /** The total marks of the quizevaluationresult. */
     totalMarks: number;
+    /** The pass percentage of the quizevaluationresult. */
     passPercentage: number;
+    /** The correct submissions of the quizevaluationresult. */
     correctSubmissions: {
       [key: string]: boolean;
     };
     quiz: {
+      /** Quiz ID. */
       id: string;
       /** Organization ID that owns this quiz */
       org_id: string;
       /** Indicates if the quiz is final . i.e this quiz will used to evaluate the completion of parent section eg course , module , learning path */
       final: boolean;
+      /** The title of the quiz. */
       title: string;
+      /** Description of the quiz. */
       description: string;
+      /** The slug of the quiz. */
       slug: string;
+      /** The rel permalink of the quiz. */
       relPermalink: string;
+      /** The permalink of the quiz. */
       permalink: string;
+      /** Type of the resource. */
       type: string;
+      /** The section of the quiz. */
       section: string;
+      /** The layout of the quiz. */
       layout: string;
+      /** The date of the quiz. */
       date: string;
+      /** The lastmod of the quiz. */
       lastmod: string;
+      /** The draft of the quiz. */
       draft: boolean;
+      /** The file path of the quiz. */
       filePath: string;
+      /** The pass percentage of the quiz. */
       passPercentage: number;
       /** Time limit for the quiz in minutes. A value of 0 indicates no time limit. */
       timeLimit: number;
       /** Maximum number of attempts allowed for the quiz. A value of 0 indicates unlimited attempts. */
       maxAttempts: number;
+      /** The questions of the quiz. */
       questions: {
+        /** Question ID. */
         id: string;
+        /** The text of the question. */
         text: string;
         type: "multiple-answers" | "single-answer" | "short-answer" | "essay";
+        /** The marks of the question. */
         marks: number;
+        /** The multiple answers of the question. */
         multipleAnswers?: boolean;
+        /** The options of the question. */
         options: {
+          /** QuestionOption ID. */
           id: string;
+          /** The text of the questionoption. */
           text: string;
+          /** The is correct of the questionoption. */
           isCorrect: boolean;
         }[];
+        /** The correct answer of the question. */
         correctAnswer: string;
       }[];
+      /** The total questions of the quiz. */
       totalQuestions: number;
+      /** The total questions in bank of the quiz. */
       totalQuestionsInBank: number;
+      /** The total question sets of the quiz. */
       totalQuestionSets: number;
+      /** The total marks of the quiz. */
       totalMarks: number;
+      /** The prerequisites of the quiz. */
       prerequisites: {
+        /** Parent ID. */
         id: string;
+        /** The title of the parent. */
         title: string;
+        /** The rel permalink of the parent. */
         relPermalink: string;
+        /** Type of the resource. */
         type: string;
       }[];
       parent?: {
+        /** Parent ID. */
         id: string;
+        /** The title of the parent. */
         title: string;
+        /** The rel permalink of the parent. */
         relPermalink: string;
+        /** Type of the resource. */
         type: string;
       };
       nextPage: {
+        /** Parent ID. */
         id: string;
+        /** The title of the parent. */
         title: string;
+        /** The rel permalink of the parent. */
         relPermalink: string;
+        /** Type of the resource. */
         type: string;
       };
     };
+    /** The attempted at of the quizevaluationresult. */
     attemptedAt: string;
+    /** The attempts of the quizevaluationresult. */
     attempts: number;
   }[][];
 export type GetAllTestSessionsForRegistrationApiArg = {
@@ -6237,88 +6717,144 @@ export type GetAllTestSessionsForRegistrationApiArg = {
   testAbsPath?: string;
 };
 export type SubmitQuizApiResponse = /** status 200 Progress tracker updated */ {
+  /** The score of the quizevaluationresult. */
   score: number;
+  /** The passed of the quizevaluationresult. */
   passed: boolean;
+  /** The percentage scored of the quizevaluationresult. */
   percentageScored: number;
+  /** The total marks of the quizevaluationresult. */
   totalMarks: number;
+  /** The pass percentage of the quizevaluationresult. */
   passPercentage: number;
+  /** The correct submissions of the quizevaluationresult. */
   correctSubmissions: {
     [key: string]: boolean;
   };
   quiz: {
+    /** Quiz ID. */
     id: string;
     /** Organization ID that owns this quiz */
     org_id: string;
     /** Indicates if the quiz is final . i.e this quiz will used to evaluate the completion of parent section eg course , module , learning path */
     final: boolean;
+    /** The title of the quiz. */
     title: string;
+    /** Description of the quiz. */
     description: string;
+    /** The slug of the quiz. */
     slug: string;
+    /** The rel permalink of the quiz. */
     relPermalink: string;
+    /** The permalink of the quiz. */
     permalink: string;
+    /** Type of the resource. */
     type: string;
+    /** The section of the quiz. */
     section: string;
+    /** The layout of the quiz. */
     layout: string;
+    /** The date of the quiz. */
     date: string;
+    /** The lastmod of the quiz. */
     lastmod: string;
+    /** The draft of the quiz. */
     draft: boolean;
+    /** The file path of the quiz. */
     filePath: string;
+    /** The pass percentage of the quiz. */
     passPercentage: number;
     /** Time limit for the quiz in minutes. A value of 0 indicates no time limit. */
     timeLimit: number;
     /** Maximum number of attempts allowed for the quiz. A value of 0 indicates unlimited attempts. */
     maxAttempts: number;
+    /** The questions of the quiz. */
     questions: {
+      /** Question ID. */
       id: string;
+      /** The text of the question. */
       text: string;
       type: "multiple-answers" | "single-answer" | "short-answer" | "essay";
+      /** The marks of the question. */
       marks: number;
+      /** The multiple answers of the question. */
       multipleAnswers?: boolean;
+      /** The options of the question. */
       options: {
+        /** QuestionOption ID. */
         id: string;
+        /** The text of the questionoption. */
         text: string;
+        /** The is correct of the questionoption. */
         isCorrect: boolean;
       }[];
+      /** The correct answer of the question. */
       correctAnswer: string;
     }[];
+    /** The total questions of the quiz. */
     totalQuestions: number;
+    /** The total questions in bank of the quiz. */
     totalQuestionsInBank: number;
+    /** The total question sets of the quiz. */
     totalQuestionSets: number;
+    /** The total marks of the quiz. */
     totalMarks: number;
+    /** The prerequisites of the quiz. */
     prerequisites: {
+      /** Parent ID. */
       id: string;
+      /** The title of the parent. */
       title: string;
+      /** The rel permalink of the parent. */
       relPermalink: string;
+      /** Type of the resource. */
       type: string;
     }[];
     parent?: {
+      /** Parent ID. */
       id: string;
+      /** The title of the parent. */
       title: string;
+      /** The rel permalink of the parent. */
       relPermalink: string;
+      /** Type of the resource. */
       type: string;
     };
     nextPage: {
+      /** Parent ID. */
       id: string;
+      /** The title of the parent. */
       title: string;
+      /** The rel permalink of the parent. */
       relPermalink: string;
+      /** Type of the resource. */
       type: string;
     };
   };
+  /** The attempted at of the quizevaluationresult. */
   attemptedAt: string;
+  /** The attempts of the quizevaluationresult. */
   attempts: number;
 };
 export type SubmitQuizApiArg = {
   body: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     testSessionId: string;
+    /** The quiz abs path of the quizsubmission. */
     quizAbsPath: string;
+    /** ID of the associated registration. */
     registrationId: string;
+    /** ID of the user who owns or created this resource. */
     user_id: string;
+    /** The answers of the quizsubmission. */
     answers: {
+      /** ID of the associated question. */
       questionId: string;
+      /** Map of selected option IDs to a boolean value indicating if it was selected. */
       selectedOptionId: {
         [key: string]: boolean;
       };
+      /** The answer text of the submittedanswer. */
       answerText: string;
     }[];
   };
@@ -6327,6 +6863,7 @@ export type GetAcademyAdminSummaryApiResponse =
   /** status 200 A list of content with total count and registration metrics */ object;
 export type GetAcademyAdminSummaryApiArg = void;
 export type GetAcademyAdminRegistrationsApiResponse = /** status 200 List of registrations with pagination info */ {
+  /** The data of the curricularegistrationsresponse. */
   data: {
     /** Title of the curricula */
     curricula_title: string;
@@ -6353,8 +6890,11 @@ export type GetAcademyAdminRegistrationsApiResponse = /** status 200 List of reg
     /** Total count for pagination */
     total_count: number;
   }[];
+  /** Total number of items available. */
   total_count: number;
+  /** Number of items per page. */
   page_size: number;
+  /** Current page number of the result set. */
   page: number;
 };
 export type GetAcademyAdminRegistrationsApiArg = {
@@ -6750,8 +7290,11 @@ export type RemoveConnectionFromEnvironmentApiArg = {
   connectionId: string;
 };
 export type GetPatternsApiResponse = /** status 200 Designs response */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** The patterns of the mesherypatternpage. */
   patterns?: {
     catalogData?: {
       /** Tracks the specific content version that has been made available in the Catalog. */
@@ -6793,6 +7336,7 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
       schemaVersion: string;
       /** Revision of the design as expressed by an auto-incremented, SemVer-compliant version number. May be manually set by a user or third-party system, but will always be required to be of version number higher than the previously defined version number. */
       version: string;
+      /** Additional metadata associated with this resource. */
       metadata?: {
         /** Map of resolved aliases present in the design */
         resolvedAliases?: {
@@ -6803,10 +7347,12 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
             aliasComponentId: string;
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             immediateParentId: string;
+            /** The immediate ref field path of the nonresolvedalias. */
             immediateRefFieldPath: string[];
           } & {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             resolvedParentId: string;
+            /** Fully resolved field path targeted by the alias. */
             resolvedRefFieldPath: string[];
           };
         };
@@ -7055,7 +7601,9 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
             /** Version of the model as defined by the registrant. */
             version: string;
           };
+          /** The relationships of the model. */
           relationships: any;
+          /** The components of the model. */
           components: any;
           /** Number of components associated with the model. */
           componentsCount: number;
@@ -7082,6 +7630,7 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
             version: string;
           };
           registrant: {
+            /** Kind of the registrant. */
             kind: string;
           };
         };
@@ -7160,7 +7709,7 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
           /** The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
           bodyText?: string;
           /** How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-          bodyTextWrap?: string;
+          bodyTextWrap?: "none" | "wrap" | "ellipsis";
           /** The maximum width for wrapping text in the node. */
           bodyTextMaxWidth?: string;
           /** The opacity of the node's body text, including its outline. */
@@ -7200,13 +7749,13 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
           /** The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
           backgroundOffsetY?: string;
           /** How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-          backgroundFit?: string;
+          backgroundFit?: "none" | "contain" | "cover";
           /** How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-          backgroundClip?: string;
+          backgroundClip?: "none" | "node" | "node-border";
           /** How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-          backgroundWidthRelativeTo?: string;
+          backgroundWidthRelativeTo?: "none" | "inner" | "outer";
           /** How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-          backgroundHeightRelativeTo?: string;
+          backgroundHeightRelativeTo?: "none" | "inner" | "outer";
           /** The size of the node's border. */
           borderWidth?: number;
           /** The style of the node's border */
@@ -7472,6 +8021,7 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
             version: string;
           };
           registrant: {
+            /** Kind of the registrant. */
             kind: string;
           };
         };
@@ -7487,21 +8037,27 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
             from: {
               /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
               id?: string;
+              /** Kind of the resource. */
               kind?: string;
               /** Match configuration for selector */
               match?: {
+                /** The refs of the matchselector. */
                 refs?: string[][];
+                /** The from of the matchselector. */
                 from?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** The to of the matchselector. */
                 to?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -7526,6 +8082,7 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -7551,21 +8108,27 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
             to: {
               /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
               id?: string;
+              /** Kind of the resource. */
               kind?: string;
               /** Match configuration for selector */
               match?: {
+                /** The refs of the matchselector. */
                 refs?: string[][];
+                /** The from of the matchselector. */
                 from?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** The to of the matchselector. */
                 to?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -7590,6 +8153,7 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -7618,21 +8182,27 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
             from: {
               /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
               id?: string;
+              /** Kind of the resource. */
               kind?: string;
               /** Match configuration for selector */
               match?: {
+                /** The refs of the matchselector. */
                 refs?: string[][];
+                /** The from of the matchselector. */
                 from?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** The to of the matchselector. */
                 to?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -7657,6 +8227,7 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -7682,21 +8253,27 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
             to: {
               /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
               id?: string;
+              /** Kind of the resource. */
               kind?: string;
               /** Match configuration for selector */
               match?: {
+                /** The refs of the matchselector. */
                 refs?: string[][];
+                /** The from of the matchselector. */
                 from?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** The to of the matchselector. */
                 to?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -7721,6 +8298,7 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -7750,7 +8328,9 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
     id?: string;
     visibility?: string;
   }[];
+  /** The result type of the mesherypatternpage. */
   resultType?: string;
+  /** Total number of items available. */
   total_count?: number;
 };
 export type GetPatternsApiArg = {
@@ -7814,6 +8394,7 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
     schemaVersion: string;
     /** Revision of the design as expressed by an auto-incremented, SemVer-compliant version number. May be manually set by a user or third-party system, but will always be required to be of version number higher than the previously defined version number. */
     version: string;
+    /** Additional metadata associated with this resource. */
     metadata?: {
       /** Map of resolved aliases present in the design */
       resolvedAliases?: {
@@ -7824,10 +8405,12 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
           aliasComponentId: string;
           /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
           immediateParentId: string;
+          /** The immediate ref field path of the nonresolvedalias. */
           immediateRefFieldPath: string[];
         } & {
           /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
           resolvedParentId: string;
+          /** Fully resolved field path targeted by the alias. */
           resolvedRefFieldPath: string[];
         };
       };
@@ -8076,7 +8659,9 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
           /** Version of the model as defined by the registrant. */
           version: string;
         };
+        /** The relationships of the model. */
         relationships: any;
+        /** The components of the model. */
         components: any;
         /** Number of components associated with the model. */
         componentsCount: number;
@@ -8103,6 +8688,7 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
           version: string;
         };
         registrant: {
+          /** Kind of the registrant. */
           kind: string;
         };
       };
@@ -8181,7 +8767,7 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
         /** The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
         bodyText?: string;
         /** How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-        bodyTextWrap?: string;
+        bodyTextWrap?: "none" | "wrap" | "ellipsis";
         /** The maximum width for wrapping text in the node. */
         bodyTextMaxWidth?: string;
         /** The opacity of the node's body text, including its outline. */
@@ -8221,13 +8807,13 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
         /** The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
         backgroundOffsetY?: string;
         /** How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-        backgroundFit?: string;
+        backgroundFit?: "none" | "contain" | "cover";
         /** How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-        backgroundClip?: string;
+        backgroundClip?: "none" | "node" | "node-border";
         /** How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-        backgroundWidthRelativeTo?: string;
+        backgroundWidthRelativeTo?: "none" | "inner" | "outer";
         /** How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-        backgroundHeightRelativeTo?: string;
+        backgroundHeightRelativeTo?: "none" | "inner" | "outer";
         /** The size of the node's border. */
         borderWidth?: number;
         /** The style of the node's border */
@@ -8493,6 +9079,7 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
           version: string;
         };
         registrant: {
+          /** Kind of the registrant. */
           kind: string;
         };
       };
@@ -8508,21 +9095,27 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
           from: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -8547,6 +9140,7 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -8572,21 +9166,27 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
           to: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -8611,6 +9211,7 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -8639,21 +9240,27 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
           from: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -8678,6 +9285,7 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -8703,21 +9311,27 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
           to: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -8742,6 +9356,7 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -8815,6 +9430,7 @@ export type UpsertPatternApiArg = {
         schemaVersion: string;
         /** Revision of the design as expressed by an auto-incremented, SemVer-compliant version number. May be manually set by a user or third-party system, but will always be required to be of version number higher than the previously defined version number. */
         version: string;
+        /** Additional metadata associated with this resource. */
         metadata?: {
           /** Map of resolved aliases present in the design */
           resolvedAliases?: {
@@ -8825,10 +9441,12 @@ export type UpsertPatternApiArg = {
               aliasComponentId: string;
               /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
               immediateParentId: string;
+              /** The immediate ref field path of the nonresolvedalias. */
               immediateRefFieldPath: string[];
             } & {
               /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
               resolvedParentId: string;
+              /** Fully resolved field path targeted by the alias. */
               resolvedRefFieldPath: string[];
             };
           };
@@ -9077,7 +9695,9 @@ export type UpsertPatternApiArg = {
               /** Version of the model as defined by the registrant. */
               version: string;
             };
+            /** The relationships of the model. */
             relationships: any;
+            /** The components of the model. */
             components: any;
             /** Number of components associated with the model. */
             componentsCount: number;
@@ -9104,6 +9724,7 @@ export type UpsertPatternApiArg = {
               version: string;
             };
             registrant: {
+              /** Kind of the registrant. */
               kind: string;
             };
           };
@@ -9182,7 +9803,7 @@ export type UpsertPatternApiArg = {
             /** The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
             bodyText?: string;
             /** How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-            bodyTextWrap?: string;
+            bodyTextWrap?: "none" | "wrap" | "ellipsis";
             /** The maximum width for wrapping text in the node. */
             bodyTextMaxWidth?: string;
             /** The opacity of the node's body text, including its outline. */
@@ -9222,13 +9843,13 @@ export type UpsertPatternApiArg = {
             /** The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
             backgroundOffsetY?: string;
             /** How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-            backgroundFit?: string;
+            backgroundFit?: "none" | "contain" | "cover";
             /** How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-            backgroundClip?: string;
+            backgroundClip?: "none" | "node" | "node-border";
             /** How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-            backgroundWidthRelativeTo?: string;
+            backgroundWidthRelativeTo?: "none" | "inner" | "outer";
             /** How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-            backgroundHeightRelativeTo?: string;
+            backgroundHeightRelativeTo?: "none" | "inner" | "outer";
             /** The size of the node's border. */
             borderWidth?: number;
             /** The style of the node's border */
@@ -9494,6 +10115,7 @@ export type UpsertPatternApiArg = {
               version: string;
             };
             registrant: {
+              /** Kind of the registrant. */
               kind: string;
             };
           };
@@ -9509,21 +10131,27 @@ export type UpsertPatternApiArg = {
               from: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind?: string;
                 /** Match configuration for selector */
                 match?: {
+                  /** The refs of the matchselector. */
                   refs?: string[][];
+                  /** The from of the matchselector. */
                   from?: {
                     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                     id?: string;
+                    /** Kind of the resource. */
                     kind: string;
                     /** JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
                     mutatedRef?: string[][];
                   }[];
+                  /** The to of the matchselector. */
                   to?: {
                     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                     id?: string;
+                    /** Kind of the resource. */
                     kind: string;
                     /** JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
@@ -9548,6 +10176,7 @@ export type UpsertPatternApiArg = {
                     version: string;
                   };
                   registrant: {
+                    /** Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -9573,21 +10202,27 @@ export type UpsertPatternApiArg = {
               to: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind?: string;
                 /** Match configuration for selector */
                 match?: {
+                  /** The refs of the matchselector. */
                   refs?: string[][];
+                  /** The from of the matchselector. */
                   from?: {
                     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                     id?: string;
+                    /** Kind of the resource. */
                     kind: string;
                     /** JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
                     mutatedRef?: string[][];
                   }[];
+                  /** The to of the matchselector. */
                   to?: {
                     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                     id?: string;
+                    /** Kind of the resource. */
                     kind: string;
                     /** JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
@@ -9612,6 +10247,7 @@ export type UpsertPatternApiArg = {
                     version: string;
                   };
                   registrant: {
+                    /** Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -9640,21 +10276,27 @@ export type UpsertPatternApiArg = {
               from: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind?: string;
                 /** Match configuration for selector */
                 match?: {
+                  /** The refs of the matchselector. */
                   refs?: string[][];
+                  /** The from of the matchselector. */
                   from?: {
                     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                     id?: string;
+                    /** Kind of the resource. */
                     kind: string;
                     /** JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
                     mutatedRef?: string[][];
                   }[];
+                  /** The to of the matchselector. */
                   to?: {
                     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                     id?: string;
+                    /** Kind of the resource. */
                     kind: string;
                     /** JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
@@ -9679,6 +10321,7 @@ export type UpsertPatternApiArg = {
                     version: string;
                   };
                   registrant: {
+                    /** Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -9704,21 +10347,27 @@ export type UpsertPatternApiArg = {
               to: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind?: string;
                 /** Match configuration for selector */
                 match?: {
+                  /** The refs of the matchselector. */
                   refs?: string[][];
+                  /** The from of the matchselector. */
                   from?: {
                     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                     id?: string;
+                    /** Kind of the resource. */
                     kind: string;
                     /** JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
                     mutatedRef?: string[][];
                   }[];
+                  /** The to of the matchselector. */
                   to?: {
                     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                     id?: string;
+                    /** Kind of the resource. */
                     kind: string;
                     /** JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
@@ -9743,6 +10392,7 @@ export type UpsertPatternApiArg = {
                     version: string;
                   };
                   registrant: {
+                    /** Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -9772,15 +10422,18 @@ export type UpsertPatternApiArg = {
       id?: string;
       visibility?: string;
     };
+    /** The save of the mesherypatternrequestbody. */
     save?: boolean;
     /** endpoint */
     url?: string;
+    /** Name of the mesherypatternrequestbody. */
     name?: string;
   };
 };
 export type DeletePatternsApiResponse = unknown;
 export type DeletePatternsApiArg = {
   body: {
+    /** The patterns of the mesherypatterndeleterequestbody. */
     patterns?: {
       id?: string;
       name?: string;
@@ -9851,6 +10504,7 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
     schemaVersion: string;
     /** Revision of the design as expressed by an auto-incremented, SemVer-compliant version number. May be manually set by a user or third-party system, but will always be required to be of version number higher than the previously defined version number. */
     version: string;
+    /** Additional metadata associated with this resource. */
     metadata?: {
       /** Map of resolved aliases present in the design */
       resolvedAliases?: {
@@ -9861,10 +10515,12 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
           aliasComponentId: string;
           /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
           immediateParentId: string;
+          /** The immediate ref field path of the nonresolvedalias. */
           immediateRefFieldPath: string[];
         } & {
           /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
           resolvedParentId: string;
+          /** Fully resolved field path targeted by the alias. */
           resolvedRefFieldPath: string[];
         };
       };
@@ -10113,7 +10769,9 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
           /** Version of the model as defined by the registrant. */
           version: string;
         };
+        /** The relationships of the model. */
         relationships: any;
+        /** The components of the model. */
         components: any;
         /** Number of components associated with the model. */
         componentsCount: number;
@@ -10140,6 +10798,7 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
           version: string;
         };
         registrant: {
+          /** Kind of the registrant. */
           kind: string;
         };
       };
@@ -10218,7 +10877,7 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
         /** The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
         bodyText?: string;
         /** How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-        bodyTextWrap?: string;
+        bodyTextWrap?: "none" | "wrap" | "ellipsis";
         /** The maximum width for wrapping text in the node. */
         bodyTextMaxWidth?: string;
         /** The opacity of the node's body text, including its outline. */
@@ -10258,13 +10917,13 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
         /** The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
         backgroundOffsetY?: string;
         /** How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-        backgroundFit?: string;
+        backgroundFit?: "none" | "contain" | "cover";
         /** How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-        backgroundClip?: string;
+        backgroundClip?: "none" | "node" | "node-border";
         /** How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-        backgroundWidthRelativeTo?: string;
+        backgroundWidthRelativeTo?: "none" | "inner" | "outer";
         /** How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-        backgroundHeightRelativeTo?: string;
+        backgroundHeightRelativeTo?: "none" | "inner" | "outer";
         /** The size of the node's border. */
         borderWidth?: number;
         /** The style of the node's border */
@@ -10530,6 +11189,7 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
           version: string;
         };
         registrant: {
+          /** Kind of the registrant. */
           kind: string;
         };
       };
@@ -10545,21 +11205,27 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
           from: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -10584,6 +11250,7 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -10609,21 +11276,27 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
           to: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -10648,6 +11321,7 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -10676,21 +11350,27 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
           from: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -10715,6 +11395,7 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -10740,21 +11421,27 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
           to: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -10779,6 +11466,7 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -10858,6 +11546,7 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
     schemaVersion: string;
     /** Revision of the design as expressed by an auto-incremented, SemVer-compliant version number. May be manually set by a user or third-party system, but will always be required to be of version number higher than the previously defined version number. */
     version: string;
+    /** Additional metadata associated with this resource. */
     metadata?: {
       /** Map of resolved aliases present in the design */
       resolvedAliases?: {
@@ -10868,10 +11557,12 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
           aliasComponentId: string;
           /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
           immediateParentId: string;
+          /** The immediate ref field path of the nonresolvedalias. */
           immediateRefFieldPath: string[];
         } & {
           /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
           resolvedParentId: string;
+          /** Fully resolved field path targeted by the alias. */
           resolvedRefFieldPath: string[];
         };
       };
@@ -11120,7 +11811,9 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
           /** Version of the model as defined by the registrant. */
           version: string;
         };
+        /** The relationships of the model. */
         relationships: any;
+        /** The components of the model. */
         components: any;
         /** Number of components associated with the model. */
         componentsCount: number;
@@ -11147,6 +11840,7 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
           version: string;
         };
         registrant: {
+          /** Kind of the registrant. */
           kind: string;
         };
       };
@@ -11225,7 +11919,7 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
         /** The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
         bodyText?: string;
         /** How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-        bodyTextWrap?: string;
+        bodyTextWrap?: "none" | "wrap" | "ellipsis";
         /** The maximum width for wrapping text in the node. */
         bodyTextMaxWidth?: string;
         /** The opacity of the node's body text, including its outline. */
@@ -11265,13 +11959,13 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
         /** The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
         backgroundOffsetY?: string;
         /** How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-        backgroundFit?: string;
+        backgroundFit?: "none" | "contain" | "cover";
         /** How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-        backgroundClip?: string;
+        backgroundClip?: "none" | "node" | "node-border";
         /** How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-        backgroundWidthRelativeTo?: string;
+        backgroundWidthRelativeTo?: "none" | "inner" | "outer";
         /** How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-        backgroundHeightRelativeTo?: string;
+        backgroundHeightRelativeTo?: "none" | "inner" | "outer";
         /** The size of the node's border. */
         borderWidth?: number;
         /** The style of the node's border */
@@ -11537,6 +12231,7 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
           version: string;
         };
         registrant: {
+          /** Kind of the registrant. */
           kind: string;
         };
       };
@@ -11552,21 +12247,27 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
           from: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -11591,6 +12292,7 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -11616,21 +12318,27 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
           to: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -11655,6 +12363,7 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -11683,21 +12392,27 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
           from: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -11722,6 +12437,7 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -11747,21 +12463,27 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
           to: {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             id?: string;
+            /** Kind of the resource. */
             kind?: string;
             /** Match configuration for selector */
             match?: {
+              /** The refs of the matchselector. */
               refs?: string[][];
+              /** The from of the matchselector. */
               from?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
                 mutatedRef?: string[][];
               }[];
+              /** The to of the matchselector. */
               to?: {
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 id?: string;
+                /** Kind of the resource. */
                 kind: string;
                 /** JSON ref to value from where patch should be applied. */
                 mutatorRef?: string[][];
@@ -11786,6 +12508,7 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
                 version: string;
               };
               registrant: {
+                /** Kind of the registrant. */
                 kind: string;
               };
             };
@@ -11855,9 +12578,13 @@ export type ImportDesignApiArg = {
   };
 };
 export type GetCatalogContentApiResponse = /** status 200 Catalog content page */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The patterns of the catalogcontentpage. */
   patterns?: {
     catalogData?: {
       /** Tracks the specific content version that has been made available in the Catalog. */
@@ -11899,6 +12626,7 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
       schemaVersion: string;
       /** Revision of the design as expressed by an auto-incremented, SemVer-compliant version number. May be manually set by a user or third-party system, but will always be required to be of version number higher than the previously defined version number. */
       version: string;
+      /** Additional metadata associated with this resource. */
       metadata?: {
         /** Map of resolved aliases present in the design */
         resolvedAliases?: {
@@ -11909,10 +12637,12 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
             aliasComponentId: string;
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             immediateParentId: string;
+            /** The immediate ref field path of the nonresolvedalias. */
             immediateRefFieldPath: string[];
           } & {
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             resolvedParentId: string;
+            /** Fully resolved field path targeted by the alias. */
             resolvedRefFieldPath: string[];
           };
         };
@@ -12161,7 +12891,9 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
             /** Version of the model as defined by the registrant. */
             version: string;
           };
+          /** The relationships of the model. */
           relationships: any;
+          /** The components of the model. */
           components: any;
           /** Number of components associated with the model. */
           componentsCount: number;
@@ -12188,6 +12920,7 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
             version: string;
           };
           registrant: {
+            /** Kind of the registrant. */
             kind: string;
           };
         };
@@ -12266,7 +12999,7 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
           /** The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
           bodyText?: string;
           /** How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-          bodyTextWrap?: string;
+          bodyTextWrap?: "none" | "wrap" | "ellipsis";
           /** The maximum width for wrapping text in the node. */
           bodyTextMaxWidth?: string;
           /** The opacity of the node's body text, including its outline. */
@@ -12306,13 +13039,13 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
           /** The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
           backgroundOffsetY?: string;
           /** How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-          backgroundFit?: string;
+          backgroundFit?: "none" | "contain" | "cover";
           /** How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-          backgroundClip?: string;
+          backgroundClip?: "none" | "node" | "node-border";
           /** How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-          backgroundWidthRelativeTo?: string;
+          backgroundWidthRelativeTo?: "none" | "inner" | "outer";
           /** How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-          backgroundHeightRelativeTo?: string;
+          backgroundHeightRelativeTo?: "none" | "inner" | "outer";
           /** The size of the node's border. */
           borderWidth?: number;
           /** The style of the node's border */
@@ -12578,6 +13311,7 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
             version: string;
           };
           registrant: {
+            /** Kind of the registrant. */
             kind: string;
           };
         };
@@ -12593,21 +13327,27 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
             from: {
               /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
               id?: string;
+              /** Kind of the resource. */
               kind?: string;
               /** Match configuration for selector */
               match?: {
+                /** The refs of the matchselector. */
                 refs?: string[][];
+                /** The from of the matchselector. */
                 from?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** The to of the matchselector. */
                 to?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -12632,6 +13372,7 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -12657,21 +13398,27 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
             to: {
               /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
               id?: string;
+              /** Kind of the resource. */
               kind?: string;
               /** Match configuration for selector */
               match?: {
+                /** The refs of the matchselector. */
                 refs?: string[][];
+                /** The from of the matchselector. */
                 from?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** The to of the matchselector. */
                 to?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -12696,6 +13443,7 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -12724,21 +13472,27 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
             from: {
               /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
               id?: string;
+              /** Kind of the resource. */
               kind?: string;
               /** Match configuration for selector */
               match?: {
+                /** The refs of the matchselector. */
                 refs?: string[][];
+                /** The from of the matchselector. */
                 from?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** The to of the matchselector. */
                 to?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -12763,6 +13517,7 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -12788,21 +13543,27 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
             to: {
               /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
               id?: string;
+              /** Kind of the resource. */
               kind?: string;
               /** Match configuration for selector */
               match?: {
+                /** The refs of the matchselector. */
                 refs?: string[][];
+                /** The from of the matchselector. */
                 from?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** The to of the matchselector. */
                 to?: {
                   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                   id?: string;
+                  /** Kind of the resource. */
                   kind: string;
                   /** JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -12827,6 +13588,7 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
                   version: string;
                 };
                 registrant: {
+                  /** Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -12856,12 +13618,15 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
     id?: string;
     visibility?: string;
   }[];
+  /** The filters of the catalogcontentpage. */
   filters?: {
     [key: string]: any;
   }[];
+  /** The models count of the catalogcontentpage. */
   modelsCount?: {
     [key: string]: any;
   }[];
+  /** The category count of the catalogcontentpage. */
   categoryCount?: {
     [key: string]: any;
   }[];
@@ -12905,7 +13670,9 @@ export type UnPublishCatalogContentApiArg = {
   };
 };
 export type GetCatalogContentClassesApiResponse = /** status 200 Catalog content classes */ {
+  /** The class of the catalogcontentclass. */
   class?: string;
+  /** Description of the catalogcontentclass. */
   description?: string;
   [key: string]: any;
 }[];
@@ -12964,9 +13731,13 @@ export type UpdateViewApiArg = {
   };
 };
 export type GetViewsApiResponse = /** status 200 Views page */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The views of the mesheryviewpage. */
   views?: {
     [key: string]: any;
   }[];
@@ -12997,6 +13768,7 @@ export type HandleResourceShareApiArg = {
   };
 };
 export type GetResourceAccessActorsByTypeApiResponse = /** status 200 Resource access actors */ {
+  /** The users of the resourceaccessactorsresponse. */
   users?: {
     [key: string]: any;
   }[];
@@ -13007,9 +13779,13 @@ export type GetResourceAccessActorsByTypeApiArg = {
   actorType: string;
 };
 export type GetCatalogRequestApiResponse = /** status 200 Catalog requests page */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The catalog requests of the catalogrequestspage. */
   catalogRequests?: {
     [key: string]: any;
   }[];
@@ -13039,6 +13815,7 @@ export type PostEventsDeleteApiResponse = /** status 200 event deleted */ {
 };
 export type PostEventsDeleteApiArg = {
   body: {
+    /** The ids of the bulkdeleterequest. */
     ids: string[];
   };
 };
@@ -13047,7 +13824,9 @@ export type PutEventsStatusApiResponse = /** status 200 Events updated */ {
 };
 export type PutEventsStatusApiArg = {
   body: {
+    /** The ids of the bulkupdatestatusrequest. */
     ids: string[];
+    /** Current status of the resource. */
     status: string;
   };
 };
@@ -13060,6 +13839,7 @@ export type PutEventsByIdStatusApiArg = {
   /** ID of the event */
   id: string;
   body: {
+    /** Current status of the resource. */
     status: string;
   };
 };
@@ -13067,13 +13847,19 @@ export type GetEventsOfWorkspaceApiResponse = /** status 200 Workspace events */
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The data of the eventspage. */
   data?: {
     user_id: string;
     system_id?: string;
+    /** The category of the event. */
     category: string;
+    /** The action of the event. */
     action: string;
+    /** Description of the event. */
     description?: string;
+    /** The first name of the event. */
     firstName?: string;
+    /** The last name of the event. */
     lastName?: string;
     /** email */
     email?: string;
@@ -13096,6 +13882,7 @@ export type GetEventsOfWorkspaceApiArg = {
   order?: string;
 };
 export type GetEventsAggregateApiResponse = /** status 200 Events aggregate */ {
+  /** The audit of the eventsaggregate. */
   audit?: number;
   [key: string]: any;
 };
@@ -13106,13 +13893,19 @@ export type GetEventsApiResponse = /** status 200 Events page */ {
   page?: number;
   page_size?: number;
   total_count?: number;
+  /** The data of the eventspage. */
   data?: {
     user_id: string;
     system_id?: string;
+    /** The category of the event. */
     category: string;
+    /** The action of the event. */
     action: string;
+    /** Description of the event. */
     description?: string;
+    /** The first name of the event. */
     firstName?: string;
+    /** The last name of the event. */
     lastName?: string;
     /** email */
     email?: string;
@@ -13135,9 +13928,13 @@ export type GetEventsApiArg = {
   filter?: string;
 };
 export type GetEventSummaryByUserApiResponse = /** status 200 Event summary page */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The data of the eventsummarypage. */
   data?: {
     [key: string]: any;
   }[];
@@ -13155,7 +13952,9 @@ export type GetEventSummaryByUserApiArg = {
   filter?: string;
 };
 export type GetEventTypesApiResponse = /** status 200 Event types */ {
+  /** The category of the eventtype. */
   category?: string;
+  /** The action of the eventtype. */
   action?: string;
 }[];
 export type GetEventTypesApiArg = {
@@ -13175,6 +13974,7 @@ export type GetInvitationApiResponse = /** status 200 undefined */ {
   name: string;
   /** Description of the invitation, which can be used to provide additional information about the invitation, null or empty string means the invitation does not have a description */
   description: string;
+  /** The emails of the invitation. */
   emails: string[];
   /** ID of the organization to which the user is invited */
   org_id: string;
@@ -13184,7 +13984,9 @@ export type GetInvitationApiResponse = /** status 200 undefined */ {
   quota?: number;
   /** List of user ids that have already accepted the invitation, null or empty string means the invitation has not been used yet */
   accepted_by: string[];
+  /** The roles of the invitation. */
   roles: string[];
+  /** The teams of the invitation. */
   teams: string[];
   /** Status of the invitation, where enabled means the invitation is active and can be used, disabled means the invitation is no longer valid and is temporarily inactive, disabled invitations can be re-enabled later. */
   status: "enabled" | "disabled";
@@ -13215,6 +14017,7 @@ export type UpdateInvitationApiResponse = /** status 200 undefined */ {
   name: string;
   /** Description of the invitation, which can be used to provide additional information about the invitation, null or empty string means the invitation does not have a description */
   description: string;
+  /** The emails of the invitation. */
   emails: string[];
   /** ID of the organization to which the user is invited */
   org_id: string;
@@ -13224,7 +14027,9 @@ export type UpdateInvitationApiResponse = /** status 200 undefined */ {
   quota?: number;
   /** List of user ids that have already accepted the invitation, null or empty string means the invitation has not been used yet */
   accepted_by: string[];
+  /** The roles of the invitation. */
   roles: string[];
+  /** The teams of the invitation. */
   teams: string[];
   /** Status of the invitation, where enabled means the invitation is active and can be used, disabled means the invitation is no longer valid and is temporarily inactive, disabled invitations can be re-enabled later. */
   status: "enabled" | "disabled";
@@ -13249,6 +14054,7 @@ export type UpdateInvitationApiArg = {
     name: string;
     /** Description of the invitation. */
     description: string;
+    /** The emails of the invitation. */
     emails: string[];
     /** ID of the organization to which the user is invited. */
     org_id: string;
@@ -13256,7 +14062,9 @@ export type UpdateInvitationApiArg = {
     expires_at?: string;
     /** Quota for the invitation. */
     quota?: number;
+    /** The roles of the invitation. */
     roles: string[];
+    /** The teams of the invitation. */
     teams: string[];
     /** Status of the invitation, where enabled means the invitation is active and can be used, disabled means the invitation is no longer valid and is temporarily inactive, disabled invitations can be re-enabled later. */
     status: "enabled" | "disabled";
@@ -13275,6 +14083,7 @@ export type GetInvitationsApiResponse = /** status 200 undefined */ {
     name: string;
     /** Description of the invitation, which can be used to provide additional information about the invitation, null or empty string means the invitation does not have a description */
     description: string;
+    /** The emails of the invitation. */
     emails: string[];
     /** ID of the organization to which the user is invited */
     org_id: string;
@@ -13284,7 +14093,9 @@ export type GetInvitationsApiResponse = /** status 200 undefined */ {
     quota?: number;
     /** List of user ids that have already accepted the invitation, null or empty string means the invitation has not been used yet */
     accepted_by: string[];
+    /** The roles of the invitation. */
     roles: string[];
+    /** The teams of the invitation. */
     teams: string[];
     /** Status of the invitation, where enabled means the invitation is active and can be used, disabled means the invitation is no longer valid and is temporarily inactive, disabled invitations can be re-enabled later. */
     status: "enabled" | "disabled";
@@ -13310,6 +14121,7 @@ export type CreateInvitationApiResponse = /** status 201 undefined */ {
   name: string;
   /** Description of the invitation, which can be used to provide additional information about the invitation, null or empty string means the invitation does not have a description */
   description: string;
+  /** The emails of the invitation. */
   emails: string[];
   /** ID of the organization to which the user is invited */
   org_id: string;
@@ -13319,7 +14131,9 @@ export type CreateInvitationApiResponse = /** status 201 undefined */ {
   quota?: number;
   /** List of user ids that have already accepted the invitation, null or empty string means the invitation has not been used yet */
   accepted_by: string[];
+  /** The roles of the invitation. */
   roles: string[];
+  /** The teams of the invitation. */
   teams: string[];
   /** Status of the invitation, where enabled means the invitation is active and can be used, disabled means the invitation is no longer valid and is temporarily inactive, disabled invitations can be re-enabled later. */
   status: "enabled" | "disabled";
@@ -13342,6 +14156,7 @@ export type CreateInvitationApiArg = {
     name: string;
     /** Description of the invitation. */
     description: string;
+    /** The emails of the invitation. */
     emails: string[];
     /** ID of the organization to which the user is invited. */
     org_id: string;
@@ -13349,7 +14164,9 @@ export type CreateInvitationApiArg = {
     expires_at?: string;
     /** Quota for the invitation. */
     quota?: number;
+    /** The roles of the invitation. */
     roles: string[];
+    /** The teams of the invitation. */
     teams: string[];
     /** Status of the invitation, where enabled means the invitation is active and can be used, disabled means the invitation is no longer valid and is temporarily inactive, disabled invitations can be re-enabled later. */
     status: "enabled" | "disabled";
@@ -13366,6 +14183,7 @@ export type AcceptInvitationApiResponse = /** status 200 undefined */ {
   name: string;
   /** Description of the invitation, which can be used to provide additional information about the invitation, null or empty string means the invitation does not have a description */
   description: string;
+  /** The emails of the invitation. */
   emails: string[];
   /** ID of the organization to which the user is invited */
   org_id: string;
@@ -13375,7 +14193,9 @@ export type AcceptInvitationApiResponse = /** status 200 undefined */ {
   quota?: number;
   /** List of user ids that have already accepted the invitation, null or empty string means the invitation has not been used yet */
   accepted_by: string[];
+  /** The roles of the invitation. */
   roles: string[];
+  /** The teams of the invitation. */
   teams: string[];
   /** Status of the invitation, where enabled means the invitation is active and can be used, disabled means the invitation is no longer valid and is temporarily inactive, disabled invitations can be re-enabled later. */
   status: "enabled" | "disabled";
@@ -13409,9 +14229,13 @@ export type SignupRequestApiArg = {
   };
 };
 export type GetSignupRequestsApiResponse = /** status 200 Signup requests page */ {
+  /** Current page number of the result set. */
   page?: number;
+  /** Number of items per page. */
   page_size?: number;
+  /** Total number of items available. */
   total_count?: number;
+  /** The data of the signuprequestspage. */
   data?: {
     [key: string]: any;
   }[];
@@ -13460,9 +14284,13 @@ export type GetPlansApiArg = {
   pagesize?: string;
 };
 export type GetSubscriptionsApiResponse = /** status 200 Get subscription response */ {
+  /** Current page number of the result set. */
   page: number;
+  /** Number of items per page. */
   page_size: number;
+  /** Total number of items available. */
   total_count: number;
+  /** Subscriptions returned in the current page of results. */
   subscriptions: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id: string;
@@ -13507,10 +14335,15 @@ export type GetSubscriptionsApiArg = {
   /** Filter subscriptions by status */
   status?: string[];
 };
+export type PostApiEntitlementSubscriptionsBySubscriptionIdCancelApiResponse = /** status 200 undefined */ {
+  /** Current page number of the result set. */
 export type CancelSubscriptionApiResponse = /** status 200 undefined */ {
   page: number;
+  /** Number of items per page. */
   page_size: number;
+  /** Total number of items available. */
   total_count: number;
+  /** Subscriptions returned in the current page of results. */
   subscriptions: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id: string;
@@ -13549,8 +14382,11 @@ export type CancelSubscriptionApiArg = {
   /** Subscription ID */
   subscriptionId: string;
 };
+export type PostApiEntitlementSubscriptionsCreateApiResponse = /** status 201 A new subscription has been created */ {
+  /** ID of the associated subscription. */
 export type CreateSubscriptionApiResponse = /** status 201 A new subscription has been created */ {
   subscriptionId?: string;
+  /** Client secret returned by the payment processor for the subscription checkout flow. */
   clientSecret?: string;
 };
 export type CreateSubscriptionApiArg = {
@@ -13629,6 +14465,7 @@ export type HandleSubscriptionWebhookApiArg = {
   body: object;
 };
 export type GetUserTokensApiResponse = /** status 200 Tokens response */ {
+  /** The tokens of the tokenpage. */
   tokens: {
     /** Unique identifier for the token. */
     id: string;
@@ -13671,6 +14508,7 @@ export type GetUserTokensApiArg = {
   order?: string;
 };
 export type GenerateTokenApiResponse = /** status 200 Token generated */ {
+  /** The tokens of the tokenpage. */
   tokens: {
     /** Unique identifier for the token. */
     id: string;
@@ -13707,6 +14545,7 @@ export type GenerateTokenApiArg = {
   purpose?: string;
 };
 export type DeleteUserTokenApiResponse = /** status 200 Token deleted */ {
+  /** The tokens of the tokenpage. */
   tokens: {
     /** Unique identifier for the token. */
     id: string;
@@ -13767,6 +14606,7 @@ export type GetUserTokensByIdApiArg = {
   id: string;
 };
 export type IssueIndefiniteLifetimeTokenApiResponse = /** status 200 Token generated */ {
+  /** The tokens of the tokenpage. */
   tokens: {
     /** Unique identifier for the token. */
     id: string;

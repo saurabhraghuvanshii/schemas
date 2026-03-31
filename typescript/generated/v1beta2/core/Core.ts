@@ -61,21 +61,31 @@ export interface components {
     Endpoint: string;
     RoleNames: string[];
     RecordsPage: {
+      /** @description Current page number of the result set. */
       page?: number;
+      /** @description Number of items per page. */
       page_size?: number;
+      /** @description The records total of the recordspage. */
       recordsTotal?: number;
+      /** @description The record type of the recordspage. */
       recordType?: string;
     };
     ResultsPage: {
+      /** @description Current page number of the result set. */
       page?: number;
+      /** @description Number of items per page. */
       page_size?: number;
+      /** @description Total number of items available. */
       total_count?: number;
+      /** @description The result type of the resultspage. */
       resultType?: string;
     };
     /** @description Body for empty request */
     Empty: { [key: string]: unknown };
     EmailPreference: {
+      /** @description The welcome email of the emailpreference. */
       welcomeEmail?: boolean;
+      /** @description The notify role change of the emailpreference. */
       notifyRoleChange?: boolean;
     };
     /** Format: uuid */
@@ -396,8 +406,11 @@ export interface components {
       };
       /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
       bodyText?: string;
-      /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-      bodyTextWrap?: string;
+      /**
+       * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+       * @enum {string}
+       */
+      bodyTextWrap?: "none" | "wrap" | "ellipsis";
       /** @description The maximum width for wrapping text in the node. */
       bodyTextMaxWidth?: string;
       /** @description The opacity of the node's body text, including its outline. */
@@ -420,7 +433,10 @@ export interface components {
       width?: number;
       /** @description The height of the node's body */
       height?: number;
-      /** @description The URL that points to the image to show in the node. */
+      /**
+       * Format: uri
+       * @description The URL that points to the image to show in the node.
+       */
       backgroundImage?: string;
       /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
       backgroundColor?: string;
@@ -436,14 +452,26 @@ export interface components {
       backgroundOffsetX?: string;
       /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
       backgroundOffsetY?: string;
-      /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-      backgroundFit?: string;
-      /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-      backgroundClip?: string;
-      /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-      backgroundWidthRelativeTo?: string;
-      /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-      backgroundHeightRelativeTo?: string;
+      /**
+       * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+       * @enum {string}
+       */
+      backgroundFit?: "none" | "contain" | "cover";
+      /**
+       * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+       * @enum {string}
+       */
+      backgroundClip?: "none" | "node" | "node-border";
+      /**
+       * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+       * @enum {string}
+       */
+      backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+      /**
+       * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+       * @enum {string}
+       */
+      backgroundHeightRelativeTo?: "none" | "inner" | "outer";
       /** @description The size of the node's border. */
       borderWidth?: number;
       /**
@@ -683,6 +711,7 @@ export interface components {
        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
        */
       immediateParentId: string;
+      /** @description The immediate ref field path of the nonresolvedalias. */
       immediateRefFieldPath: string[];
     };
     /** @description An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also */
@@ -702,6 +731,7 @@ export interface components {
        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
        */
       immediateParentId: string;
+      /** @description The immediate ref field path of the nonresolvedalias. */
       immediateRefFieldPath: string[];
     } & {
       /**
@@ -709,6 +739,7 @@ export interface components {
        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
        */
       resolvedParentId: string;
+      /** @description Fully resolved field path targeted by the alias. */
       resolvedRefFieldPath: string[];
     };
     /**

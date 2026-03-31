@@ -197,7 +197,9 @@ const ConnectionSchema: Record<string, unknown> = {
                             },
                             "x-order": 2,
                             "type": "string",
-                            "description": "Connection Name"
+                            "description": "Connection Name",
+                            "minLength": 1,
+                            "maxLength": 255
                           },
                           "credential_id": {
                             "x-go-name": "CredentialID",
@@ -221,7 +223,8 @@ const ConnectionSchema: Record<string, unknown> = {
                             },
                             "x-order": 4,
                             "type": "string",
-                            "description": "Connection Type (platform, telemetry, collaboration)"
+                            "description": "Connection Type (platform, telemetry, collaboration)",
+                            "maxLength": 255
                           },
                           "sub_type": {
                             "x-oapi-codegen-extra-tags": {
@@ -230,7 +233,8 @@ const ConnectionSchema: Record<string, unknown> = {
                             },
                             "x-order": 5,
                             "type": "string",
-                            "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)"
+                            "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)",
+                            "maxLength": 255
                           },
                           "kind": {
                             "x-oapi-codegen-extra-tags": {
@@ -239,7 +243,8 @@ const ConnectionSchema: Record<string, unknown> = {
                             },
                             "x-order": 6,
                             "type": "string",
-                            "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)"
+                            "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)",
+                            "maxLength": 255
                           },
                           "metadata": {
                             "x-oapi-codegen-extra-tags": {
@@ -540,17 +545,20 @@ const ConnectionSchema: Record<string, unknown> = {
                     "total_count": {
                       "type": "integer",
                       "description": "Total number of connections on all pages",
-                      "x-order": 2
+                      "x-order": 2,
+                      "minimum": 0
                     },
                     "page": {
                       "type": "integer",
                       "description": "Current page number",
-                      "x-order": 3
+                      "x-order": 3,
+                      "minimum": 0
                     },
                     "page_size": {
                       "type": "integer",
                       "description": "Number of elements per page",
-                      "x-order": 4
+                      "x-order": 4,
+                      "minimum": 1
                     },
                     "statusSummary": {
                       "type": "object",
@@ -620,21 +628,25 @@ const ConnectionSchema: Record<string, unknown> = {
                     "description": "Connection name",
                     "x-oapi-codegen-extra-tags": {
                       "json": "name"
-                    }
+                    },
+                    "minLength": 1,
+                    "maxLength": 255
                   },
                   "kind": {
                     "type": "string",
                     "description": "Connection kind",
                     "x-oapi-codegen-extra-tags": {
                       "json": "kind"
-                    }
+                    },
+                    "maxLength": 255
                   },
                   "type": {
                     "type": "string",
                     "description": "Connection type",
                     "x-oapi-codegen-extra-tags": {
                       "json": "type"
-                    }
+                    },
+                    "maxLength": 255
                   },
                   "sub_type": {
                     "type": "string",
@@ -642,7 +654,8 @@ const ConnectionSchema: Record<string, unknown> = {
                     "x-oapi-codegen-extra-tags": {
                       "db": "sub_type",
                       "json": "sub_type"
-                    }
+                    },
+                    "maxLength": 255
                   },
                   "credentialSecret": {
                     "type": "object",
@@ -673,7 +686,8 @@ const ConnectionSchema: Record<string, unknown> = {
                     "description": "Connection status",
                     "x-oapi-codegen-extra-tags": {
                       "json": "status"
-                    }
+                    },
+                    "maxLength": 255
                   },
                   "credential_id": {
                     "type": "string",
@@ -739,7 +753,9 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 2,
                       "type": "string",
-                      "description": "Connection Name"
+                      "description": "Connection Name",
+                      "minLength": 1,
+                      "maxLength": 255
                     },
                     "credential_id": {
                       "x-go-name": "CredentialID",
@@ -763,7 +779,8 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 4,
                       "type": "string",
-                      "description": "Connection Type (platform, telemetry, collaboration)"
+                      "description": "Connection Type (platform, telemetry, collaboration)",
+                      "maxLength": 255
                     },
                     "sub_type": {
                       "x-oapi-codegen-extra-tags": {
@@ -772,7 +789,8 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 5,
                       "type": "string",
-                      "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)"
+                      "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)",
+                      "maxLength": 255
                     },
                     "kind": {
                       "x-oapi-codegen-extra-tags": {
@@ -781,7 +799,8 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 6,
                       "type": "string",
-                      "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)"
+                      "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)",
+                      "maxLength": 255
                     },
                     "metadata": {
                       "x-oapi-codegen-extra-tags": {
@@ -1176,7 +1195,9 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 2,
                       "type": "string",
-                      "description": "Connection Name"
+                      "description": "Connection Name",
+                      "minLength": 1,
+                      "maxLength": 255
                     },
                     "credential_id": {
                       "x-go-name": "CredentialID",
@@ -1200,7 +1221,8 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 4,
                       "type": "string",
-                      "description": "Connection Type (platform, telemetry, collaboration)"
+                      "description": "Connection Type (platform, telemetry, collaboration)",
+                      "maxLength": 255
                     },
                     "sub_type": {
                       "x-oapi-codegen-extra-tags": {
@@ -1209,7 +1231,8 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 5,
                       "type": "string",
-                      "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)"
+                      "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)",
+                      "maxLength": 255
                     },
                     "kind": {
                       "x-oapi-codegen-extra-tags": {
@@ -1218,7 +1241,8 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 6,
                       "type": "string",
-                      "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)"
+                      "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)",
+                      "maxLength": 255
                     },
                     "metadata": {
                       "x-oapi-codegen-extra-tags": {
@@ -1590,21 +1614,25 @@ const ConnectionSchema: Record<string, unknown> = {
                     "description": "Connection name",
                     "x-oapi-codegen-extra-tags": {
                       "json": "name"
-                    }
+                    },
+                    "minLength": 1,
+                    "maxLength": 255
                   },
                   "kind": {
                     "type": "string",
                     "description": "Connection kind",
                     "x-oapi-codegen-extra-tags": {
                       "json": "kind"
-                    }
+                    },
+                    "maxLength": 255
                   },
                   "type": {
                     "type": "string",
                     "description": "Connection type",
                     "x-oapi-codegen-extra-tags": {
                       "json": "type"
-                    }
+                    },
+                    "maxLength": 255
                   },
                   "sub_type": {
                     "type": "string",
@@ -1612,7 +1640,8 @@ const ConnectionSchema: Record<string, unknown> = {
                     "x-oapi-codegen-extra-tags": {
                       "db": "sub_type",
                       "json": "sub_type"
-                    }
+                    },
+                    "maxLength": 255
                   },
                   "credentialSecret": {
                     "type": "object",
@@ -1643,7 +1672,8 @@ const ConnectionSchema: Record<string, unknown> = {
                     "description": "Connection status",
                     "x-oapi-codegen-extra-tags": {
                       "json": "status"
-                    }
+                    },
+                    "maxLength": 255
                   },
                   "credential_id": {
                     "type": "string",
@@ -1709,7 +1739,9 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 2,
                       "type": "string",
-                      "description": "Connection Name"
+                      "description": "Connection Name",
+                      "minLength": 1,
+                      "maxLength": 255
                     },
                     "credential_id": {
                       "x-go-name": "CredentialID",
@@ -1733,7 +1765,8 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 4,
                       "type": "string",
-                      "description": "Connection Type (platform, telemetry, collaboration)"
+                      "description": "Connection Type (platform, telemetry, collaboration)",
+                      "maxLength": 255
                     },
                     "sub_type": {
                       "x-oapi-codegen-extra-tags": {
@@ -1742,7 +1775,8 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 5,
                       "type": "string",
-                      "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)"
+                      "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)",
+                      "maxLength": 255
                     },
                     "kind": {
                       "x-oapi-codegen-extra-tags": {
@@ -1751,7 +1785,8 @@ const ConnectionSchema: Record<string, unknown> = {
                       },
                       "x-order": 6,
                       "type": "string",
-                      "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)"
+                      "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)",
+                      "maxLength": 255
                     },
                     "metadata": {
                       "x-oapi-codegen-extra-tags": {
@@ -2570,7 +2605,9 @@ const ConnectionSchema: Record<string, unknown> = {
             },
             "x-order": 2,
             "type": "string",
-            "description": "Connection Name"
+            "description": "Connection Name",
+            "minLength": 1,
+            "maxLength": 255
           },
           "credential_id": {
             "x-go-name": "CredentialID",
@@ -2594,7 +2631,8 @@ const ConnectionSchema: Record<string, unknown> = {
             },
             "x-order": 4,
             "type": "string",
-            "description": "Connection Type (platform, telemetry, collaboration)"
+            "description": "Connection Type (platform, telemetry, collaboration)",
+            "maxLength": 255
           },
           "sub_type": {
             "x-oapi-codegen-extra-tags": {
@@ -2603,7 +2641,8 @@ const ConnectionSchema: Record<string, unknown> = {
             },
             "x-order": 5,
             "type": "string",
-            "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)"
+            "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)",
+            "maxLength": 255
           },
           "kind": {
             "x-oapi-codegen-extra-tags": {
@@ -2612,7 +2651,8 @@ const ConnectionSchema: Record<string, unknown> = {
             },
             "x-order": 6,
             "type": "string",
-            "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)"
+            "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)",
+            "maxLength": 255
           },
           "metadata": {
             "x-oapi-codegen-extra-tags": {
@@ -2961,7 +3001,9 @@ const ConnectionSchema: Record<string, unknown> = {
                   },
                   "x-order": 2,
                   "type": "string",
-                  "description": "Connection Name"
+                  "description": "Connection Name",
+                  "minLength": 1,
+                  "maxLength": 255
                 },
                 "credential_id": {
                   "x-go-name": "CredentialID",
@@ -2985,7 +3027,8 @@ const ConnectionSchema: Record<string, unknown> = {
                   },
                   "x-order": 4,
                   "type": "string",
-                  "description": "Connection Type (platform, telemetry, collaboration)"
+                  "description": "Connection Type (platform, telemetry, collaboration)",
+                  "maxLength": 255
                 },
                 "sub_type": {
                   "x-oapi-codegen-extra-tags": {
@@ -2994,7 +3037,8 @@ const ConnectionSchema: Record<string, unknown> = {
                   },
                   "x-order": 5,
                   "type": "string",
-                  "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)"
+                  "description": "Connection Subtype (cloud, identity, metrics, chat, git, orchestration)",
+                  "maxLength": 255
                 },
                 "kind": {
                   "x-oapi-codegen-extra-tags": {
@@ -3003,7 +3047,8 @@ const ConnectionSchema: Record<string, unknown> = {
                   },
                   "x-order": 6,
                   "type": "string",
-                  "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)"
+                  "description": "Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)",
+                  "maxLength": 255
                 },
                 "metadata": {
                   "x-oapi-codegen-extra-tags": {
@@ -3304,17 +3349,20 @@ const ConnectionSchema: Record<string, unknown> = {
           "total_count": {
             "type": "integer",
             "description": "Total number of connections on all pages",
-            "x-order": 2
+            "x-order": 2,
+            "minimum": 0
           },
           "page": {
             "type": "integer",
             "description": "Current page number",
-            "x-order": 3
+            "x-order": 3,
+            "minimum": 0
           },
           "page_size": {
             "type": "integer",
             "description": "Number of elements per page",
-            "x-order": 4
+            "x-order": 4,
+            "minimum": 1
           },
           "statusSummary": {
             "type": "object",
@@ -3363,21 +3411,25 @@ const ConnectionSchema: Record<string, unknown> = {
             "description": "Connection name",
             "x-oapi-codegen-extra-tags": {
               "json": "name"
-            }
+            },
+            "minLength": 1,
+            "maxLength": 255
           },
           "kind": {
             "type": "string",
             "description": "Connection kind",
             "x-oapi-codegen-extra-tags": {
               "json": "kind"
-            }
+            },
+            "maxLength": 255
           },
           "type": {
             "type": "string",
             "description": "Connection type",
             "x-oapi-codegen-extra-tags": {
               "json": "type"
-            }
+            },
+            "maxLength": 255
           },
           "sub_type": {
             "type": "string",
@@ -3416,7 +3468,8 @@ const ConnectionSchema: Record<string, unknown> = {
             "description": "Connection status",
             "x-oapi-codegen-extra-tags": {
               "json": "status"
-            }
+            },
+            "maxLength": 255
           },
           "credential_id": {
             "type": "string",
@@ -3446,7 +3499,8 @@ const ConnectionSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "json": "status",
               "db": "status"
-            }
+            },
+            "maxLength": 255
           },
           "count": {
             "type": "integer",
@@ -3454,7 +3508,8 @@ const ConnectionSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "json": "count",
               "db": "count"
-            }
+            },
+            "minimum": 0
           }
         },
         "required": [
@@ -3471,21 +3526,24 @@ const ConnectionSchema: Record<string, unknown> = {
             "description": "Total number of status entries",
             "x-oapi-codegen-extra-tags": {
               "json": "total_count"
-            }
+            },
+            "minimum": 0
           },
           "page": {
             "type": "integer",
             "description": "Current page number",
             "x-oapi-codegen-extra-tags": {
               "json": "page"
-            }
+            },
+            "minimum": 0
           },
           "page_size": {
             "type": "integer",
             "description": "Number of items per page",
             "x-oapi-codegen-extra-tags": {
               "json": "page_size"
-            }
+            },
+            "minimum": 1
           },
           "connectionsStatus": {
             "type": "array",
@@ -3500,7 +3558,8 @@ const ConnectionSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "json": "status",
                     "db": "status"
-                  }
+                  },
+                  "maxLength": 255
                 },
                 "count": {
                   "type": "integer",
@@ -3508,7 +3567,8 @@ const ConnectionSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "json": "count",
                     "db": "count"
-                  }
+                  },
+                  "minimum": 0
                 }
               },
               "required": [
@@ -3538,7 +3598,9 @@ const ConnectionSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "json": "id,omitempty",
               "db": "id"
-            }
+            },
+            "maxLength": 500,
+            "format": "uuid"
           },
           "name": {
             "type": "string",
@@ -3546,7 +3608,9 @@ const ConnectionSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "json": "name,omitempty",
               "db": "name"
-            }
+            },
+            "minLength": 1,
+            "maxLength": 255
           },
           "server_id": {
             "type": "string",
@@ -3555,7 +3619,9 @@ const ConnectionSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "json": "server_id,omitempty",
               "db": "server_id"
-            }
+            },
+            "maxLength": 500,
+            "format": "uuid"
           },
           "server_version": {
             "type": "string",
@@ -3563,7 +3629,8 @@ const ConnectionSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "json": "server_version,omitempty",
               "db": "server_version"
-            }
+            },
+            "maxLength": 500
           },
           "server_location": {
             "type": "string",
@@ -3571,7 +3638,8 @@ const ConnectionSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "json": "server_location,omitempty",
               "db": "server_location"
-            }
+            },
+            "maxLength": 500
           },
           "server_build_sha": {
             "type": "string",
@@ -3580,7 +3648,8 @@ const ConnectionSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "json": "server_build_sha,omitempty",
               "db": "server_build_sha"
-            }
+            },
+            "maxLength": 500
           },
           "created_at": {
             "type": "string",
@@ -3588,7 +3657,8 @@ const ConnectionSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "json": "created_at,omitempty",
               "db": "created_at"
-            }
+            },
+            "format": "date-time"
           },
           "updated_at": {
             "type": "string",
@@ -3596,7 +3666,8 @@ const ConnectionSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "json": "updated_at,omitempty",
               "db": "updated_at"
-            }
+            },
+            "format": "date-time"
           },
           "deleted_at": {
             "type": "string",
@@ -3604,7 +3675,8 @@ const ConnectionSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "json": "deleted_at,omitempty",
               "db": "deleted_at"
-            }
+            },
+            "format": "date-time"
           }
         }
       },
@@ -3625,7 +3697,9 @@ const ConnectionSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "json": "id,omitempty",
                     "db": "id"
-                  }
+                  },
+                  "maxLength": 500,
+                  "format": "uuid"
                 },
                 "name": {
                   "type": "string",
@@ -3633,7 +3707,9 @@ const ConnectionSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "json": "name,omitempty",
                     "db": "name"
-                  }
+                  },
+                  "minLength": 1,
+                  "maxLength": 255
                 },
                 "server_id": {
                   "type": "string",
@@ -3642,7 +3718,9 @@ const ConnectionSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "json": "server_id,omitempty",
                     "db": "server_id"
-                  }
+                  },
+                  "maxLength": 500,
+                  "format": "uuid"
                 },
                 "server_version": {
                   "type": "string",
@@ -3650,7 +3728,8 @@ const ConnectionSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "json": "server_version,omitempty",
                     "db": "server_version"
-                  }
+                  },
+                  "maxLength": 500
                 },
                 "server_location": {
                   "type": "string",
@@ -3658,7 +3737,8 @@ const ConnectionSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "json": "server_location,omitempty",
                     "db": "server_location"
-                  }
+                  },
+                  "maxLength": 500
                 },
                 "server_build_sha": {
                   "type": "string",
@@ -3667,7 +3747,8 @@ const ConnectionSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "json": "server_build_sha,omitempty",
                     "db": "server_build_sha"
-                  }
+                  },
+                  "maxLength": 500
                 },
                 "created_at": {
                   "type": "string",
@@ -3675,7 +3756,8 @@ const ConnectionSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "json": "created_at,omitempty",
                     "db": "created_at"
-                  }
+                  },
+                  "format": "date-time"
                 },
                 "updated_at": {
                   "type": "string",
@@ -3683,7 +3765,8 @@ const ConnectionSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "json": "updated_at,omitempty",
                     "db": "updated_at"
-                  }
+                  },
+                  "format": "date-time"
                 },
                 "deleted_at": {
                   "type": "string",
@@ -3691,7 +3774,8 @@ const ConnectionSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "json": "deleted_at,omitempty",
                     "db": "deleted_at"
-                  }
+                  },
+                  "format": "date-time"
                 }
               }
             },
@@ -3704,21 +3788,24 @@ const ConnectionSchema: Record<string, unknown> = {
             "description": "Current page number",
             "x-oapi-codegen-extra-tags": {
               "json": "page"
-            }
+            },
+            "minimum": 0
           },
           "page_size": {
             "type": "integer",
             "description": "Number of items per page",
             "x-oapi-codegen-extra-tags": {
               "json": "page_size"
-            }
+            },
+            "minimum": 1
           },
           "total_count": {
             "type": "integer",
             "description": "Total number of instances",
             "x-oapi-codegen-extra-tags": {
               "json": "total_count"
-            }
+            },
+            "minimum": 0
           }
         },
         "required": [
@@ -3737,7 +3824,8 @@ const ConnectionSchema: Record<string, unknown> = {
             "description": "Meshery version string",
             "x-oapi-codegen-extra-tags": {
               "json": "mesheryVersion,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "checkCompatibility": {
             "type": "boolean",

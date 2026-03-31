@@ -42,6 +42,7 @@ properties:
     x-oapi-codegen-extra-tags:
       yaml: description
       json: description
+    maxLength: 5000
   format:
     x-order: 6
     type: string
@@ -241,6 +242,7 @@ properties:
         x-order: 1
         type: string
         description: Genealogy represents the various representational states of the component.
+        maxLength: 1000
       isAnnotation:
         x-order: 2
         type: boolean
@@ -262,6 +264,7 @@ properties:
         x-order: 6
         type: string
         description: "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+        maxLength: 20000
     x-oapi-codegen-extra-tags:
       gorm: type:bytes;serializer:json
     additionalProperties: true

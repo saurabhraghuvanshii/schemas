@@ -156,7 +156,8 @@ const KeySchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "function"
                             },
-                            "x-order": 3
+                            "x-order": 3,
+                            "maxLength": 500
                           },
                           "category": {
                             "type": "string",
@@ -164,7 +165,8 @@ const KeySchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "category"
                             },
-                            "x-order": 4
+                            "x-order": 4,
+                            "maxLength": 500
                           },
                           "subcategory": {
                             "type": "string",
@@ -172,7 +174,8 @@ const KeySchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "subcategory"
                             },
-                            "x-order": 5
+                            "x-order": 5,
+                            "maxLength": 500
                           },
                           "description": {
                             "type": "string",
@@ -180,7 +183,8 @@ const KeySchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "description"
                             },
-                            "x-order": 6
+                            "x-order": 6,
+                            "maxLength": 5000
                           },
                           "created_at": {
                             "x-order": 7,
@@ -225,7 +229,8 @@ const KeySchema: Record<string, unknown> = {
                           }
                         }
                       },
-                      "x-order": 4
+                      "x-order": 4,
+                      "description": "The keys of the keypage."
                     }
                   }
                 }
@@ -389,7 +394,8 @@ const KeySchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "function"
                             },
-                            "x-order": 3
+                            "x-order": 3,
+                            "maxLength": 500
                           },
                           "category": {
                             "type": "string",
@@ -397,7 +403,8 @@ const KeySchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "category"
                             },
-                            "x-order": 4
+                            "x-order": 4,
+                            "maxLength": 500
                           },
                           "subcategory": {
                             "type": "string",
@@ -405,7 +412,8 @@ const KeySchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "subcategory"
                             },
-                            "x-order": 5
+                            "x-order": 5,
+                            "maxLength": 500
                           },
                           "description": {
                             "type": "string",
@@ -413,7 +421,8 @@ const KeySchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "description"
                             },
-                            "x-order": 6
+                            "x-order": 6,
+                            "maxLength": 5000
                           },
                           "created_at": {
                             "x-order": 7,
@@ -458,7 +467,8 @@ const KeySchema: Record<string, unknown> = {
                           }
                         }
                       },
-                      "x-order": 4
+                      "x-order": 4,
+                      "description": "The keys of the keypage."
                     }
                   }
                 }
@@ -527,22 +537,26 @@ const KeySchema: Record<string, unknown> = {
                   "function": {
                     "type": "string",
                     "description": "Operation permitted by the key.",
-                    "x-order": 2
+                    "x-order": 2,
+                    "maxLength": 500
                   },
                   "category": {
                     "type": "string",
                     "description": "Category for the key.",
-                    "x-order": 3
+                    "x-order": 3,
+                    "maxLength": 500
                   },
                   "subcategory": {
                     "type": "string",
                     "description": "Subcategory for the key.",
-                    "x-order": 4
+                    "x-order": 4,
+                    "maxLength": 500
                   },
                   "description": {
                     "type": "string",
                     "description": "Human readable description of the key.",
-                    "x-order": 5
+                    "x-order": 5,
+                    "maxLength": 5000
                   }
                 }
               }
@@ -603,7 +617,8 @@ const KeySchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "function"
                       },
-                      "x-order": 3
+                      "x-order": 3,
+                      "maxLength": 500
                     },
                     "category": {
                       "type": "string",
@@ -611,7 +626,8 @@ const KeySchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "category"
                       },
-                      "x-order": 4
+                      "x-order": 4,
+                      "maxLength": 500
                     },
                     "subcategory": {
                       "type": "string",
@@ -619,7 +635,8 @@ const KeySchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "subcategory"
                       },
-                      "x-order": 5
+                      "x-order": 5,
+                      "maxLength": 500
                     },
                     "description": {
                       "type": "string",
@@ -627,7 +644,8 @@ const KeySchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "description"
                       },
-                      "x-order": 6
+                      "x-order": 6,
+                      "maxLength": 5000
                     },
                     "created_at": {
                       "x-order": 7,
@@ -789,7 +807,8 @@ const KeySchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "function"
                       },
-                      "x-order": 3
+                      "x-order": 3,
+                      "maxLength": 500
                     },
                     "category": {
                       "type": "string",
@@ -797,7 +816,8 @@ const KeySchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "category"
                       },
-                      "x-order": 4
+                      "x-order": 4,
+                      "maxLength": 500
                     },
                     "subcategory": {
                       "type": "string",
@@ -805,7 +825,8 @@ const KeySchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "subcategory"
                       },
-                      "x-order": 5
+                      "x-order": 5,
+                      "maxLength": 500
                     },
                     "description": {
                       "type": "string",
@@ -813,7 +834,8 @@ const KeySchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "description"
                       },
-                      "x-order": 6
+                      "x-order": 6,
+                      "maxLength": 5000
                     },
                     "created_at": {
                       "x-order": 7,
@@ -1141,7 +1163,8 @@ const KeySchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "db": "function"
             },
-            "x-order": 3
+            "x-order": 3,
+            "maxLength": 500
           },
           "category": {
             "type": "string",
@@ -1149,7 +1172,8 @@ const KeySchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "db": "category"
             },
-            "x-order": 4
+            "x-order": 4,
+            "maxLength": 500
           },
           "subcategory": {
             "type": "string",
@@ -1157,7 +1181,8 @@ const KeySchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "db": "subcategory"
             },
-            "x-order": 5
+            "x-order": 5,
+            "maxLength": 500
           },
           "description": {
             "type": "string",
@@ -1165,7 +1190,8 @@ const KeySchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "db": "description"
             },
-            "x-order": 6
+            "x-order": 6,
+            "maxLength": 5000
           },
           "created_at": {
             "x-order": 7,
@@ -1227,22 +1253,26 @@ const KeySchema: Record<string, unknown> = {
           "function": {
             "type": "string",
             "description": "Operation permitted by the key.",
-            "x-order": 2
+            "x-order": 2,
+            "maxLength": 500
           },
           "category": {
             "type": "string",
             "description": "Category for the key.",
-            "x-order": 3
+            "x-order": 3,
+            "maxLength": 500
           },
           "subcategory": {
             "type": "string",
             "description": "Subcategory for the key.",
-            "x-order": 4
+            "x-order": 4,
+            "maxLength": 500
           },
           "description": {
             "type": "string",
             "description": "Human readable description of the key.",
-            "x-order": 5
+            "x-order": 5,
+            "maxLength": 5000
           }
         }
       },
@@ -1321,7 +1351,8 @@ const KeySchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "db": "function"
                   },
-                  "x-order": 3
+                  "x-order": 3,
+                  "maxLength": 500
                 },
                 "category": {
                   "type": "string",
@@ -1329,7 +1360,8 @@ const KeySchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "db": "category"
                   },
-                  "x-order": 4
+                  "x-order": 4,
+                  "maxLength": 500
                 },
                 "subcategory": {
                   "type": "string",
@@ -1337,7 +1369,8 @@ const KeySchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "db": "subcategory"
                   },
-                  "x-order": 5
+                  "x-order": 5,
+                  "maxLength": 500
                 },
                 "description": {
                   "type": "string",
@@ -1345,7 +1378,8 @@ const KeySchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "db": "description"
                   },
-                  "x-order": 6
+                  "x-order": 6,
+                  "maxLength": 5000
                 },
                 "created_at": {
                   "x-order": 7,
@@ -1390,7 +1424,8 @@ const KeySchema: Record<string, unknown> = {
                 }
               }
             },
-            "x-order": 4
+            "x-order": 4,
+            "description": "The keys of the keypage."
           }
         }
       }

@@ -143,10 +143,14 @@ const DesignSchema: Record<string, unknown> = {
                   "type": "object",
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "patterns": {
                       "type": "array",
@@ -165,7 +169,8 @@ const DesignSchema: Record<string, unknown> = {
                             "properties": {
                               "publishedVersion": {
                                 "description": "Tracks the specific content version that has been made available in the Catalog.",
-                                "type": "string"
+                                "type": "string",
+                                "maxLength": 500
                               },
                               "class": {
                                 "description": "Published content is classifed by its support level. Content classes help you understand the origin and expected support level for each piece of content. It is important to note that the level of support may vary within each class, and you should exercise discretion when using community-contributed content. Content produced and fully supported by Meshery maintainers. This represents the highest level of support and is considered the most reliable. Content produced by partners and verified by Meshery maintainers. While not directly maintained by Meshery, it has undergone a verification process to ensure quality and compatibility. Content produced and supported by the respective project or organization responsible for the specific technology. This class offers a level of support from the project maintainers themselves. Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Community content may have varying levels of support and reliability.",
@@ -183,7 +188,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "const": "reference architecture",
                                     "description": "Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Reference architecture content may have varying levels of support and reliability."
                                   }
-                                ]
+                                ],
+                                "maxLength": 500
                               },
                               "compatibility": {
                                 "type": "array",
@@ -201,7 +207,8 @@ const DesignSchema: Record<string, unknown> = {
                               "patternCaveats": {
                                 "type": "string",
                                 "title": "Caveats and Considerations",
-                                "description": "Specific stipulations to consider and known behaviors to be aware of when using this design."
+                                "description": "Specific stipulations to consider and known behaviors to be aware of when using this design.",
+                                "maxLength": 500
                               },
                               "patternInfo": {
                                 "type": "string",
@@ -289,7 +296,9 @@ const DesignSchema: Record<string, unknown> = {
                               "name": {
                                 "type": "string",
                                 "description": "Name of the design; a descriptive, but concise title for the design document.",
-                                "x-order": 2
+                                "x-order": 2,
+                                "minLength": 1,
+                                "maxLength": 255
                               },
                               "schemaVersion": {
                                 "description": "Specifies the version of the schema to which the design conforms.",
@@ -367,7 +376,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "type": "array",
                                               "items": {
                                                 "type": "string"
-                                              }
+                                              },
+                                              "description": "The immediate ref field path of the nonresolvedalias."
                                             }
                                           },
                                           "required": [
@@ -391,6 +401,7 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "resolvedRefFieldPath": {
                                               "type": "array",
+                                              "description": "Fully resolved field path targeted by the alias.",
                                               "items": {
                                                 "type": "string"
                                               }
@@ -404,7 +415,8 @@ const DesignSchema: Record<string, unknown> = {
                                       ]
                                     }
                                   }
-                                }
+                                },
+                                "description": "Additional metadata associated with this resource."
                               },
                               "components": {
                                 "description": "A list of one or more component declarations.",
@@ -489,7 +501,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "x-oapi-codegen-extra-tags": {
                                             "yaml": "description",
                                             "json": "description"
-                                          }
+                                          },
+                                          "maxLength": 5000
                                         },
                                         "format": {
                                           "x-order": 6,
@@ -1256,7 +1269,8 @@ const DesignSchema: Record<string, unknown> = {
                                                       },
                                                       "description": {
                                                         "type": "string",
-                                                        "description": "A written representation of the purpose and characteristics of the capability."
+                                                        "description": "A written representation of the purpose and characteristics of the capability.",
+                                                        "maxLength": 5000
                                                       },
                                                       "kind": {
                                                         "description": "Top-level categorization of the capability",
@@ -1524,7 +1538,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 "gorm": "-",
                                                 "json": "relationships",
                                                 "yaml": "relationships"
-                                              }
+                                              },
+                                              "description": "The relationships of the model."
                                             },
                                             "components": {
                                               "type": "array",
@@ -1533,7 +1548,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 "gorm": "-",
                                                 "json": "components",
                                                 "yaml": "components"
-                                              }
+                                              },
+                                              "description": "The components of the model."
                                             },
                                             "componentsCount": {
                                               "type": "integer",
@@ -1544,7 +1560,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 "yaml": "components_count",
                                                 "gorm": "-"
                                               },
-                                              "default": 0
+                                              "default": 0,
+                                              "minimum": 0
                                             },
                                             "relationshipsCount": {
                                               "type": "integer",
@@ -1555,7 +1572,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 "json": "relationships_count",
                                                 "yaml": "relationships_count"
                                               },
-                                              "default": 0
+                                              "default": 0,
+                                              "minimum": 0
                                             },
                                             "created_at": {
                                               "x-order": 14,
@@ -1690,7 +1708,9 @@ const DesignSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -1745,27 +1765,33 @@ const DesignSchema: Record<string, unknown> = {
                                               "properties": {
                                                 "primaryColor": {
                                                   "type": "string",
-                                                  "description": "Primary color of the component used for UI representation."
+                                                  "description": "Primary color of the component used for UI representation.",
+                                                  "maxLength": 500
                                                 },
                                                 "secondaryColor": {
                                                   "type": "string",
-                                                  "description": "Secondary color of the entity used for UI representation."
+                                                  "description": "Secondary color of the entity used for UI representation.",
+                                                  "maxLength": 500
                                                 },
                                                 "svgWhite": {
                                                   "type": "string",
-                                                  "description": "White SVG of the entity used for UI representation on dark background."
+                                                  "description": "White SVG of the entity used for UI representation on dark background.",
+                                                  "maxLength": 500
                                                 },
                                                 "svgColor": {
                                                   "type": "string",
-                                                  "description": "Colored SVG of the entity used for UI representation on light background."
+                                                  "description": "Colored SVG of the entity used for UI representation on light background.",
+                                                  "maxLength": 500
                                                 },
                                                 "svgComplete": {
                                                   "type": "string",
-                                                  "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                                                  "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                                                  "maxLength": 500
                                                 },
                                                 "color": {
                                                   "type": "string",
-                                                  "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 500
                                                 },
                                                 "textOpacity": {
                                                   "type": "number",
@@ -1775,19 +1801,23 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "fontFamily": {
                                                   "type": "string",
-                                                  "description": "A comma-separated list of font names to use on the label text."
+                                                  "description": "A comma-separated list of font names to use on the label text.",
+                                                  "maxLength": 500
                                                 },
                                                 "fontSize": {
                                                   "type": "string",
-                                                  "description": "The size of the label text."
+                                                  "description": "The size of the label text.",
+                                                  "maxLength": 500
                                                 },
                                                 "fontStyle": {
                                                   "type": "string",
-                                                  "description": "A CSS font style to be applied to the label text."
+                                                  "description": "A CSS font style to be applied to the label text.",
+                                                  "maxLength": 500
                                                 },
                                                 "fontWeight": {
                                                   "type": "string",
-                                                  "description": "A CSS font weight to be applied to the label text."
+                                                  "description": "A CSS font weight to be applied to the label text.",
+                                                  "maxLength": 500
                                                 },
                                                 "textTransform": {
                                                   "type": "string",
@@ -1806,11 +1836,13 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "zIndex": {
                                                   "type": "integer",
-                                                  "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                                                  "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                                                  "minimum": 0
                                                 },
                                                 "label": {
                                                   "type": "string",
-                                                  "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                                                  "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                                                  "maxLength": 500
                                                 },
                                                 "animation": {
                                                   "type": "object",
@@ -1864,26 +1896,37 @@ const DesignSchema: Record<string, unknown> = {
                                                     "x": {
                                                       "type": "number",
                                                       "description": "The x-coordinate of the node.",
+                                                      "minimum": -1000000,
+                                                      "maximum": 1000000,
                                                       "x-go-type": "float64"
                                                     },
                                                     "y": {
                                                       "type": "number",
                                                       "description": "The y-coordinate of the node.",
+                                                      "minimum": -1000000,
+                                                      "maximum": 1000000,
                                                       "x-go-type": "float64"
                                                     }
                                                   }
                                                 },
                                                 "bodyText": {
                                                   "type": "string",
-                                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                                  "maxLength": 500
                                                 },
                                                 "bodyTextWrap": {
                                                   "type": "string",
-                                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "wrap",
+                                                    "ellipsis"
+                                                  ]
                                                 },
                                                 "bodyTextMaxWidth": {
                                                   "type": "string",
-                                                  "description": "The maximum width for wrapping text in the node."
+                                                  "description": "The maximum width for wrapping text in the node.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextOpacity": {
                                                   "type": "number",
@@ -1893,47 +1936,59 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "bodyTextBackgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextFontSize": {
                                                   "type": "number",
-                                                  "description": "The size of the node's body text."
+                                                  "description": "The size of the node's body text.",
+                                                  "minimum": 0
                                                 },
                                                 "bodyTextColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextFontWeight": {
                                                   "type": "string",
-                                                  "description": "A CSS font weight to be applied to the node's body text."
+                                                  "description": "A CSS font weight to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextHorizontalAlign": {
                                                   "type": "string",
-                                                  "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                                  "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextDecoration": {
                                                   "type": "string",
-                                                  "description": "A CSS text decoration to be applied to the node's body text."
+                                                  "description": "A CSS text decoration to be applied to the node's body text.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextVerticalAlign": {
                                                   "type": "string",
-                                                  "description": "A CSS vertical alignment to be applied to the node's body text."
+                                                  "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "width": {
                                                   "type": "number",
-                                                  "description": "The width of the node's body or the width of an edge's line."
+                                                  "description": "The width of the node's body or the width of an edge's line.",
+                                                  "minimum": 0
                                                 },
                                                 "height": {
                                                   "type": "number",
-                                                  "description": "The height of the node's body"
+                                                  "description": "The height of the node's body",
+                                                  "minimum": 0
                                                 },
                                                 "backgroundImage": {
                                                   "type": "string",
-                                                  "description": "The URL that points to the image to show in the node."
+                                                  "format": "uri",
+                                                  "description": "The URL that points to the image to show in the node.",
+                                                  "maxLength": 2048
                                                 },
                                                 "backgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "backgroundBlacken": {
                                                   "type": "number",
@@ -1949,35 +2004,59 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "backgroundPositionX": {
                                                   "type": "string",
-                                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundPositionY": {
                                                   "type": "string",
-                                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundOffsetX": {
                                                   "type": "string",
-                                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundOffsetY": {
                                                   "type": "string",
-                                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundFit": {
                                                   "type": "string",
-                                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "contain",
+                                                    "cover"
+                                                  ]
                                                 },
                                                 "backgroundClip": {
                                                   "type": "string",
-                                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "node",
+                                                    "node-border"
+                                                  ]
                                                 },
                                                 "backgroundWidthRelativeTo": {
                                                   "type": "string",
-                                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "inner",
+                                                    "outer"
+                                                  ]
                                                 },
                                                 "backgroundHeightRelativeTo": {
                                                   "type": "string",
-                                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "inner",
+                                                    "outer"
+                                                  ]
                                                 },
                                                 "borderWidth": {
                                                   "type": "number",
@@ -1996,7 +2075,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "borderColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "borderOpacity": {
                                                   "type": "number",
@@ -2038,23 +2118,28 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "activeBgColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "activeBgOpacity": {
                                                   "type": "string",
-                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                                  "maxLength": 50
                                                 },
                                                 "activeBgSize": {
                                                   "type": "string",
-                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                                  "maxLength": 50
                                                 },
                                                 "selectionBoxColor": {
                                                   "type": "string",
-                                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "selectionBoxBorderWidth": {
                                                   "type": "number",
-                                                  "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                                  "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                                  "minimum": 0
                                                 },
                                                 "selectionBoxOpacity": {
                                                   "type": "number",
@@ -2064,7 +2149,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "outsideTextureBgColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "outsideTextureBgOpacity": {
                                                   "type": "number",
@@ -2074,11 +2160,13 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "shapePolygonPoints": {
                                                   "type": "string",
-                                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                                  "maxLength": 2000
                                                 },
                                                 "menuBackgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "menuBackgroundOpacity": {
                                                   "type": "number",
@@ -2088,7 +2176,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "menuForgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 }
                                               }
                                             }
@@ -2154,7 +2243,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "description": {
                                                 "type": "string",
-                                                "description": "A written representation of the purpose and characteristics of the capability."
+                                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                                "maxLength": 5000
                                               },
                                               "kind": {
                                                 "description": "Top-level categorization of the capability",
@@ -2445,7 +2535,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "genealogy": {
                                               "x-order": 1,
                                               "type": "string",
-                                              "description": "Genealogy represents the various representational states of the component."
+                                              "description": "Genealogy represents the various representational states of the component.",
+                                              "maxLength": 1000
                                             },
                                             "isAnnotation": {
                                               "x-order": 2,
@@ -2471,7 +2562,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "configurationUISchema": {
                                               "x-order": 6,
                                               "type": "string",
-                                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                              "maxLength": 20000
                                             }
                                           },
                                           "x-oapi-codegen-extra-tags": {
@@ -2500,17 +2592,20 @@ const DesignSchema: Record<string, unknown> = {
                                             "version": {
                                               "type": "string",
                                               "description": "Version of the component produced by the registrant. Example: APIVersion of a Kubernetes Pod.",
-                                              "x-order": 1
+                                              "x-order": 1,
+                                              "maxLength": 500
                                             },
                                             "kind": {
                                               "type": "string",
                                               "description": "The unique identifier (name) assigned by the registrant to this component. Example: A Kubernetes Pod is of kind 'Pod'.",
-                                              "x-order": 2
+                                              "x-order": 2,
+                                              "maxLength": 255
                                             },
                                             "schema": {
                                               "type": "string",
                                               "description": "JSON schema of the object as defined by the registrant.",
-                                              "x-order": 3
+                                              "x-order": 3,
+                                              "maxLength": 500
                                             }
                                           },
                                           "required": [
@@ -2674,7 +2769,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "yaml": "type",
                                             "json": "type",
                                             "gorm": "column:type"
-                                          }
+                                          },
+                                          "maxLength": 255
                                         },
                                         "subType": {
                                           "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -2684,7 +2780,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "x-oapi-codegen-extra-tags": {
                                             "yaml": "subType",
                                             "json": "subType"
-                                          }
+                                          },
+                                          "maxLength": 255
                                         },
                                         "status": {
                                           "type": "string",
@@ -2762,7 +2859,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "description": {
                                                 "type": "string",
-                                                "description": "A written representation of the purpose and characteristics of the capability."
+                                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                                "maxLength": 5000
                                               },
                                               "kind": {
                                                 "description": "Top-level categorization of the capability",
@@ -2914,7 +3012,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "type": "string",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "description"
-                                              }
+                                              },
+                                              "maxLength": 5000
                                             },
                                             "styles": {
                                               "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -2934,42 +3033,48 @@ const DesignSchema: Record<string, unknown> = {
                                                   "description": "Primary color of the component used for UI representation.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "primaryColor"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "secondaryColor": {
                                                   "type": "string",
                                                   "description": "Secondary color of the entity used for UI representation.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "secondaryColor,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "svgWhite": {
                                                   "type": "string",
                                                   "description": "White SVG of the entity used for UI representation on dark background.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "svgWhite"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "svgColor": {
                                                   "type": "string",
                                                   "description": "Colored SVG of the entity used for UI representation on light background.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "svgColor"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "svgComplete": {
                                                   "type": "string",
                                                   "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "svgComplete,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "color": {
                                                   "type": "string",
                                                   "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "color,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "textOpacity": {
                                                   "type": "number",
@@ -2978,7 +3083,9 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "TextOpacity",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "textOpacity,omitempty"
-                                                  }
+                                                  },
+                                                  "minimum": 0,
+                                                  "maximum": 1
                                                 },
                                                 "fontFamily": {
                                                   "type": "string",
@@ -2986,7 +3093,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "FontFamily",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "fontFamily,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "fontSize": {
                                                   "type": "string",
@@ -2994,7 +3102,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "FontSize",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "fontSize,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "fontStyle": {
                                                   "type": "string",
@@ -3002,7 +3111,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "FontStyle",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "fontStyle,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "fontWeight": {
                                                   "type": "string",
@@ -3010,7 +3120,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "FontWeight",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "fontWeight,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "textTransform": {
                                                   "description": "A transformation to apply to the label text",
@@ -3032,7 +3143,9 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "Opacity",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "opacity,omitempty"
-                                                  }
+                                                  },
+                                                  "minimum": 0,
+                                                  "maximum": 1
                                                 },
                                                 "zIndex": {
                                                   "type": "integer",
@@ -3040,7 +3153,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "ZIndex",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "zIndex,omitempty"
-                                                  }
+                                                  },
+                                                  "minimum": 0
                                                 },
                                                 "label": {
                                                   "type": "string",
@@ -3048,7 +3162,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "Label",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "label,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "edgeAnimation": {
                                                   "type": "string",
@@ -3056,7 +3171,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "EdgeAnimation",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "edgeAnimation,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "curveStyle": {
                                                   "x-go-name": "CurveStyle",
@@ -3080,7 +3196,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "LineColor",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "lineColor,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "lineStyle": {
                                                   "x-go-name": "LineStyle",
@@ -3115,7 +3232,9 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "LineOpacity",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "lineOpacity,omitempty"
-                                                  }
+                                                  },
+                                                  "minimum": 0,
+                                                  "maximum": 1
                                                 },
                                                 "targetArrowColor": {
                                                   "type": "string",
@@ -3123,7 +3242,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "TargetArrowColor",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "targetArrowColor,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "targetArrowShape": {
                                                   "x-go-name": "TargetArrowShape",
@@ -3165,7 +3285,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "MidTargetArrowColor",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "midTargetArrowColor,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "midTargetArrowShape": {
                                                   "x-go-name": "MidTargetArrowShape",
@@ -3208,7 +3329,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "ArrowScale",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "arrowScale,omitempty"
-                                                  }
+                                                  },
+                                                  "minimum": 0
                                                 },
                                                 "sourceLabel": {
                                                   "type": "string",
@@ -3216,7 +3338,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "SourceLabel",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "sourceLabel,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "targetLabel": {
                                                   "type": "string",
@@ -3224,7 +3347,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "TargetLabel",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "targetLabel,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 }
                                               }
                                             },
@@ -3326,7 +3450,9 @@ const DesignSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -3355,7 +3481,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "x-oapi-codegen-extra-tags": {
                                             "yaml": "evaluationQuery",
                                             "json": "evaluationQuery"
-                                          }
+                                          },
+                                          "maxLength": 500
                                         },
                                         "selectors": {
                                           "x-go-type": "SelectorSet",
@@ -3411,7 +3538,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "match": {
                                                           "x-go-type": "MatchSelector",
@@ -3431,7 +3560,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "refs,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The refs of the matchselector."
                                                             },
                                                             "from": {
                                                               "type": "array",
@@ -3459,7 +3589,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -3492,7 +3624,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "from,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The from of the matchselector."
                                                             },
                                                             "to": {
                                                               "type": "array",
@@ -3520,7 +3653,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -3553,7 +3688,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "to,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The to of the matchselector."
                                                             }
                                                           }
                                                         },
@@ -3655,7 +3791,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -3745,7 +3883,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "match": {
                                                           "x-go-type": "MatchSelector",
@@ -3765,7 +3905,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "refs,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The refs of the matchselector."
                                                             },
                                                             "from": {
                                                               "type": "array",
@@ -3793,7 +3934,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -3826,7 +3969,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "from,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The from of the matchselector."
                                                             },
                                                             "to": {
                                                               "type": "array",
@@ -3854,7 +3998,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -3887,7 +4033,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "to,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The to of the matchselector."
                                                             }
                                                           }
                                                         },
@@ -3989,7 +4136,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -4093,7 +4242,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "match": {
                                                           "x-go-type": "MatchSelector",
@@ -4113,7 +4264,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "refs,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The refs of the matchselector."
                                                             },
                                                             "from": {
                                                               "type": "array",
@@ -4141,7 +4293,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -4174,7 +4328,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "from,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The from of the matchselector."
                                                             },
                                                             "to": {
                                                               "type": "array",
@@ -4202,7 +4357,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -4235,7 +4392,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "to,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The to of the matchselector."
                                                             }
                                                           }
                                                         },
@@ -4337,7 +4495,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -4427,7 +4587,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "match": {
                                                           "x-go-type": "MatchSelector",
@@ -4447,7 +4609,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "refs,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The refs of the matchselector."
                                                             },
                                                             "from": {
                                                               "type": "array",
@@ -4475,7 +4638,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -4508,7 +4673,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "from,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The from of the matchselector."
                                                             },
                                                             "to": {
                                                               "type": "array",
@@ -4536,7 +4702,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -4569,7 +4737,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "to,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The to of the matchselector."
                                                             }
                                                           }
                                                         },
@@ -4671,7 +4840,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -4776,13 +4947,18 @@ const DesignSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The patterns of the mesherypatternpage."
                     },
                     "resultType": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "The result type of the mesherypatternpage.",
+                      "maxLength": 500
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     }
                   }
                 }
@@ -4847,7 +5023,8 @@ const DesignSchema: Record<string, unknown> = {
                         "properties": {
                           "publishedVersion": {
                             "description": "Tracks the specific content version that has been made available in the Catalog.",
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 500
                           },
                           "class": {
                             "description": "Published content is classifed by its support level. Content classes help you understand the origin and expected support level for each piece of content. It is important to note that the level of support may vary within each class, and you should exercise discretion when using community-contributed content. Content produced and fully supported by Meshery maintainers. This represents the highest level of support and is considered the most reliable. Content produced by partners and verified by Meshery maintainers. While not directly maintained by Meshery, it has undergone a verification process to ensure quality and compatibility. Content produced and supported by the respective project or organization responsible for the specific technology. This class offers a level of support from the project maintainers themselves. Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Community content may have varying levels of support and reliability.",
@@ -4865,7 +5042,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "const": "reference architecture",
                                 "description": "Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Reference architecture content may have varying levels of support and reliability."
                               }
-                            ]
+                            ],
+                            "maxLength": 500
                           },
                           "compatibility": {
                             "type": "array",
@@ -4883,7 +5061,8 @@ const DesignSchema: Record<string, unknown> = {
                           "patternCaveats": {
                             "type": "string",
                             "title": "Caveats and Considerations",
-                            "description": "Specific stipulations to consider and known behaviors to be aware of when using this design."
+                            "description": "Specific stipulations to consider and known behaviors to be aware of when using this design.",
+                            "maxLength": 500
                           },
                           "patternInfo": {
                             "type": "string",
@@ -4971,7 +5150,9 @@ const DesignSchema: Record<string, unknown> = {
                           "name": {
                             "type": "string",
                             "description": "Name of the design; a descriptive, but concise title for the design document.",
-                            "x-order": 2
+                            "x-order": 2,
+                            "minLength": 1,
+                            "maxLength": 255
                           },
                           "schemaVersion": {
                             "description": "Specifies the version of the schema to which the design conforms.",
@@ -5049,7 +5230,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "type": "array",
                                           "items": {
                                             "type": "string"
-                                          }
+                                          },
+                                          "description": "The immediate ref field path of the nonresolvedalias."
                                         }
                                       },
                                       "required": [
@@ -5073,6 +5255,7 @@ const DesignSchema: Record<string, unknown> = {
                                         },
                                         "resolvedRefFieldPath": {
                                           "type": "array",
+                                          "description": "Fully resolved field path targeted by the alias.",
                                           "items": {
                                             "type": "string"
                                           }
@@ -5086,7 +5269,8 @@ const DesignSchema: Record<string, unknown> = {
                                   ]
                                 }
                               }
-                            }
+                            },
+                            "description": "Additional metadata associated with this resource."
                           },
                           "components": {
                             "description": "A list of one or more component declarations.",
@@ -5171,7 +5355,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-oapi-codegen-extra-tags": {
                                         "yaml": "description",
                                         "json": "description"
-                                      }
+                                      },
+                                      "maxLength": 5000
                                     },
                                     "format": {
                                       "x-order": 6,
@@ -5938,7 +6123,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "description": {
                                                     "type": "string",
-                                                    "description": "A written representation of the purpose and characteristics of the capability."
+                                                    "description": "A written representation of the purpose and characteristics of the capability.",
+                                                    "maxLength": 5000
                                                   },
                                                   "kind": {
                                                     "description": "Top-level categorization of the capability",
@@ -6206,7 +6392,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "gorm": "-",
                                             "json": "relationships",
                                             "yaml": "relationships"
-                                          }
+                                          },
+                                          "description": "The relationships of the model."
                                         },
                                         "components": {
                                           "type": "array",
@@ -6215,7 +6402,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "gorm": "-",
                                             "json": "components",
                                             "yaml": "components"
-                                          }
+                                          },
+                                          "description": "The components of the model."
                                         },
                                         "componentsCount": {
                                           "type": "integer",
@@ -6226,7 +6414,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "yaml": "components_count",
                                             "gorm": "-"
                                           },
-                                          "default": 0
+                                          "default": 0,
+                                          "minimum": 0
                                         },
                                         "relationshipsCount": {
                                           "type": "integer",
@@ -6237,7 +6426,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "json": "relationships_count",
                                             "yaml": "relationships_count"
                                           },
-                                          "default": 0
+                                          "default": 0,
+                                          "minimum": 0
                                         },
                                         "created_at": {
                                           "x-order": 14,
@@ -6372,7 +6562,9 @@ const DesignSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -6427,27 +6619,33 @@ const DesignSchema: Record<string, unknown> = {
                                           "properties": {
                                             "primaryColor": {
                                               "type": "string",
-                                              "description": "Primary color of the component used for UI representation."
+                                              "description": "Primary color of the component used for UI representation.",
+                                              "maxLength": 500
                                             },
                                             "secondaryColor": {
                                               "type": "string",
-                                              "description": "Secondary color of the entity used for UI representation."
+                                              "description": "Secondary color of the entity used for UI representation.",
+                                              "maxLength": 500
                                             },
                                             "svgWhite": {
                                               "type": "string",
-                                              "description": "White SVG of the entity used for UI representation on dark background."
+                                              "description": "White SVG of the entity used for UI representation on dark background.",
+                                              "maxLength": 500
                                             },
                                             "svgColor": {
                                               "type": "string",
-                                              "description": "Colored SVG of the entity used for UI representation on light background."
+                                              "description": "Colored SVG of the entity used for UI representation on light background.",
+                                              "maxLength": 500
                                             },
                                             "svgComplete": {
                                               "type": "string",
-                                              "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                                              "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                                              "maxLength": 500
                                             },
                                             "color": {
                                               "type": "string",
-                                              "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 500
                                             },
                                             "textOpacity": {
                                               "type": "number",
@@ -6457,19 +6655,23 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "fontFamily": {
                                               "type": "string",
-                                              "description": "A comma-separated list of font names to use on the label text."
+                                              "description": "A comma-separated list of font names to use on the label text.",
+                                              "maxLength": 500
                                             },
                                             "fontSize": {
                                               "type": "string",
-                                              "description": "The size of the label text."
+                                              "description": "The size of the label text.",
+                                              "maxLength": 500
                                             },
                                             "fontStyle": {
                                               "type": "string",
-                                              "description": "A CSS font style to be applied to the label text."
+                                              "description": "A CSS font style to be applied to the label text.",
+                                              "maxLength": 500
                                             },
                                             "fontWeight": {
                                               "type": "string",
-                                              "description": "A CSS font weight to be applied to the label text."
+                                              "description": "A CSS font weight to be applied to the label text.",
+                                              "maxLength": 500
                                             },
                                             "textTransform": {
                                               "type": "string",
@@ -6488,11 +6690,13 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "zIndex": {
                                               "type": "integer",
-                                              "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                                              "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                                              "minimum": 0
                                             },
                                             "label": {
                                               "type": "string",
-                                              "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                                              "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                                              "maxLength": 500
                                             },
                                             "animation": {
                                               "type": "object",
@@ -6546,26 +6750,37 @@ const DesignSchema: Record<string, unknown> = {
                                                 "x": {
                                                   "type": "number",
                                                   "description": "The x-coordinate of the node.",
+                                                  "minimum": -1000000,
+                                                  "maximum": 1000000,
                                                   "x-go-type": "float64"
                                                 },
                                                 "y": {
                                                   "type": "number",
                                                   "description": "The y-coordinate of the node.",
+                                                  "minimum": -1000000,
+                                                  "maximum": 1000000,
                                                   "x-go-type": "float64"
                                                 }
                                               }
                                             },
                                             "bodyText": {
                                               "type": "string",
-                                              "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                              "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                              "maxLength": 500
                                             },
                                             "bodyTextWrap": {
                                               "type": "string",
-                                              "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                              "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                              "enum": [
+                                                "none",
+                                                "wrap",
+                                                "ellipsis"
+                                              ]
                                             },
                                             "bodyTextMaxWidth": {
                                               "type": "string",
-                                              "description": "The maximum width for wrapping text in the node."
+                                              "description": "The maximum width for wrapping text in the node.",
+                                              "maxLength": 50
                                             },
                                             "bodyTextOpacity": {
                                               "type": "number",
@@ -6575,47 +6790,59 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "bodyTextBackgroundColor": {
                                               "type": "string",
-                                              "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "bodyTextFontSize": {
                                               "type": "number",
-                                              "description": "The size of the node's body text."
+                                              "description": "The size of the node's body text.",
+                                              "minimum": 0
                                             },
                                             "bodyTextColor": {
                                               "type": "string",
-                                              "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "bodyTextFontWeight": {
                                               "type": "string",
-                                              "description": "A CSS font weight to be applied to the node's body text."
+                                              "description": "A CSS font weight to be applied to the node's body text.",
+                                              "maxLength": 50
                                             },
                                             "bodyTextHorizontalAlign": {
                                               "type": "string",
-                                              "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                              "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                              "maxLength": 50
                                             },
                                             "bodyTextDecoration": {
                                               "type": "string",
-                                              "description": "A CSS text decoration to be applied to the node's body text."
+                                              "description": "A CSS text decoration to be applied to the node's body text.",
+                                              "maxLength": 100
                                             },
                                             "bodyTextVerticalAlign": {
                                               "type": "string",
-                                              "description": "A CSS vertical alignment to be applied to the node's body text."
+                                              "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                              "maxLength": 50
                                             },
                                             "width": {
                                               "type": "number",
-                                              "description": "The width of the node's body or the width of an edge's line."
+                                              "description": "The width of the node's body or the width of an edge's line.",
+                                              "minimum": 0
                                             },
                                             "height": {
                                               "type": "number",
-                                              "description": "The height of the node's body"
+                                              "description": "The height of the node's body",
+                                              "minimum": 0
                                             },
                                             "backgroundImage": {
                                               "type": "string",
-                                              "description": "The URL that points to the image to show in the node."
+                                              "format": "uri",
+                                              "description": "The URL that points to the image to show in the node.",
+                                              "maxLength": 2048
                                             },
                                             "backgroundColor": {
                                               "type": "string",
-                                              "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "backgroundBlacken": {
                                               "type": "number",
@@ -6631,35 +6858,59 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "backgroundPositionX": {
                                               "type": "string",
-                                              "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                              "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                              "maxLength": 50
                                             },
                                             "backgroundPositionY": {
                                               "type": "string",
-                                              "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                              "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                              "maxLength": 50
                                             },
                                             "backgroundOffsetX": {
                                               "type": "string",
-                                              "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                              "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                              "maxLength": 50
                                             },
                                             "backgroundOffsetY": {
                                               "type": "string",
-                                              "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                              "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                              "maxLength": 50
                                             },
                                             "backgroundFit": {
                                               "type": "string",
-                                              "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                              "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                              "enum": [
+                                                "none",
+                                                "contain",
+                                                "cover"
+                                              ]
                                             },
                                             "backgroundClip": {
                                               "type": "string",
-                                              "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                              "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                              "enum": [
+                                                "none",
+                                                "node",
+                                                "node-border"
+                                              ]
                                             },
                                             "backgroundWidthRelativeTo": {
                                               "type": "string",
-                                              "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                              "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                              "enum": [
+                                                "none",
+                                                "inner",
+                                                "outer"
+                                              ]
                                             },
                                             "backgroundHeightRelativeTo": {
                                               "type": "string",
-                                              "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                              "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                              "enum": [
+                                                "none",
+                                                "inner",
+                                                "outer"
+                                              ]
                                             },
                                             "borderWidth": {
                                               "type": "number",
@@ -6678,7 +6929,8 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "borderColor": {
                                               "type": "string",
-                                              "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "borderOpacity": {
                                               "type": "number",
@@ -6720,23 +6972,28 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "activeBgColor": {
                                               "type": "string",
-                                              "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "activeBgOpacity": {
                                               "type": "string",
-                                              "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                              "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                              "maxLength": 50
                                             },
                                             "activeBgSize": {
                                               "type": "string",
-                                              "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                              "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                              "maxLength": 50
                                             },
                                             "selectionBoxColor": {
                                               "type": "string",
-                                              "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "selectionBoxBorderWidth": {
                                               "type": "number",
-                                              "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                              "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                              "minimum": 0
                                             },
                                             "selectionBoxOpacity": {
                                               "type": "number",
@@ -6746,7 +7003,8 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "outsideTextureBgColor": {
                                               "type": "string",
-                                              "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "outsideTextureBgOpacity": {
                                               "type": "number",
@@ -6756,11 +7014,13 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "shapePolygonPoints": {
                                               "type": "string",
-                                              "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                              "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                              "maxLength": 2000
                                             },
                                             "menuBackgroundColor": {
                                               "type": "string",
-                                              "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "menuBackgroundOpacity": {
                                               "type": "number",
@@ -6770,7 +7030,8 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "menuForgroundColor": {
                                               "type": "string",
-                                              "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             }
                                           }
                                         }
@@ -6836,7 +7097,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "description": {
                                             "type": "string",
-                                            "description": "A written representation of the purpose and characteristics of the capability."
+                                            "description": "A written representation of the purpose and characteristics of the capability.",
+                                            "maxLength": 5000
                                           },
                                           "kind": {
                                             "description": "Top-level categorization of the capability",
@@ -7127,7 +7389,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "genealogy": {
                                           "x-order": 1,
                                           "type": "string",
-                                          "description": "Genealogy represents the various representational states of the component."
+                                          "description": "Genealogy represents the various representational states of the component.",
+                                          "maxLength": 1000
                                         },
                                         "isAnnotation": {
                                           "x-order": 2,
@@ -7153,7 +7416,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "configurationUISchema": {
                                           "x-order": 6,
                                           "type": "string",
-                                          "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                          "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                          "maxLength": 20000
                                         }
                                       },
                                       "x-oapi-codegen-extra-tags": {
@@ -7182,17 +7446,20 @@ const DesignSchema: Record<string, unknown> = {
                                         "version": {
                                           "type": "string",
                                           "description": "Version of the component produced by the registrant. Example: APIVersion of a Kubernetes Pod.",
-                                          "x-order": 1
+                                          "x-order": 1,
+                                          "maxLength": 500
                                         },
                                         "kind": {
                                           "type": "string",
                                           "description": "The unique identifier (name) assigned by the registrant to this component. Example: A Kubernetes Pod is of kind 'Pod'.",
-                                          "x-order": 2
+                                          "x-order": 2,
+                                          "maxLength": 255
                                         },
                                         "schema": {
                                           "type": "string",
                                           "description": "JSON schema of the object as defined by the registrant.",
-                                          "x-order": 3
+                                          "x-order": 3,
+                                          "maxLength": 500
                                         }
                                       },
                                       "required": [
@@ -7356,7 +7623,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "yaml": "type",
                                         "json": "type",
                                         "gorm": "column:type"
-                                      }
+                                      },
+                                      "maxLength": 255
                                     },
                                     "subType": {
                                       "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -7366,7 +7634,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-oapi-codegen-extra-tags": {
                                         "yaml": "subType",
                                         "json": "subType"
-                                      }
+                                      },
+                                      "maxLength": 255
                                     },
                                     "status": {
                                       "type": "string",
@@ -7444,7 +7713,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "description": {
                                             "type": "string",
-                                            "description": "A written representation of the purpose and characteristics of the capability."
+                                            "description": "A written representation of the purpose and characteristics of the capability.",
+                                            "maxLength": 5000
                                           },
                                           "kind": {
                                             "description": "Top-level categorization of the capability",
@@ -7596,7 +7866,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "type": "string",
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "description"
-                                          }
+                                          },
+                                          "maxLength": 5000
                                         },
                                         "styles": {
                                           "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -7616,42 +7887,48 @@ const DesignSchema: Record<string, unknown> = {
                                               "description": "Primary color of the component used for UI representation.",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "primaryColor"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "secondaryColor": {
                                               "type": "string",
                                               "description": "Secondary color of the entity used for UI representation.",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "secondaryColor,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "svgWhite": {
                                               "type": "string",
                                               "description": "White SVG of the entity used for UI representation on dark background.",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "svgWhite"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "svgColor": {
                                               "type": "string",
                                               "description": "Colored SVG of the entity used for UI representation on light background.",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "svgColor"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "svgComplete": {
                                               "type": "string",
                                               "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "svgComplete,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "color": {
                                               "type": "string",
                                               "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "color,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "textOpacity": {
                                               "type": "number",
@@ -7660,7 +7937,9 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "TextOpacity",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "textOpacity,omitempty"
-                                              }
+                                              },
+                                              "minimum": 0,
+                                              "maximum": 1
                                             },
                                             "fontFamily": {
                                               "type": "string",
@@ -7668,7 +7947,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "FontFamily",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "fontFamily,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "fontSize": {
                                               "type": "string",
@@ -7676,7 +7956,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "FontSize",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "fontSize,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "fontStyle": {
                                               "type": "string",
@@ -7684,7 +7965,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "FontStyle",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "fontStyle,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "fontWeight": {
                                               "type": "string",
@@ -7692,7 +7974,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "FontWeight",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "fontWeight,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "textTransform": {
                                               "description": "A transformation to apply to the label text",
@@ -7714,7 +7997,9 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "Opacity",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "opacity,omitempty"
-                                              }
+                                              },
+                                              "minimum": 0,
+                                              "maximum": 1
                                             },
                                             "zIndex": {
                                               "type": "integer",
@@ -7722,7 +8007,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "ZIndex",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "zIndex,omitempty"
-                                              }
+                                              },
+                                              "minimum": 0
                                             },
                                             "label": {
                                               "type": "string",
@@ -7730,7 +8016,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "Label",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "label,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "edgeAnimation": {
                                               "type": "string",
@@ -7738,7 +8025,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "EdgeAnimation",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "edgeAnimation,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "curveStyle": {
                                               "x-go-name": "CurveStyle",
@@ -7762,7 +8050,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "LineColor",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "lineColor,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "lineStyle": {
                                               "x-go-name": "LineStyle",
@@ -7797,7 +8086,9 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "LineOpacity",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "lineOpacity,omitempty"
-                                              }
+                                              },
+                                              "minimum": 0,
+                                              "maximum": 1
                                             },
                                             "targetArrowColor": {
                                               "type": "string",
@@ -7805,7 +8096,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "TargetArrowColor",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "targetArrowColor,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "targetArrowShape": {
                                               "x-go-name": "TargetArrowShape",
@@ -7847,7 +8139,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "MidTargetArrowColor",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "midTargetArrowColor,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "midTargetArrowShape": {
                                               "x-go-name": "MidTargetArrowShape",
@@ -7890,7 +8183,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "ArrowScale",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "arrowScale,omitempty"
-                                              }
+                                              },
+                                              "minimum": 0
                                             },
                                             "sourceLabel": {
                                               "type": "string",
@@ -7898,7 +8192,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "SourceLabel",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "sourceLabel,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             },
                                             "targetLabel": {
                                               "type": "string",
@@ -7906,7 +8201,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "x-go-name": "TargetLabel",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "targetLabel,omitempty"
-                                              }
+                                              },
+                                              "maxLength": 500
                                             }
                                           }
                                         },
@@ -8008,7 +8304,9 @@ const DesignSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -8037,7 +8335,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-oapi-codegen-extra-tags": {
                                         "yaml": "evaluationQuery",
                                         "json": "evaluationQuery"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "selectors": {
                                       "x-go-type": "SelectorSet",
@@ -8093,7 +8392,9 @@ const DesignSchema: Record<string, unknown> = {
                                                       "type": "string",
                                                       "x-oapi-codegen-extra-tags": {
                                                         "json": "kind"
-                                                      }
+                                                      },
+                                                      "description": "Kind of the resource.",
+                                                      "maxLength": 255
                                                     },
                                                     "match": {
                                                       "x-go-type": "MatchSelector",
@@ -8113,7 +8414,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "refs,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The refs of the matchselector."
                                                         },
                                                         "from": {
                                                           "type": "array",
@@ -8141,7 +8443,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                 "type": "string",
                                                                 "x-oapi-codegen-extra-tags": {
                                                                   "json": "kind"
-                                                                }
+                                                                },
+                                                                "description": "Kind of the resource.",
+                                                                "maxLength": 255
                                                               },
                                                               "mutatorRef": {
                                                                 "x-oapi-codegen-extra-tags": {
@@ -8174,7 +8478,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "from,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The from of the matchselector."
                                                         },
                                                         "to": {
                                                           "type": "array",
@@ -8202,7 +8507,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                 "type": "string",
                                                                 "x-oapi-codegen-extra-tags": {
                                                                   "json": "kind"
-                                                                }
+                                                                },
+                                                                "description": "Kind of the resource.",
+                                                                "maxLength": 255
                                                               },
                                                               "mutatorRef": {
                                                                 "x-oapi-codegen-extra-tags": {
@@ -8235,7 +8542,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "to,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The to of the matchselector."
                                                         }
                                                       }
                                                     },
@@ -8337,7 +8645,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           ],
                                                           "properties": {
                                                             "kind": {
-                                                              "type": "string"
+                                                              "type": "string",
+                                                              "description": "Kind of the registrant.",
+                                                              "maxLength": 255
                                                             }
                                                           }
                                                         }
@@ -8427,7 +8737,9 @@ const DesignSchema: Record<string, unknown> = {
                                                       "type": "string",
                                                       "x-oapi-codegen-extra-tags": {
                                                         "json": "kind"
-                                                      }
+                                                      },
+                                                      "description": "Kind of the resource.",
+                                                      "maxLength": 255
                                                     },
                                                     "match": {
                                                       "x-go-type": "MatchSelector",
@@ -8447,7 +8759,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "refs,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The refs of the matchselector."
                                                         },
                                                         "from": {
                                                           "type": "array",
@@ -8475,7 +8788,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                 "type": "string",
                                                                 "x-oapi-codegen-extra-tags": {
                                                                   "json": "kind"
-                                                                }
+                                                                },
+                                                                "description": "Kind of the resource.",
+                                                                "maxLength": 255
                                                               },
                                                               "mutatorRef": {
                                                                 "x-oapi-codegen-extra-tags": {
@@ -8508,7 +8823,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "from,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The from of the matchselector."
                                                         },
                                                         "to": {
                                                           "type": "array",
@@ -8536,7 +8852,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                 "type": "string",
                                                                 "x-oapi-codegen-extra-tags": {
                                                                   "json": "kind"
-                                                                }
+                                                                },
+                                                                "description": "Kind of the resource.",
+                                                                "maxLength": 255
                                                               },
                                                               "mutatorRef": {
                                                                 "x-oapi-codegen-extra-tags": {
@@ -8569,7 +8887,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "to,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The to of the matchselector."
                                                         }
                                                       }
                                                     },
@@ -8671,7 +8990,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           ],
                                                           "properties": {
                                                             "kind": {
-                                                              "type": "string"
+                                                              "type": "string",
+                                                              "description": "Kind of the registrant.",
+                                                              "maxLength": 255
                                                             }
                                                           }
                                                         }
@@ -8775,7 +9096,9 @@ const DesignSchema: Record<string, unknown> = {
                                                       "type": "string",
                                                       "x-oapi-codegen-extra-tags": {
                                                         "json": "kind"
-                                                      }
+                                                      },
+                                                      "description": "Kind of the resource.",
+                                                      "maxLength": 255
                                                     },
                                                     "match": {
                                                       "x-go-type": "MatchSelector",
@@ -8795,7 +9118,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "refs,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The refs of the matchselector."
                                                         },
                                                         "from": {
                                                           "type": "array",
@@ -8823,7 +9147,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                 "type": "string",
                                                                 "x-oapi-codegen-extra-tags": {
                                                                   "json": "kind"
-                                                                }
+                                                                },
+                                                                "description": "Kind of the resource.",
+                                                                "maxLength": 255
                                                               },
                                                               "mutatorRef": {
                                                                 "x-oapi-codegen-extra-tags": {
@@ -8856,7 +9182,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "from,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The from of the matchselector."
                                                         },
                                                         "to": {
                                                           "type": "array",
@@ -8884,7 +9211,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                 "type": "string",
                                                                 "x-oapi-codegen-extra-tags": {
                                                                   "json": "kind"
-                                                                }
+                                                                },
+                                                                "description": "Kind of the resource.",
+                                                                "maxLength": 255
                                                               },
                                                               "mutatorRef": {
                                                                 "x-oapi-codegen-extra-tags": {
@@ -8917,7 +9246,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "to,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The to of the matchselector."
                                                         }
                                                       }
                                                     },
@@ -9019,7 +9349,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           ],
                                                           "properties": {
                                                             "kind": {
-                                                              "type": "string"
+                                                              "type": "string",
+                                                              "description": "Kind of the registrant.",
+                                                              "maxLength": 255
                                                             }
                                                           }
                                                         }
@@ -9109,7 +9441,9 @@ const DesignSchema: Record<string, unknown> = {
                                                       "type": "string",
                                                       "x-oapi-codegen-extra-tags": {
                                                         "json": "kind"
-                                                      }
+                                                      },
+                                                      "description": "Kind of the resource.",
+                                                      "maxLength": 255
                                                     },
                                                     "match": {
                                                       "x-go-type": "MatchSelector",
@@ -9129,7 +9463,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "refs,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The refs of the matchselector."
                                                         },
                                                         "from": {
                                                           "type": "array",
@@ -9157,7 +9492,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                 "type": "string",
                                                                 "x-oapi-codegen-extra-tags": {
                                                                   "json": "kind"
-                                                                }
+                                                                },
+                                                                "description": "Kind of the resource.",
+                                                                "maxLength": 255
                                                               },
                                                               "mutatorRef": {
                                                                 "x-oapi-codegen-extra-tags": {
@@ -9190,7 +9527,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "from,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The from of the matchselector."
                                                         },
                                                         "to": {
                                                           "type": "array",
@@ -9218,7 +9556,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                 "type": "string",
                                                                 "x-oapi-codegen-extra-tags": {
                                                                   "json": "kind"
-                                                                }
+                                                                },
+                                                                "description": "Kind of the resource.",
+                                                                "maxLength": 255
                                                               },
                                                               "mutatorRef": {
                                                                 "x-oapi-codegen-extra-tags": {
@@ -9251,7 +9591,8 @@ const DesignSchema: Record<string, unknown> = {
                                                           },
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "to,omitempty"
-                                                          }
+                                                          },
+                                                          "description": "The to of the matchselector."
                                                         }
                                                       }
                                                     },
@@ -9353,7 +9694,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           ],
                                                           "properties": {
                                                             "kind": {
-                                                              "type": "string"
+                                                              "type": "string",
+                                                              "description": "Kind of the registrant.",
+                                                              "maxLength": 255
                                                             }
                                                           }
                                                         }
@@ -9460,7 +9803,8 @@ const DesignSchema: Record<string, unknown> = {
                     }
                   },
                   "save": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "The save of the mesherypatternrequestbody."
                   },
                   "url": {
                     "description": "endpoint",
@@ -9470,7 +9814,10 @@ const DesignSchema: Record<string, unknown> = {
                     "type": "string"
                   },
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Name of the mesherypatternrequestbody.",
+                    "minLength": 1,
+                    "maxLength": 255
                   }
                 }
               }
@@ -9496,7 +9843,8 @@ const DesignSchema: Record<string, unknown> = {
                       "properties": {
                         "publishedVersion": {
                           "description": "Tracks the specific content version that has been made available in the Catalog.",
-                          "type": "string"
+                          "type": "string",
+                          "maxLength": 500
                         },
                         "class": {
                           "description": "Published content is classifed by its support level. Content classes help you understand the origin and expected support level for each piece of content. It is important to note that the level of support may vary within each class, and you should exercise discretion when using community-contributed content. Content produced and fully supported by Meshery maintainers. This represents the highest level of support and is considered the most reliable. Content produced by partners and verified by Meshery maintainers. While not directly maintained by Meshery, it has undergone a verification process to ensure quality and compatibility. Content produced and supported by the respective project or organization responsible for the specific technology. This class offers a level of support from the project maintainers themselves. Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Community content may have varying levels of support and reliability.",
@@ -9514,7 +9862,8 @@ const DesignSchema: Record<string, unknown> = {
                               "const": "reference architecture",
                               "description": "Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Reference architecture content may have varying levels of support and reliability."
                             }
-                          ]
+                          ],
+                          "maxLength": 500
                         },
                         "compatibility": {
                           "type": "array",
@@ -9532,7 +9881,8 @@ const DesignSchema: Record<string, unknown> = {
                         "patternCaveats": {
                           "type": "string",
                           "title": "Caveats and Considerations",
-                          "description": "Specific stipulations to consider and known behaviors to be aware of when using this design."
+                          "description": "Specific stipulations to consider and known behaviors to be aware of when using this design.",
+                          "maxLength": 500
                         },
                         "patternInfo": {
                           "type": "string",
@@ -9620,7 +9970,9 @@ const DesignSchema: Record<string, unknown> = {
                         "name": {
                           "type": "string",
                           "description": "Name of the design; a descriptive, but concise title for the design document.",
-                          "x-order": 2
+                          "x-order": 2,
+                          "minLength": 1,
+                          "maxLength": 255
                         },
                         "schemaVersion": {
                           "description": "Specifies the version of the schema to which the design conforms.",
@@ -9698,7 +10050,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "type": "array",
                                         "items": {
                                           "type": "string"
-                                        }
+                                        },
+                                        "description": "The immediate ref field path of the nonresolvedalias."
                                       }
                                     },
                                     "required": [
@@ -9722,6 +10075,7 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "resolvedRefFieldPath": {
                                         "type": "array",
+                                        "description": "Fully resolved field path targeted by the alias.",
                                         "items": {
                                           "type": "string"
                                         }
@@ -9735,7 +10089,8 @@ const DesignSchema: Record<string, unknown> = {
                                 ]
                               }
                             }
-                          }
+                          },
+                          "description": "Additional metadata associated with this resource."
                         },
                         "components": {
                           "description": "A list of one or more component declarations.",
@@ -9820,7 +10175,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "x-oapi-codegen-extra-tags": {
                                       "yaml": "description",
                                       "json": "description"
-                                    }
+                                    },
+                                    "maxLength": 5000
                                   },
                                   "format": {
                                     "x-order": 6,
@@ -10587,7 +10943,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "description": {
                                                   "type": "string",
-                                                  "description": "A written representation of the purpose and characteristics of the capability."
+                                                  "description": "A written representation of the purpose and characteristics of the capability.",
+                                                  "maxLength": 5000
                                                 },
                                                 "kind": {
                                                   "description": "Top-level categorization of the capability",
@@ -10855,7 +11212,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "relationships",
                                           "yaml": "relationships"
-                                        }
+                                        },
+                                        "description": "The relationships of the model."
                                       },
                                       "components": {
                                         "type": "array",
@@ -10864,7 +11222,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "components",
                                           "yaml": "components"
-                                        }
+                                        },
+                                        "description": "The components of the model."
                                       },
                                       "componentsCount": {
                                         "type": "integer",
@@ -10875,7 +11234,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "yaml": "components_count",
                                           "gorm": "-"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "relationshipsCount": {
                                         "type": "integer",
@@ -10886,7 +11246,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "json": "relationships_count",
                                           "yaml": "relationships_count"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "created_at": {
                                         "x-order": 14,
@@ -11021,7 +11382,9 @@ const DesignSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -11076,27 +11439,33 @@ const DesignSchema: Record<string, unknown> = {
                                         "properties": {
                                           "primaryColor": {
                                             "type": "string",
-                                            "description": "Primary color of the component used for UI representation."
+                                            "description": "Primary color of the component used for UI representation.",
+                                            "maxLength": 500
                                           },
                                           "secondaryColor": {
                                             "type": "string",
-                                            "description": "Secondary color of the entity used for UI representation."
+                                            "description": "Secondary color of the entity used for UI representation.",
+                                            "maxLength": 500
                                           },
                                           "svgWhite": {
                                             "type": "string",
-                                            "description": "White SVG of the entity used for UI representation on dark background."
+                                            "description": "White SVG of the entity used for UI representation on dark background.",
+                                            "maxLength": 500
                                           },
                                           "svgColor": {
                                             "type": "string",
-                                            "description": "Colored SVG of the entity used for UI representation on light background."
+                                            "description": "Colored SVG of the entity used for UI representation on light background.",
+                                            "maxLength": 500
                                           },
                                           "svgComplete": {
                                             "type": "string",
-                                            "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                                            "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                                            "maxLength": 500
                                           },
                                           "color": {
                                             "type": "string",
-                                            "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 500
                                           },
                                           "textOpacity": {
                                             "type": "number",
@@ -11106,19 +11475,23 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "fontFamily": {
                                             "type": "string",
-                                            "description": "A comma-separated list of font names to use on the label text."
+                                            "description": "A comma-separated list of font names to use on the label text.",
+                                            "maxLength": 500
                                           },
                                           "fontSize": {
                                             "type": "string",
-                                            "description": "The size of the label text."
+                                            "description": "The size of the label text.",
+                                            "maxLength": 500
                                           },
                                           "fontStyle": {
                                             "type": "string",
-                                            "description": "A CSS font style to be applied to the label text."
+                                            "description": "A CSS font style to be applied to the label text.",
+                                            "maxLength": 500
                                           },
                                           "fontWeight": {
                                             "type": "string",
-                                            "description": "A CSS font weight to be applied to the label text."
+                                            "description": "A CSS font weight to be applied to the label text.",
+                                            "maxLength": 500
                                           },
                                           "textTransform": {
                                             "type": "string",
@@ -11137,11 +11510,13 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "zIndex": {
                                             "type": "integer",
-                                            "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                                            "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                                            "minimum": 0
                                           },
                                           "label": {
                                             "type": "string",
-                                            "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                                            "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                                            "maxLength": 500
                                           },
                                           "animation": {
                                             "type": "object",
@@ -11195,26 +11570,37 @@ const DesignSchema: Record<string, unknown> = {
                                               "x": {
                                                 "type": "number",
                                                 "description": "The x-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               },
                                               "y": {
                                                 "type": "number",
                                                 "description": "The y-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               }
                                             }
                                           },
                                           "bodyText": {
                                             "type": "string",
-                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                            "maxLength": 500
                                           },
                                           "bodyTextWrap": {
                                             "type": "string",
-                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                            "enum": [
+                                              "none",
+                                              "wrap",
+                                              "ellipsis"
+                                            ]
                                           },
                                           "bodyTextMaxWidth": {
                                             "type": "string",
-                                            "description": "The maximum width for wrapping text in the node."
+                                            "description": "The maximum width for wrapping text in the node.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextOpacity": {
                                             "type": "number",
@@ -11224,47 +11610,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "bodyTextBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontSize": {
                                             "type": "number",
-                                            "description": "The size of the node's body text."
+                                            "description": "The size of the node's body text.",
+                                            "minimum": 0
                                           },
                                           "bodyTextColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontWeight": {
                                             "type": "string",
-                                            "description": "A CSS font weight to be applied to the node's body text."
+                                            "description": "A CSS font weight to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextHorizontalAlign": {
                                             "type": "string",
-                                            "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                            "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextDecoration": {
                                             "type": "string",
-                                            "description": "A CSS text decoration to be applied to the node's body text."
+                                            "description": "A CSS text decoration to be applied to the node's body text.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextVerticalAlign": {
                                             "type": "string",
-                                            "description": "A CSS vertical alignment to be applied to the node's body text."
+                                            "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "width": {
                                             "type": "number",
-                                            "description": "The width of the node's body or the width of an edge's line."
+                                            "description": "The width of the node's body or the width of an edge's line.",
+                                            "minimum": 0
                                           },
                                           "height": {
                                             "type": "number",
-                                            "description": "The height of the node's body"
+                                            "description": "The height of the node's body",
+                                            "minimum": 0
                                           },
                                           "backgroundImage": {
                                             "type": "string",
-                                            "description": "The URL that points to the image to show in the node."
+                                            "format": "uri",
+                                            "description": "The URL that points to the image to show in the node.",
+                                            "maxLength": 2048
                                           },
                                           "backgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "backgroundBlacken": {
                                             "type": "number",
@@ -11280,35 +11678,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "backgroundPositionX": {
                                             "type": "string",
-                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundPositionY": {
                                             "type": "string",
-                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetX": {
                                             "type": "string",
-                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetY": {
                                             "type": "string",
-                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundFit": {
                                             "type": "string",
-                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                            "enum": [
+                                              "none",
+                                              "contain",
+                                              "cover"
+                                            ]
                                           },
                                           "backgroundClip": {
                                             "type": "string",
-                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                            "enum": [
+                                              "none",
+                                              "node",
+                                              "node-border"
+                                            ]
                                           },
                                           "backgroundWidthRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "backgroundHeightRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "borderWidth": {
                                             "type": "number",
@@ -11327,7 +11749,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "borderColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "borderOpacity": {
                                             "type": "number",
@@ -11369,23 +11792,28 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "activeBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "activeBgOpacity": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "activeBgSize": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "selectionBoxColor": {
                                             "type": "string",
-                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "selectionBoxBorderWidth": {
                                             "type": "number",
-                                            "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                            "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                            "minimum": 0
                                           },
                                           "selectionBoxOpacity": {
                                             "type": "number",
@@ -11395,7 +11823,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "outsideTextureBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "outsideTextureBgOpacity": {
                                             "type": "number",
@@ -11405,11 +11834,13 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "shapePolygonPoints": {
                                             "type": "string",
-                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                            "maxLength": 2000
                                           },
                                           "menuBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "menuBackgroundOpacity": {
                                             "type": "number",
@@ -11419,7 +11850,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "menuForgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           }
                                         }
                                       }
@@ -11485,7 +11917,8 @@ const DesignSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -11776,7 +12209,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "genealogy": {
                                         "x-order": 1,
                                         "type": "string",
-                                        "description": "Genealogy represents the various representational states of the component."
+                                        "description": "Genealogy represents the various representational states of the component.",
+                                        "maxLength": 1000
                                       },
                                       "isAnnotation": {
                                         "x-order": 2,
@@ -11802,7 +12236,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "configurationUISchema": {
                                         "x-order": 6,
                                         "type": "string",
-                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                        "maxLength": 20000
                                       }
                                     },
                                     "x-oapi-codegen-extra-tags": {
@@ -11831,17 +12266,20 @@ const DesignSchema: Record<string, unknown> = {
                                       "version": {
                                         "type": "string",
                                         "description": "Version of the component produced by the registrant. Example: APIVersion of a Kubernetes Pod.",
-                                        "x-order": 1
+                                        "x-order": 1,
+                                        "maxLength": 500
                                       },
                                       "kind": {
                                         "type": "string",
                                         "description": "The unique identifier (name) assigned by the registrant to this component. Example: A Kubernetes Pod is of kind 'Pod'.",
-                                        "x-order": 2
+                                        "x-order": 2,
+                                        "maxLength": 255
                                       },
                                       "schema": {
                                         "type": "string",
                                         "description": "JSON schema of the object as defined by the registrant.",
-                                        "x-order": 3
+                                        "x-order": 3,
+                                        "maxLength": 500
                                       }
                                     },
                                     "required": [
@@ -12005,7 +12443,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "yaml": "type",
                                       "json": "type",
                                       "gorm": "column:type"
-                                    }
+                                    },
+                                    "maxLength": 255
                                   },
                                   "subType": {
                                     "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -12015,7 +12454,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "x-oapi-codegen-extra-tags": {
                                       "yaml": "subType",
                                       "json": "subType"
-                                    }
+                                    },
+                                    "maxLength": 255
                                   },
                                   "status": {
                                     "type": "string",
@@ -12093,7 +12533,8 @@ const DesignSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -12245,7 +12686,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "type": "string",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "description"
-                                        }
+                                        },
+                                        "maxLength": 5000
                                       },
                                       "styles": {
                                         "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -12265,42 +12707,48 @@ const DesignSchema: Record<string, unknown> = {
                                             "description": "Primary color of the component used for UI representation.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "primaryColor"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "secondaryColor": {
                                             "type": "string",
                                             "description": "Secondary color of the entity used for UI representation.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "secondaryColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "svgWhite": {
                                             "type": "string",
                                             "description": "White SVG of the entity used for UI representation on dark background.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "svgWhite"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "svgColor": {
                                             "type": "string",
                                             "description": "Colored SVG of the entity used for UI representation on light background.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "svgColor"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "svgComplete": {
                                             "type": "string",
                                             "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "svgComplete,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "color": {
                                             "type": "string",
                                             "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "color,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "textOpacity": {
                                             "type": "number",
@@ -12309,7 +12757,9 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "TextOpacity",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "textOpacity,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0,
+                                            "maximum": 1
                                           },
                                           "fontFamily": {
                                             "type": "string",
@@ -12317,7 +12767,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontFamily",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontFamily,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "fontSize": {
                                             "type": "string",
@@ -12325,7 +12776,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontSize",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontSize,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "fontStyle": {
                                             "type": "string",
@@ -12333,7 +12785,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontStyle",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontStyle,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "fontWeight": {
                                             "type": "string",
@@ -12341,7 +12794,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontWeight",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontWeight,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "textTransform": {
                                             "description": "A transformation to apply to the label text",
@@ -12363,7 +12817,9 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "Opacity",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "opacity,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0,
+                                            "maximum": 1
                                           },
                                           "zIndex": {
                                             "type": "integer",
@@ -12371,7 +12827,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "ZIndex",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "zIndex,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0
                                           },
                                           "label": {
                                             "type": "string",
@@ -12379,7 +12836,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "Label",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "label,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "edgeAnimation": {
                                             "type": "string",
@@ -12387,7 +12845,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "EdgeAnimation",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "edgeAnimation,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "curveStyle": {
                                             "x-go-name": "CurveStyle",
@@ -12411,7 +12870,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "LineColor",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "lineColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "lineStyle": {
                                             "x-go-name": "LineStyle",
@@ -12446,7 +12906,9 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "LineOpacity",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "lineOpacity,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0,
+                                            "maximum": 1
                                           },
                                           "targetArrowColor": {
                                             "type": "string",
@@ -12454,7 +12916,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "TargetArrowColor",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "targetArrowColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "targetArrowShape": {
                                             "x-go-name": "TargetArrowShape",
@@ -12496,7 +12959,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "MidTargetArrowColor",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "midTargetArrowColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "midTargetArrowShape": {
                                             "x-go-name": "MidTargetArrowShape",
@@ -12539,7 +13003,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "ArrowScale",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "arrowScale,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0
                                           },
                                           "sourceLabel": {
                                             "type": "string",
@@ -12547,7 +13012,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "SourceLabel",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "sourceLabel,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "targetLabel": {
                                             "type": "string",
@@ -12555,7 +13021,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "TargetLabel",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "targetLabel,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           }
                                         }
                                       },
@@ -12657,7 +13124,9 @@ const DesignSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -12686,7 +13155,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "x-oapi-codegen-extra-tags": {
                                       "yaml": "evaluationQuery",
                                       "json": "evaluationQuery"
-                                    }
+                                    },
+                                    "maxLength": 500
                                   },
                                   "selectors": {
                                     "x-go-type": "SelectorSet",
@@ -12742,7 +13212,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -12762,7 +13234,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -12790,7 +13263,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -12823,7 +13298,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -12851,7 +13327,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -12884,7 +13362,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -12986,7 +13465,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -13076,7 +13557,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -13096,7 +13579,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -13124,7 +13608,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -13157,7 +13643,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -13185,7 +13672,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -13218,7 +13707,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -13320,7 +13810,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -13424,7 +13916,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -13444,7 +13938,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -13472,7 +13967,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -13505,7 +14002,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -13533,7 +14031,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -13566,7 +14066,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -13668,7 +14169,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -13758,7 +14261,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -13778,7 +14283,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -13806,7 +14312,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -13839,7 +14347,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -13867,7 +14376,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -13900,7 +14411,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -14002,7 +14514,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -14182,7 +14696,8 @@ const DesignSchema: Record<string, unknown> = {
                           "x-go-type-skip-optional-pointer": true
                         }
                       }
-                    }
+                    },
+                    "description": "The patterns of the mesherypatterndeleterequestbody."
                   }
                 }
               }
@@ -14516,7 +15031,8 @@ const DesignSchema: Record<string, unknown> = {
                       "properties": {
                         "publishedVersion": {
                           "description": "Tracks the specific content version that has been made available in the Catalog.",
-                          "type": "string"
+                          "type": "string",
+                          "maxLength": 500
                         },
                         "class": {
                           "description": "Published content is classifed by its support level. Content classes help you understand the origin and expected support level for each piece of content. It is important to note that the level of support may vary within each class, and you should exercise discretion when using community-contributed content. Content produced and fully supported by Meshery maintainers. This represents the highest level of support and is considered the most reliable. Content produced by partners and verified by Meshery maintainers. While not directly maintained by Meshery, it has undergone a verification process to ensure quality and compatibility. Content produced and supported by the respective project or organization responsible for the specific technology. This class offers a level of support from the project maintainers themselves. Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Community content may have varying levels of support and reliability.",
@@ -14534,7 +15050,8 @@ const DesignSchema: Record<string, unknown> = {
                               "const": "reference architecture",
                               "description": "Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Reference architecture content may have varying levels of support and reliability."
                             }
-                          ]
+                          ],
+                          "maxLength": 500
                         },
                         "compatibility": {
                           "type": "array",
@@ -14552,7 +15069,8 @@ const DesignSchema: Record<string, unknown> = {
                         "patternCaveats": {
                           "type": "string",
                           "title": "Caveats and Considerations",
-                          "description": "Specific stipulations to consider and known behaviors to be aware of when using this design."
+                          "description": "Specific stipulations to consider and known behaviors to be aware of when using this design.",
+                          "maxLength": 500
                         },
                         "patternInfo": {
                           "type": "string",
@@ -14640,7 +15158,9 @@ const DesignSchema: Record<string, unknown> = {
                         "name": {
                           "type": "string",
                           "description": "Name of the design; a descriptive, but concise title for the design document.",
-                          "x-order": 2
+                          "x-order": 2,
+                          "minLength": 1,
+                          "maxLength": 255
                         },
                         "schemaVersion": {
                           "description": "Specifies the version of the schema to which the design conforms.",
@@ -14718,7 +15238,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "type": "array",
                                         "items": {
                                           "type": "string"
-                                        }
+                                        },
+                                        "description": "The immediate ref field path of the nonresolvedalias."
                                       }
                                     },
                                     "required": [
@@ -14742,6 +15263,7 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "resolvedRefFieldPath": {
                                         "type": "array",
+                                        "description": "Fully resolved field path targeted by the alias.",
                                         "items": {
                                           "type": "string"
                                         }
@@ -14755,7 +15277,8 @@ const DesignSchema: Record<string, unknown> = {
                                 ]
                               }
                             }
-                          }
+                          },
+                          "description": "Additional metadata associated with this resource."
                         },
                         "components": {
                           "description": "A list of one or more component declarations.",
@@ -14840,7 +15363,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "x-oapi-codegen-extra-tags": {
                                       "yaml": "description",
                                       "json": "description"
-                                    }
+                                    },
+                                    "maxLength": 5000
                                   },
                                   "format": {
                                     "x-order": 6,
@@ -15607,7 +16131,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "description": {
                                                   "type": "string",
-                                                  "description": "A written representation of the purpose and characteristics of the capability."
+                                                  "description": "A written representation of the purpose and characteristics of the capability.",
+                                                  "maxLength": 5000
                                                 },
                                                 "kind": {
                                                   "description": "Top-level categorization of the capability",
@@ -15875,7 +16400,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "relationships",
                                           "yaml": "relationships"
-                                        }
+                                        },
+                                        "description": "The relationships of the model."
                                       },
                                       "components": {
                                         "type": "array",
@@ -15884,7 +16410,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "components",
                                           "yaml": "components"
-                                        }
+                                        },
+                                        "description": "The components of the model."
                                       },
                                       "componentsCount": {
                                         "type": "integer",
@@ -15895,7 +16422,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "yaml": "components_count",
                                           "gorm": "-"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "relationshipsCount": {
                                         "type": "integer",
@@ -15906,7 +16434,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "json": "relationships_count",
                                           "yaml": "relationships_count"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "created_at": {
                                         "x-order": 14,
@@ -16041,7 +16570,9 @@ const DesignSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -16096,27 +16627,33 @@ const DesignSchema: Record<string, unknown> = {
                                         "properties": {
                                           "primaryColor": {
                                             "type": "string",
-                                            "description": "Primary color of the component used for UI representation."
+                                            "description": "Primary color of the component used for UI representation.",
+                                            "maxLength": 500
                                           },
                                           "secondaryColor": {
                                             "type": "string",
-                                            "description": "Secondary color of the entity used for UI representation."
+                                            "description": "Secondary color of the entity used for UI representation.",
+                                            "maxLength": 500
                                           },
                                           "svgWhite": {
                                             "type": "string",
-                                            "description": "White SVG of the entity used for UI representation on dark background."
+                                            "description": "White SVG of the entity used for UI representation on dark background.",
+                                            "maxLength": 500
                                           },
                                           "svgColor": {
                                             "type": "string",
-                                            "description": "Colored SVG of the entity used for UI representation on light background."
+                                            "description": "Colored SVG of the entity used for UI representation on light background.",
+                                            "maxLength": 500
                                           },
                                           "svgComplete": {
                                             "type": "string",
-                                            "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                                            "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                                            "maxLength": 500
                                           },
                                           "color": {
                                             "type": "string",
-                                            "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 500
                                           },
                                           "textOpacity": {
                                             "type": "number",
@@ -16126,19 +16663,23 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "fontFamily": {
                                             "type": "string",
-                                            "description": "A comma-separated list of font names to use on the label text."
+                                            "description": "A comma-separated list of font names to use on the label text.",
+                                            "maxLength": 500
                                           },
                                           "fontSize": {
                                             "type": "string",
-                                            "description": "The size of the label text."
+                                            "description": "The size of the label text.",
+                                            "maxLength": 500
                                           },
                                           "fontStyle": {
                                             "type": "string",
-                                            "description": "A CSS font style to be applied to the label text."
+                                            "description": "A CSS font style to be applied to the label text.",
+                                            "maxLength": 500
                                           },
                                           "fontWeight": {
                                             "type": "string",
-                                            "description": "A CSS font weight to be applied to the label text."
+                                            "description": "A CSS font weight to be applied to the label text.",
+                                            "maxLength": 500
                                           },
                                           "textTransform": {
                                             "type": "string",
@@ -16157,11 +16698,13 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "zIndex": {
                                             "type": "integer",
-                                            "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                                            "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                                            "minimum": 0
                                           },
                                           "label": {
                                             "type": "string",
-                                            "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                                            "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                                            "maxLength": 500
                                           },
                                           "animation": {
                                             "type": "object",
@@ -16215,26 +16758,37 @@ const DesignSchema: Record<string, unknown> = {
                                               "x": {
                                                 "type": "number",
                                                 "description": "The x-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               },
                                               "y": {
                                                 "type": "number",
                                                 "description": "The y-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               }
                                             }
                                           },
                                           "bodyText": {
                                             "type": "string",
-                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                            "maxLength": 500
                                           },
                                           "bodyTextWrap": {
                                             "type": "string",
-                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                            "enum": [
+                                              "none",
+                                              "wrap",
+                                              "ellipsis"
+                                            ]
                                           },
                                           "bodyTextMaxWidth": {
                                             "type": "string",
-                                            "description": "The maximum width for wrapping text in the node."
+                                            "description": "The maximum width for wrapping text in the node.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextOpacity": {
                                             "type": "number",
@@ -16244,47 +16798,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "bodyTextBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontSize": {
                                             "type": "number",
-                                            "description": "The size of the node's body text."
+                                            "description": "The size of the node's body text.",
+                                            "minimum": 0
                                           },
                                           "bodyTextColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontWeight": {
                                             "type": "string",
-                                            "description": "A CSS font weight to be applied to the node's body text."
+                                            "description": "A CSS font weight to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextHorizontalAlign": {
                                             "type": "string",
-                                            "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                            "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextDecoration": {
                                             "type": "string",
-                                            "description": "A CSS text decoration to be applied to the node's body text."
+                                            "description": "A CSS text decoration to be applied to the node's body text.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextVerticalAlign": {
                                             "type": "string",
-                                            "description": "A CSS vertical alignment to be applied to the node's body text."
+                                            "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "width": {
                                             "type": "number",
-                                            "description": "The width of the node's body or the width of an edge's line."
+                                            "description": "The width of the node's body or the width of an edge's line.",
+                                            "minimum": 0
                                           },
                                           "height": {
                                             "type": "number",
-                                            "description": "The height of the node's body"
+                                            "description": "The height of the node's body",
+                                            "minimum": 0
                                           },
                                           "backgroundImage": {
                                             "type": "string",
-                                            "description": "The URL that points to the image to show in the node."
+                                            "format": "uri",
+                                            "description": "The URL that points to the image to show in the node.",
+                                            "maxLength": 2048
                                           },
                                           "backgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "backgroundBlacken": {
                                             "type": "number",
@@ -16300,35 +16866,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "backgroundPositionX": {
                                             "type": "string",
-                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundPositionY": {
                                             "type": "string",
-                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetX": {
                                             "type": "string",
-                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetY": {
                                             "type": "string",
-                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundFit": {
                                             "type": "string",
-                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                            "enum": [
+                                              "none",
+                                              "contain",
+                                              "cover"
+                                            ]
                                           },
                                           "backgroundClip": {
                                             "type": "string",
-                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                            "enum": [
+                                              "none",
+                                              "node",
+                                              "node-border"
+                                            ]
                                           },
                                           "backgroundWidthRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "backgroundHeightRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "borderWidth": {
                                             "type": "number",
@@ -16347,7 +16937,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "borderColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "borderOpacity": {
                                             "type": "number",
@@ -16389,23 +16980,28 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "activeBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "activeBgOpacity": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "activeBgSize": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "selectionBoxColor": {
                                             "type": "string",
-                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "selectionBoxBorderWidth": {
                                             "type": "number",
-                                            "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                            "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                            "minimum": 0
                                           },
                                           "selectionBoxOpacity": {
                                             "type": "number",
@@ -16415,7 +17011,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "outsideTextureBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "outsideTextureBgOpacity": {
                                             "type": "number",
@@ -16425,11 +17022,13 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "shapePolygonPoints": {
                                             "type": "string",
-                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                            "maxLength": 2000
                                           },
                                           "menuBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "menuBackgroundOpacity": {
                                             "type": "number",
@@ -16439,7 +17038,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "menuForgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           }
                                         }
                                       }
@@ -16505,7 +17105,8 @@ const DesignSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -16796,7 +17397,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "genealogy": {
                                         "x-order": 1,
                                         "type": "string",
-                                        "description": "Genealogy represents the various representational states of the component."
+                                        "description": "Genealogy represents the various representational states of the component.",
+                                        "maxLength": 1000
                                       },
                                       "isAnnotation": {
                                         "x-order": 2,
@@ -16822,7 +17424,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "configurationUISchema": {
                                         "x-order": 6,
                                         "type": "string",
-                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                        "maxLength": 20000
                                       }
                                     },
                                     "x-oapi-codegen-extra-tags": {
@@ -16851,17 +17454,20 @@ const DesignSchema: Record<string, unknown> = {
                                       "version": {
                                         "type": "string",
                                         "description": "Version of the component produced by the registrant. Example: APIVersion of a Kubernetes Pod.",
-                                        "x-order": 1
+                                        "x-order": 1,
+                                        "maxLength": 500
                                       },
                                       "kind": {
                                         "type": "string",
                                         "description": "The unique identifier (name) assigned by the registrant to this component. Example: A Kubernetes Pod is of kind 'Pod'.",
-                                        "x-order": 2
+                                        "x-order": 2,
+                                        "maxLength": 255
                                       },
                                       "schema": {
                                         "type": "string",
                                         "description": "JSON schema of the object as defined by the registrant.",
-                                        "x-order": 3
+                                        "x-order": 3,
+                                        "maxLength": 500
                                       }
                                     },
                                     "required": [
@@ -17025,7 +17631,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "yaml": "type",
                                       "json": "type",
                                       "gorm": "column:type"
-                                    }
+                                    },
+                                    "maxLength": 255
                                   },
                                   "subType": {
                                     "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -17035,7 +17642,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "x-oapi-codegen-extra-tags": {
                                       "yaml": "subType",
                                       "json": "subType"
-                                    }
+                                    },
+                                    "maxLength": 255
                                   },
                                   "status": {
                                     "type": "string",
@@ -17113,7 +17721,8 @@ const DesignSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -17265,7 +17874,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "type": "string",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "description"
-                                        }
+                                        },
+                                        "maxLength": 5000
                                       },
                                       "styles": {
                                         "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -17285,42 +17895,48 @@ const DesignSchema: Record<string, unknown> = {
                                             "description": "Primary color of the component used for UI representation.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "primaryColor"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "secondaryColor": {
                                             "type": "string",
                                             "description": "Secondary color of the entity used for UI representation.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "secondaryColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "svgWhite": {
                                             "type": "string",
                                             "description": "White SVG of the entity used for UI representation on dark background.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "svgWhite"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "svgColor": {
                                             "type": "string",
                                             "description": "Colored SVG of the entity used for UI representation on light background.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "svgColor"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "svgComplete": {
                                             "type": "string",
                                             "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "svgComplete,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "color": {
                                             "type": "string",
                                             "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "color,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "textOpacity": {
                                             "type": "number",
@@ -17329,7 +17945,9 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "TextOpacity",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "textOpacity,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0,
+                                            "maximum": 1
                                           },
                                           "fontFamily": {
                                             "type": "string",
@@ -17337,7 +17955,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontFamily",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontFamily,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "fontSize": {
                                             "type": "string",
@@ -17345,7 +17964,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontSize",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontSize,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "fontStyle": {
                                             "type": "string",
@@ -17353,7 +17973,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontStyle",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontStyle,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "fontWeight": {
                                             "type": "string",
@@ -17361,7 +17982,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontWeight",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontWeight,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "textTransform": {
                                             "description": "A transformation to apply to the label text",
@@ -17383,7 +18005,9 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "Opacity",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "opacity,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0,
+                                            "maximum": 1
                                           },
                                           "zIndex": {
                                             "type": "integer",
@@ -17391,7 +18015,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "ZIndex",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "zIndex,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0
                                           },
                                           "label": {
                                             "type": "string",
@@ -17399,7 +18024,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "Label",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "label,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "edgeAnimation": {
                                             "type": "string",
@@ -17407,7 +18033,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "EdgeAnimation",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "edgeAnimation,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "curveStyle": {
                                             "x-go-name": "CurveStyle",
@@ -17431,7 +18058,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "LineColor",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "lineColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "lineStyle": {
                                             "x-go-name": "LineStyle",
@@ -17466,7 +18094,9 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "LineOpacity",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "lineOpacity,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0,
+                                            "maximum": 1
                                           },
                                           "targetArrowColor": {
                                             "type": "string",
@@ -17474,7 +18104,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "TargetArrowColor",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "targetArrowColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "targetArrowShape": {
                                             "x-go-name": "TargetArrowShape",
@@ -17516,7 +18147,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "MidTargetArrowColor",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "midTargetArrowColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "midTargetArrowShape": {
                                             "x-go-name": "MidTargetArrowShape",
@@ -17559,7 +18191,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "ArrowScale",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "arrowScale,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0
                                           },
                                           "sourceLabel": {
                                             "type": "string",
@@ -17567,7 +18200,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "SourceLabel",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "sourceLabel,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "targetLabel": {
                                             "type": "string",
@@ -17575,7 +18209,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "TargetLabel",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "targetLabel,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           }
                                         }
                                       },
@@ -17677,7 +18312,9 @@ const DesignSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -17706,7 +18343,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "x-oapi-codegen-extra-tags": {
                                       "yaml": "evaluationQuery",
                                       "json": "evaluationQuery"
-                                    }
+                                    },
+                                    "maxLength": 500
                                   },
                                   "selectors": {
                                     "x-go-type": "SelectorSet",
@@ -17762,7 +18400,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -17782,7 +18422,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -17810,7 +18451,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -17843,7 +18486,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -17871,7 +18515,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -17904,7 +18550,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -18006,7 +18653,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -18096,7 +18745,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -18116,7 +18767,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -18144,7 +18796,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -18177,7 +18831,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -18205,7 +18860,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -18238,7 +18895,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -18340,7 +18998,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -18444,7 +19104,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -18464,7 +19126,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -18492,7 +19155,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -18525,7 +19190,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -18553,7 +19219,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -18586,7 +19254,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -18688,7 +19357,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -18778,7 +19449,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -18798,7 +19471,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -18826,7 +19500,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -18859,7 +19535,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -18887,7 +19564,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -18920,7 +19599,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -19022,7 +19702,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -19273,7 +19955,8 @@ const DesignSchema: Record<string, unknown> = {
                       "properties": {
                         "publishedVersion": {
                           "description": "Tracks the specific content version that has been made available in the Catalog.",
-                          "type": "string"
+                          "type": "string",
+                          "maxLength": 500
                         },
                         "class": {
                           "description": "Published content is classifed by its support level. Content classes help you understand the origin and expected support level for each piece of content. It is important to note that the level of support may vary within each class, and you should exercise discretion when using community-contributed content. Content produced and fully supported by Meshery maintainers. This represents the highest level of support and is considered the most reliable. Content produced by partners and verified by Meshery maintainers. While not directly maintained by Meshery, it has undergone a verification process to ensure quality and compatibility. Content produced and supported by the respective project or organization responsible for the specific technology. This class offers a level of support from the project maintainers themselves. Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Community content may have varying levels of support and reliability.",
@@ -19291,7 +19974,8 @@ const DesignSchema: Record<string, unknown> = {
                               "const": "reference architecture",
                               "description": "Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Reference architecture content may have varying levels of support and reliability."
                             }
-                          ]
+                          ],
+                          "maxLength": 500
                         },
                         "compatibility": {
                           "type": "array",
@@ -19309,7 +19993,8 @@ const DesignSchema: Record<string, unknown> = {
                         "patternCaveats": {
                           "type": "string",
                           "title": "Caveats and Considerations",
-                          "description": "Specific stipulations to consider and known behaviors to be aware of when using this design."
+                          "description": "Specific stipulations to consider and known behaviors to be aware of when using this design.",
+                          "maxLength": 500
                         },
                         "patternInfo": {
                           "type": "string",
@@ -19397,7 +20082,9 @@ const DesignSchema: Record<string, unknown> = {
                         "name": {
                           "type": "string",
                           "description": "Name of the design; a descriptive, but concise title for the design document.",
-                          "x-order": 2
+                          "x-order": 2,
+                          "minLength": 1,
+                          "maxLength": 255
                         },
                         "schemaVersion": {
                           "description": "Specifies the version of the schema to which the design conforms.",
@@ -19475,7 +20162,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "type": "array",
                                         "items": {
                                           "type": "string"
-                                        }
+                                        },
+                                        "description": "The immediate ref field path of the nonresolvedalias."
                                       }
                                     },
                                     "required": [
@@ -19499,6 +20187,7 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "resolvedRefFieldPath": {
                                         "type": "array",
+                                        "description": "Fully resolved field path targeted by the alias.",
                                         "items": {
                                           "type": "string"
                                         }
@@ -19512,7 +20201,8 @@ const DesignSchema: Record<string, unknown> = {
                                 ]
                               }
                             }
-                          }
+                          },
+                          "description": "Additional metadata associated with this resource."
                         },
                         "components": {
                           "description": "A list of one or more component declarations.",
@@ -19597,7 +20287,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "x-oapi-codegen-extra-tags": {
                                       "yaml": "description",
                                       "json": "description"
-                                    }
+                                    },
+                                    "maxLength": 5000
                                   },
                                   "format": {
                                     "x-order": 6,
@@ -20364,7 +21055,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "description": {
                                                   "type": "string",
-                                                  "description": "A written representation of the purpose and characteristics of the capability."
+                                                  "description": "A written representation of the purpose and characteristics of the capability.",
+                                                  "maxLength": 5000
                                                 },
                                                 "kind": {
                                                   "description": "Top-level categorization of the capability",
@@ -20632,7 +21324,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "relationships",
                                           "yaml": "relationships"
-                                        }
+                                        },
+                                        "description": "The relationships of the model."
                                       },
                                       "components": {
                                         "type": "array",
@@ -20641,7 +21334,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "components",
                                           "yaml": "components"
-                                        }
+                                        },
+                                        "description": "The components of the model."
                                       },
                                       "componentsCount": {
                                         "type": "integer",
@@ -20652,7 +21346,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "yaml": "components_count",
                                           "gorm": "-"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "relationshipsCount": {
                                         "type": "integer",
@@ -20663,7 +21358,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "json": "relationships_count",
                                           "yaml": "relationships_count"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "created_at": {
                                         "x-order": 14,
@@ -20798,7 +21494,9 @@ const DesignSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -20853,27 +21551,33 @@ const DesignSchema: Record<string, unknown> = {
                                         "properties": {
                                           "primaryColor": {
                                             "type": "string",
-                                            "description": "Primary color of the component used for UI representation."
+                                            "description": "Primary color of the component used for UI representation.",
+                                            "maxLength": 500
                                           },
                                           "secondaryColor": {
                                             "type": "string",
-                                            "description": "Secondary color of the entity used for UI representation."
+                                            "description": "Secondary color of the entity used for UI representation.",
+                                            "maxLength": 500
                                           },
                                           "svgWhite": {
                                             "type": "string",
-                                            "description": "White SVG of the entity used for UI representation on dark background."
+                                            "description": "White SVG of the entity used for UI representation on dark background.",
+                                            "maxLength": 500
                                           },
                                           "svgColor": {
                                             "type": "string",
-                                            "description": "Colored SVG of the entity used for UI representation on light background."
+                                            "description": "Colored SVG of the entity used for UI representation on light background.",
+                                            "maxLength": 500
                                           },
                                           "svgComplete": {
                                             "type": "string",
-                                            "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                                            "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                                            "maxLength": 500
                                           },
                                           "color": {
                                             "type": "string",
-                                            "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 500
                                           },
                                           "textOpacity": {
                                             "type": "number",
@@ -20883,19 +21587,23 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "fontFamily": {
                                             "type": "string",
-                                            "description": "A comma-separated list of font names to use on the label text."
+                                            "description": "A comma-separated list of font names to use on the label text.",
+                                            "maxLength": 500
                                           },
                                           "fontSize": {
                                             "type": "string",
-                                            "description": "The size of the label text."
+                                            "description": "The size of the label text.",
+                                            "maxLength": 500
                                           },
                                           "fontStyle": {
                                             "type": "string",
-                                            "description": "A CSS font style to be applied to the label text."
+                                            "description": "A CSS font style to be applied to the label text.",
+                                            "maxLength": 500
                                           },
                                           "fontWeight": {
                                             "type": "string",
-                                            "description": "A CSS font weight to be applied to the label text."
+                                            "description": "A CSS font weight to be applied to the label text.",
+                                            "maxLength": 500
                                           },
                                           "textTransform": {
                                             "type": "string",
@@ -20914,11 +21622,13 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "zIndex": {
                                             "type": "integer",
-                                            "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                                            "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                                            "minimum": 0
                                           },
                                           "label": {
                                             "type": "string",
-                                            "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                                            "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                                            "maxLength": 500
                                           },
                                           "animation": {
                                             "type": "object",
@@ -20972,26 +21682,37 @@ const DesignSchema: Record<string, unknown> = {
                                               "x": {
                                                 "type": "number",
                                                 "description": "The x-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               },
                                               "y": {
                                                 "type": "number",
                                                 "description": "The y-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               }
                                             }
                                           },
                                           "bodyText": {
                                             "type": "string",
-                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                            "maxLength": 500
                                           },
                                           "bodyTextWrap": {
                                             "type": "string",
-                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                            "enum": [
+                                              "none",
+                                              "wrap",
+                                              "ellipsis"
+                                            ]
                                           },
                                           "bodyTextMaxWidth": {
                                             "type": "string",
-                                            "description": "The maximum width for wrapping text in the node."
+                                            "description": "The maximum width for wrapping text in the node.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextOpacity": {
                                             "type": "number",
@@ -21001,47 +21722,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "bodyTextBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontSize": {
                                             "type": "number",
-                                            "description": "The size of the node's body text."
+                                            "description": "The size of the node's body text.",
+                                            "minimum": 0
                                           },
                                           "bodyTextColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontWeight": {
                                             "type": "string",
-                                            "description": "A CSS font weight to be applied to the node's body text."
+                                            "description": "A CSS font weight to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextHorizontalAlign": {
                                             "type": "string",
-                                            "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                            "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextDecoration": {
                                             "type": "string",
-                                            "description": "A CSS text decoration to be applied to the node's body text."
+                                            "description": "A CSS text decoration to be applied to the node's body text.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextVerticalAlign": {
                                             "type": "string",
-                                            "description": "A CSS vertical alignment to be applied to the node's body text."
+                                            "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "width": {
                                             "type": "number",
-                                            "description": "The width of the node's body or the width of an edge's line."
+                                            "description": "The width of the node's body or the width of an edge's line.",
+                                            "minimum": 0
                                           },
                                           "height": {
                                             "type": "number",
-                                            "description": "The height of the node's body"
+                                            "description": "The height of the node's body",
+                                            "minimum": 0
                                           },
                                           "backgroundImage": {
                                             "type": "string",
-                                            "description": "The URL that points to the image to show in the node."
+                                            "format": "uri",
+                                            "description": "The URL that points to the image to show in the node.",
+                                            "maxLength": 2048
                                           },
                                           "backgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "backgroundBlacken": {
                                             "type": "number",
@@ -21057,35 +21790,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "backgroundPositionX": {
                                             "type": "string",
-                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundPositionY": {
                                             "type": "string",
-                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetX": {
                                             "type": "string",
-                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetY": {
                                             "type": "string",
-                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundFit": {
                                             "type": "string",
-                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                            "enum": [
+                                              "none",
+                                              "contain",
+                                              "cover"
+                                            ]
                                           },
                                           "backgroundClip": {
                                             "type": "string",
-                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                            "enum": [
+                                              "none",
+                                              "node",
+                                              "node-border"
+                                            ]
                                           },
                                           "backgroundWidthRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "backgroundHeightRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "borderWidth": {
                                             "type": "number",
@@ -21104,7 +21861,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "borderColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "borderOpacity": {
                                             "type": "number",
@@ -21146,23 +21904,28 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "activeBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "activeBgOpacity": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "activeBgSize": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "selectionBoxColor": {
                                             "type": "string",
-                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "selectionBoxBorderWidth": {
                                             "type": "number",
-                                            "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                            "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                            "minimum": 0
                                           },
                                           "selectionBoxOpacity": {
                                             "type": "number",
@@ -21172,7 +21935,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "outsideTextureBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "outsideTextureBgOpacity": {
                                             "type": "number",
@@ -21182,11 +21946,13 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "shapePolygonPoints": {
                                             "type": "string",
-                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                            "maxLength": 2000
                                           },
                                           "menuBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "menuBackgroundOpacity": {
                                             "type": "number",
@@ -21196,7 +21962,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "menuForgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           }
                                         }
                                       }
@@ -21262,7 +22029,8 @@ const DesignSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -21553,7 +22321,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "genealogy": {
                                         "x-order": 1,
                                         "type": "string",
-                                        "description": "Genealogy represents the various representational states of the component."
+                                        "description": "Genealogy represents the various representational states of the component.",
+                                        "maxLength": 1000
                                       },
                                       "isAnnotation": {
                                         "x-order": 2,
@@ -21579,7 +22348,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "configurationUISchema": {
                                         "x-order": 6,
                                         "type": "string",
-                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                        "maxLength": 20000
                                       }
                                     },
                                     "x-oapi-codegen-extra-tags": {
@@ -21608,17 +22378,20 @@ const DesignSchema: Record<string, unknown> = {
                                       "version": {
                                         "type": "string",
                                         "description": "Version of the component produced by the registrant. Example: APIVersion of a Kubernetes Pod.",
-                                        "x-order": 1
+                                        "x-order": 1,
+                                        "maxLength": 500
                                       },
                                       "kind": {
                                         "type": "string",
                                         "description": "The unique identifier (name) assigned by the registrant to this component. Example: A Kubernetes Pod is of kind 'Pod'.",
-                                        "x-order": 2
+                                        "x-order": 2,
+                                        "maxLength": 255
                                       },
                                       "schema": {
                                         "type": "string",
                                         "description": "JSON schema of the object as defined by the registrant.",
-                                        "x-order": 3
+                                        "x-order": 3,
+                                        "maxLength": 500
                                       }
                                     },
                                     "required": [
@@ -21782,7 +22555,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "yaml": "type",
                                       "json": "type",
                                       "gorm": "column:type"
-                                    }
+                                    },
+                                    "maxLength": 255
                                   },
                                   "subType": {
                                     "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -21792,7 +22566,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "x-oapi-codegen-extra-tags": {
                                       "yaml": "subType",
                                       "json": "subType"
-                                    }
+                                    },
+                                    "maxLength": 255
                                   },
                                   "status": {
                                     "type": "string",
@@ -21870,7 +22645,8 @@ const DesignSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -22022,7 +22798,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "type": "string",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "description"
-                                        }
+                                        },
+                                        "maxLength": 5000
                                       },
                                       "styles": {
                                         "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -22042,42 +22819,48 @@ const DesignSchema: Record<string, unknown> = {
                                             "description": "Primary color of the component used for UI representation.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "primaryColor"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "secondaryColor": {
                                             "type": "string",
                                             "description": "Secondary color of the entity used for UI representation.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "secondaryColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "svgWhite": {
                                             "type": "string",
                                             "description": "White SVG of the entity used for UI representation on dark background.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "svgWhite"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "svgColor": {
                                             "type": "string",
                                             "description": "Colored SVG of the entity used for UI representation on light background.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "svgColor"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "svgComplete": {
                                             "type": "string",
                                             "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "svgComplete,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "color": {
                                             "type": "string",
                                             "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "color,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "textOpacity": {
                                             "type": "number",
@@ -22086,7 +22869,9 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "TextOpacity",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "textOpacity,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0,
+                                            "maximum": 1
                                           },
                                           "fontFamily": {
                                             "type": "string",
@@ -22094,7 +22879,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontFamily",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontFamily,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "fontSize": {
                                             "type": "string",
@@ -22102,7 +22888,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontSize",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontSize,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "fontStyle": {
                                             "type": "string",
@@ -22110,7 +22897,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontStyle",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontStyle,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "fontWeight": {
                                             "type": "string",
@@ -22118,7 +22906,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "FontWeight",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "fontWeight,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "textTransform": {
                                             "description": "A transformation to apply to the label text",
@@ -22140,7 +22929,9 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "Opacity",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "opacity,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0,
+                                            "maximum": 1
                                           },
                                           "zIndex": {
                                             "type": "integer",
@@ -22148,7 +22939,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "ZIndex",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "zIndex,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0
                                           },
                                           "label": {
                                             "type": "string",
@@ -22156,7 +22948,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "Label",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "label,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "edgeAnimation": {
                                             "type": "string",
@@ -22164,7 +22957,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "EdgeAnimation",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "edgeAnimation,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "curveStyle": {
                                             "x-go-name": "CurveStyle",
@@ -22188,7 +22982,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "LineColor",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "lineColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "lineStyle": {
                                             "x-go-name": "LineStyle",
@@ -22223,7 +23018,9 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "LineOpacity",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "lineOpacity,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0,
+                                            "maximum": 1
                                           },
                                           "targetArrowColor": {
                                             "type": "string",
@@ -22231,7 +23028,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "TargetArrowColor",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "targetArrowColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "targetArrowShape": {
                                             "x-go-name": "TargetArrowShape",
@@ -22273,7 +23071,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "MidTargetArrowColor",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "midTargetArrowColor,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "midTargetArrowShape": {
                                             "x-go-name": "MidTargetArrowShape",
@@ -22316,7 +23115,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "ArrowScale",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "arrowScale,omitempty"
-                                            }
+                                            },
+                                            "minimum": 0
                                           },
                                           "sourceLabel": {
                                             "type": "string",
@@ -22324,7 +23124,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "SourceLabel",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "sourceLabel,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           },
                                           "targetLabel": {
                                             "type": "string",
@@ -22332,7 +23133,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "x-go-name": "TargetLabel",
                                             "x-oapi-codegen-extra-tags": {
                                               "json": "targetLabel,omitempty"
-                                            }
+                                            },
+                                            "maxLength": 500
                                           }
                                         }
                                       },
@@ -22434,7 +23236,9 @@ const DesignSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -22463,7 +23267,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "x-oapi-codegen-extra-tags": {
                                       "yaml": "evaluationQuery",
                                       "json": "evaluationQuery"
-                                    }
+                                    },
+                                    "maxLength": 500
                                   },
                                   "selectors": {
                                     "x-go-type": "SelectorSet",
@@ -22519,7 +23324,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -22539,7 +23346,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -22567,7 +23375,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -22600,7 +23410,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -22628,7 +23439,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -22661,7 +23474,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -22763,7 +23577,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -22853,7 +23669,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -22873,7 +23691,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -22901,7 +23720,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -22934,7 +23755,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -22962,7 +23784,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -22995,7 +23819,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -23097,7 +23922,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -23201,7 +24028,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -23221,7 +24050,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -23249,7 +24079,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -23282,7 +24114,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -23310,7 +24143,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -23343,7 +24178,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -23445,7 +24281,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -23535,7 +24373,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "match": {
                                                     "x-go-type": "MatchSelector",
@@ -23555,7 +24395,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "refs,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The refs of the matchselector."
                                                       },
                                                       "from": {
                                                         "type": "array",
@@ -23583,7 +24424,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -23616,7 +24459,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "from,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The from of the matchselector."
                                                       },
                                                       "to": {
                                                         "type": "array",
@@ -23644,7 +24488,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               "type": "string",
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "kind"
-                                                              }
+                                                              },
+                                                              "description": "Kind of the resource.",
+                                                              "maxLength": 255
                                                             },
                                                             "mutatorRef": {
                                                               "x-oapi-codegen-extra-tags": {
@@ -23677,7 +24523,8 @@ const DesignSchema: Record<string, unknown> = {
                                                         },
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "to,omitempty"
-                                                        }
+                                                        },
+                                                        "description": "The to of the matchselector."
                                                       }
                                                     }
                                                   },
@@ -23779,7 +24626,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -24050,12 +24899,15 @@ const DesignSchema: Record<string, unknown> = {
                   },
                   "fileName": {
                     "type": "string",
-                    "description": "The name of the pattern file being imported."
+                    "description": "The name of the pattern file being imported.",
+                    "maxLength": 500
                   },
                   "name": {
                     "type": "string",
                     "default": "Untitled Design",
-                    "description": "Provide a name for your design file. This name will help you identify the file more easily. You can also change the name of your design after importing it."
+                    "description": "Provide a name for your design file. This name will help you identify the file more easily. You can also change the name of your design after importing it.",
+                    "minLength": 1,
+                    "maxLength": 255
                   },
                   "url": {
                     "type": "string",
@@ -24140,12 +24992,15 @@ const DesignSchema: Record<string, unknown> = {
                   },
                   "fileName": {
                     "type": "string",
-                    "description": "The name of the pattern file being imported."
+                    "description": "The name of the pattern file being imported.",
+                    "maxLength": 500
                   },
                   "name": {
                     "type": "string",
                     "default": "Untitled Design",
-                    "description": "Provide a name for your design file. This name will help you identify the file more easily. You can also change the name of your design after importing it."
+                    "description": "Provide a name for your design file. This name will help you identify the file more easily. You can also change the name of your design after importing it.",
+                    "minLength": 1,
+                    "maxLength": 255
                   },
                   "url": {
                     "type": "string",
@@ -24326,13 +25181,19 @@ const DesignSchema: Record<string, unknown> = {
                   "type": "object",
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "patterns": {
                       "type": "array",
@@ -24350,7 +25211,8 @@ const DesignSchema: Record<string, unknown> = {
                             "properties": {
                               "publishedVersion": {
                                 "description": "Tracks the specific content version that has been made available in the Catalog.",
-                                "type": "string"
+                                "type": "string",
+                                "maxLength": 500
                               },
                               "class": {
                                 "description": "Published content is classifed by its support level. Content classes help you understand the origin and expected support level for each piece of content. It is important to note that the level of support may vary within each class, and you should exercise discretion when using community-contributed content. Content produced and fully supported by Meshery maintainers. This represents the highest level of support and is considered the most reliable. Content produced by partners and verified by Meshery maintainers. While not directly maintained by Meshery, it has undergone a verification process to ensure quality and compatibility. Content produced and supported by the respective project or organization responsible for the specific technology. This class offers a level of support from the project maintainers themselves. Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Community content may have varying levels of support and reliability.",
@@ -24368,7 +25230,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "const": "reference architecture",
                                     "description": "Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Reference architecture content may have varying levels of support and reliability."
                                   }
-                                ]
+                                ],
+                                "maxLength": 500
                               },
                               "compatibility": {
                                 "type": "array",
@@ -24386,7 +25249,8 @@ const DesignSchema: Record<string, unknown> = {
                               "patternCaveats": {
                                 "type": "string",
                                 "title": "Caveats and Considerations",
-                                "description": "Specific stipulations to consider and known behaviors to be aware of when using this design."
+                                "description": "Specific stipulations to consider and known behaviors to be aware of when using this design.",
+                                "maxLength": 500
                               },
                               "patternInfo": {
                                 "type": "string",
@@ -24474,7 +25338,9 @@ const DesignSchema: Record<string, unknown> = {
                               "name": {
                                 "type": "string",
                                 "description": "Name of the design; a descriptive, but concise title for the design document.",
-                                "x-order": 2
+                                "x-order": 2,
+                                "minLength": 1,
+                                "maxLength": 255
                               },
                               "schemaVersion": {
                                 "description": "Specifies the version of the schema to which the design conforms.",
@@ -24552,7 +25418,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "type": "array",
                                               "items": {
                                                 "type": "string"
-                                              }
+                                              },
+                                              "description": "The immediate ref field path of the nonresolvedalias."
                                             }
                                           },
                                           "required": [
@@ -24576,6 +25443,7 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "resolvedRefFieldPath": {
                                               "type": "array",
+                                              "description": "Fully resolved field path targeted by the alias.",
                                               "items": {
                                                 "type": "string"
                                               }
@@ -24589,7 +25457,8 @@ const DesignSchema: Record<string, unknown> = {
                                       ]
                                     }
                                   }
-                                }
+                                },
+                                "description": "Additional metadata associated with this resource."
                               },
                               "components": {
                                 "description": "A list of one or more component declarations.",
@@ -24674,7 +25543,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "x-oapi-codegen-extra-tags": {
                                             "yaml": "description",
                                             "json": "description"
-                                          }
+                                          },
+                                          "maxLength": 5000
                                         },
                                         "format": {
                                           "x-order": 6,
@@ -25441,7 +26311,8 @@ const DesignSchema: Record<string, unknown> = {
                                                       },
                                                       "description": {
                                                         "type": "string",
-                                                        "description": "A written representation of the purpose and characteristics of the capability."
+                                                        "description": "A written representation of the purpose and characteristics of the capability.",
+                                                        "maxLength": 5000
                                                       },
                                                       "kind": {
                                                         "description": "Top-level categorization of the capability",
@@ -25709,7 +26580,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 "gorm": "-",
                                                 "json": "relationships",
                                                 "yaml": "relationships"
-                                              }
+                                              },
+                                              "description": "The relationships of the model."
                                             },
                                             "components": {
                                               "type": "array",
@@ -25718,7 +26590,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 "gorm": "-",
                                                 "json": "components",
                                                 "yaml": "components"
-                                              }
+                                              },
+                                              "description": "The components of the model."
                                             },
                                             "componentsCount": {
                                               "type": "integer",
@@ -25729,7 +26602,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 "yaml": "components_count",
                                                 "gorm": "-"
                                               },
-                                              "default": 0
+                                              "default": 0,
+                                              "minimum": 0
                                             },
                                             "relationshipsCount": {
                                               "type": "integer",
@@ -25740,7 +26614,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 "json": "relationships_count",
                                                 "yaml": "relationships_count"
                                               },
-                                              "default": 0
+                                              "default": 0,
+                                              "minimum": 0
                                             },
                                             "created_at": {
                                               "x-order": 14,
@@ -25875,7 +26750,9 @@ const DesignSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -25930,27 +26807,33 @@ const DesignSchema: Record<string, unknown> = {
                                               "properties": {
                                                 "primaryColor": {
                                                   "type": "string",
-                                                  "description": "Primary color of the component used for UI representation."
+                                                  "description": "Primary color of the component used for UI representation.",
+                                                  "maxLength": 500
                                                 },
                                                 "secondaryColor": {
                                                   "type": "string",
-                                                  "description": "Secondary color of the entity used for UI representation."
+                                                  "description": "Secondary color of the entity used for UI representation.",
+                                                  "maxLength": 500
                                                 },
                                                 "svgWhite": {
                                                   "type": "string",
-                                                  "description": "White SVG of the entity used for UI representation on dark background."
+                                                  "description": "White SVG of the entity used for UI representation on dark background.",
+                                                  "maxLength": 500
                                                 },
                                                 "svgColor": {
                                                   "type": "string",
-                                                  "description": "Colored SVG of the entity used for UI representation on light background."
+                                                  "description": "Colored SVG of the entity used for UI representation on light background.",
+                                                  "maxLength": 500
                                                 },
                                                 "svgComplete": {
                                                   "type": "string",
-                                                  "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                                                  "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                                                  "maxLength": 500
                                                 },
                                                 "color": {
                                                   "type": "string",
-                                                  "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 500
                                                 },
                                                 "textOpacity": {
                                                   "type": "number",
@@ -25960,19 +26843,23 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "fontFamily": {
                                                   "type": "string",
-                                                  "description": "A comma-separated list of font names to use on the label text."
+                                                  "description": "A comma-separated list of font names to use on the label text.",
+                                                  "maxLength": 500
                                                 },
                                                 "fontSize": {
                                                   "type": "string",
-                                                  "description": "The size of the label text."
+                                                  "description": "The size of the label text.",
+                                                  "maxLength": 500
                                                 },
                                                 "fontStyle": {
                                                   "type": "string",
-                                                  "description": "A CSS font style to be applied to the label text."
+                                                  "description": "A CSS font style to be applied to the label text.",
+                                                  "maxLength": 500
                                                 },
                                                 "fontWeight": {
                                                   "type": "string",
-                                                  "description": "A CSS font weight to be applied to the label text."
+                                                  "description": "A CSS font weight to be applied to the label text.",
+                                                  "maxLength": 500
                                                 },
                                                 "textTransform": {
                                                   "type": "string",
@@ -25991,11 +26878,13 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "zIndex": {
                                                   "type": "integer",
-                                                  "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                                                  "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                                                  "minimum": 0
                                                 },
                                                 "label": {
                                                   "type": "string",
-                                                  "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                                                  "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                                                  "maxLength": 500
                                                 },
                                                 "animation": {
                                                   "type": "object",
@@ -26049,26 +26938,37 @@ const DesignSchema: Record<string, unknown> = {
                                                     "x": {
                                                       "type": "number",
                                                       "description": "The x-coordinate of the node.",
+                                                      "minimum": -1000000,
+                                                      "maximum": 1000000,
                                                       "x-go-type": "float64"
                                                     },
                                                     "y": {
                                                       "type": "number",
                                                       "description": "The y-coordinate of the node.",
+                                                      "minimum": -1000000,
+                                                      "maximum": 1000000,
                                                       "x-go-type": "float64"
                                                     }
                                                   }
                                                 },
                                                 "bodyText": {
                                                   "type": "string",
-                                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                                  "maxLength": 500
                                                 },
                                                 "bodyTextWrap": {
                                                   "type": "string",
-                                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "wrap",
+                                                    "ellipsis"
+                                                  ]
                                                 },
                                                 "bodyTextMaxWidth": {
                                                   "type": "string",
-                                                  "description": "The maximum width for wrapping text in the node."
+                                                  "description": "The maximum width for wrapping text in the node.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextOpacity": {
                                                   "type": "number",
@@ -26078,47 +26978,59 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "bodyTextBackgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextFontSize": {
                                                   "type": "number",
-                                                  "description": "The size of the node's body text."
+                                                  "description": "The size of the node's body text.",
+                                                  "minimum": 0
                                                 },
                                                 "bodyTextColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextFontWeight": {
                                                   "type": "string",
-                                                  "description": "A CSS font weight to be applied to the node's body text."
+                                                  "description": "A CSS font weight to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextHorizontalAlign": {
                                                   "type": "string",
-                                                  "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                                  "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextDecoration": {
                                                   "type": "string",
-                                                  "description": "A CSS text decoration to be applied to the node's body text."
+                                                  "description": "A CSS text decoration to be applied to the node's body text.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextVerticalAlign": {
                                                   "type": "string",
-                                                  "description": "A CSS vertical alignment to be applied to the node's body text."
+                                                  "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "width": {
                                                   "type": "number",
-                                                  "description": "The width of the node's body or the width of an edge's line."
+                                                  "description": "The width of the node's body or the width of an edge's line.",
+                                                  "minimum": 0
                                                 },
                                                 "height": {
                                                   "type": "number",
-                                                  "description": "The height of the node's body"
+                                                  "description": "The height of the node's body",
+                                                  "minimum": 0
                                                 },
                                                 "backgroundImage": {
                                                   "type": "string",
-                                                  "description": "The URL that points to the image to show in the node."
+                                                  "format": "uri",
+                                                  "description": "The URL that points to the image to show in the node.",
+                                                  "maxLength": 2048
                                                 },
                                                 "backgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "backgroundBlacken": {
                                                   "type": "number",
@@ -26134,35 +27046,59 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "backgroundPositionX": {
                                                   "type": "string",
-                                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundPositionY": {
                                                   "type": "string",
-                                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundOffsetX": {
                                                   "type": "string",
-                                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundOffsetY": {
                                                   "type": "string",
-                                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundFit": {
                                                   "type": "string",
-                                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "contain",
+                                                    "cover"
+                                                  ]
                                                 },
                                                 "backgroundClip": {
                                                   "type": "string",
-                                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "node",
+                                                    "node-border"
+                                                  ]
                                                 },
                                                 "backgroundWidthRelativeTo": {
                                                   "type": "string",
-                                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "inner",
+                                                    "outer"
+                                                  ]
                                                 },
                                                 "backgroundHeightRelativeTo": {
                                                   "type": "string",
-                                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "inner",
+                                                    "outer"
+                                                  ]
                                                 },
                                                 "borderWidth": {
                                                   "type": "number",
@@ -26181,7 +27117,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "borderColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "borderOpacity": {
                                                   "type": "number",
@@ -26223,23 +27160,28 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "activeBgColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "activeBgOpacity": {
                                                   "type": "string",
-                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                                  "maxLength": 50
                                                 },
                                                 "activeBgSize": {
                                                   "type": "string",
-                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                                  "maxLength": 50
                                                 },
                                                 "selectionBoxColor": {
                                                   "type": "string",
-                                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "selectionBoxBorderWidth": {
                                                   "type": "number",
-                                                  "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                                  "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                                  "minimum": 0
                                                 },
                                                 "selectionBoxOpacity": {
                                                   "type": "number",
@@ -26249,7 +27191,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "outsideTextureBgColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "outsideTextureBgOpacity": {
                                                   "type": "number",
@@ -26259,11 +27202,13 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "shapePolygonPoints": {
                                                   "type": "string",
-                                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                                  "maxLength": 2000
                                                 },
                                                 "menuBackgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "menuBackgroundOpacity": {
                                                   "type": "number",
@@ -26273,7 +27218,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "menuForgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 }
                                               }
                                             }
@@ -26339,7 +27285,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "description": {
                                                 "type": "string",
-                                                "description": "A written representation of the purpose and characteristics of the capability."
+                                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                                "maxLength": 5000
                                               },
                                               "kind": {
                                                 "description": "Top-level categorization of the capability",
@@ -26630,7 +27577,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "genealogy": {
                                               "x-order": 1,
                                               "type": "string",
-                                              "description": "Genealogy represents the various representational states of the component."
+                                              "description": "Genealogy represents the various representational states of the component.",
+                                              "maxLength": 1000
                                             },
                                             "isAnnotation": {
                                               "x-order": 2,
@@ -26656,7 +27604,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "configurationUISchema": {
                                               "x-order": 6,
                                               "type": "string",
-                                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                              "maxLength": 20000
                                             }
                                           },
                                           "x-oapi-codegen-extra-tags": {
@@ -26685,17 +27634,20 @@ const DesignSchema: Record<string, unknown> = {
                                             "version": {
                                               "type": "string",
                                               "description": "Version of the component produced by the registrant. Example: APIVersion of a Kubernetes Pod.",
-                                              "x-order": 1
+                                              "x-order": 1,
+                                              "maxLength": 500
                                             },
                                             "kind": {
                                               "type": "string",
                                               "description": "The unique identifier (name) assigned by the registrant to this component. Example: A Kubernetes Pod is of kind 'Pod'.",
-                                              "x-order": 2
+                                              "x-order": 2,
+                                              "maxLength": 255
                                             },
                                             "schema": {
                                               "type": "string",
                                               "description": "JSON schema of the object as defined by the registrant.",
-                                              "x-order": 3
+                                              "x-order": 3,
+                                              "maxLength": 500
                                             }
                                           },
                                           "required": [
@@ -26859,7 +27811,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "yaml": "type",
                                             "json": "type",
                                             "gorm": "column:type"
-                                          }
+                                          },
+                                          "maxLength": 255
                                         },
                                         "subType": {
                                           "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -26869,7 +27822,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "x-oapi-codegen-extra-tags": {
                                             "yaml": "subType",
                                             "json": "subType"
-                                          }
+                                          },
+                                          "maxLength": 255
                                         },
                                         "status": {
                                           "type": "string",
@@ -26947,7 +27901,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "description": {
                                                 "type": "string",
-                                                "description": "A written representation of the purpose and characteristics of the capability."
+                                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                                "maxLength": 5000
                                               },
                                               "kind": {
                                                 "description": "Top-level categorization of the capability",
@@ -27099,7 +28054,8 @@ const DesignSchema: Record<string, unknown> = {
                                               "type": "string",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "description"
-                                              }
+                                              },
+                                              "maxLength": 5000
                                             },
                                             "styles": {
                                               "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -27119,42 +28075,48 @@ const DesignSchema: Record<string, unknown> = {
                                                   "description": "Primary color of the component used for UI representation.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "primaryColor"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "secondaryColor": {
                                                   "type": "string",
                                                   "description": "Secondary color of the entity used for UI representation.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "secondaryColor,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "svgWhite": {
                                                   "type": "string",
                                                   "description": "White SVG of the entity used for UI representation on dark background.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "svgWhite"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "svgColor": {
                                                   "type": "string",
                                                   "description": "Colored SVG of the entity used for UI representation on light background.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "svgColor"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "svgComplete": {
                                                   "type": "string",
                                                   "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "svgComplete,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "color": {
                                                   "type": "string",
                                                   "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "color,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "textOpacity": {
                                                   "type": "number",
@@ -27163,7 +28125,9 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "TextOpacity",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "textOpacity,omitempty"
-                                                  }
+                                                  },
+                                                  "minimum": 0,
+                                                  "maximum": 1
                                                 },
                                                 "fontFamily": {
                                                   "type": "string",
@@ -27171,7 +28135,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "FontFamily",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "fontFamily,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "fontSize": {
                                                   "type": "string",
@@ -27179,7 +28144,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "FontSize",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "fontSize,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "fontStyle": {
                                                   "type": "string",
@@ -27187,7 +28153,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "FontStyle",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "fontStyle,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "fontWeight": {
                                                   "type": "string",
@@ -27195,7 +28162,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "FontWeight",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "fontWeight,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "textTransform": {
                                                   "description": "A transformation to apply to the label text",
@@ -27217,7 +28185,9 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "Opacity",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "opacity,omitempty"
-                                                  }
+                                                  },
+                                                  "minimum": 0,
+                                                  "maximum": 1
                                                 },
                                                 "zIndex": {
                                                   "type": "integer",
@@ -27225,7 +28195,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "ZIndex",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "zIndex,omitempty"
-                                                  }
+                                                  },
+                                                  "minimum": 0
                                                 },
                                                 "label": {
                                                   "type": "string",
@@ -27233,7 +28204,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "Label",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "label,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "edgeAnimation": {
                                                   "type": "string",
@@ -27241,7 +28213,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "EdgeAnimation",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "edgeAnimation,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "curveStyle": {
                                                   "x-go-name": "CurveStyle",
@@ -27265,7 +28238,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "LineColor",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "lineColor,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "lineStyle": {
                                                   "x-go-name": "LineStyle",
@@ -27300,7 +28274,9 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "LineOpacity",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "lineOpacity,omitempty"
-                                                  }
+                                                  },
+                                                  "minimum": 0,
+                                                  "maximum": 1
                                                 },
                                                 "targetArrowColor": {
                                                   "type": "string",
@@ -27308,7 +28284,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "TargetArrowColor",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "targetArrowColor,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "targetArrowShape": {
                                                   "x-go-name": "TargetArrowShape",
@@ -27350,7 +28327,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "MidTargetArrowColor",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "midTargetArrowColor,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "midTargetArrowShape": {
                                                   "x-go-name": "MidTargetArrowShape",
@@ -27393,7 +28371,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "ArrowScale",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "arrowScale,omitempty"
-                                                  }
+                                                  },
+                                                  "minimum": 0
                                                 },
                                                 "sourceLabel": {
                                                   "type": "string",
@@ -27401,7 +28380,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "SourceLabel",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "sourceLabel,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 },
                                                 "targetLabel": {
                                                   "type": "string",
@@ -27409,7 +28389,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   "x-go-name": "TargetLabel",
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "targetLabel,omitempty"
-                                                  }
+                                                  },
+                                                  "maxLength": 500
                                                 }
                                               }
                                             },
@@ -27511,7 +28492,9 @@ const DesignSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -27540,7 +28523,8 @@ const DesignSchema: Record<string, unknown> = {
                                           "x-oapi-codegen-extra-tags": {
                                             "yaml": "evaluationQuery",
                                             "json": "evaluationQuery"
-                                          }
+                                          },
+                                          "maxLength": 500
                                         },
                                         "selectors": {
                                           "x-go-type": "SelectorSet",
@@ -27596,7 +28580,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "match": {
                                                           "x-go-type": "MatchSelector",
@@ -27616,7 +28602,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "refs,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The refs of the matchselector."
                                                             },
                                                             "from": {
                                                               "type": "array",
@@ -27644,7 +28631,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -27677,7 +28666,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "from,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The from of the matchselector."
                                                             },
                                                             "to": {
                                                               "type": "array",
@@ -27705,7 +28695,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -27738,7 +28730,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "to,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The to of the matchselector."
                                                             }
                                                           }
                                                         },
@@ -27840,7 +28833,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -27930,7 +28925,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "match": {
                                                           "x-go-type": "MatchSelector",
@@ -27950,7 +28947,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "refs,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The refs of the matchselector."
                                                             },
                                                             "from": {
                                                               "type": "array",
@@ -27978,7 +28976,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -28011,7 +29011,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "from,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The from of the matchselector."
                                                             },
                                                             "to": {
                                                               "type": "array",
@@ -28039,7 +29040,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -28072,7 +29075,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "to,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The to of the matchselector."
                                                             }
                                                           }
                                                         },
@@ -28174,7 +29178,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -28278,7 +29284,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "match": {
                                                           "x-go-type": "MatchSelector",
@@ -28298,7 +29306,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "refs,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The refs of the matchselector."
                                                             },
                                                             "from": {
                                                               "type": "array",
@@ -28326,7 +29335,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -28359,7 +29370,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "from,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The from of the matchselector."
                                                             },
                                                             "to": {
                                                               "type": "array",
@@ -28387,7 +29399,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -28420,7 +29434,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "to,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The to of the matchselector."
                                                             }
                                                           }
                                                         },
@@ -28522,7 +29537,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -28612,7 +29629,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "match": {
                                                           "x-go-type": "MatchSelector",
@@ -28632,7 +29651,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "refs,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The refs of the matchselector."
                                                             },
                                                             "from": {
                                                               "type": "array",
@@ -28660,7 +29680,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -28693,7 +29715,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "from,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The from of the matchselector."
                                                             },
                                                             "to": {
                                                               "type": "array",
@@ -28721,7 +29744,9 @@ const DesignSchema: Record<string, unknown> = {
                                                                     "type": "string",
                                                                     "x-oapi-codegen-extra-tags": {
                                                                       "json": "kind"
-                                                                    }
+                                                                    },
+                                                                    "description": "Kind of the resource.",
+                                                                    "maxLength": 255
                                                                   },
                                                                   "mutatorRef": {
                                                                     "x-oapi-codegen-extra-tags": {
@@ -28754,7 +29779,8 @@ const DesignSchema: Record<string, unknown> = {
                                                               },
                                                               "x-oapi-codegen-extra-tags": {
                                                                 "json": "to,omitempty"
-                                                              }
+                                                              },
+                                                              "description": "The to of the matchselector."
                                                             }
                                                           }
                                                         },
@@ -28856,7 +29882,9 @@ const DesignSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -28961,28 +29989,32 @@ const DesignSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The patterns of the catalogcontentpage."
                     },
                     "filters": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "additionalProperties": true
-                      }
+                      },
+                      "description": "The filters of the catalogcontentpage."
                     },
                     "modelsCount": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "additionalProperties": true
-                      }
+                      },
+                      "description": "The models count of the catalogcontentpage."
                     },
                     "categoryCount": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "additionalProperties": true
-                      }
+                      },
+                      "description": "The category count of the catalogcontentpage."
                     }
                   }
                 }
@@ -29227,10 +30259,14 @@ const DesignSchema: Record<string, unknown> = {
                     "type": "object",
                     "properties": {
                       "class": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The class of the catalogcontentclass.",
+                        "maxLength": 500
                       },
                       "description": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Description of the catalogcontentclass.",
+                        "maxLength": 5000
                       }
                     },
                     "additionalProperties": true
@@ -29827,20 +30863,27 @@ const DesignSchema: Record<string, unknown> = {
                   "type": "object",
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "views": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "additionalProperties": true
-                      }
+                      },
+                      "description": "The views of the mesheryviewpage."
                     }
                   }
                 }
@@ -30013,7 +31056,8 @@ const DesignSchema: Record<string, unknown> = {
                       "items": {
                         "type": "object",
                         "additionalProperties": true
-                      }
+                      },
+                      "description": "The users of the resourceaccessactorsresponse."
                     }
                   }
                 }
@@ -30114,20 +31158,27 @@ const DesignSchema: Record<string, unknown> = {
                   "type": "object",
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "catalogRequests": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "additionalProperties": true
-                      }
+                      },
+                      "description": "The catalog requests of the catalogrequestspage."
                     }
                   }
                 }
@@ -30296,7 +31347,9 @@ const DesignSchema: Record<string, unknown> = {
           "name": {
             "type": "string",
             "description": "Name of the design; a descriptive, but concise title for the design document.",
-            "x-order": 2
+            "x-order": 2,
+            "minLength": 1,
+            "maxLength": 255
           },
           "schemaVersion": {
             "description": "Specifies the version of the schema to which the design conforms.",
@@ -30374,7 +31427,8 @@ const DesignSchema: Record<string, unknown> = {
                           "type": "array",
                           "items": {
                             "type": "string"
-                          }
+                          },
+                          "description": "The immediate ref field path of the nonresolvedalias."
                         }
                       },
                       "required": [
@@ -30398,6 +31452,7 @@ const DesignSchema: Record<string, unknown> = {
                         },
                         "resolvedRefFieldPath": {
                           "type": "array",
+                          "description": "Fully resolved field path targeted by the alias.",
                           "items": {
                             "type": "string"
                           }
@@ -30411,7 +31466,8 @@ const DesignSchema: Record<string, unknown> = {
                   ]
                 }
               }
-            }
+            },
+            "description": "Additional metadata associated with this resource."
           },
           "components": {
             "description": "A list of one or more component declarations.",
@@ -30496,7 +31552,8 @@ const DesignSchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "yaml": "description",
                         "json": "description"
-                      }
+                      },
+                      "maxLength": 5000
                     },
                     "format": {
                       "x-order": 6,
@@ -31263,7 +32320,8 @@ const DesignSchema: Record<string, unknown> = {
                                   },
                                   "description": {
                                     "type": "string",
-                                    "description": "A written representation of the purpose and characteristics of the capability."
+                                    "description": "A written representation of the purpose and characteristics of the capability.",
+                                    "maxLength": 5000
                                   },
                                   "kind": {
                                     "description": "Top-level categorization of the capability",
@@ -31531,7 +32589,8 @@ const DesignSchema: Record<string, unknown> = {
                             "gorm": "-",
                             "json": "relationships",
                             "yaml": "relationships"
-                          }
+                          },
+                          "description": "The relationships of the model."
                         },
                         "components": {
                           "type": "array",
@@ -31540,7 +32599,8 @@ const DesignSchema: Record<string, unknown> = {
                             "gorm": "-",
                             "json": "components",
                             "yaml": "components"
-                          }
+                          },
+                          "description": "The components of the model."
                         },
                         "componentsCount": {
                           "type": "integer",
@@ -31551,7 +32611,8 @@ const DesignSchema: Record<string, unknown> = {
                             "yaml": "components_count",
                             "gorm": "-"
                           },
-                          "default": 0
+                          "default": 0,
+                          "minimum": 0
                         },
                         "relationshipsCount": {
                           "type": "integer",
@@ -31562,7 +32623,8 @@ const DesignSchema: Record<string, unknown> = {
                             "json": "relationships_count",
                             "yaml": "relationships_count"
                           },
-                          "default": 0
+                          "default": 0,
+                          "minimum": 0
                         },
                         "created_at": {
                           "x-order": 14,
@@ -31697,7 +32759,9 @@ const DesignSchema: Record<string, unknown> = {
                           ],
                           "properties": {
                             "kind": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Kind of the registrant.",
+                              "maxLength": 255
                             }
                           }
                         }
@@ -31752,27 +32816,33 @@ const DesignSchema: Record<string, unknown> = {
                           "properties": {
                             "primaryColor": {
                               "type": "string",
-                              "description": "Primary color of the component used for UI representation."
+                              "description": "Primary color of the component used for UI representation.",
+                              "maxLength": 500
                             },
                             "secondaryColor": {
                               "type": "string",
-                              "description": "Secondary color of the entity used for UI representation."
+                              "description": "Secondary color of the entity used for UI representation.",
+                              "maxLength": 500
                             },
                             "svgWhite": {
                               "type": "string",
-                              "description": "White SVG of the entity used for UI representation on dark background."
+                              "description": "White SVG of the entity used for UI representation on dark background.",
+                              "maxLength": 500
                             },
                             "svgColor": {
                               "type": "string",
-                              "description": "Colored SVG of the entity used for UI representation on light background."
+                              "description": "Colored SVG of the entity used for UI representation on light background.",
+                              "maxLength": 500
                             },
                             "svgComplete": {
                               "type": "string",
-                              "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                              "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                              "maxLength": 500
                             },
                             "color": {
                               "type": "string",
-                              "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 500
                             },
                             "textOpacity": {
                               "type": "number",
@@ -31782,19 +32852,23 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "fontFamily": {
                               "type": "string",
-                              "description": "A comma-separated list of font names to use on the label text."
+                              "description": "A comma-separated list of font names to use on the label text.",
+                              "maxLength": 500
                             },
                             "fontSize": {
                               "type": "string",
-                              "description": "The size of the label text."
+                              "description": "The size of the label text.",
+                              "maxLength": 500
                             },
                             "fontStyle": {
                               "type": "string",
-                              "description": "A CSS font style to be applied to the label text."
+                              "description": "A CSS font style to be applied to the label text.",
+                              "maxLength": 500
                             },
                             "fontWeight": {
                               "type": "string",
-                              "description": "A CSS font weight to be applied to the label text."
+                              "description": "A CSS font weight to be applied to the label text.",
+                              "maxLength": 500
                             },
                             "textTransform": {
                               "type": "string",
@@ -31813,11 +32887,13 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "zIndex": {
                               "type": "integer",
-                              "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                              "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                              "minimum": 0
                             },
                             "label": {
                               "type": "string",
-                              "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                              "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                              "maxLength": 500
                             },
                             "animation": {
                               "type": "object",
@@ -31871,26 +32947,37 @@ const DesignSchema: Record<string, unknown> = {
                                 "x": {
                                   "type": "number",
                                   "description": "The x-coordinate of the node.",
+                                  "minimum": -1000000,
+                                  "maximum": 1000000,
                                   "x-go-type": "float64"
                                 },
                                 "y": {
                                   "type": "number",
                                   "description": "The y-coordinate of the node.",
+                                  "minimum": -1000000,
+                                  "maximum": 1000000,
                                   "x-go-type": "float64"
                                 }
                               }
                             },
                             "bodyText": {
                               "type": "string",
-                              "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                              "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                              "maxLength": 500
                             },
                             "bodyTextWrap": {
                               "type": "string",
-                              "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                              "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                              "enum": [
+                                "none",
+                                "wrap",
+                                "ellipsis"
+                              ]
                             },
                             "bodyTextMaxWidth": {
                               "type": "string",
-                              "description": "The maximum width for wrapping text in the node."
+                              "description": "The maximum width for wrapping text in the node.",
+                              "maxLength": 50
                             },
                             "bodyTextOpacity": {
                               "type": "number",
@@ -31900,47 +32987,59 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "bodyTextBackgroundColor": {
                               "type": "string",
-                              "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "bodyTextFontSize": {
                               "type": "number",
-                              "description": "The size of the node's body text."
+                              "description": "The size of the node's body text.",
+                              "minimum": 0
                             },
                             "bodyTextColor": {
                               "type": "string",
-                              "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "bodyTextFontWeight": {
                               "type": "string",
-                              "description": "A CSS font weight to be applied to the node's body text."
+                              "description": "A CSS font weight to be applied to the node's body text.",
+                              "maxLength": 50
                             },
                             "bodyTextHorizontalAlign": {
                               "type": "string",
-                              "description": "A CSS horizontal alignment to be applied to the node's body text."
+                              "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                              "maxLength": 50
                             },
                             "bodyTextDecoration": {
                               "type": "string",
-                              "description": "A CSS text decoration to be applied to the node's body text."
+                              "description": "A CSS text decoration to be applied to the node's body text.",
+                              "maxLength": 100
                             },
                             "bodyTextVerticalAlign": {
                               "type": "string",
-                              "description": "A CSS vertical alignment to be applied to the node's body text."
+                              "description": "A CSS vertical alignment to be applied to the node's body text.",
+                              "maxLength": 50
                             },
                             "width": {
                               "type": "number",
-                              "description": "The width of the node's body or the width of an edge's line."
+                              "description": "The width of the node's body or the width of an edge's line.",
+                              "minimum": 0
                             },
                             "height": {
                               "type": "number",
-                              "description": "The height of the node's body"
+                              "description": "The height of the node's body",
+                              "minimum": 0
                             },
                             "backgroundImage": {
                               "type": "string",
-                              "description": "The URL that points to the image to show in the node."
+                              "format": "uri",
+                              "description": "The URL that points to the image to show in the node.",
+                              "maxLength": 2048
                             },
                             "backgroundColor": {
                               "type": "string",
-                              "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "backgroundBlacken": {
                               "type": "number",
@@ -31956,35 +33055,59 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "backgroundPositionX": {
                               "type": "string",
-                              "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                              "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                              "maxLength": 50
                             },
                             "backgroundPositionY": {
                               "type": "string",
-                              "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                              "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                              "maxLength": 50
                             },
                             "backgroundOffsetX": {
                               "type": "string",
-                              "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                              "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                              "maxLength": 50
                             },
                             "backgroundOffsetY": {
                               "type": "string",
-                              "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                              "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                              "maxLength": 50
                             },
                             "backgroundFit": {
                               "type": "string",
-                              "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                              "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                              "enum": [
+                                "none",
+                                "contain",
+                                "cover"
+                              ]
                             },
                             "backgroundClip": {
                               "type": "string",
-                              "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                              "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                              "enum": [
+                                "none",
+                                "node",
+                                "node-border"
+                              ]
                             },
                             "backgroundWidthRelativeTo": {
                               "type": "string",
-                              "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                              "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                              "enum": [
+                                "none",
+                                "inner",
+                                "outer"
+                              ]
                             },
                             "backgroundHeightRelativeTo": {
                               "type": "string",
-                              "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                              "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                              "enum": [
+                                "none",
+                                "inner",
+                                "outer"
+                              ]
                             },
                             "borderWidth": {
                               "type": "number",
@@ -32003,7 +33126,8 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "borderColor": {
                               "type": "string",
-                              "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "borderOpacity": {
                               "type": "number",
@@ -32045,23 +33169,28 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "activeBgColor": {
                               "type": "string",
-                              "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "activeBgOpacity": {
                               "type": "string",
-                              "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                              "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                              "maxLength": 50
                             },
                             "activeBgSize": {
                               "type": "string",
-                              "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                              "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                              "maxLength": 50
                             },
                             "selectionBoxColor": {
                               "type": "string",
-                              "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "selectionBoxBorderWidth": {
                               "type": "number",
-                              "description": "The size of the border on the selection box. Selector needs to be *core*"
+                              "description": "The size of the border on the selection box. Selector needs to be *core*",
+                              "minimum": 0
                             },
                             "selectionBoxOpacity": {
                               "type": "number",
@@ -32071,7 +33200,8 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "outsideTextureBgColor": {
                               "type": "string",
-                              "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "outsideTextureBgOpacity": {
                               "type": "number",
@@ -32081,11 +33211,13 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "shapePolygonPoints": {
                               "type": "string",
-                              "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                              "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                              "maxLength": 2000
                             },
                             "menuBackgroundColor": {
                               "type": "string",
-                              "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "menuBackgroundOpacity": {
                               "type": "number",
@@ -32095,7 +33227,8 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "menuForgroundColor": {
                               "type": "string",
-                              "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             }
                           }
                         }
@@ -32161,7 +33294,8 @@ const DesignSchema: Record<string, unknown> = {
                           },
                           "description": {
                             "type": "string",
-                            "description": "A written representation of the purpose and characteristics of the capability."
+                            "description": "A written representation of the purpose and characteristics of the capability.",
+                            "maxLength": 5000
                           },
                           "kind": {
                             "description": "Top-level categorization of the capability",
@@ -32452,7 +33586,8 @@ const DesignSchema: Record<string, unknown> = {
                         "genealogy": {
                           "x-order": 1,
                           "type": "string",
-                          "description": "Genealogy represents the various representational states of the component."
+                          "description": "Genealogy represents the various representational states of the component.",
+                          "maxLength": 1000
                         },
                         "isAnnotation": {
                           "x-order": 2,
@@ -32478,7 +33613,8 @@ const DesignSchema: Record<string, unknown> = {
                         "configurationUISchema": {
                           "x-order": 6,
                           "type": "string",
-                          "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                          "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                          "maxLength": 20000
                         }
                       },
                       "x-oapi-codegen-extra-tags": {
@@ -32507,17 +33643,20 @@ const DesignSchema: Record<string, unknown> = {
                         "version": {
                           "type": "string",
                           "description": "Version of the component produced by the registrant. Example: APIVersion of a Kubernetes Pod.",
-                          "x-order": 1
+                          "x-order": 1,
+                          "maxLength": 500
                         },
                         "kind": {
                           "type": "string",
                           "description": "The unique identifier (name) assigned by the registrant to this component. Example: A Kubernetes Pod is of kind 'Pod'.",
-                          "x-order": 2
+                          "x-order": 2,
+                          "maxLength": 255
                         },
                         "schema": {
                           "type": "string",
                           "description": "JSON schema of the object as defined by the registrant.",
-                          "x-order": 3
+                          "x-order": 3,
+                          "maxLength": 500
                         }
                       },
                       "required": [
@@ -32681,7 +33820,8 @@ const DesignSchema: Record<string, unknown> = {
                         "yaml": "type",
                         "json": "type",
                         "gorm": "column:type"
-                      }
+                      },
+                      "maxLength": 255
                     },
                     "subType": {
                       "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -32691,7 +33831,8 @@ const DesignSchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "yaml": "subType",
                         "json": "subType"
-                      }
+                      },
+                      "maxLength": 255
                     },
                     "status": {
                       "type": "string",
@@ -32769,7 +33910,8 @@ const DesignSchema: Record<string, unknown> = {
                           },
                           "description": {
                             "type": "string",
-                            "description": "A written representation of the purpose and characteristics of the capability."
+                            "description": "A written representation of the purpose and characteristics of the capability.",
+                            "maxLength": 5000
                           },
                           "kind": {
                             "description": "Top-level categorization of the capability",
@@ -32921,7 +34063,8 @@ const DesignSchema: Record<string, unknown> = {
                           "type": "string",
                           "x-oapi-codegen-extra-tags": {
                             "json": "description"
-                          }
+                          },
+                          "maxLength": 5000
                         },
                         "styles": {
                           "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -32941,42 +34084,48 @@ const DesignSchema: Record<string, unknown> = {
                               "description": "Primary color of the component used for UI representation.",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "primaryColor"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "secondaryColor": {
                               "type": "string",
                               "description": "Secondary color of the entity used for UI representation.",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "secondaryColor,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "svgWhite": {
                               "type": "string",
                               "description": "White SVG of the entity used for UI representation on dark background.",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "svgWhite"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "svgColor": {
                               "type": "string",
                               "description": "Colored SVG of the entity used for UI representation on light background.",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "svgColor"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "svgComplete": {
                               "type": "string",
                               "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "svgComplete,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "color": {
                               "type": "string",
                               "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "color,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "textOpacity": {
                               "type": "number",
@@ -32985,7 +34134,9 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "TextOpacity",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "textOpacity,omitempty"
-                              }
+                              },
+                              "minimum": 0,
+                              "maximum": 1
                             },
                             "fontFamily": {
                               "type": "string",
@@ -32993,7 +34144,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "FontFamily",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "fontFamily,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "fontSize": {
                               "type": "string",
@@ -33001,7 +34153,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "FontSize",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "fontSize,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "fontStyle": {
                               "type": "string",
@@ -33009,7 +34162,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "FontStyle",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "fontStyle,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "fontWeight": {
                               "type": "string",
@@ -33017,7 +34171,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "FontWeight",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "fontWeight,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "textTransform": {
                               "description": "A transformation to apply to the label text",
@@ -33039,7 +34194,9 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "Opacity",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "opacity,omitempty"
-                              }
+                              },
+                              "minimum": 0,
+                              "maximum": 1
                             },
                             "zIndex": {
                               "type": "integer",
@@ -33047,7 +34204,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "ZIndex",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "zIndex,omitempty"
-                              }
+                              },
+                              "minimum": 0
                             },
                             "label": {
                               "type": "string",
@@ -33055,7 +34213,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "Label",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "label,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "edgeAnimation": {
                               "type": "string",
@@ -33063,7 +34222,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "EdgeAnimation",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "edgeAnimation,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "curveStyle": {
                               "x-go-name": "CurveStyle",
@@ -33087,7 +34247,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "LineColor",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "lineColor,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "lineStyle": {
                               "x-go-name": "LineStyle",
@@ -33122,7 +34283,9 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "LineOpacity",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "lineOpacity,omitempty"
-                              }
+                              },
+                              "minimum": 0,
+                              "maximum": 1
                             },
                             "targetArrowColor": {
                               "type": "string",
@@ -33130,7 +34293,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "TargetArrowColor",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "targetArrowColor,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "targetArrowShape": {
                               "x-go-name": "TargetArrowShape",
@@ -33172,7 +34336,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "MidTargetArrowColor",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "midTargetArrowColor,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "midTargetArrowShape": {
                               "x-go-name": "MidTargetArrowShape",
@@ -33215,7 +34380,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "ArrowScale",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "arrowScale,omitempty"
-                              }
+                              },
+                              "minimum": 0
                             },
                             "sourceLabel": {
                               "type": "string",
@@ -33223,7 +34389,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "SourceLabel",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "sourceLabel,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "targetLabel": {
                               "type": "string",
@@ -33231,7 +34398,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-go-name": "TargetLabel",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "targetLabel,omitempty"
-                              }
+                              },
+                              "maxLength": 500
                             }
                           }
                         },
@@ -33333,7 +34501,9 @@ const DesignSchema: Record<string, unknown> = {
                           ],
                           "properties": {
                             "kind": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Kind of the registrant.",
+                              "maxLength": 255
                             }
                           }
                         }
@@ -33362,7 +34532,8 @@ const DesignSchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "yaml": "evaluationQuery",
                         "json": "evaluationQuery"
-                      }
+                      },
+                      "maxLength": 500
                     },
                     "selectors": {
                       "x-go-type": "SelectorSet",
@@ -33418,7 +34589,9 @@ const DesignSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "match": {
                                       "x-go-type": "MatchSelector",
@@ -33438,7 +34611,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "refs,omitempty"
-                                          }
+                                          },
+                                          "description": "The refs of the matchselector."
                                         },
                                         "from": {
                                           "type": "array",
@@ -33466,7 +34640,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "mutatorRef": {
                                                 "x-oapi-codegen-extra-tags": {
@@ -33499,7 +34675,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "from,omitempty"
-                                          }
+                                          },
+                                          "description": "The from of the matchselector."
                                         },
                                         "to": {
                                           "type": "array",
@@ -33527,7 +34704,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "mutatorRef": {
                                                 "x-oapi-codegen-extra-tags": {
@@ -33560,7 +34739,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "to,omitempty"
-                                          }
+                                          },
+                                          "description": "The to of the matchselector."
                                         }
                                       }
                                     },
@@ -33662,7 +34842,9 @@ const DesignSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -33752,7 +34934,9 @@ const DesignSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "match": {
                                       "x-go-type": "MatchSelector",
@@ -33772,7 +34956,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "refs,omitempty"
-                                          }
+                                          },
+                                          "description": "The refs of the matchselector."
                                         },
                                         "from": {
                                           "type": "array",
@@ -33800,7 +34985,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "mutatorRef": {
                                                 "x-oapi-codegen-extra-tags": {
@@ -33833,7 +35020,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "from,omitempty"
-                                          }
+                                          },
+                                          "description": "The from of the matchselector."
                                         },
                                         "to": {
                                           "type": "array",
@@ -33861,7 +35049,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "mutatorRef": {
                                                 "x-oapi-codegen-extra-tags": {
@@ -33894,7 +35084,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "to,omitempty"
-                                          }
+                                          },
+                                          "description": "The to of the matchselector."
                                         }
                                       }
                                     },
@@ -33996,7 +35187,9 @@ const DesignSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -34100,7 +35293,9 @@ const DesignSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "match": {
                                       "x-go-type": "MatchSelector",
@@ -34120,7 +35315,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "refs,omitempty"
-                                          }
+                                          },
+                                          "description": "The refs of the matchselector."
                                         },
                                         "from": {
                                           "type": "array",
@@ -34148,7 +35344,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "mutatorRef": {
                                                 "x-oapi-codegen-extra-tags": {
@@ -34181,7 +35379,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "from,omitempty"
-                                          }
+                                          },
+                                          "description": "The from of the matchselector."
                                         },
                                         "to": {
                                           "type": "array",
@@ -34209,7 +35408,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "mutatorRef": {
                                                 "x-oapi-codegen-extra-tags": {
@@ -34242,7 +35443,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "to,omitempty"
-                                          }
+                                          },
+                                          "description": "The to of the matchselector."
                                         }
                                       }
                                     },
@@ -34344,7 +35546,9 @@ const DesignSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -34434,7 +35638,9 @@ const DesignSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "match": {
                                       "x-go-type": "MatchSelector",
@@ -34454,7 +35660,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "refs,omitempty"
-                                          }
+                                          },
+                                          "description": "The refs of the matchselector."
                                         },
                                         "from": {
                                           "type": "array",
@@ -34482,7 +35689,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "mutatorRef": {
                                                 "x-oapi-codegen-extra-tags": {
@@ -34515,7 +35724,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "from,omitempty"
-                                          }
+                                          },
+                                          "description": "The from of the matchselector."
                                         },
                                         "to": {
                                           "type": "array",
@@ -34543,7 +35753,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "mutatorRef": {
                                                 "x-oapi-codegen-extra-tags": {
@@ -34576,7 +35788,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "to,omitempty"
-                                          }
+                                          },
+                                          "description": "The to of the matchselector."
                                         }
                                       }
                                     },
@@ -34678,7 +35891,9 @@ const DesignSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -34778,7 +35993,8 @@ const DesignSchema: Record<string, unknown> = {
             "properties": {
               "publishedVersion": {
                 "description": "Tracks the specific content version that has been made available in the Catalog.",
-                "type": "string"
+                "type": "string",
+                "maxLength": 500
               },
               "class": {
                 "description": "Published content is classifed by its support level. Content classes help you understand the origin and expected support level for each piece of content. It is important to note that the level of support may vary within each class, and you should exercise discretion when using community-contributed content. Content produced and fully supported by Meshery maintainers. This represents the highest level of support and is considered the most reliable. Content produced by partners and verified by Meshery maintainers. While not directly maintained by Meshery, it has undergone a verification process to ensure quality and compatibility. Content produced and supported by the respective project or organization responsible for the specific technology. This class offers a level of support from the project maintainers themselves. Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Community content may have varying levels of support and reliability.",
@@ -34796,7 +36012,8 @@ const DesignSchema: Record<string, unknown> = {
                     "const": "reference architecture",
                     "description": "Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Reference architecture content may have varying levels of support and reliability."
                   }
-                ]
+                ],
+                "maxLength": 500
               },
               "compatibility": {
                 "type": "array",
@@ -34814,7 +36031,8 @@ const DesignSchema: Record<string, unknown> = {
               "patternCaveats": {
                 "type": "string",
                 "title": "Caveats and Considerations",
-                "description": "Specific stipulations to consider and known behaviors to be aware of when using this design."
+                "description": "Specific stipulations to consider and known behaviors to be aware of when using this design.",
+                "maxLength": 500
               },
               "patternInfo": {
                 "type": "string",
@@ -34902,7 +36120,9 @@ const DesignSchema: Record<string, unknown> = {
               "name": {
                 "type": "string",
                 "description": "Name of the design; a descriptive, but concise title for the design document.",
-                "x-order": 2
+                "x-order": 2,
+                "minLength": 1,
+                "maxLength": 255
               },
               "schemaVersion": {
                 "description": "Specifies the version of the schema to which the design conforms.",
@@ -34980,7 +36200,8 @@ const DesignSchema: Record<string, unknown> = {
                               "type": "array",
                               "items": {
                                 "type": "string"
-                              }
+                              },
+                              "description": "The immediate ref field path of the nonresolvedalias."
                             }
                           },
                           "required": [
@@ -35004,6 +36225,7 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "resolvedRefFieldPath": {
                               "type": "array",
+                              "description": "Fully resolved field path targeted by the alias.",
                               "items": {
                                 "type": "string"
                               }
@@ -35017,7 +36239,8 @@ const DesignSchema: Record<string, unknown> = {
                       ]
                     }
                   }
-                }
+                },
+                "description": "Additional metadata associated with this resource."
               },
               "components": {
                 "description": "A list of one or more component declarations.",
@@ -35102,7 +36325,8 @@ const DesignSchema: Record<string, unknown> = {
                           "x-oapi-codegen-extra-tags": {
                             "yaml": "description",
                             "json": "description"
-                          }
+                          },
+                          "maxLength": 5000
                         },
                         "format": {
                           "x-order": 6,
@@ -35869,7 +37093,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "description": {
                                         "type": "string",
-                                        "description": "A written representation of the purpose and characteristics of the capability."
+                                        "description": "A written representation of the purpose and characteristics of the capability.",
+                                        "maxLength": 5000
                                       },
                                       "kind": {
                                         "description": "Top-level categorization of the capability",
@@ -36137,7 +37362,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "gorm": "-",
                                 "json": "relationships",
                                 "yaml": "relationships"
-                              }
+                              },
+                              "description": "The relationships of the model."
                             },
                             "components": {
                               "type": "array",
@@ -36146,7 +37372,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "gorm": "-",
                                 "json": "components",
                                 "yaml": "components"
-                              }
+                              },
+                              "description": "The components of the model."
                             },
                             "componentsCount": {
                               "type": "integer",
@@ -36157,7 +37384,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "yaml": "components_count",
                                 "gorm": "-"
                               },
-                              "default": 0
+                              "default": 0,
+                              "minimum": 0
                             },
                             "relationshipsCount": {
                               "type": "integer",
@@ -36168,7 +37396,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "json": "relationships_count",
                                 "yaml": "relationships_count"
                               },
-                              "default": 0
+                              "default": 0,
+                              "minimum": 0
                             },
                             "created_at": {
                               "x-order": 14,
@@ -36303,7 +37532,9 @@ const DesignSchema: Record<string, unknown> = {
                               ],
                               "properties": {
                                 "kind": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Kind of the registrant.",
+                                  "maxLength": 255
                                 }
                               }
                             }
@@ -36358,27 +37589,33 @@ const DesignSchema: Record<string, unknown> = {
                               "properties": {
                                 "primaryColor": {
                                   "type": "string",
-                                  "description": "Primary color of the component used for UI representation."
+                                  "description": "Primary color of the component used for UI representation.",
+                                  "maxLength": 500
                                 },
                                 "secondaryColor": {
                                   "type": "string",
-                                  "description": "Secondary color of the entity used for UI representation."
+                                  "description": "Secondary color of the entity used for UI representation.",
+                                  "maxLength": 500
                                 },
                                 "svgWhite": {
                                   "type": "string",
-                                  "description": "White SVG of the entity used for UI representation on dark background."
+                                  "description": "White SVG of the entity used for UI representation on dark background.",
+                                  "maxLength": 500
                                 },
                                 "svgColor": {
                                   "type": "string",
-                                  "description": "Colored SVG of the entity used for UI representation on light background."
+                                  "description": "Colored SVG of the entity used for UI representation on light background.",
+                                  "maxLength": 500
                                 },
                                 "svgComplete": {
                                   "type": "string",
-                                  "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                                  "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                                  "maxLength": 500
                                 },
                                 "color": {
                                   "type": "string",
-                                  "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 500
                                 },
                                 "textOpacity": {
                                   "type": "number",
@@ -36388,19 +37625,23 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "fontFamily": {
                                   "type": "string",
-                                  "description": "A comma-separated list of font names to use on the label text."
+                                  "description": "A comma-separated list of font names to use on the label text.",
+                                  "maxLength": 500
                                 },
                                 "fontSize": {
                                   "type": "string",
-                                  "description": "The size of the label text."
+                                  "description": "The size of the label text.",
+                                  "maxLength": 500
                                 },
                                 "fontStyle": {
                                   "type": "string",
-                                  "description": "A CSS font style to be applied to the label text."
+                                  "description": "A CSS font style to be applied to the label text.",
+                                  "maxLength": 500
                                 },
                                 "fontWeight": {
                                   "type": "string",
-                                  "description": "A CSS font weight to be applied to the label text."
+                                  "description": "A CSS font weight to be applied to the label text.",
+                                  "maxLength": 500
                                 },
                                 "textTransform": {
                                   "type": "string",
@@ -36419,11 +37660,13 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "zIndex": {
                                   "type": "integer",
-                                  "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                                  "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                                  "minimum": 0
                                 },
                                 "label": {
                                   "type": "string",
-                                  "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                                  "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                                  "maxLength": 500
                                 },
                                 "animation": {
                                   "type": "object",
@@ -36477,26 +37720,37 @@ const DesignSchema: Record<string, unknown> = {
                                     "x": {
                                       "type": "number",
                                       "description": "The x-coordinate of the node.",
+                                      "minimum": -1000000,
+                                      "maximum": 1000000,
                                       "x-go-type": "float64"
                                     },
                                     "y": {
                                       "type": "number",
                                       "description": "The y-coordinate of the node.",
+                                      "minimum": -1000000,
+                                      "maximum": 1000000,
                                       "x-go-type": "float64"
                                     }
                                   }
                                 },
                                 "bodyText": {
                                   "type": "string",
-                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                  "maxLength": 500
                                 },
                                 "bodyTextWrap": {
                                   "type": "string",
-                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                  "enum": [
+                                    "none",
+                                    "wrap",
+                                    "ellipsis"
+                                  ]
                                 },
                                 "bodyTextMaxWidth": {
                                   "type": "string",
-                                  "description": "The maximum width for wrapping text in the node."
+                                  "description": "The maximum width for wrapping text in the node.",
+                                  "maxLength": 50
                                 },
                                 "bodyTextOpacity": {
                                   "type": "number",
@@ -36506,47 +37760,59 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "bodyTextBackgroundColor": {
                                   "type": "string",
-                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "bodyTextFontSize": {
                                   "type": "number",
-                                  "description": "The size of the node's body text."
+                                  "description": "The size of the node's body text.",
+                                  "minimum": 0
                                 },
                                 "bodyTextColor": {
                                   "type": "string",
-                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "bodyTextFontWeight": {
                                   "type": "string",
-                                  "description": "A CSS font weight to be applied to the node's body text."
+                                  "description": "A CSS font weight to be applied to the node's body text.",
+                                  "maxLength": 50
                                 },
                                 "bodyTextHorizontalAlign": {
                                   "type": "string",
-                                  "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                  "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                  "maxLength": 50
                                 },
                                 "bodyTextDecoration": {
                                   "type": "string",
-                                  "description": "A CSS text decoration to be applied to the node's body text."
+                                  "description": "A CSS text decoration to be applied to the node's body text.",
+                                  "maxLength": 100
                                 },
                                 "bodyTextVerticalAlign": {
                                   "type": "string",
-                                  "description": "A CSS vertical alignment to be applied to the node's body text."
+                                  "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                  "maxLength": 50
                                 },
                                 "width": {
                                   "type": "number",
-                                  "description": "The width of the node's body or the width of an edge's line."
+                                  "description": "The width of the node's body or the width of an edge's line.",
+                                  "minimum": 0
                                 },
                                 "height": {
                                   "type": "number",
-                                  "description": "The height of the node's body"
+                                  "description": "The height of the node's body",
+                                  "minimum": 0
                                 },
                                 "backgroundImage": {
                                   "type": "string",
-                                  "description": "The URL that points to the image to show in the node."
+                                  "format": "uri",
+                                  "description": "The URL that points to the image to show in the node.",
+                                  "maxLength": 2048
                                 },
                                 "backgroundColor": {
                                   "type": "string",
-                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "backgroundBlacken": {
                                   "type": "number",
@@ -36562,35 +37828,59 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "backgroundPositionX": {
                                   "type": "string",
-                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                  "maxLength": 50
                                 },
                                 "backgroundPositionY": {
                                   "type": "string",
-                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                  "maxLength": 50
                                 },
                                 "backgroundOffsetX": {
                                   "type": "string",
-                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                  "maxLength": 50
                                 },
                                 "backgroundOffsetY": {
                                   "type": "string",
-                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                  "maxLength": 50
                                 },
                                 "backgroundFit": {
                                   "type": "string",
-                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                  "enum": [
+                                    "none",
+                                    "contain",
+                                    "cover"
+                                  ]
                                 },
                                 "backgroundClip": {
                                   "type": "string",
-                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                  "enum": [
+                                    "none",
+                                    "node",
+                                    "node-border"
+                                  ]
                                 },
                                 "backgroundWidthRelativeTo": {
                                   "type": "string",
-                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                  "enum": [
+                                    "none",
+                                    "inner",
+                                    "outer"
+                                  ]
                                 },
                                 "backgroundHeightRelativeTo": {
                                   "type": "string",
-                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                  "enum": [
+                                    "none",
+                                    "inner",
+                                    "outer"
+                                  ]
                                 },
                                 "borderWidth": {
                                   "type": "number",
@@ -36609,7 +37899,8 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "borderColor": {
                                   "type": "string",
-                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "borderOpacity": {
                                   "type": "number",
@@ -36651,23 +37942,28 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "activeBgColor": {
                                   "type": "string",
-                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "activeBgOpacity": {
                                   "type": "string",
-                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                  "maxLength": 50
                                 },
                                 "activeBgSize": {
                                   "type": "string",
-                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                  "maxLength": 50
                                 },
                                 "selectionBoxColor": {
                                   "type": "string",
-                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "selectionBoxBorderWidth": {
                                   "type": "number",
-                                  "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                  "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                  "minimum": 0
                                 },
                                 "selectionBoxOpacity": {
                                   "type": "number",
@@ -36677,7 +37973,8 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "outsideTextureBgColor": {
                                   "type": "string",
-                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "outsideTextureBgOpacity": {
                                   "type": "number",
@@ -36687,11 +37984,13 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "shapePolygonPoints": {
                                   "type": "string",
-                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                  "maxLength": 2000
                                 },
                                 "menuBackgroundColor": {
                                   "type": "string",
-                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "menuBackgroundOpacity": {
                                   "type": "number",
@@ -36701,7 +38000,8 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "menuForgroundColor": {
                                   "type": "string",
-                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 }
                               }
                             }
@@ -36767,7 +38067,8 @@ const DesignSchema: Record<string, unknown> = {
                               },
                               "description": {
                                 "type": "string",
-                                "description": "A written representation of the purpose and characteristics of the capability."
+                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                "maxLength": 5000
                               },
                               "kind": {
                                 "description": "Top-level categorization of the capability",
@@ -37058,7 +38359,8 @@ const DesignSchema: Record<string, unknown> = {
                             "genealogy": {
                               "x-order": 1,
                               "type": "string",
-                              "description": "Genealogy represents the various representational states of the component."
+                              "description": "Genealogy represents the various representational states of the component.",
+                              "maxLength": 1000
                             },
                             "isAnnotation": {
                               "x-order": 2,
@@ -37084,7 +38386,8 @@ const DesignSchema: Record<string, unknown> = {
                             "configurationUISchema": {
                               "x-order": 6,
                               "type": "string",
-                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                              "maxLength": 20000
                             }
                           },
                           "x-oapi-codegen-extra-tags": {
@@ -37113,17 +38416,20 @@ const DesignSchema: Record<string, unknown> = {
                             "version": {
                               "type": "string",
                               "description": "Version of the component produced by the registrant. Example: APIVersion of a Kubernetes Pod.",
-                              "x-order": 1
+                              "x-order": 1,
+                              "maxLength": 500
                             },
                             "kind": {
                               "type": "string",
                               "description": "The unique identifier (name) assigned by the registrant to this component. Example: A Kubernetes Pod is of kind 'Pod'.",
-                              "x-order": 2
+                              "x-order": 2,
+                              "maxLength": 255
                             },
                             "schema": {
                               "type": "string",
                               "description": "JSON schema of the object as defined by the registrant.",
-                              "x-order": 3
+                              "x-order": 3,
+                              "maxLength": 500
                             }
                           },
                           "required": [
@@ -37287,7 +38593,8 @@ const DesignSchema: Record<string, unknown> = {
                             "yaml": "type",
                             "json": "type",
                             "gorm": "column:type"
-                          }
+                          },
+                          "maxLength": 255
                         },
                         "subType": {
                           "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -37297,7 +38604,8 @@ const DesignSchema: Record<string, unknown> = {
                           "x-oapi-codegen-extra-tags": {
                             "yaml": "subType",
                             "json": "subType"
-                          }
+                          },
+                          "maxLength": 255
                         },
                         "status": {
                           "type": "string",
@@ -37375,7 +38683,8 @@ const DesignSchema: Record<string, unknown> = {
                               },
                               "description": {
                                 "type": "string",
-                                "description": "A written representation of the purpose and characteristics of the capability."
+                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                "maxLength": 5000
                               },
                               "kind": {
                                 "description": "Top-level categorization of the capability",
@@ -37527,7 +38836,8 @@ const DesignSchema: Record<string, unknown> = {
                               "type": "string",
                               "x-oapi-codegen-extra-tags": {
                                 "json": "description"
-                              }
+                              },
+                              "maxLength": 5000
                             },
                             "styles": {
                               "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -37547,42 +38857,48 @@ const DesignSchema: Record<string, unknown> = {
                                   "description": "Primary color of the component used for UI representation.",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "primaryColor"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "secondaryColor": {
                                   "type": "string",
                                   "description": "Secondary color of the entity used for UI representation.",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "secondaryColor,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "svgWhite": {
                                   "type": "string",
                                   "description": "White SVG of the entity used for UI representation on dark background.",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "svgWhite"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "svgColor": {
                                   "type": "string",
                                   "description": "Colored SVG of the entity used for UI representation on light background.",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "svgColor"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "svgComplete": {
                                   "type": "string",
                                   "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "svgComplete,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "color": {
                                   "type": "string",
                                   "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "color,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "textOpacity": {
                                   "type": "number",
@@ -37591,7 +38907,9 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "TextOpacity",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "textOpacity,omitempty"
-                                  }
+                                  },
+                                  "minimum": 0,
+                                  "maximum": 1
                                 },
                                 "fontFamily": {
                                   "type": "string",
@@ -37599,7 +38917,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "FontFamily",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "fontFamily,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "fontSize": {
                                   "type": "string",
@@ -37607,7 +38926,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "FontSize",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "fontSize,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "fontStyle": {
                                   "type": "string",
@@ -37615,7 +38935,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "FontStyle",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "fontStyle,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "fontWeight": {
                                   "type": "string",
@@ -37623,7 +38944,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "FontWeight",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "fontWeight,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "textTransform": {
                                   "description": "A transformation to apply to the label text",
@@ -37645,7 +38967,9 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "Opacity",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "opacity,omitempty"
-                                  }
+                                  },
+                                  "minimum": 0,
+                                  "maximum": 1
                                 },
                                 "zIndex": {
                                   "type": "integer",
@@ -37653,7 +38977,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "ZIndex",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "zIndex,omitempty"
-                                  }
+                                  },
+                                  "minimum": 0
                                 },
                                 "label": {
                                   "type": "string",
@@ -37661,7 +38986,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "Label",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "label,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "edgeAnimation": {
                                   "type": "string",
@@ -37669,7 +38995,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "EdgeAnimation",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "edgeAnimation,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "curveStyle": {
                                   "x-go-name": "CurveStyle",
@@ -37693,7 +39020,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "LineColor",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "lineColor,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "lineStyle": {
                                   "x-go-name": "LineStyle",
@@ -37728,7 +39056,9 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "LineOpacity",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "lineOpacity,omitempty"
-                                  }
+                                  },
+                                  "minimum": 0,
+                                  "maximum": 1
                                 },
                                 "targetArrowColor": {
                                   "type": "string",
@@ -37736,7 +39066,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "TargetArrowColor",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "targetArrowColor,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "targetArrowShape": {
                                   "x-go-name": "TargetArrowShape",
@@ -37778,7 +39109,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "MidTargetArrowColor",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "midTargetArrowColor,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "midTargetArrowShape": {
                                   "x-go-name": "MidTargetArrowShape",
@@ -37821,7 +39153,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "ArrowScale",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "arrowScale,omitempty"
-                                  }
+                                  },
+                                  "minimum": 0
                                 },
                                 "sourceLabel": {
                                   "type": "string",
@@ -37829,7 +39162,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "SourceLabel",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "sourceLabel,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 },
                                 "targetLabel": {
                                   "type": "string",
@@ -37837,7 +39171,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "x-go-name": "TargetLabel",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "targetLabel,omitempty"
-                                  }
+                                  },
+                                  "maxLength": 500
                                 }
                               }
                             },
@@ -37939,7 +39274,9 @@ const DesignSchema: Record<string, unknown> = {
                               ],
                               "properties": {
                                 "kind": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Kind of the registrant.",
+                                  "maxLength": 255
                                 }
                               }
                             }
@@ -37968,7 +39305,8 @@ const DesignSchema: Record<string, unknown> = {
                           "x-oapi-codegen-extra-tags": {
                             "yaml": "evaluationQuery",
                             "json": "evaluationQuery"
-                          }
+                          },
+                          "maxLength": 500
                         },
                         "selectors": {
                           "x-go-type": "SelectorSet",
@@ -38024,7 +39362,9 @@ const DesignSchema: Record<string, unknown> = {
                                           "type": "string",
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "kind"
-                                          }
+                                          },
+                                          "description": "Kind of the resource.",
+                                          "maxLength": 255
                                         },
                                         "match": {
                                           "x-go-type": "MatchSelector",
@@ -38044,7 +39384,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "refs,omitempty"
-                                              }
+                                              },
+                                              "description": "The refs of the matchselector."
                                             },
                                             "from": {
                                               "type": "array",
@@ -38072,7 +39413,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "mutatorRef": {
                                                     "x-oapi-codegen-extra-tags": {
@@ -38105,7 +39448,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "from,omitempty"
-                                              }
+                                              },
+                                              "description": "The from of the matchselector."
                                             },
                                             "to": {
                                               "type": "array",
@@ -38133,7 +39477,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "mutatorRef": {
                                                     "x-oapi-codegen-extra-tags": {
@@ -38166,7 +39512,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "to,omitempty"
-                                              }
+                                              },
+                                              "description": "The to of the matchselector."
                                             }
                                           }
                                         },
@@ -38268,7 +39615,9 @@ const DesignSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -38358,7 +39707,9 @@ const DesignSchema: Record<string, unknown> = {
                                           "type": "string",
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "kind"
-                                          }
+                                          },
+                                          "description": "Kind of the resource.",
+                                          "maxLength": 255
                                         },
                                         "match": {
                                           "x-go-type": "MatchSelector",
@@ -38378,7 +39729,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "refs,omitempty"
-                                              }
+                                              },
+                                              "description": "The refs of the matchselector."
                                             },
                                             "from": {
                                               "type": "array",
@@ -38406,7 +39758,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "mutatorRef": {
                                                     "x-oapi-codegen-extra-tags": {
@@ -38439,7 +39793,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "from,omitempty"
-                                              }
+                                              },
+                                              "description": "The from of the matchselector."
                                             },
                                             "to": {
                                               "type": "array",
@@ -38467,7 +39822,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "mutatorRef": {
                                                     "x-oapi-codegen-extra-tags": {
@@ -38500,7 +39857,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "to,omitempty"
-                                              }
+                                              },
+                                              "description": "The to of the matchselector."
                                             }
                                           }
                                         },
@@ -38602,7 +39960,9 @@ const DesignSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -38706,7 +40066,9 @@ const DesignSchema: Record<string, unknown> = {
                                           "type": "string",
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "kind"
-                                          }
+                                          },
+                                          "description": "Kind of the resource.",
+                                          "maxLength": 255
                                         },
                                         "match": {
                                           "x-go-type": "MatchSelector",
@@ -38726,7 +40088,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "refs,omitempty"
-                                              }
+                                              },
+                                              "description": "The refs of the matchselector."
                                             },
                                             "from": {
                                               "type": "array",
@@ -38754,7 +40117,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "mutatorRef": {
                                                     "x-oapi-codegen-extra-tags": {
@@ -38787,7 +40152,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "from,omitempty"
-                                              }
+                                              },
+                                              "description": "The from of the matchselector."
                                             },
                                             "to": {
                                               "type": "array",
@@ -38815,7 +40181,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "mutatorRef": {
                                                     "x-oapi-codegen-extra-tags": {
@@ -38848,7 +40216,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "to,omitempty"
-                                              }
+                                              },
+                                              "description": "The to of the matchselector."
                                             }
                                           }
                                         },
@@ -38950,7 +40319,9 @@ const DesignSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -39040,7 +40411,9 @@ const DesignSchema: Record<string, unknown> = {
                                           "type": "string",
                                           "x-oapi-codegen-extra-tags": {
                                             "json": "kind"
-                                          }
+                                          },
+                                          "description": "Kind of the resource.",
+                                          "maxLength": 255
                                         },
                                         "match": {
                                           "x-go-type": "MatchSelector",
@@ -39060,7 +40433,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "refs,omitempty"
-                                              }
+                                              },
+                                              "description": "The refs of the matchselector."
                                             },
                                             "from": {
                                               "type": "array",
@@ -39088,7 +40462,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "mutatorRef": {
                                                     "x-oapi-codegen-extra-tags": {
@@ -39121,7 +40497,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "from,omitempty"
-                                              }
+                                              },
+                                              "description": "The from of the matchselector."
                                             },
                                             "to": {
                                               "type": "array",
@@ -39149,7 +40526,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     "type": "string",
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "kind"
-                                                    }
+                                                    },
+                                                    "description": "Kind of the resource.",
+                                                    "maxLength": 255
                                                   },
                                                   "mutatorRef": {
                                                     "x-oapi-codegen-extra-tags": {
@@ -39182,7 +40561,8 @@ const DesignSchema: Record<string, unknown> = {
                                               },
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "to,omitempty"
-                                              }
+                                              },
+                                              "description": "The to of the matchselector."
                                             }
                                           }
                                         },
@@ -39284,7 +40664,9 @@ const DesignSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -39394,10 +40776,14 @@ const DesignSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "page": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "patterns": {
             "type": "array",
@@ -39416,7 +40802,8 @@ const DesignSchema: Record<string, unknown> = {
                   "properties": {
                     "publishedVersion": {
                       "description": "Tracks the specific content version that has been made available in the Catalog.",
-                      "type": "string"
+                      "type": "string",
+                      "maxLength": 500
                     },
                     "class": {
                       "description": "Published content is classifed by its support level. Content classes help you understand the origin and expected support level for each piece of content. It is important to note that the level of support may vary within each class, and you should exercise discretion when using community-contributed content. Content produced and fully supported by Meshery maintainers. This represents the highest level of support and is considered the most reliable. Content produced by partners and verified by Meshery maintainers. While not directly maintained by Meshery, it has undergone a verification process to ensure quality and compatibility. Content produced and supported by the respective project or organization responsible for the specific technology. This class offers a level of support from the project maintainers themselves. Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Community content may have varying levels of support and reliability.",
@@ -39434,7 +40821,8 @@ const DesignSchema: Record<string, unknown> = {
                           "const": "reference architecture",
                           "description": "Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Reference architecture content may have varying levels of support and reliability."
                         }
-                      ]
+                      ],
+                      "maxLength": 500
                     },
                     "compatibility": {
                       "type": "array",
@@ -39452,7 +40840,8 @@ const DesignSchema: Record<string, unknown> = {
                     "patternCaveats": {
                       "type": "string",
                       "title": "Caveats and Considerations",
-                      "description": "Specific stipulations to consider and known behaviors to be aware of when using this design."
+                      "description": "Specific stipulations to consider and known behaviors to be aware of when using this design.",
+                      "maxLength": 500
                     },
                     "patternInfo": {
                       "type": "string",
@@ -39540,7 +40929,9 @@ const DesignSchema: Record<string, unknown> = {
                     "name": {
                       "type": "string",
                       "description": "Name of the design; a descriptive, but concise title for the design document.",
-                      "x-order": 2
+                      "x-order": 2,
+                      "minLength": 1,
+                      "maxLength": 255
                     },
                     "schemaVersion": {
                       "description": "Specifies the version of the schema to which the design conforms.",
@@ -39618,7 +41009,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "type": "array",
                                     "items": {
                                       "type": "string"
-                                    }
+                                    },
+                                    "description": "The immediate ref field path of the nonresolvedalias."
                                   }
                                 },
                                 "required": [
@@ -39642,6 +41034,7 @@ const DesignSchema: Record<string, unknown> = {
                                   },
                                   "resolvedRefFieldPath": {
                                     "type": "array",
+                                    "description": "Fully resolved field path targeted by the alias.",
                                     "items": {
                                       "type": "string"
                                     }
@@ -39655,7 +41048,8 @@ const DesignSchema: Record<string, unknown> = {
                             ]
                           }
                         }
-                      }
+                      },
+                      "description": "Additional metadata associated with this resource."
                     },
                     "components": {
                       "description": "A list of one or more component declarations.",
@@ -39740,7 +41134,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "x-oapi-codegen-extra-tags": {
                                   "yaml": "description",
                                   "json": "description"
-                                }
+                                },
+                                "maxLength": 5000
                               },
                               "format": {
                                 "x-order": 6,
@@ -40507,7 +41902,8 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "description": {
                                               "type": "string",
-                                              "description": "A written representation of the purpose and characteristics of the capability."
+                                              "description": "A written representation of the purpose and characteristics of the capability.",
+                                              "maxLength": 5000
                                             },
                                             "kind": {
                                               "description": "Top-level categorization of the capability",
@@ -40775,7 +42171,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "gorm": "-",
                                       "json": "relationships",
                                       "yaml": "relationships"
-                                    }
+                                    },
+                                    "description": "The relationships of the model."
                                   },
                                   "components": {
                                     "type": "array",
@@ -40784,7 +42181,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "gorm": "-",
                                       "json": "components",
                                       "yaml": "components"
-                                    }
+                                    },
+                                    "description": "The components of the model."
                                   },
                                   "componentsCount": {
                                     "type": "integer",
@@ -40795,7 +42193,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "yaml": "components_count",
                                       "gorm": "-"
                                     },
-                                    "default": 0
+                                    "default": 0,
+                                    "minimum": 0
                                   },
                                   "relationshipsCount": {
                                     "type": "integer",
@@ -40806,7 +42205,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "json": "relationships_count",
                                       "yaml": "relationships_count"
                                     },
-                                    "default": 0
+                                    "default": 0,
+                                    "minimum": 0
                                   },
                                   "created_at": {
                                     "x-order": 14,
@@ -40941,7 +42341,9 @@ const DesignSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "kind": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Kind of the registrant.",
+                                        "maxLength": 255
                                       }
                                     }
                                   }
@@ -40996,27 +42398,33 @@ const DesignSchema: Record<string, unknown> = {
                                     "properties": {
                                       "primaryColor": {
                                         "type": "string",
-                                        "description": "Primary color of the component used for UI representation."
+                                        "description": "Primary color of the component used for UI representation.",
+                                        "maxLength": 500
                                       },
                                       "secondaryColor": {
                                         "type": "string",
-                                        "description": "Secondary color of the entity used for UI representation."
+                                        "description": "Secondary color of the entity used for UI representation.",
+                                        "maxLength": 500
                                       },
                                       "svgWhite": {
                                         "type": "string",
-                                        "description": "White SVG of the entity used for UI representation on dark background."
+                                        "description": "White SVG of the entity used for UI representation on dark background.",
+                                        "maxLength": 500
                                       },
                                       "svgColor": {
                                         "type": "string",
-                                        "description": "Colored SVG of the entity used for UI representation on light background."
+                                        "description": "Colored SVG of the entity used for UI representation on light background.",
+                                        "maxLength": 500
                                       },
                                       "svgComplete": {
                                         "type": "string",
-                                        "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                                        "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                                        "maxLength": 500
                                       },
                                       "color": {
                                         "type": "string",
-                                        "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 500
                                       },
                                       "textOpacity": {
                                         "type": "number",
@@ -41026,19 +42434,23 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "fontFamily": {
                                         "type": "string",
-                                        "description": "A comma-separated list of font names to use on the label text."
+                                        "description": "A comma-separated list of font names to use on the label text.",
+                                        "maxLength": 500
                                       },
                                       "fontSize": {
                                         "type": "string",
-                                        "description": "The size of the label text."
+                                        "description": "The size of the label text.",
+                                        "maxLength": 500
                                       },
                                       "fontStyle": {
                                         "type": "string",
-                                        "description": "A CSS font style to be applied to the label text."
+                                        "description": "A CSS font style to be applied to the label text.",
+                                        "maxLength": 500
                                       },
                                       "fontWeight": {
                                         "type": "string",
-                                        "description": "A CSS font weight to be applied to the label text."
+                                        "description": "A CSS font weight to be applied to the label text.",
+                                        "maxLength": 500
                                       },
                                       "textTransform": {
                                         "type": "string",
@@ -41057,11 +42469,13 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "zIndex": {
                                         "type": "integer",
-                                        "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                                        "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                                        "minimum": 0
                                       },
                                       "label": {
                                         "type": "string",
-                                        "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                                        "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                                        "maxLength": 500
                                       },
                                       "animation": {
                                         "type": "object",
@@ -41115,26 +42529,37 @@ const DesignSchema: Record<string, unknown> = {
                                           "x": {
                                             "type": "number",
                                             "description": "The x-coordinate of the node.",
+                                            "minimum": -1000000,
+                                            "maximum": 1000000,
                                             "x-go-type": "float64"
                                           },
                                           "y": {
                                             "type": "number",
                                             "description": "The y-coordinate of the node.",
+                                            "minimum": -1000000,
+                                            "maximum": 1000000,
                                             "x-go-type": "float64"
                                           }
                                         }
                                       },
                                       "bodyText": {
                                         "type": "string",
-                                        "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                        "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                        "maxLength": 500
                                       },
                                       "bodyTextWrap": {
                                         "type": "string",
-                                        "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                        "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                        "enum": [
+                                          "none",
+                                          "wrap",
+                                          "ellipsis"
+                                        ]
                                       },
                                       "bodyTextMaxWidth": {
                                         "type": "string",
-                                        "description": "The maximum width for wrapping text in the node."
+                                        "description": "The maximum width for wrapping text in the node.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextOpacity": {
                                         "type": "number",
@@ -41144,47 +42569,59 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "bodyTextBackgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextFontSize": {
                                         "type": "number",
-                                        "description": "The size of the node's body text."
+                                        "description": "The size of the node's body text.",
+                                        "minimum": 0
                                       },
                                       "bodyTextColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextFontWeight": {
                                         "type": "string",
-                                        "description": "A CSS font weight to be applied to the node's body text."
+                                        "description": "A CSS font weight to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextHorizontalAlign": {
                                         "type": "string",
-                                        "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                        "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextDecoration": {
                                         "type": "string",
-                                        "description": "A CSS text decoration to be applied to the node's body text."
+                                        "description": "A CSS text decoration to be applied to the node's body text.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextVerticalAlign": {
                                         "type": "string",
-                                        "description": "A CSS vertical alignment to be applied to the node's body text."
+                                        "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "width": {
                                         "type": "number",
-                                        "description": "The width of the node's body or the width of an edge's line."
+                                        "description": "The width of the node's body or the width of an edge's line.",
+                                        "minimum": 0
                                       },
                                       "height": {
                                         "type": "number",
-                                        "description": "The height of the node's body"
+                                        "description": "The height of the node's body",
+                                        "minimum": 0
                                       },
                                       "backgroundImage": {
                                         "type": "string",
-                                        "description": "The URL that points to the image to show in the node."
+                                        "format": "uri",
+                                        "description": "The URL that points to the image to show in the node.",
+                                        "maxLength": 2048
                                       },
                                       "backgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "backgroundBlacken": {
                                         "type": "number",
@@ -41200,35 +42637,59 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "backgroundPositionX": {
                                         "type": "string",
-                                        "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundPositionY": {
                                         "type": "string",
-                                        "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundOffsetX": {
                                         "type": "string",
-                                        "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundOffsetY": {
                                         "type": "string",
-                                        "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundFit": {
                                         "type": "string",
-                                        "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                        "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                        "enum": [
+                                          "none",
+                                          "contain",
+                                          "cover"
+                                        ]
                                       },
                                       "backgroundClip": {
                                         "type": "string",
-                                        "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                        "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                        "enum": [
+                                          "none",
+                                          "node",
+                                          "node-border"
+                                        ]
                                       },
                                       "backgroundWidthRelativeTo": {
                                         "type": "string",
-                                        "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                        "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                        "enum": [
+                                          "none",
+                                          "inner",
+                                          "outer"
+                                        ]
                                       },
                                       "backgroundHeightRelativeTo": {
                                         "type": "string",
-                                        "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                        "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                        "enum": [
+                                          "none",
+                                          "inner",
+                                          "outer"
+                                        ]
                                       },
                                       "borderWidth": {
                                         "type": "number",
@@ -41247,7 +42708,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "borderColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "borderOpacity": {
                                         "type": "number",
@@ -41289,23 +42751,28 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "activeBgColor": {
                                         "type": "string",
-                                        "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "activeBgOpacity": {
                                         "type": "string",
-                                        "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                        "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                        "maxLength": 50
                                       },
                                       "activeBgSize": {
                                         "type": "string",
-                                        "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                        "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                        "maxLength": 50
                                       },
                                       "selectionBoxColor": {
                                         "type": "string",
-                                        "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "selectionBoxBorderWidth": {
                                         "type": "number",
-                                        "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                        "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                        "minimum": 0
                                       },
                                       "selectionBoxOpacity": {
                                         "type": "number",
@@ -41315,7 +42782,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "outsideTextureBgColor": {
                                         "type": "string",
-                                        "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "outsideTextureBgOpacity": {
                                         "type": "number",
@@ -41325,11 +42793,13 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "shapePolygonPoints": {
                                         "type": "string",
-                                        "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                        "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                        "maxLength": 2000
                                       },
                                       "menuBackgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "menuBackgroundOpacity": {
                                         "type": "number",
@@ -41339,7 +42809,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "menuForgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       }
                                     }
                                   }
@@ -41405,7 +42876,8 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "description": {
                                       "type": "string",
-                                      "description": "A written representation of the purpose and characteristics of the capability."
+                                      "description": "A written representation of the purpose and characteristics of the capability.",
+                                      "maxLength": 5000
                                     },
                                     "kind": {
                                       "description": "Top-level categorization of the capability",
@@ -41696,7 +43168,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "genealogy": {
                                     "x-order": 1,
                                     "type": "string",
-                                    "description": "Genealogy represents the various representational states of the component."
+                                    "description": "Genealogy represents the various representational states of the component.",
+                                    "maxLength": 1000
                                   },
                                   "isAnnotation": {
                                     "x-order": 2,
@@ -41722,7 +43195,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "configurationUISchema": {
                                     "x-order": 6,
                                     "type": "string",
-                                    "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                    "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                    "maxLength": 20000
                                   }
                                 },
                                 "x-oapi-codegen-extra-tags": {
@@ -41751,17 +43225,20 @@ const DesignSchema: Record<string, unknown> = {
                                   "version": {
                                     "type": "string",
                                     "description": "Version of the component produced by the registrant. Example: APIVersion of a Kubernetes Pod.",
-                                    "x-order": 1
+                                    "x-order": 1,
+                                    "maxLength": 500
                                   },
                                   "kind": {
                                     "type": "string",
                                     "description": "The unique identifier (name) assigned by the registrant to this component. Example: A Kubernetes Pod is of kind 'Pod'.",
-                                    "x-order": 2
+                                    "x-order": 2,
+                                    "maxLength": 255
                                   },
                                   "schema": {
                                     "type": "string",
                                     "description": "JSON schema of the object as defined by the registrant.",
-                                    "x-order": 3
+                                    "x-order": 3,
+                                    "maxLength": 500
                                   }
                                 },
                                 "required": [
@@ -41925,7 +43402,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "yaml": "type",
                                   "json": "type",
                                   "gorm": "column:type"
-                                }
+                                },
+                                "maxLength": 255
                               },
                               "subType": {
                                 "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -41935,7 +43413,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "x-oapi-codegen-extra-tags": {
                                   "yaml": "subType",
                                   "json": "subType"
-                                }
+                                },
+                                "maxLength": 255
                               },
                               "status": {
                                 "type": "string",
@@ -42013,7 +43492,8 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "description": {
                                       "type": "string",
-                                      "description": "A written representation of the purpose and characteristics of the capability."
+                                      "description": "A written representation of the purpose and characteristics of the capability.",
+                                      "maxLength": 5000
                                     },
                                     "kind": {
                                       "description": "Top-level categorization of the capability",
@@ -42165,7 +43645,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "type": "string",
                                     "x-oapi-codegen-extra-tags": {
                                       "json": "description"
-                                    }
+                                    },
+                                    "maxLength": 5000
                                   },
                                   "styles": {
                                     "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -42185,42 +43666,48 @@ const DesignSchema: Record<string, unknown> = {
                                         "description": "Primary color of the component used for UI representation.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "primaryColor"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "secondaryColor": {
                                         "type": "string",
                                         "description": "Secondary color of the entity used for UI representation.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "secondaryColor,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "svgWhite": {
                                         "type": "string",
                                         "description": "White SVG of the entity used for UI representation on dark background.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "svgWhite"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "svgColor": {
                                         "type": "string",
                                         "description": "Colored SVG of the entity used for UI representation on light background.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "svgColor"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "svgComplete": {
                                         "type": "string",
                                         "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "svgComplete,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "color": {
                                         "type": "string",
                                         "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "color,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "textOpacity": {
                                         "type": "number",
@@ -42229,7 +43716,9 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "TextOpacity",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "textOpacity,omitempty"
-                                        }
+                                        },
+                                        "minimum": 0,
+                                        "maximum": 1
                                       },
                                       "fontFamily": {
                                         "type": "string",
@@ -42237,7 +43726,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "FontFamily",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "fontFamily,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "fontSize": {
                                         "type": "string",
@@ -42245,7 +43735,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "FontSize",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "fontSize,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "fontStyle": {
                                         "type": "string",
@@ -42253,7 +43744,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "FontStyle",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "fontStyle,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "fontWeight": {
                                         "type": "string",
@@ -42261,7 +43753,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "FontWeight",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "fontWeight,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "textTransform": {
                                         "description": "A transformation to apply to the label text",
@@ -42283,7 +43776,9 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "Opacity",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "opacity,omitempty"
-                                        }
+                                        },
+                                        "minimum": 0,
+                                        "maximum": 1
                                       },
                                       "zIndex": {
                                         "type": "integer",
@@ -42291,7 +43786,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "ZIndex",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "zIndex,omitempty"
-                                        }
+                                        },
+                                        "minimum": 0
                                       },
                                       "label": {
                                         "type": "string",
@@ -42299,7 +43795,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "Label",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "label,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "edgeAnimation": {
                                         "type": "string",
@@ -42307,7 +43804,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "EdgeAnimation",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "edgeAnimation,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "curveStyle": {
                                         "x-go-name": "CurveStyle",
@@ -42331,7 +43829,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "LineColor",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "lineColor,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "lineStyle": {
                                         "x-go-name": "LineStyle",
@@ -42366,7 +43865,9 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "LineOpacity",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "lineOpacity,omitempty"
-                                        }
+                                        },
+                                        "minimum": 0,
+                                        "maximum": 1
                                       },
                                       "targetArrowColor": {
                                         "type": "string",
@@ -42374,7 +43875,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "TargetArrowColor",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "targetArrowColor,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "targetArrowShape": {
                                         "x-go-name": "TargetArrowShape",
@@ -42416,7 +43918,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "MidTargetArrowColor",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "midTargetArrowColor,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "midTargetArrowShape": {
                                         "x-go-name": "MidTargetArrowShape",
@@ -42459,7 +43962,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "ArrowScale",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "arrowScale,omitempty"
-                                        }
+                                        },
+                                        "minimum": 0
                                       },
                                       "sourceLabel": {
                                         "type": "string",
@@ -42467,7 +43971,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "SourceLabel",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "sourceLabel,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "targetLabel": {
                                         "type": "string",
@@ -42475,7 +43980,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "TargetLabel",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "targetLabel,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       }
                                     }
                                   },
@@ -42577,7 +44083,9 @@ const DesignSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "kind": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Kind of the registrant.",
+                                        "maxLength": 255
                                       }
                                     }
                                   }
@@ -42606,7 +44114,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "x-oapi-codegen-extra-tags": {
                                   "yaml": "evaluationQuery",
                                   "json": "evaluationQuery"
-                                }
+                                },
+                                "maxLength": 500
                               },
                               "selectors": {
                                 "x-go-type": "SelectorSet",
@@ -42662,7 +44171,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "match": {
                                                 "x-go-type": "MatchSelector",
@@ -42682,7 +44193,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "refs,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The refs of the matchselector."
                                                   },
                                                   "from": {
                                                     "type": "array",
@@ -42710,7 +44222,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -42743,7 +44257,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "from,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The from of the matchselector."
                                                   },
                                                   "to": {
                                                     "type": "array",
@@ -42771,7 +44286,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -42804,7 +44321,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "to,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The to of the matchselector."
                                                   }
                                                 }
                                               },
@@ -42906,7 +44424,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -42996,7 +44516,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "match": {
                                                 "x-go-type": "MatchSelector",
@@ -43016,7 +44538,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "refs,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The refs of the matchselector."
                                                   },
                                                   "from": {
                                                     "type": "array",
@@ -43044,7 +44567,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -43077,7 +44602,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "from,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The from of the matchselector."
                                                   },
                                                   "to": {
                                                     "type": "array",
@@ -43105,7 +44631,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -43138,7 +44666,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "to,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The to of the matchselector."
                                                   }
                                                 }
                                               },
@@ -43240,7 +44769,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -43344,7 +44875,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "match": {
                                                 "x-go-type": "MatchSelector",
@@ -43364,7 +44897,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "refs,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The refs of the matchselector."
                                                   },
                                                   "from": {
                                                     "type": "array",
@@ -43392,7 +44926,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -43425,7 +44961,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "from,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The from of the matchselector."
                                                   },
                                                   "to": {
                                                     "type": "array",
@@ -43453,7 +44990,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -43486,7 +45025,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "to,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The to of the matchselector."
                                                   }
                                                 }
                                               },
@@ -43588,7 +45128,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -43678,7 +45220,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "match": {
                                                 "x-go-type": "MatchSelector",
@@ -43698,7 +45242,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "refs,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The refs of the matchselector."
                                                   },
                                                   "from": {
                                                     "type": "array",
@@ -43726,7 +45271,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -43759,7 +45306,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "from,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The from of the matchselector."
                                                   },
                                                   "to": {
                                                     "type": "array",
@@ -43787,7 +45335,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -43820,7 +45370,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "to,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The to of the matchselector."
                                                   }
                                                 }
                                               },
@@ -43922,7 +45473,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -44027,13 +45580,18 @@ const DesignSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The patterns of the mesherypatternpage."
           },
           "resultType": {
-            "type": "string"
+            "type": "string",
+            "description": "The result type of the mesherypatternpage.",
+            "maxLength": 500
           },
           "total_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total number of items available.",
+            "minimum": 0
           }
         }
       },
@@ -44060,7 +45618,8 @@ const DesignSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The patterns of the mesherypatterndeleterequestbody."
           }
         }
       },
@@ -44086,7 +45645,8 @@ const DesignSchema: Record<string, unknown> = {
                 "properties": {
                   "publishedVersion": {
                     "description": "Tracks the specific content version that has been made available in the Catalog.",
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 500
                   },
                   "class": {
                     "description": "Published content is classifed by its support level. Content classes help you understand the origin and expected support level for each piece of content. It is important to note that the level of support may vary within each class, and you should exercise discretion when using community-contributed content. Content produced and fully supported by Meshery maintainers. This represents the highest level of support and is considered the most reliable. Content produced by partners and verified by Meshery maintainers. While not directly maintained by Meshery, it has undergone a verification process to ensure quality and compatibility. Content produced and supported by the respective project or organization responsible for the specific technology. This class offers a level of support from the project maintainers themselves. Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Community content may have varying levels of support and reliability.",
@@ -44104,7 +45664,8 @@ const DesignSchema: Record<string, unknown> = {
                         "const": "reference architecture",
                         "description": "Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Reference architecture content may have varying levels of support and reliability."
                       }
-                    ]
+                    ],
+                    "maxLength": 500
                   },
                   "compatibility": {
                     "type": "array",
@@ -44122,7 +45683,8 @@ const DesignSchema: Record<string, unknown> = {
                   "patternCaveats": {
                     "type": "string",
                     "title": "Caveats and Considerations",
-                    "description": "Specific stipulations to consider and known behaviors to be aware of when using this design."
+                    "description": "Specific stipulations to consider and known behaviors to be aware of when using this design.",
+                    "maxLength": 500
                   },
                   "patternInfo": {
                     "type": "string",
@@ -44210,7 +45772,9 @@ const DesignSchema: Record<string, unknown> = {
                   "name": {
                     "type": "string",
                     "description": "Name of the design; a descriptive, but concise title for the design document.",
-                    "x-order": 2
+                    "x-order": 2,
+                    "minLength": 1,
+                    "maxLength": 255
                   },
                   "schemaVersion": {
                     "description": "Specifies the version of the schema to which the design conforms.",
@@ -44288,7 +45852,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "type": "array",
                                   "items": {
                                     "type": "string"
-                                  }
+                                  },
+                                  "description": "The immediate ref field path of the nonresolvedalias."
                                 }
                               },
                               "required": [
@@ -44312,6 +45877,7 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "resolvedRefFieldPath": {
                                   "type": "array",
+                                  "description": "Fully resolved field path targeted by the alias.",
                                   "items": {
                                     "type": "string"
                                   }
@@ -44325,7 +45891,8 @@ const DesignSchema: Record<string, unknown> = {
                           ]
                         }
                       }
-                    }
+                    },
+                    "description": "Additional metadata associated with this resource."
                   },
                   "components": {
                     "description": "A list of one or more component declarations.",
@@ -44410,7 +45977,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-oapi-codegen-extra-tags": {
                                 "yaml": "description",
                                 "json": "description"
-                              }
+                              },
+                              "maxLength": 5000
                             },
                             "format": {
                               "x-order": 6,
@@ -45177,7 +46745,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "description": {
                                             "type": "string",
-                                            "description": "A written representation of the purpose and characteristics of the capability."
+                                            "description": "A written representation of the purpose and characteristics of the capability.",
+                                            "maxLength": 5000
                                           },
                                           "kind": {
                                             "description": "Top-level categorization of the capability",
@@ -45445,7 +47014,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "gorm": "-",
                                     "json": "relationships",
                                     "yaml": "relationships"
-                                  }
+                                  },
+                                  "description": "The relationships of the model."
                                 },
                                 "components": {
                                   "type": "array",
@@ -45454,7 +47024,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "gorm": "-",
                                     "json": "components",
                                     "yaml": "components"
-                                  }
+                                  },
+                                  "description": "The components of the model."
                                 },
                                 "componentsCount": {
                                   "type": "integer",
@@ -45465,7 +47036,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "yaml": "components_count",
                                     "gorm": "-"
                                   },
-                                  "default": 0
+                                  "default": 0,
+                                  "minimum": 0
                                 },
                                 "relationshipsCount": {
                                   "type": "integer",
@@ -45476,7 +47048,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "json": "relationships_count",
                                     "yaml": "relationships_count"
                                   },
-                                  "default": 0
+                                  "default": 0,
+                                  "minimum": 0
                                 },
                                 "created_at": {
                                   "x-order": 14,
@@ -45611,7 +47184,9 @@ const DesignSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "kind": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Kind of the registrant.",
+                                      "maxLength": 255
                                     }
                                   }
                                 }
@@ -45666,27 +47241,33 @@ const DesignSchema: Record<string, unknown> = {
                                   "properties": {
                                     "primaryColor": {
                                       "type": "string",
-                                      "description": "Primary color of the component used for UI representation."
+                                      "description": "Primary color of the component used for UI representation.",
+                                      "maxLength": 500
                                     },
                                     "secondaryColor": {
                                       "type": "string",
-                                      "description": "Secondary color of the entity used for UI representation."
+                                      "description": "Secondary color of the entity used for UI representation.",
+                                      "maxLength": 500
                                     },
                                     "svgWhite": {
                                       "type": "string",
-                                      "description": "White SVG of the entity used for UI representation on dark background."
+                                      "description": "White SVG of the entity used for UI representation on dark background.",
+                                      "maxLength": 500
                                     },
                                     "svgColor": {
                                       "type": "string",
-                                      "description": "Colored SVG of the entity used for UI representation on light background."
+                                      "description": "Colored SVG of the entity used for UI representation on light background.",
+                                      "maxLength": 500
                                     },
                                     "svgComplete": {
                                       "type": "string",
-                                      "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                                      "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                                      "maxLength": 500
                                     },
                                     "color": {
                                       "type": "string",
-                                      "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 500
                                     },
                                     "textOpacity": {
                                       "type": "number",
@@ -45696,19 +47277,23 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "fontFamily": {
                                       "type": "string",
-                                      "description": "A comma-separated list of font names to use on the label text."
+                                      "description": "A comma-separated list of font names to use on the label text.",
+                                      "maxLength": 500
                                     },
                                     "fontSize": {
                                       "type": "string",
-                                      "description": "The size of the label text."
+                                      "description": "The size of the label text.",
+                                      "maxLength": 500
                                     },
                                     "fontStyle": {
                                       "type": "string",
-                                      "description": "A CSS font style to be applied to the label text."
+                                      "description": "A CSS font style to be applied to the label text.",
+                                      "maxLength": 500
                                     },
                                     "fontWeight": {
                                       "type": "string",
-                                      "description": "A CSS font weight to be applied to the label text."
+                                      "description": "A CSS font weight to be applied to the label text.",
+                                      "maxLength": 500
                                     },
                                     "textTransform": {
                                       "type": "string",
@@ -45727,11 +47312,13 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "zIndex": {
                                       "type": "integer",
-                                      "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                                      "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                                      "minimum": 0
                                     },
                                     "label": {
                                       "type": "string",
-                                      "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                                      "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                                      "maxLength": 500
                                     },
                                     "animation": {
                                       "type": "object",
@@ -45785,26 +47372,37 @@ const DesignSchema: Record<string, unknown> = {
                                         "x": {
                                           "type": "number",
                                           "description": "The x-coordinate of the node.",
+                                          "minimum": -1000000,
+                                          "maximum": 1000000,
                                           "x-go-type": "float64"
                                         },
                                         "y": {
                                           "type": "number",
                                           "description": "The y-coordinate of the node.",
+                                          "minimum": -1000000,
+                                          "maximum": 1000000,
                                           "x-go-type": "float64"
                                         }
                                       }
                                     },
                                     "bodyText": {
                                       "type": "string",
-                                      "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                      "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                      "maxLength": 500
                                     },
                                     "bodyTextWrap": {
                                       "type": "string",
-                                      "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                      "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                      "enum": [
+                                        "none",
+                                        "wrap",
+                                        "ellipsis"
+                                      ]
                                     },
                                     "bodyTextMaxWidth": {
                                       "type": "string",
-                                      "description": "The maximum width for wrapping text in the node."
+                                      "description": "The maximum width for wrapping text in the node.",
+                                      "maxLength": 50
                                     },
                                     "bodyTextOpacity": {
                                       "type": "number",
@@ -45814,47 +47412,59 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "bodyTextBackgroundColor": {
                                       "type": "string",
-                                      "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "bodyTextFontSize": {
                                       "type": "number",
-                                      "description": "The size of the node's body text."
+                                      "description": "The size of the node's body text.",
+                                      "minimum": 0
                                     },
                                     "bodyTextColor": {
                                       "type": "string",
-                                      "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "bodyTextFontWeight": {
                                       "type": "string",
-                                      "description": "A CSS font weight to be applied to the node's body text."
+                                      "description": "A CSS font weight to be applied to the node's body text.",
+                                      "maxLength": 50
                                     },
                                     "bodyTextHorizontalAlign": {
                                       "type": "string",
-                                      "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                      "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                      "maxLength": 50
                                     },
                                     "bodyTextDecoration": {
                                       "type": "string",
-                                      "description": "A CSS text decoration to be applied to the node's body text."
+                                      "description": "A CSS text decoration to be applied to the node's body text.",
+                                      "maxLength": 100
                                     },
                                     "bodyTextVerticalAlign": {
                                       "type": "string",
-                                      "description": "A CSS vertical alignment to be applied to the node's body text."
+                                      "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                      "maxLength": 50
                                     },
                                     "width": {
                                       "type": "number",
-                                      "description": "The width of the node's body or the width of an edge's line."
+                                      "description": "The width of the node's body or the width of an edge's line.",
+                                      "minimum": 0
                                     },
                                     "height": {
                                       "type": "number",
-                                      "description": "The height of the node's body"
+                                      "description": "The height of the node's body",
+                                      "minimum": 0
                                     },
                                     "backgroundImage": {
                                       "type": "string",
-                                      "description": "The URL that points to the image to show in the node."
+                                      "format": "uri",
+                                      "description": "The URL that points to the image to show in the node.",
+                                      "maxLength": 2048
                                     },
                                     "backgroundColor": {
                                       "type": "string",
-                                      "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "backgroundBlacken": {
                                       "type": "number",
@@ -45870,35 +47480,59 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "backgroundPositionX": {
                                       "type": "string",
-                                      "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                      "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                      "maxLength": 50
                                     },
                                     "backgroundPositionY": {
                                       "type": "string",
-                                      "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                      "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                      "maxLength": 50
                                     },
                                     "backgroundOffsetX": {
                                       "type": "string",
-                                      "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                      "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                      "maxLength": 50
                                     },
                                     "backgroundOffsetY": {
                                       "type": "string",
-                                      "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                      "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                      "maxLength": 50
                                     },
                                     "backgroundFit": {
                                       "type": "string",
-                                      "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                      "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                      "enum": [
+                                        "none",
+                                        "contain",
+                                        "cover"
+                                      ]
                                     },
                                     "backgroundClip": {
                                       "type": "string",
-                                      "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                      "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                      "enum": [
+                                        "none",
+                                        "node",
+                                        "node-border"
+                                      ]
                                     },
                                     "backgroundWidthRelativeTo": {
                                       "type": "string",
-                                      "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                      "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                      "enum": [
+                                        "none",
+                                        "inner",
+                                        "outer"
+                                      ]
                                     },
                                     "backgroundHeightRelativeTo": {
                                       "type": "string",
-                                      "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                      "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                      "enum": [
+                                        "none",
+                                        "inner",
+                                        "outer"
+                                      ]
                                     },
                                     "borderWidth": {
                                       "type": "number",
@@ -45917,7 +47551,8 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "borderColor": {
                                       "type": "string",
-                                      "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "borderOpacity": {
                                       "type": "number",
@@ -45959,23 +47594,28 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "activeBgColor": {
                                       "type": "string",
-                                      "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "activeBgOpacity": {
                                       "type": "string",
-                                      "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                      "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                      "maxLength": 50
                                     },
                                     "activeBgSize": {
                                       "type": "string",
-                                      "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                      "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                      "maxLength": 50
                                     },
                                     "selectionBoxColor": {
                                       "type": "string",
-                                      "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "selectionBoxBorderWidth": {
                                       "type": "number",
-                                      "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                      "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                      "minimum": 0
                                     },
                                     "selectionBoxOpacity": {
                                       "type": "number",
@@ -45985,7 +47625,8 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "outsideTextureBgColor": {
                                       "type": "string",
-                                      "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "outsideTextureBgOpacity": {
                                       "type": "number",
@@ -45995,11 +47636,13 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "shapePolygonPoints": {
                                       "type": "string",
-                                      "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                      "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                      "maxLength": 2000
                                     },
                                     "menuBackgroundColor": {
                                       "type": "string",
-                                      "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "menuBackgroundOpacity": {
                                       "type": "number",
@@ -46009,7 +47652,8 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "menuForgroundColor": {
                                       "type": "string",
-                                      "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     }
                                   }
                                 }
@@ -46075,7 +47719,8 @@ const DesignSchema: Record<string, unknown> = {
                                   },
                                   "description": {
                                     "type": "string",
-                                    "description": "A written representation of the purpose and characteristics of the capability."
+                                    "description": "A written representation of the purpose and characteristics of the capability.",
+                                    "maxLength": 5000
                                   },
                                   "kind": {
                                     "description": "Top-level categorization of the capability",
@@ -46366,7 +48011,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "genealogy": {
                                   "x-order": 1,
                                   "type": "string",
-                                  "description": "Genealogy represents the various representational states of the component."
+                                  "description": "Genealogy represents the various representational states of the component.",
+                                  "maxLength": 1000
                                 },
                                 "isAnnotation": {
                                   "x-order": 2,
@@ -46392,7 +48038,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "configurationUISchema": {
                                   "x-order": 6,
                                   "type": "string",
-                                  "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                  "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                  "maxLength": 20000
                                 }
                               },
                               "x-oapi-codegen-extra-tags": {
@@ -46421,17 +48068,20 @@ const DesignSchema: Record<string, unknown> = {
                                 "version": {
                                   "type": "string",
                                   "description": "Version of the component produced by the registrant. Example: APIVersion of a Kubernetes Pod.",
-                                  "x-order": 1
+                                  "x-order": 1,
+                                  "maxLength": 500
                                 },
                                 "kind": {
                                   "type": "string",
                                   "description": "The unique identifier (name) assigned by the registrant to this component. Example: A Kubernetes Pod is of kind 'Pod'.",
-                                  "x-order": 2
+                                  "x-order": 2,
+                                  "maxLength": 255
                                 },
                                 "schema": {
                                   "type": "string",
                                   "description": "JSON schema of the object as defined by the registrant.",
-                                  "x-order": 3
+                                  "x-order": 3,
+                                  "maxLength": 500
                                 }
                               },
                               "required": [
@@ -46595,7 +48245,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "yaml": "type",
                                 "json": "type",
                                 "gorm": "column:type"
-                              }
+                              },
+                              "maxLength": 255
                             },
                             "subType": {
                               "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -46605,7 +48256,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-oapi-codegen-extra-tags": {
                                 "yaml": "subType",
                                 "json": "subType"
-                              }
+                              },
+                              "maxLength": 255
                             },
                             "status": {
                               "type": "string",
@@ -46683,7 +48335,8 @@ const DesignSchema: Record<string, unknown> = {
                                   },
                                   "description": {
                                     "type": "string",
-                                    "description": "A written representation of the purpose and characteristics of the capability."
+                                    "description": "A written representation of the purpose and characteristics of the capability.",
+                                    "maxLength": 5000
                                   },
                                   "kind": {
                                     "description": "Top-level categorization of the capability",
@@ -46835,7 +48488,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "type": "string",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "description"
-                                  }
+                                  },
+                                  "maxLength": 5000
                                 },
                                 "styles": {
                                   "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -46855,42 +48509,48 @@ const DesignSchema: Record<string, unknown> = {
                                       "description": "Primary color of the component used for UI representation.",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "primaryColor"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "secondaryColor": {
                                       "type": "string",
                                       "description": "Secondary color of the entity used for UI representation.",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "secondaryColor,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "svgWhite": {
                                       "type": "string",
                                       "description": "White SVG of the entity used for UI representation on dark background.",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "svgWhite"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "svgColor": {
                                       "type": "string",
                                       "description": "Colored SVG of the entity used for UI representation on light background.",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "svgColor"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "svgComplete": {
                                       "type": "string",
                                       "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "svgComplete,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "color": {
                                       "type": "string",
                                       "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "color,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "textOpacity": {
                                       "type": "number",
@@ -46899,7 +48559,9 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "TextOpacity",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "textOpacity,omitempty"
-                                      }
+                                      },
+                                      "minimum": 0,
+                                      "maximum": 1
                                     },
                                     "fontFamily": {
                                       "type": "string",
@@ -46907,7 +48569,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "FontFamily",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "fontFamily,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "fontSize": {
                                       "type": "string",
@@ -46915,7 +48578,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "FontSize",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "fontSize,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "fontStyle": {
                                       "type": "string",
@@ -46923,7 +48587,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "FontStyle",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "fontStyle,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "fontWeight": {
                                       "type": "string",
@@ -46931,7 +48596,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "FontWeight",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "fontWeight,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "textTransform": {
                                       "description": "A transformation to apply to the label text",
@@ -46953,7 +48619,9 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "Opacity",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "opacity,omitempty"
-                                      }
+                                      },
+                                      "minimum": 0,
+                                      "maximum": 1
                                     },
                                     "zIndex": {
                                       "type": "integer",
@@ -46961,7 +48629,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "ZIndex",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "zIndex,omitempty"
-                                      }
+                                      },
+                                      "minimum": 0
                                     },
                                     "label": {
                                       "type": "string",
@@ -46969,7 +48638,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "Label",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "label,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "edgeAnimation": {
                                       "type": "string",
@@ -46977,7 +48647,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "EdgeAnimation",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "edgeAnimation,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "curveStyle": {
                                       "x-go-name": "CurveStyle",
@@ -47001,7 +48672,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "LineColor",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "lineColor,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "lineStyle": {
                                       "x-go-name": "LineStyle",
@@ -47036,7 +48708,9 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "LineOpacity",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "lineOpacity,omitempty"
-                                      }
+                                      },
+                                      "minimum": 0,
+                                      "maximum": 1
                                     },
                                     "targetArrowColor": {
                                       "type": "string",
@@ -47044,7 +48718,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "TargetArrowColor",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "targetArrowColor,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "targetArrowShape": {
                                       "x-go-name": "TargetArrowShape",
@@ -47086,7 +48761,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "MidTargetArrowColor",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "midTargetArrowColor,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "midTargetArrowShape": {
                                       "x-go-name": "MidTargetArrowShape",
@@ -47129,7 +48805,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "ArrowScale",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "arrowScale,omitempty"
-                                      }
+                                      },
+                                      "minimum": 0
                                     },
                                     "sourceLabel": {
                                       "type": "string",
@@ -47137,7 +48814,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "SourceLabel",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "sourceLabel,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     },
                                     "targetLabel": {
                                       "type": "string",
@@ -47145,7 +48823,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "x-go-name": "TargetLabel",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "targetLabel,omitempty"
-                                      }
+                                      },
+                                      "maxLength": 500
                                     }
                                   }
                                 },
@@ -47247,7 +48926,9 @@ const DesignSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "kind": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Kind of the registrant.",
+                                      "maxLength": 255
                                     }
                                   }
                                 }
@@ -47276,7 +48957,8 @@ const DesignSchema: Record<string, unknown> = {
                               "x-oapi-codegen-extra-tags": {
                                 "yaml": "evaluationQuery",
                                 "json": "evaluationQuery"
-                              }
+                              },
+                              "maxLength": 500
                             },
                             "selectors": {
                               "x-go-type": "SelectorSet",
@@ -47332,7 +49014,9 @@ const DesignSchema: Record<string, unknown> = {
                                               "type": "string",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "kind"
-                                              }
+                                              },
+                                              "description": "Kind of the resource.",
+                                              "maxLength": 255
                                             },
                                             "match": {
                                               "x-go-type": "MatchSelector",
@@ -47352,7 +49036,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "refs,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The refs of the matchselector."
                                                 },
                                                 "from": {
                                                   "type": "array",
@@ -47380,7 +49065,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         "type": "string",
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "kind"
-                                                        }
+                                                        },
+                                                        "description": "Kind of the resource.",
+                                                        "maxLength": 255
                                                       },
                                                       "mutatorRef": {
                                                         "x-oapi-codegen-extra-tags": {
@@ -47413,7 +49100,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "from,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The from of the matchselector."
                                                 },
                                                 "to": {
                                                   "type": "array",
@@ -47441,7 +49129,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         "type": "string",
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "kind"
-                                                        }
+                                                        },
+                                                        "description": "Kind of the resource.",
+                                                        "maxLength": 255
                                                       },
                                                       "mutatorRef": {
                                                         "x-oapi-codegen-extra-tags": {
@@ -47474,7 +49164,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "to,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The to of the matchselector."
                                                 }
                                               }
                                             },
@@ -47576,7 +49267,9 @@ const DesignSchema: Record<string, unknown> = {
                                                   ],
                                                   "properties": {
                                                     "kind": {
-                                                      "type": "string"
+                                                      "type": "string",
+                                                      "description": "Kind of the registrant.",
+                                                      "maxLength": 255
                                                     }
                                                   }
                                                 }
@@ -47666,7 +49359,9 @@ const DesignSchema: Record<string, unknown> = {
                                               "type": "string",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "kind"
-                                              }
+                                              },
+                                              "description": "Kind of the resource.",
+                                              "maxLength": 255
                                             },
                                             "match": {
                                               "x-go-type": "MatchSelector",
@@ -47686,7 +49381,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "refs,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The refs of the matchselector."
                                                 },
                                                 "from": {
                                                   "type": "array",
@@ -47714,7 +49410,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         "type": "string",
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "kind"
-                                                        }
+                                                        },
+                                                        "description": "Kind of the resource.",
+                                                        "maxLength": 255
                                                       },
                                                       "mutatorRef": {
                                                         "x-oapi-codegen-extra-tags": {
@@ -47747,7 +49445,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "from,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The from of the matchselector."
                                                 },
                                                 "to": {
                                                   "type": "array",
@@ -47775,7 +49474,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         "type": "string",
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "kind"
-                                                        }
+                                                        },
+                                                        "description": "Kind of the resource.",
+                                                        "maxLength": 255
                                                       },
                                                       "mutatorRef": {
                                                         "x-oapi-codegen-extra-tags": {
@@ -47808,7 +49509,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "to,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The to of the matchselector."
                                                 }
                                               }
                                             },
@@ -47910,7 +49612,9 @@ const DesignSchema: Record<string, unknown> = {
                                                   ],
                                                   "properties": {
                                                     "kind": {
-                                                      "type": "string"
+                                                      "type": "string",
+                                                      "description": "Kind of the registrant.",
+                                                      "maxLength": 255
                                                     }
                                                   }
                                                 }
@@ -48014,7 +49718,9 @@ const DesignSchema: Record<string, unknown> = {
                                               "type": "string",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "kind"
-                                              }
+                                              },
+                                              "description": "Kind of the resource.",
+                                              "maxLength": 255
                                             },
                                             "match": {
                                               "x-go-type": "MatchSelector",
@@ -48034,7 +49740,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "refs,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The refs of the matchselector."
                                                 },
                                                 "from": {
                                                   "type": "array",
@@ -48062,7 +49769,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         "type": "string",
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "kind"
-                                                        }
+                                                        },
+                                                        "description": "Kind of the resource.",
+                                                        "maxLength": 255
                                                       },
                                                       "mutatorRef": {
                                                         "x-oapi-codegen-extra-tags": {
@@ -48095,7 +49804,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "from,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The from of the matchselector."
                                                 },
                                                 "to": {
                                                   "type": "array",
@@ -48123,7 +49833,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         "type": "string",
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "kind"
-                                                        }
+                                                        },
+                                                        "description": "Kind of the resource.",
+                                                        "maxLength": 255
                                                       },
                                                       "mutatorRef": {
                                                         "x-oapi-codegen-extra-tags": {
@@ -48156,7 +49868,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "to,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The to of the matchselector."
                                                 }
                                               }
                                             },
@@ -48258,7 +49971,9 @@ const DesignSchema: Record<string, unknown> = {
                                                   ],
                                                   "properties": {
                                                     "kind": {
-                                                      "type": "string"
+                                                      "type": "string",
+                                                      "description": "Kind of the registrant.",
+                                                      "maxLength": 255
                                                     }
                                                   }
                                                 }
@@ -48348,7 +50063,9 @@ const DesignSchema: Record<string, unknown> = {
                                               "type": "string",
                                               "x-oapi-codegen-extra-tags": {
                                                 "json": "kind"
-                                              }
+                                              },
+                                              "description": "Kind of the resource.",
+                                              "maxLength": 255
                                             },
                                             "match": {
                                               "x-go-type": "MatchSelector",
@@ -48368,7 +50085,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "refs,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The refs of the matchselector."
                                                 },
                                                 "from": {
                                                   "type": "array",
@@ -48396,7 +50114,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         "type": "string",
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "kind"
-                                                        }
+                                                        },
+                                                        "description": "Kind of the resource.",
+                                                        "maxLength": 255
                                                       },
                                                       "mutatorRef": {
                                                         "x-oapi-codegen-extra-tags": {
@@ -48429,7 +50149,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "from,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The from of the matchselector."
                                                 },
                                                 "to": {
                                                   "type": "array",
@@ -48457,7 +50178,9 @@ const DesignSchema: Record<string, unknown> = {
                                                         "type": "string",
                                                         "x-oapi-codegen-extra-tags": {
                                                           "json": "kind"
-                                                        }
+                                                        },
+                                                        "description": "Kind of the resource.",
+                                                        "maxLength": 255
                                                       },
                                                       "mutatorRef": {
                                                         "x-oapi-codegen-extra-tags": {
@@ -48490,7 +50213,8 @@ const DesignSchema: Record<string, unknown> = {
                                                   },
                                                   "x-oapi-codegen-extra-tags": {
                                                     "json": "to,omitempty"
-                                                  }
+                                                  },
+                                                  "description": "The to of the matchselector."
                                                 }
                                               }
                                             },
@@ -48592,7 +50316,9 @@ const DesignSchema: Record<string, unknown> = {
                                                   ],
                                                   "properties": {
                                                     "kind": {
-                                                      "type": "string"
+                                                      "type": "string",
+                                                      "description": "Kind of the registrant.",
+                                                      "maxLength": 255
                                                     }
                                                   }
                                                 }
@@ -48699,7 +50425,8 @@ const DesignSchema: Record<string, unknown> = {
             }
           },
           "save": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "The save of the mesherypatternrequestbody."
           },
           "url": {
             "description": "endpoint",
@@ -48709,7 +50436,10 @@ const DesignSchema: Record<string, unknown> = {
             "type": "string"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Name of the mesherypatternrequestbody.",
+            "minLength": 1,
+            "maxLength": 255
           }
         }
       },
@@ -48728,12 +50458,15 @@ const DesignSchema: Record<string, unknown> = {
           },
           "fileName": {
             "type": "string",
-            "description": "The name of the pattern file being imported."
+            "description": "The name of the pattern file being imported.",
+            "maxLength": 500
           },
           "name": {
             "type": "string",
             "default": "Untitled Design",
-            "description": "Provide a name for your design file. This name will help you identify the file more easily. You can also change the name of your design after importing it."
+            "description": "Provide a name for your design file. This name will help you identify the file more easily. You can also change the name of your design after importing it.",
+            "minLength": 1,
+            "maxLength": 255
           },
           "url": {
             "type": "string",
@@ -48764,13 +50497,19 @@ const DesignSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "page": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "total_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total number of items available.",
+            "minimum": 0
           },
           "patterns": {
             "type": "array",
@@ -48788,7 +50527,8 @@ const DesignSchema: Record<string, unknown> = {
                   "properties": {
                     "publishedVersion": {
                       "description": "Tracks the specific content version that has been made available in the Catalog.",
-                      "type": "string"
+                      "type": "string",
+                      "maxLength": 500
                     },
                     "class": {
                       "description": "Published content is classifed by its support level. Content classes help you understand the origin and expected support level for each piece of content. It is important to note that the level of support may vary within each class, and you should exercise discretion when using community-contributed content. Content produced and fully supported by Meshery maintainers. This represents the highest level of support and is considered the most reliable. Content produced by partners and verified by Meshery maintainers. While not directly maintained by Meshery, it has undergone a verification process to ensure quality and compatibility. Content produced and supported by the respective project or organization responsible for the specific technology. This class offers a level of support from the project maintainers themselves. Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Community content may have varying levels of support and reliability.",
@@ -48806,7 +50546,8 @@ const DesignSchema: Record<string, unknown> = {
                           "const": "reference architecture",
                           "description": "Content produced and shared by Meshery users. This includes a wide range of content, such as performance profiles, test results, filters, patterns, and applications. Reference architecture content may have varying levels of support and reliability."
                         }
-                      ]
+                      ],
+                      "maxLength": 500
                     },
                     "compatibility": {
                       "type": "array",
@@ -48824,7 +50565,8 @@ const DesignSchema: Record<string, unknown> = {
                     "patternCaveats": {
                       "type": "string",
                       "title": "Caveats and Considerations",
-                      "description": "Specific stipulations to consider and known behaviors to be aware of when using this design."
+                      "description": "Specific stipulations to consider and known behaviors to be aware of when using this design.",
+                      "maxLength": 500
                     },
                     "patternInfo": {
                       "type": "string",
@@ -48912,7 +50654,9 @@ const DesignSchema: Record<string, unknown> = {
                     "name": {
                       "type": "string",
                       "description": "Name of the design; a descriptive, but concise title for the design document.",
-                      "x-order": 2
+                      "x-order": 2,
+                      "minLength": 1,
+                      "maxLength": 255
                     },
                     "schemaVersion": {
                       "description": "Specifies the version of the schema to which the design conforms.",
@@ -48990,7 +50734,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "type": "array",
                                     "items": {
                                       "type": "string"
-                                    }
+                                    },
+                                    "description": "The immediate ref field path of the nonresolvedalias."
                                   }
                                 },
                                 "required": [
@@ -49014,6 +50759,7 @@ const DesignSchema: Record<string, unknown> = {
                                   },
                                   "resolvedRefFieldPath": {
                                     "type": "array",
+                                    "description": "Fully resolved field path targeted by the alias.",
                                     "items": {
                                       "type": "string"
                                     }
@@ -49027,7 +50773,8 @@ const DesignSchema: Record<string, unknown> = {
                             ]
                           }
                         }
-                      }
+                      },
+                      "description": "Additional metadata associated with this resource."
                     },
                     "components": {
                       "description": "A list of one or more component declarations.",
@@ -49112,7 +50859,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "x-oapi-codegen-extra-tags": {
                                   "yaml": "description",
                                   "json": "description"
-                                }
+                                },
+                                "maxLength": 5000
                               },
                               "format": {
                                 "x-order": 6,
@@ -49879,7 +51627,8 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "description": {
                                               "type": "string",
-                                              "description": "A written representation of the purpose and characteristics of the capability."
+                                              "description": "A written representation of the purpose and characteristics of the capability.",
+                                              "maxLength": 5000
                                             },
                                             "kind": {
                                               "description": "Top-level categorization of the capability",
@@ -50147,7 +51896,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "gorm": "-",
                                       "json": "relationships",
                                       "yaml": "relationships"
-                                    }
+                                    },
+                                    "description": "The relationships of the model."
                                   },
                                   "components": {
                                     "type": "array",
@@ -50156,7 +51906,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "gorm": "-",
                                       "json": "components",
                                       "yaml": "components"
-                                    }
+                                    },
+                                    "description": "The components of the model."
                                   },
                                   "componentsCount": {
                                     "type": "integer",
@@ -50167,7 +51918,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "yaml": "components_count",
                                       "gorm": "-"
                                     },
-                                    "default": 0
+                                    "default": 0,
+                                    "minimum": 0
                                   },
                                   "relationshipsCount": {
                                     "type": "integer",
@@ -50178,7 +51930,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "json": "relationships_count",
                                       "yaml": "relationships_count"
                                     },
-                                    "default": 0
+                                    "default": 0,
+                                    "minimum": 0
                                   },
                                   "created_at": {
                                     "x-order": 14,
@@ -50313,7 +52066,9 @@ const DesignSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "kind": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Kind of the registrant.",
+                                        "maxLength": 255
                                       }
                                     }
                                   }
@@ -50368,27 +52123,33 @@ const DesignSchema: Record<string, unknown> = {
                                     "properties": {
                                       "primaryColor": {
                                         "type": "string",
-                                        "description": "Primary color of the component used for UI representation."
+                                        "description": "Primary color of the component used for UI representation.",
+                                        "maxLength": 500
                                       },
                                       "secondaryColor": {
                                         "type": "string",
-                                        "description": "Secondary color of the entity used for UI representation."
+                                        "description": "Secondary color of the entity used for UI representation.",
+                                        "maxLength": 500
                                       },
                                       "svgWhite": {
                                         "type": "string",
-                                        "description": "White SVG of the entity used for UI representation on dark background."
+                                        "description": "White SVG of the entity used for UI representation on dark background.",
+                                        "maxLength": 500
                                       },
                                       "svgColor": {
                                         "type": "string",
-                                        "description": "Colored SVG of the entity used for UI representation on light background."
+                                        "description": "Colored SVG of the entity used for UI representation on light background.",
+                                        "maxLength": 500
                                       },
                                       "svgComplete": {
                                         "type": "string",
-                                        "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                                        "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                                        "maxLength": 500
                                       },
                                       "color": {
                                         "type": "string",
-                                        "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 500
                                       },
                                       "textOpacity": {
                                         "type": "number",
@@ -50398,19 +52159,23 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "fontFamily": {
                                         "type": "string",
-                                        "description": "A comma-separated list of font names to use on the label text."
+                                        "description": "A comma-separated list of font names to use on the label text.",
+                                        "maxLength": 500
                                       },
                                       "fontSize": {
                                         "type": "string",
-                                        "description": "The size of the label text."
+                                        "description": "The size of the label text.",
+                                        "maxLength": 500
                                       },
                                       "fontStyle": {
                                         "type": "string",
-                                        "description": "A CSS font style to be applied to the label text."
+                                        "description": "A CSS font style to be applied to the label text.",
+                                        "maxLength": 500
                                       },
                                       "fontWeight": {
                                         "type": "string",
-                                        "description": "A CSS font weight to be applied to the label text."
+                                        "description": "A CSS font weight to be applied to the label text.",
+                                        "maxLength": 500
                                       },
                                       "textTransform": {
                                         "type": "string",
@@ -50429,11 +52194,13 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "zIndex": {
                                         "type": "integer",
-                                        "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                                        "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                                        "minimum": 0
                                       },
                                       "label": {
                                         "type": "string",
-                                        "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                                        "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                                        "maxLength": 500
                                       },
                                       "animation": {
                                         "type": "object",
@@ -50487,26 +52254,37 @@ const DesignSchema: Record<string, unknown> = {
                                           "x": {
                                             "type": "number",
                                             "description": "The x-coordinate of the node.",
+                                            "minimum": -1000000,
+                                            "maximum": 1000000,
                                             "x-go-type": "float64"
                                           },
                                           "y": {
                                             "type": "number",
                                             "description": "The y-coordinate of the node.",
+                                            "minimum": -1000000,
+                                            "maximum": 1000000,
                                             "x-go-type": "float64"
                                           }
                                         }
                                       },
                                       "bodyText": {
                                         "type": "string",
-                                        "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                        "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                        "maxLength": 500
                                       },
                                       "bodyTextWrap": {
                                         "type": "string",
-                                        "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                        "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                        "enum": [
+                                          "none",
+                                          "wrap",
+                                          "ellipsis"
+                                        ]
                                       },
                                       "bodyTextMaxWidth": {
                                         "type": "string",
-                                        "description": "The maximum width for wrapping text in the node."
+                                        "description": "The maximum width for wrapping text in the node.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextOpacity": {
                                         "type": "number",
@@ -50516,47 +52294,59 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "bodyTextBackgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextFontSize": {
                                         "type": "number",
-                                        "description": "The size of the node's body text."
+                                        "description": "The size of the node's body text.",
+                                        "minimum": 0
                                       },
                                       "bodyTextColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextFontWeight": {
                                         "type": "string",
-                                        "description": "A CSS font weight to be applied to the node's body text."
+                                        "description": "A CSS font weight to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextHorizontalAlign": {
                                         "type": "string",
-                                        "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                        "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextDecoration": {
                                         "type": "string",
-                                        "description": "A CSS text decoration to be applied to the node's body text."
+                                        "description": "A CSS text decoration to be applied to the node's body text.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextVerticalAlign": {
                                         "type": "string",
-                                        "description": "A CSS vertical alignment to be applied to the node's body text."
+                                        "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "width": {
                                         "type": "number",
-                                        "description": "The width of the node's body or the width of an edge's line."
+                                        "description": "The width of the node's body or the width of an edge's line.",
+                                        "minimum": 0
                                       },
                                       "height": {
                                         "type": "number",
-                                        "description": "The height of the node's body"
+                                        "description": "The height of the node's body",
+                                        "minimum": 0
                                       },
                                       "backgroundImage": {
                                         "type": "string",
-                                        "description": "The URL that points to the image to show in the node."
+                                        "format": "uri",
+                                        "description": "The URL that points to the image to show in the node.",
+                                        "maxLength": 2048
                                       },
                                       "backgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "backgroundBlacken": {
                                         "type": "number",
@@ -50572,35 +52362,59 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "backgroundPositionX": {
                                         "type": "string",
-                                        "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundPositionY": {
                                         "type": "string",
-                                        "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundOffsetX": {
                                         "type": "string",
-                                        "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundOffsetY": {
                                         "type": "string",
-                                        "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundFit": {
                                         "type": "string",
-                                        "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                        "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                        "enum": [
+                                          "none",
+                                          "contain",
+                                          "cover"
+                                        ]
                                       },
                                       "backgroundClip": {
                                         "type": "string",
-                                        "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                        "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                        "enum": [
+                                          "none",
+                                          "node",
+                                          "node-border"
+                                        ]
                                       },
                                       "backgroundWidthRelativeTo": {
                                         "type": "string",
-                                        "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                        "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                        "enum": [
+                                          "none",
+                                          "inner",
+                                          "outer"
+                                        ]
                                       },
                                       "backgroundHeightRelativeTo": {
                                         "type": "string",
-                                        "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                        "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                        "enum": [
+                                          "none",
+                                          "inner",
+                                          "outer"
+                                        ]
                                       },
                                       "borderWidth": {
                                         "type": "number",
@@ -50619,7 +52433,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "borderColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "borderOpacity": {
                                         "type": "number",
@@ -50661,23 +52476,28 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "activeBgColor": {
                                         "type": "string",
-                                        "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "activeBgOpacity": {
                                         "type": "string",
-                                        "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                        "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                        "maxLength": 50
                                       },
                                       "activeBgSize": {
                                         "type": "string",
-                                        "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                        "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                        "maxLength": 50
                                       },
                                       "selectionBoxColor": {
                                         "type": "string",
-                                        "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "selectionBoxBorderWidth": {
                                         "type": "number",
-                                        "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                        "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                        "minimum": 0
                                       },
                                       "selectionBoxOpacity": {
                                         "type": "number",
@@ -50687,7 +52507,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "outsideTextureBgColor": {
                                         "type": "string",
-                                        "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "outsideTextureBgOpacity": {
                                         "type": "number",
@@ -50697,11 +52518,13 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "shapePolygonPoints": {
                                         "type": "string",
-                                        "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                        "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                        "maxLength": 2000
                                       },
                                       "menuBackgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "menuBackgroundOpacity": {
                                         "type": "number",
@@ -50711,7 +52534,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "menuForgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       }
                                     }
                                   }
@@ -50777,7 +52601,8 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "description": {
                                       "type": "string",
-                                      "description": "A written representation of the purpose and characteristics of the capability."
+                                      "description": "A written representation of the purpose and characteristics of the capability.",
+                                      "maxLength": 5000
                                     },
                                     "kind": {
                                       "description": "Top-level categorization of the capability",
@@ -51068,7 +52893,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "genealogy": {
                                     "x-order": 1,
                                     "type": "string",
-                                    "description": "Genealogy represents the various representational states of the component."
+                                    "description": "Genealogy represents the various representational states of the component.",
+                                    "maxLength": 1000
                                   },
                                   "isAnnotation": {
                                     "x-order": 2,
@@ -51094,7 +52920,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "configurationUISchema": {
                                     "x-order": 6,
                                     "type": "string",
-                                    "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                    "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                    "maxLength": 20000
                                   }
                                 },
                                 "x-oapi-codegen-extra-tags": {
@@ -51123,17 +52950,20 @@ const DesignSchema: Record<string, unknown> = {
                                   "version": {
                                     "type": "string",
                                     "description": "Version of the component produced by the registrant. Example: APIVersion of a Kubernetes Pod.",
-                                    "x-order": 1
+                                    "x-order": 1,
+                                    "maxLength": 500
                                   },
                                   "kind": {
                                     "type": "string",
                                     "description": "The unique identifier (name) assigned by the registrant to this component. Example: A Kubernetes Pod is of kind 'Pod'.",
-                                    "x-order": 2
+                                    "x-order": 2,
+                                    "maxLength": 255
                                   },
                                   "schema": {
                                     "type": "string",
                                     "description": "JSON schema of the object as defined by the registrant.",
-                                    "x-order": 3
+                                    "x-order": 3,
+                                    "maxLength": 500
                                   }
                                 },
                                 "required": [
@@ -51297,7 +53127,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "yaml": "type",
                                   "json": "type",
                                   "gorm": "column:type"
-                                }
+                                },
+                                "maxLength": 255
                               },
                               "subType": {
                                 "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -51307,7 +53138,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "x-oapi-codegen-extra-tags": {
                                   "yaml": "subType",
                                   "json": "subType"
-                                }
+                                },
+                                "maxLength": 255
                               },
                               "status": {
                                 "type": "string",
@@ -51385,7 +53217,8 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "description": {
                                       "type": "string",
-                                      "description": "A written representation of the purpose and characteristics of the capability."
+                                      "description": "A written representation of the purpose and characteristics of the capability.",
+                                      "maxLength": 5000
                                     },
                                     "kind": {
                                       "description": "Top-level categorization of the capability",
@@ -51537,7 +53370,8 @@ const DesignSchema: Record<string, unknown> = {
                                     "type": "string",
                                     "x-oapi-codegen-extra-tags": {
                                       "json": "description"
-                                    }
+                                    },
+                                    "maxLength": 5000
                                   },
                                   "styles": {
                                     "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -51557,42 +53391,48 @@ const DesignSchema: Record<string, unknown> = {
                                         "description": "Primary color of the component used for UI representation.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "primaryColor"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "secondaryColor": {
                                         "type": "string",
                                         "description": "Secondary color of the entity used for UI representation.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "secondaryColor,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "svgWhite": {
                                         "type": "string",
                                         "description": "White SVG of the entity used for UI representation on dark background.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "svgWhite"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "svgColor": {
                                         "type": "string",
                                         "description": "Colored SVG of the entity used for UI representation on light background.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "svgColor"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "svgComplete": {
                                         "type": "string",
                                         "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "svgComplete,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "color": {
                                         "type": "string",
                                         "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "color,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "textOpacity": {
                                         "type": "number",
@@ -51601,7 +53441,9 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "TextOpacity",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "textOpacity,omitempty"
-                                        }
+                                        },
+                                        "minimum": 0,
+                                        "maximum": 1
                                       },
                                       "fontFamily": {
                                         "type": "string",
@@ -51609,7 +53451,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "FontFamily",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "fontFamily,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "fontSize": {
                                         "type": "string",
@@ -51617,7 +53460,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "FontSize",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "fontSize,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "fontStyle": {
                                         "type": "string",
@@ -51625,7 +53469,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "FontStyle",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "fontStyle,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "fontWeight": {
                                         "type": "string",
@@ -51633,7 +53478,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "FontWeight",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "fontWeight,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "textTransform": {
                                         "description": "A transformation to apply to the label text",
@@ -51655,7 +53501,9 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "Opacity",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "opacity,omitempty"
-                                        }
+                                        },
+                                        "minimum": 0,
+                                        "maximum": 1
                                       },
                                       "zIndex": {
                                         "type": "integer",
@@ -51663,7 +53511,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "ZIndex",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "zIndex,omitempty"
-                                        }
+                                        },
+                                        "minimum": 0
                                       },
                                       "label": {
                                         "type": "string",
@@ -51671,7 +53520,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "Label",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "label,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "edgeAnimation": {
                                         "type": "string",
@@ -51679,7 +53529,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "EdgeAnimation",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "edgeAnimation,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "curveStyle": {
                                         "x-go-name": "CurveStyle",
@@ -51703,7 +53554,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "LineColor",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "lineColor,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "lineStyle": {
                                         "x-go-name": "LineStyle",
@@ -51738,7 +53590,9 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "LineOpacity",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "lineOpacity,omitempty"
-                                        }
+                                        },
+                                        "minimum": 0,
+                                        "maximum": 1
                                       },
                                       "targetArrowColor": {
                                         "type": "string",
@@ -51746,7 +53600,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "TargetArrowColor",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "targetArrowColor,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "targetArrowShape": {
                                         "x-go-name": "TargetArrowShape",
@@ -51788,7 +53643,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "MidTargetArrowColor",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "midTargetArrowColor,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "midTargetArrowShape": {
                                         "x-go-name": "MidTargetArrowShape",
@@ -51831,7 +53687,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "ArrowScale",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "arrowScale,omitempty"
-                                        }
+                                        },
+                                        "minimum": 0
                                       },
                                       "sourceLabel": {
                                         "type": "string",
@@ -51839,7 +53696,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "SourceLabel",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "sourceLabel,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       },
                                       "targetLabel": {
                                         "type": "string",
@@ -51847,7 +53705,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "x-go-name": "TargetLabel",
                                         "x-oapi-codegen-extra-tags": {
                                           "json": "targetLabel,omitempty"
-                                        }
+                                        },
+                                        "maxLength": 500
                                       }
                                     }
                                   },
@@ -51949,7 +53808,9 @@ const DesignSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "kind": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Kind of the registrant.",
+                                        "maxLength": 255
                                       }
                                     }
                                   }
@@ -51978,7 +53839,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "x-oapi-codegen-extra-tags": {
                                   "yaml": "evaluationQuery",
                                   "json": "evaluationQuery"
-                                }
+                                },
+                                "maxLength": 500
                               },
                               "selectors": {
                                 "x-go-type": "SelectorSet",
@@ -52034,7 +53896,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "match": {
                                                 "x-go-type": "MatchSelector",
@@ -52054,7 +53918,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "refs,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The refs of the matchselector."
                                                   },
                                                   "from": {
                                                     "type": "array",
@@ -52082,7 +53947,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -52115,7 +53982,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "from,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The from of the matchselector."
                                                   },
                                                   "to": {
                                                     "type": "array",
@@ -52143,7 +54011,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -52176,7 +54046,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "to,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The to of the matchselector."
                                                   }
                                                 }
                                               },
@@ -52278,7 +54149,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -52368,7 +54241,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "match": {
                                                 "x-go-type": "MatchSelector",
@@ -52388,7 +54263,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "refs,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The refs of the matchselector."
                                                   },
                                                   "from": {
                                                     "type": "array",
@@ -52416,7 +54292,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -52449,7 +54327,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "from,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The from of the matchselector."
                                                   },
                                                   "to": {
                                                     "type": "array",
@@ -52477,7 +54356,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -52510,7 +54391,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "to,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The to of the matchselector."
                                                   }
                                                 }
                                               },
@@ -52612,7 +54494,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -52716,7 +54600,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "match": {
                                                 "x-go-type": "MatchSelector",
@@ -52736,7 +54622,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "refs,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The refs of the matchselector."
                                                   },
                                                   "from": {
                                                     "type": "array",
@@ -52764,7 +54651,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -52797,7 +54686,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "from,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The from of the matchselector."
                                                   },
                                                   "to": {
                                                     "type": "array",
@@ -52825,7 +54715,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -52858,7 +54750,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "to,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The to of the matchselector."
                                                   }
                                                 }
                                               },
@@ -52960,7 +54853,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -53050,7 +54945,9 @@ const DesignSchema: Record<string, unknown> = {
                                                 "type": "string",
                                                 "x-oapi-codegen-extra-tags": {
                                                   "json": "kind"
-                                                }
+                                                },
+                                                "description": "Kind of the resource.",
+                                                "maxLength": 255
                                               },
                                               "match": {
                                                 "x-go-type": "MatchSelector",
@@ -53070,7 +54967,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "refs,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The refs of the matchselector."
                                                   },
                                                   "from": {
                                                     "type": "array",
@@ -53098,7 +54996,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -53131,7 +55031,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "from,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The from of the matchselector."
                                                   },
                                                   "to": {
                                                     "type": "array",
@@ -53159,7 +55060,9 @@ const DesignSchema: Record<string, unknown> = {
                                                           "type": "string",
                                                           "x-oapi-codegen-extra-tags": {
                                                             "json": "kind"
-                                                          }
+                                                          },
+                                                          "description": "Kind of the resource.",
+                                                          "maxLength": 255
                                                         },
                                                         "mutatorRef": {
                                                           "x-oapi-codegen-extra-tags": {
@@ -53192,7 +55095,8 @@ const DesignSchema: Record<string, unknown> = {
                                                     },
                                                     "x-oapi-codegen-extra-tags": {
                                                       "json": "to,omitempty"
-                                                    }
+                                                    },
+                                                    "description": "The to of the matchselector."
                                                   }
                                                 }
                                               },
@@ -53294,7 +55198,9 @@ const DesignSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -53399,28 +55305,32 @@ const DesignSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The patterns of the catalogcontentpage."
           },
           "filters": {
             "type": "array",
             "items": {
               "type": "object",
               "additionalProperties": true
-            }
+            },
+            "description": "The filters of the catalogcontentpage."
           },
           "modelsCount": {
             "type": "array",
             "items": {
               "type": "object",
               "additionalProperties": true
-            }
+            },
+            "description": "The models count of the catalogcontentpage."
           },
           "categoryCount": {
             "type": "array",
             "items": {
               "type": "object",
               "additionalProperties": true
-            }
+            },
+            "description": "The category count of the catalogcontentpage."
           }
         }
       },
@@ -53432,20 +55342,27 @@ const DesignSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "page": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "total_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total number of items available.",
+            "minimum": 0
           },
           "catalogRequests": {
             "type": "array",
             "items": {
               "type": "object",
               "additionalProperties": true
-            }
+            },
+            "description": "The catalog requests of the catalogrequestspage."
           }
         }
       },
@@ -53453,10 +55370,14 @@ const DesignSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "class": {
-            "type": "string"
+            "type": "string",
+            "description": "The class of the catalogcontentclass.",
+            "maxLength": 500
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "Description of the catalogcontentclass.",
+            "maxLength": 5000
           }
         },
         "additionalProperties": true
@@ -53473,20 +55394,27 @@ const DesignSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "page": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "total_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total number of items available.",
+            "minimum": 0
           },
           "views": {
             "type": "array",
             "items": {
               "type": "object",
               "additionalProperties": true
-            }
+            },
+            "description": "The views of the mesheryviewpage."
           }
         }
       },
@@ -53502,7 +55430,8 @@ const DesignSchema: Record<string, unknown> = {
             "items": {
               "type": "object",
               "additionalProperties": true
-            }
+            },
+            "description": "The users of the resourceaccessactorsresponse."
           }
         }
       }

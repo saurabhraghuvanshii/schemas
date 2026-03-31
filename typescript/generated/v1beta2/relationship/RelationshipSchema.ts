@@ -107,7 +107,8 @@ const RelationshipSchema: Record<string, unknown> = {
               "yaml": "type",
               "json": "type",
               "gorm": "column:type"
-            }
+            },
+            "maxLength": 255
           },
           "subType": {
             "description": "Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.",
@@ -117,7 +118,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "yaml": "subType",
               "json": "subType"
-            }
+            },
+            "maxLength": 255
           },
           "status": {
             "type": "string",
@@ -195,7 +197,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 },
                 "description": {
                   "type": "string",
-                  "description": "A written representation of the purpose and characteristics of the capability."
+                  "description": "A written representation of the purpose and characteristics of the capability.",
+                  "maxLength": 5000
                 },
                 "kind": {
                   "description": "Top-level categorization of the capability",
@@ -347,7 +350,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "type": "string",
                 "x-oapi-codegen-extra-tags": {
                   "json": "description"
-                }
+                },
+                "maxLength": 5000
               },
               "styles": {
                 "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -367,42 +371,48 @@ const RelationshipSchema: Record<string, unknown> = {
                     "description": "Primary color of the component used for UI representation.",
                     "x-oapi-codegen-extra-tags": {
                       "json": "primaryColor"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "secondaryColor": {
                     "type": "string",
                     "description": "Secondary color of the entity used for UI representation.",
                     "x-oapi-codegen-extra-tags": {
                       "json": "secondaryColor,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "svgWhite": {
                     "type": "string",
                     "description": "White SVG of the entity used for UI representation on dark background.",
                     "x-oapi-codegen-extra-tags": {
                       "json": "svgWhite"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "svgColor": {
                     "type": "string",
                     "description": "Colored SVG of the entity used for UI representation on light background.",
                     "x-oapi-codegen-extra-tags": {
                       "json": "svgColor"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "svgComplete": {
                     "type": "string",
                     "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                     "x-oapi-codegen-extra-tags": {
                       "json": "svgComplete,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "color": {
                     "type": "string",
                     "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                     "x-oapi-codegen-extra-tags": {
                       "json": "color,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "textOpacity": {
                     "type": "number",
@@ -411,7 +421,9 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "TextOpacity",
                     "x-oapi-codegen-extra-tags": {
                       "json": "textOpacity,omitempty"
-                    }
+                    },
+                    "minimum": 0,
+                    "maximum": 1
                   },
                   "fontFamily": {
                     "type": "string",
@@ -419,7 +431,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "FontFamily",
                     "x-oapi-codegen-extra-tags": {
                       "json": "fontFamily,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "fontSize": {
                     "type": "string",
@@ -427,7 +440,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "FontSize",
                     "x-oapi-codegen-extra-tags": {
                       "json": "fontSize,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "fontStyle": {
                     "type": "string",
@@ -435,7 +449,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "FontStyle",
                     "x-oapi-codegen-extra-tags": {
                       "json": "fontStyle,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "fontWeight": {
                     "type": "string",
@@ -443,7 +458,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "FontWeight",
                     "x-oapi-codegen-extra-tags": {
                       "json": "fontWeight,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "textTransform": {
                     "description": "A transformation to apply to the label text",
@@ -465,7 +481,9 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "Opacity",
                     "x-oapi-codegen-extra-tags": {
                       "json": "opacity,omitempty"
-                    }
+                    },
+                    "minimum": 0,
+                    "maximum": 1
                   },
                   "zIndex": {
                     "type": "integer",
@@ -473,7 +491,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "ZIndex",
                     "x-oapi-codegen-extra-tags": {
                       "json": "zIndex,omitempty"
-                    }
+                    },
+                    "minimum": 0
                   },
                   "label": {
                     "type": "string",
@@ -481,7 +500,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "Label",
                     "x-oapi-codegen-extra-tags": {
                       "json": "label,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "edgeAnimation": {
                     "type": "string",
@@ -489,7 +509,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "EdgeAnimation",
                     "x-oapi-codegen-extra-tags": {
                       "json": "edgeAnimation,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "curveStyle": {
                     "x-go-name": "CurveStyle",
@@ -513,7 +534,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "LineColor",
                     "x-oapi-codegen-extra-tags": {
                       "json": "lineColor,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "lineStyle": {
                     "x-go-name": "LineStyle",
@@ -548,7 +570,9 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "LineOpacity",
                     "x-oapi-codegen-extra-tags": {
                       "json": "lineOpacity,omitempty"
-                    }
+                    },
+                    "minimum": 0,
+                    "maximum": 1
                   },
                   "targetArrowColor": {
                     "type": "string",
@@ -556,7 +580,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "TargetArrowColor",
                     "x-oapi-codegen-extra-tags": {
                       "json": "targetArrowColor,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "targetArrowShape": {
                     "x-go-name": "TargetArrowShape",
@@ -598,7 +623,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "MidTargetArrowColor",
                     "x-oapi-codegen-extra-tags": {
                       "json": "midTargetArrowColor,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "midTargetArrowShape": {
                     "x-go-name": "MidTargetArrowShape",
@@ -641,7 +667,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "ArrowScale",
                     "x-oapi-codegen-extra-tags": {
                       "json": "arrowScale,omitempty"
-                    }
+                    },
+                    "minimum": 0
                   },
                   "sourceLabel": {
                     "type": "string",
@@ -649,7 +676,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "SourceLabel",
                     "x-oapi-codegen-extra-tags": {
                       "json": "sourceLabel,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   },
                   "targetLabel": {
                     "type": "string",
@@ -657,7 +685,8 @@ const RelationshipSchema: Record<string, unknown> = {
                     "x-go-name": "TargetLabel",
                     "x-oapi-codegen-extra-tags": {
                       "json": "targetLabel,omitempty"
-                    }
+                    },
+                    "maxLength": 500
                   }
                 }
               },
@@ -759,7 +788,9 @@ const RelationshipSchema: Record<string, unknown> = {
                 ],
                 "properties": {
                   "kind": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Kind of the registrant.",
+                    "maxLength": 255
                   }
                 }
               }
@@ -788,7 +819,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "yaml": "evaluationQuery",
               "json": "evaluationQuery"
-            }
+            },
+            "maxLength": 500
           },
           "selectors": {
             "x-go-type": "SelectorSet",
@@ -844,7 +876,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             "type": "string",
                             "x-oapi-codegen-extra-tags": {
                               "json": "kind"
-                            }
+                            },
+                            "description": "Kind of the resource.",
+                            "maxLength": 255
                           },
                           "match": {
                             "x-go-type": "MatchSelector",
@@ -864,7 +898,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "refs,omitempty"
-                                }
+                                },
+                                "description": "The refs of the matchselector."
                               },
                               "from": {
                                 "type": "array",
@@ -892,7 +927,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "mutatorRef": {
                                       "x-oapi-codegen-extra-tags": {
@@ -925,7 +962,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "from,omitempty"
-                                }
+                                },
+                                "description": "The from of the matchselector."
                               },
                               "to": {
                                 "type": "array",
@@ -953,7 +991,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "mutatorRef": {
                                       "x-oapi-codegen-extra-tags": {
@@ -986,7 +1026,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "to,omitempty"
-                                }
+                                },
+                                "description": "The to of the matchselector."
                               }
                             }
                           },
@@ -1088,7 +1129,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "kind": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Kind of the registrant.",
+                                    "maxLength": 255
                                   }
                                 }
                               }
@@ -1178,7 +1221,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             "type": "string",
                             "x-oapi-codegen-extra-tags": {
                               "json": "kind"
-                            }
+                            },
+                            "description": "Kind of the resource.",
+                            "maxLength": 255
                           },
                           "match": {
                             "x-go-type": "MatchSelector",
@@ -1198,7 +1243,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "refs,omitempty"
-                                }
+                                },
+                                "description": "The refs of the matchselector."
                               },
                               "from": {
                                 "type": "array",
@@ -1226,7 +1272,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "mutatorRef": {
                                       "x-oapi-codegen-extra-tags": {
@@ -1259,7 +1307,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "from,omitempty"
-                                }
+                                },
+                                "description": "The from of the matchselector."
                               },
                               "to": {
                                 "type": "array",
@@ -1287,7 +1336,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "mutatorRef": {
                                       "x-oapi-codegen-extra-tags": {
@@ -1320,7 +1371,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "to,omitempty"
-                                }
+                                },
+                                "description": "The to of the matchselector."
                               }
                             }
                           },
@@ -1422,7 +1474,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "kind": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Kind of the registrant.",
+                                    "maxLength": 255
                                   }
                                 }
                               }
@@ -1526,7 +1580,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             "type": "string",
                             "x-oapi-codegen-extra-tags": {
                               "json": "kind"
-                            }
+                            },
+                            "description": "Kind of the resource.",
+                            "maxLength": 255
                           },
                           "match": {
                             "x-go-type": "MatchSelector",
@@ -1546,7 +1602,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "refs,omitempty"
-                                }
+                                },
+                                "description": "The refs of the matchselector."
                               },
                               "from": {
                                 "type": "array",
@@ -1574,7 +1631,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "mutatorRef": {
                                       "x-oapi-codegen-extra-tags": {
@@ -1607,7 +1666,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "from,omitempty"
-                                }
+                                },
+                                "description": "The from of the matchselector."
                               },
                               "to": {
                                 "type": "array",
@@ -1635,7 +1695,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "mutatorRef": {
                                       "x-oapi-codegen-extra-tags": {
@@ -1668,7 +1730,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "to,omitempty"
-                                }
+                                },
+                                "description": "The to of the matchselector."
                               }
                             }
                           },
@@ -1770,7 +1833,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "kind": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Kind of the registrant.",
+                                    "maxLength": 255
                                   }
                                 }
                               }
@@ -1860,7 +1925,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             "type": "string",
                             "x-oapi-codegen-extra-tags": {
                               "json": "kind"
-                            }
+                            },
+                            "description": "Kind of the resource.",
+                            "maxLength": 255
                           },
                           "match": {
                             "x-go-type": "MatchSelector",
@@ -1880,7 +1947,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "refs,omitempty"
-                                }
+                                },
+                                "description": "The refs of the matchselector."
                               },
                               "from": {
                                 "type": "array",
@@ -1908,7 +1976,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "mutatorRef": {
                                       "x-oapi-codegen-extra-tags": {
@@ -1941,7 +2011,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "from,omitempty"
-                                }
+                                },
+                                "description": "The from of the matchselector."
                               },
                               "to": {
                                 "type": "array",
@@ -1969,7 +2040,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                       "type": "string",
                                       "x-oapi-codegen-extra-tags": {
                                         "json": "kind"
-                                      }
+                                      },
+                                      "description": "Kind of the resource.",
+                                      "maxLength": 255
                                     },
                                     "mutatorRef": {
                                       "x-oapi-codegen-extra-tags": {
@@ -2002,7 +2075,8 @@ const RelationshipSchema: Record<string, unknown> = {
                                 },
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "to,omitempty"
-                                }
+                                },
+                                "description": "The to of the matchselector."
                               }
                             }
                           },
@@ -2104,7 +2178,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "kind": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Kind of the registrant.",
+                                    "maxLength": 255
                                   }
                                 }
                               }
@@ -2284,7 +2360,9 @@ const RelationshipSchema: Record<string, unknown> = {
             "type": "string",
             "x-oapi-codegen-extra-tags": {
               "json": "kind"
-            }
+            },
+            "description": "Kind of the resource.",
+            "maxLength": 255
           },
           "mutatorRef": {
             "x-oapi-codegen-extra-tags": {
@@ -2329,7 +2407,8 @@ const RelationshipSchema: Record<string, unknown> = {
             },
             "x-oapi-codegen-extra-tags": {
               "json": "refs,omitempty"
-            }
+            },
+            "description": "The refs of the matchselector."
           },
           "from": {
             "type": "array",
@@ -2357,7 +2436,9 @@ const RelationshipSchema: Record<string, unknown> = {
                   "type": "string",
                   "x-oapi-codegen-extra-tags": {
                     "json": "kind"
-                  }
+                  },
+                  "description": "Kind of the resource.",
+                  "maxLength": 255
                 },
                 "mutatorRef": {
                   "x-oapi-codegen-extra-tags": {
@@ -2390,7 +2471,8 @@ const RelationshipSchema: Record<string, unknown> = {
             },
             "x-oapi-codegen-extra-tags": {
               "json": "from,omitempty"
-            }
+            },
+            "description": "The from of the matchselector."
           },
           "to": {
             "type": "array",
@@ -2418,7 +2500,9 @@ const RelationshipSchema: Record<string, unknown> = {
                   "type": "string",
                   "x-oapi-codegen-extra-tags": {
                     "json": "kind"
-                  }
+                  },
+                  "description": "Kind of the resource.",
+                  "maxLength": 255
                 },
                 "mutatorRef": {
                   "x-oapi-codegen-extra-tags": {
@@ -2451,7 +2535,8 @@ const RelationshipSchema: Record<string, unknown> = {
             },
             "x-oapi-codegen-extra-tags": {
               "json": "to,omitempty"
-            }
+            },
+            "description": "The to of the matchselector."
           }
         },
         "x-oapi-codegen-extra-tags": {
@@ -2478,7 +2563,9 @@ const RelationshipSchema: Record<string, unknown> = {
             "type": "string",
             "x-oapi-codegen-extra-tags": {
               "json": "kind"
-            }
+            },
+            "description": "Kind of the resource.",
+            "maxLength": 255
           },
           "match": {
             "x-go-type": "MatchSelector",
@@ -2498,7 +2585,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 },
                 "x-oapi-codegen-extra-tags": {
                   "json": "refs,omitempty"
-                }
+                },
+                "description": "The refs of the matchselector."
               },
               "from": {
                 "type": "array",
@@ -2526,7 +2614,9 @@ const RelationshipSchema: Record<string, unknown> = {
                       "type": "string",
                       "x-oapi-codegen-extra-tags": {
                         "json": "kind"
-                      }
+                      },
+                      "description": "Kind of the resource.",
+                      "maxLength": 255
                     },
                     "mutatorRef": {
                       "x-oapi-codegen-extra-tags": {
@@ -2559,7 +2649,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 },
                 "x-oapi-codegen-extra-tags": {
                   "json": "from,omitempty"
-                }
+                },
+                "description": "The from of the matchselector."
               },
               "to": {
                 "type": "array",
@@ -2587,7 +2678,9 @@ const RelationshipSchema: Record<string, unknown> = {
                       "type": "string",
                       "x-oapi-codegen-extra-tags": {
                         "json": "kind"
-                      }
+                      },
+                      "description": "Kind of the resource.",
+                      "maxLength": 255
                     },
                     "mutatorRef": {
                       "x-oapi-codegen-extra-tags": {
@@ -2620,7 +2713,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 },
                 "x-oapi-codegen-extra-tags": {
                   "json": "to,omitempty"
-                }
+                },
+                "description": "The to of the matchselector."
               }
             }
           },
@@ -2722,7 +2816,9 @@ const RelationshipSchema: Record<string, unknown> = {
                 ],
                 "properties": {
                   "kind": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Kind of the registrant.",
+                    "maxLength": 255
                   }
                 }
               }
@@ -2816,7 +2912,9 @@ const RelationshipSchema: Record<string, unknown> = {
                   "type": "string",
                   "x-oapi-codegen-extra-tags": {
                     "json": "kind"
-                  }
+                  },
+                  "description": "Kind of the resource.",
+                  "maxLength": 255
                 },
                 "match": {
                   "x-go-type": "MatchSelector",
@@ -2836,7 +2934,8 @@ const RelationshipSchema: Record<string, unknown> = {
                       },
                       "x-oapi-codegen-extra-tags": {
                         "json": "refs,omitempty"
-                      }
+                      },
+                      "description": "The refs of the matchselector."
                     },
                     "from": {
                       "type": "array",
@@ -2864,7 +2963,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             "type": "string",
                             "x-oapi-codegen-extra-tags": {
                               "json": "kind"
-                            }
+                            },
+                            "description": "Kind of the resource.",
+                            "maxLength": 255
                           },
                           "mutatorRef": {
                             "x-oapi-codegen-extra-tags": {
@@ -2897,7 +2998,8 @@ const RelationshipSchema: Record<string, unknown> = {
                       },
                       "x-oapi-codegen-extra-tags": {
                         "json": "from,omitempty"
-                      }
+                      },
+                      "description": "The from of the matchselector."
                     },
                     "to": {
                       "type": "array",
@@ -2925,7 +3027,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             "type": "string",
                             "x-oapi-codegen-extra-tags": {
                               "json": "kind"
-                            }
+                            },
+                            "description": "Kind of the resource.",
+                            "maxLength": 255
                           },
                           "mutatorRef": {
                             "x-oapi-codegen-extra-tags": {
@@ -2958,7 +3062,8 @@ const RelationshipSchema: Record<string, unknown> = {
                       },
                       "x-oapi-codegen-extra-tags": {
                         "json": "to,omitempty"
-                      }
+                      },
+                      "description": "The to of the matchselector."
                     }
                   }
                 },
@@ -3060,7 +3165,9 @@ const RelationshipSchema: Record<string, unknown> = {
                       ],
                       "properties": {
                         "kind": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Kind of the registrant.",
+                          "maxLength": 255
                         }
                       }
                     }
@@ -3150,7 +3257,9 @@ const RelationshipSchema: Record<string, unknown> = {
                   "type": "string",
                   "x-oapi-codegen-extra-tags": {
                     "json": "kind"
-                  }
+                  },
+                  "description": "Kind of the resource.",
+                  "maxLength": 255
                 },
                 "match": {
                   "x-go-type": "MatchSelector",
@@ -3170,7 +3279,8 @@ const RelationshipSchema: Record<string, unknown> = {
                       },
                       "x-oapi-codegen-extra-tags": {
                         "json": "refs,omitempty"
-                      }
+                      },
+                      "description": "The refs of the matchselector."
                     },
                     "from": {
                       "type": "array",
@@ -3198,7 +3308,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             "type": "string",
                             "x-oapi-codegen-extra-tags": {
                               "json": "kind"
-                            }
+                            },
+                            "description": "Kind of the resource.",
+                            "maxLength": 255
                           },
                           "mutatorRef": {
                             "x-oapi-codegen-extra-tags": {
@@ -3231,7 +3343,8 @@ const RelationshipSchema: Record<string, unknown> = {
                       },
                       "x-oapi-codegen-extra-tags": {
                         "json": "from,omitempty"
-                      }
+                      },
+                      "description": "The from of the matchselector."
                     },
                     "to": {
                       "type": "array",
@@ -3259,7 +3372,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             "type": "string",
                             "x-oapi-codegen-extra-tags": {
                               "json": "kind"
-                            }
+                            },
+                            "description": "Kind of the resource.",
+                            "maxLength": 255
                           },
                           "mutatorRef": {
                             "x-oapi-codegen-extra-tags": {
@@ -3292,7 +3407,8 @@ const RelationshipSchema: Record<string, unknown> = {
                       },
                       "x-oapi-codegen-extra-tags": {
                         "json": "to,omitempty"
-                      }
+                      },
+                      "description": "The to of the matchselector."
                     }
                   }
                 },
@@ -3394,7 +3510,9 @@ const RelationshipSchema: Record<string, unknown> = {
                       ],
                       "properties": {
                         "kind": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Kind of the registrant.",
+                          "maxLength": 255
                         }
                       }
                     }
@@ -3505,7 +3623,9 @@ const RelationshipSchema: Record<string, unknown> = {
                       "type": "string",
                       "x-oapi-codegen-extra-tags": {
                         "json": "kind"
-                      }
+                      },
+                      "description": "Kind of the resource.",
+                      "maxLength": 255
                     },
                     "match": {
                       "x-go-type": "MatchSelector",
@@ -3525,7 +3645,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "refs,omitempty"
-                          }
+                          },
+                          "description": "The refs of the matchselector."
                         },
                         "from": {
                           "type": "array",
@@ -3553,7 +3674,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 "type": "string",
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "kind"
-                                }
+                                },
+                                "description": "Kind of the resource.",
+                                "maxLength": 255
                               },
                               "mutatorRef": {
                                 "x-oapi-codegen-extra-tags": {
@@ -3586,7 +3709,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "from,omitempty"
-                          }
+                          },
+                          "description": "The from of the matchselector."
                         },
                         "to": {
                           "type": "array",
@@ -3614,7 +3738,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 "type": "string",
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "kind"
-                                }
+                                },
+                                "description": "Kind of the resource.",
+                                "maxLength": 255
                               },
                               "mutatorRef": {
                                 "x-oapi-codegen-extra-tags": {
@@ -3647,7 +3773,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "to,omitempty"
-                          }
+                          },
+                          "description": "The to of the matchselector."
                         }
                       }
                     },
@@ -3749,7 +3876,9 @@ const RelationshipSchema: Record<string, unknown> = {
                           ],
                           "properties": {
                             "kind": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Kind of the registrant.",
+                              "maxLength": 255
                             }
                           }
                         }
@@ -3839,7 +3968,9 @@ const RelationshipSchema: Record<string, unknown> = {
                       "type": "string",
                       "x-oapi-codegen-extra-tags": {
                         "json": "kind"
-                      }
+                      },
+                      "description": "Kind of the resource.",
+                      "maxLength": 255
                     },
                     "match": {
                       "x-go-type": "MatchSelector",
@@ -3859,7 +3990,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "refs,omitempty"
-                          }
+                          },
+                          "description": "The refs of the matchselector."
                         },
                         "from": {
                           "type": "array",
@@ -3887,7 +4019,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 "type": "string",
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "kind"
-                                }
+                                },
+                                "description": "Kind of the resource.",
+                                "maxLength": 255
                               },
                               "mutatorRef": {
                                 "x-oapi-codegen-extra-tags": {
@@ -3920,7 +4054,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "from,omitempty"
-                          }
+                          },
+                          "description": "The from of the matchselector."
                         },
                         "to": {
                           "type": "array",
@@ -3948,7 +4083,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 "type": "string",
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "kind"
-                                }
+                                },
+                                "description": "Kind of the resource.",
+                                "maxLength": 255
                               },
                               "mutatorRef": {
                                 "x-oapi-codegen-extra-tags": {
@@ -3981,7 +4118,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "to,omitempty"
-                          }
+                          },
+                          "description": "The to of the matchselector."
                         }
                       }
                     },
@@ -4083,7 +4221,9 @@ const RelationshipSchema: Record<string, unknown> = {
                           ],
                           "properties": {
                             "kind": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Kind of the registrant.",
+                              "maxLength": 255
                             }
                           }
                         }
@@ -4187,7 +4327,9 @@ const RelationshipSchema: Record<string, unknown> = {
                       "type": "string",
                       "x-oapi-codegen-extra-tags": {
                         "json": "kind"
-                      }
+                      },
+                      "description": "Kind of the resource.",
+                      "maxLength": 255
                     },
                     "match": {
                       "x-go-type": "MatchSelector",
@@ -4207,7 +4349,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "refs,omitempty"
-                          }
+                          },
+                          "description": "The refs of the matchselector."
                         },
                         "from": {
                           "type": "array",
@@ -4235,7 +4378,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 "type": "string",
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "kind"
-                                }
+                                },
+                                "description": "Kind of the resource.",
+                                "maxLength": 255
                               },
                               "mutatorRef": {
                                 "x-oapi-codegen-extra-tags": {
@@ -4268,7 +4413,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "from,omitempty"
-                          }
+                          },
+                          "description": "The from of the matchselector."
                         },
                         "to": {
                           "type": "array",
@@ -4296,7 +4442,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 "type": "string",
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "kind"
-                                }
+                                },
+                                "description": "Kind of the resource.",
+                                "maxLength": 255
                               },
                               "mutatorRef": {
                                 "x-oapi-codegen-extra-tags": {
@@ -4329,7 +4477,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "to,omitempty"
-                          }
+                          },
+                          "description": "The to of the matchselector."
                         }
                       }
                     },
@@ -4431,7 +4580,9 @@ const RelationshipSchema: Record<string, unknown> = {
                           ],
                           "properties": {
                             "kind": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Kind of the registrant.",
+                              "maxLength": 255
                             }
                           }
                         }
@@ -4521,7 +4672,9 @@ const RelationshipSchema: Record<string, unknown> = {
                       "type": "string",
                       "x-oapi-codegen-extra-tags": {
                         "json": "kind"
-                      }
+                      },
+                      "description": "Kind of the resource.",
+                      "maxLength": 255
                     },
                     "match": {
                       "x-go-type": "MatchSelector",
@@ -4541,7 +4694,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "refs,omitempty"
-                          }
+                          },
+                          "description": "The refs of the matchselector."
                         },
                         "from": {
                           "type": "array",
@@ -4569,7 +4723,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 "type": "string",
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "kind"
-                                }
+                                },
+                                "description": "Kind of the resource.",
+                                "maxLength": 255
                               },
                               "mutatorRef": {
                                 "x-oapi-codegen-extra-tags": {
@@ -4602,7 +4758,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "from,omitempty"
-                          }
+                          },
+                          "description": "The from of the matchselector."
                         },
                         "to": {
                           "type": "array",
@@ -4630,7 +4787,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                 "type": "string",
                                 "x-oapi-codegen-extra-tags": {
                                   "json": "kind"
-                                }
+                                },
+                                "description": "Kind of the resource.",
+                                "maxLength": 255
                               },
                               "mutatorRef": {
                                 "x-oapi-codegen-extra-tags": {
@@ -4663,7 +4822,8 @@ const RelationshipSchema: Record<string, unknown> = {
                           },
                           "x-oapi-codegen-extra-tags": {
                             "json": "to,omitempty"
-                          }
+                          },
+                          "description": "The to of the matchselector."
                         }
                       }
                     },
@@ -4765,7 +4925,9 @@ const RelationshipSchema: Record<string, unknown> = {
                           ],
                           "properties": {
                             "kind": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Kind of the registrant.",
+                              "maxLength": 255
                             }
                           }
                         }
@@ -4885,7 +5047,9 @@ const RelationshipSchema: Record<string, unknown> = {
                         "type": "string",
                         "x-oapi-codegen-extra-tags": {
                           "json": "kind"
-                        }
+                        },
+                        "description": "Kind of the resource.",
+                        "maxLength": 255
                       },
                       "match": {
                         "x-go-type": "MatchSelector",
@@ -4905,7 +5069,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "refs,omitempty"
-                            }
+                            },
+                            "description": "The refs of the matchselector."
                           },
                           "from": {
                             "type": "array",
@@ -4933,7 +5098,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                   "type": "string",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "kind"
-                                  }
+                                  },
+                                  "description": "Kind of the resource.",
+                                  "maxLength": 255
                                 },
                                 "mutatorRef": {
                                   "x-oapi-codegen-extra-tags": {
@@ -4966,7 +5133,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "from,omitempty"
-                            }
+                            },
+                            "description": "The from of the matchselector."
                           },
                           "to": {
                             "type": "array",
@@ -4994,7 +5162,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                   "type": "string",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "kind"
-                                  }
+                                  },
+                                  "description": "Kind of the resource.",
+                                  "maxLength": 255
                                 },
                                 "mutatorRef": {
                                   "x-oapi-codegen-extra-tags": {
@@ -5027,7 +5197,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "to,omitempty"
-                            }
+                            },
+                            "description": "The to of the matchselector."
                           }
                         }
                       },
@@ -5129,7 +5300,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "kind": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Kind of the registrant.",
+                                "maxLength": 255
                               }
                             }
                           }
@@ -5219,7 +5392,9 @@ const RelationshipSchema: Record<string, unknown> = {
                         "type": "string",
                         "x-oapi-codegen-extra-tags": {
                           "json": "kind"
-                        }
+                        },
+                        "description": "Kind of the resource.",
+                        "maxLength": 255
                       },
                       "match": {
                         "x-go-type": "MatchSelector",
@@ -5239,7 +5414,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "refs,omitempty"
-                            }
+                            },
+                            "description": "The refs of the matchselector."
                           },
                           "from": {
                             "type": "array",
@@ -5267,7 +5443,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                   "type": "string",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "kind"
-                                  }
+                                  },
+                                  "description": "Kind of the resource.",
+                                  "maxLength": 255
                                 },
                                 "mutatorRef": {
                                   "x-oapi-codegen-extra-tags": {
@@ -5300,7 +5478,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "from,omitempty"
-                            }
+                            },
+                            "description": "The from of the matchselector."
                           },
                           "to": {
                             "type": "array",
@@ -5328,7 +5507,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                   "type": "string",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "kind"
-                                  }
+                                  },
+                                  "description": "Kind of the resource.",
+                                  "maxLength": 255
                                 },
                                 "mutatorRef": {
                                   "x-oapi-codegen-extra-tags": {
@@ -5361,7 +5542,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "to,omitempty"
-                            }
+                            },
+                            "description": "The to of the matchselector."
                           }
                         }
                       },
@@ -5463,7 +5645,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "kind": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Kind of the registrant.",
+                                "maxLength": 255
                               }
                             }
                           }
@@ -5567,7 +5751,9 @@ const RelationshipSchema: Record<string, unknown> = {
                         "type": "string",
                         "x-oapi-codegen-extra-tags": {
                           "json": "kind"
-                        }
+                        },
+                        "description": "Kind of the resource.",
+                        "maxLength": 255
                       },
                       "match": {
                         "x-go-type": "MatchSelector",
@@ -5587,7 +5773,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "refs,omitempty"
-                            }
+                            },
+                            "description": "The refs of the matchselector."
                           },
                           "from": {
                             "type": "array",
@@ -5615,7 +5802,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                   "type": "string",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "kind"
-                                  }
+                                  },
+                                  "description": "Kind of the resource.",
+                                  "maxLength": 255
                                 },
                                 "mutatorRef": {
                                   "x-oapi-codegen-extra-tags": {
@@ -5648,7 +5837,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "from,omitempty"
-                            }
+                            },
+                            "description": "The from of the matchselector."
                           },
                           "to": {
                             "type": "array",
@@ -5676,7 +5866,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                   "type": "string",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "kind"
-                                  }
+                                  },
+                                  "description": "Kind of the resource.",
+                                  "maxLength": 255
                                 },
                                 "mutatorRef": {
                                   "x-oapi-codegen-extra-tags": {
@@ -5709,7 +5901,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "to,omitempty"
-                            }
+                            },
+                            "description": "The to of the matchselector."
                           }
                         }
                       },
@@ -5811,7 +6004,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "kind": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Kind of the registrant.",
+                                "maxLength": 255
                               }
                             }
                           }
@@ -5901,7 +6096,9 @@ const RelationshipSchema: Record<string, unknown> = {
                         "type": "string",
                         "x-oapi-codegen-extra-tags": {
                           "json": "kind"
-                        }
+                        },
+                        "description": "Kind of the resource.",
+                        "maxLength": 255
                       },
                       "match": {
                         "x-go-type": "MatchSelector",
@@ -5921,7 +6118,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "refs,omitempty"
-                            }
+                            },
+                            "description": "The refs of the matchselector."
                           },
                           "from": {
                             "type": "array",
@@ -5949,7 +6147,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                   "type": "string",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "kind"
-                                  }
+                                  },
+                                  "description": "Kind of the resource.",
+                                  "maxLength": 255
                                 },
                                 "mutatorRef": {
                                   "x-oapi-codegen-extra-tags": {
@@ -5982,7 +6182,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "from,omitempty"
-                            }
+                            },
+                            "description": "The from of the matchselector."
                           },
                           "to": {
                             "type": "array",
@@ -6010,7 +6211,9 @@ const RelationshipSchema: Record<string, unknown> = {
                                   "type": "string",
                                   "x-oapi-codegen-extra-tags": {
                                     "json": "kind"
-                                  }
+                                  },
+                                  "description": "Kind of the resource.",
+                                  "maxLength": 255
                                 },
                                 "mutatorRef": {
                                   "x-oapi-codegen-extra-tags": {
@@ -6043,7 +6246,8 @@ const RelationshipSchema: Record<string, unknown> = {
                             },
                             "x-oapi-codegen-extra-tags": {
                               "json": "to,omitempty"
-                            }
+                            },
+                            "description": "The to of the matchselector."
                           }
                         }
                       },
@@ -6145,7 +6349,9 @@ const RelationshipSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "kind": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Kind of the registrant.",
+                                "maxLength": 255
                               }
                             }
                           }
@@ -6339,42 +6545,48 @@ const RelationshipSchema: Record<string, unknown> = {
             "description": "Primary color of the component used for UI representation.",
             "x-oapi-codegen-extra-tags": {
               "json": "primaryColor"
-            }
+            },
+            "maxLength": 500
           },
           "secondaryColor": {
             "type": "string",
             "description": "Secondary color of the entity used for UI representation.",
             "x-oapi-codegen-extra-tags": {
               "json": "secondaryColor,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "svgWhite": {
             "type": "string",
             "description": "White SVG of the entity used for UI representation on dark background.",
             "x-oapi-codegen-extra-tags": {
               "json": "svgWhite"
-            }
+            },
+            "maxLength": 500
           },
           "svgColor": {
             "type": "string",
             "description": "Colored SVG of the entity used for UI representation on light background.",
             "x-oapi-codegen-extra-tags": {
               "json": "svgColor"
-            }
+            },
+            "maxLength": 500
           },
           "svgComplete": {
             "type": "string",
             "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
             "x-oapi-codegen-extra-tags": {
               "json": "svgComplete,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "color": {
             "type": "string",
             "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
             "x-oapi-codegen-extra-tags": {
               "json": "color,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "textOpacity": {
             "type": "number",
@@ -6383,7 +6595,9 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "TextOpacity",
             "x-oapi-codegen-extra-tags": {
               "json": "textOpacity,omitempty"
-            }
+            },
+            "minimum": 0,
+            "maximum": 1
           },
           "fontFamily": {
             "type": "string",
@@ -6391,7 +6605,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "FontFamily",
             "x-oapi-codegen-extra-tags": {
               "json": "fontFamily,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "fontSize": {
             "type": "string",
@@ -6399,7 +6614,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "FontSize",
             "x-oapi-codegen-extra-tags": {
               "json": "fontSize,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "fontStyle": {
             "type": "string",
@@ -6407,7 +6623,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "FontStyle",
             "x-oapi-codegen-extra-tags": {
               "json": "fontStyle,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "fontWeight": {
             "type": "string",
@@ -6415,7 +6632,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "FontWeight",
             "x-oapi-codegen-extra-tags": {
               "json": "fontWeight,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "textTransform": {
             "description": "A transformation to apply to the label text",
@@ -6437,7 +6655,9 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "Opacity",
             "x-oapi-codegen-extra-tags": {
               "json": "opacity,omitempty"
-            }
+            },
+            "minimum": 0,
+            "maximum": 1
           },
           "zIndex": {
             "type": "integer",
@@ -6445,7 +6665,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "ZIndex",
             "x-oapi-codegen-extra-tags": {
               "json": "zIndex,omitempty"
-            }
+            },
+            "minimum": 0
           },
           "label": {
             "type": "string",
@@ -6453,7 +6674,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "Label",
             "x-oapi-codegen-extra-tags": {
               "json": "label,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "edgeAnimation": {
             "type": "string",
@@ -6461,7 +6683,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "EdgeAnimation",
             "x-oapi-codegen-extra-tags": {
               "json": "edgeAnimation,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "curveStyle": {
             "x-go-name": "CurveStyle",
@@ -6485,7 +6708,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "LineColor",
             "x-oapi-codegen-extra-tags": {
               "json": "lineColor,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "lineStyle": {
             "x-go-name": "LineStyle",
@@ -6520,7 +6744,9 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "LineOpacity",
             "x-oapi-codegen-extra-tags": {
               "json": "lineOpacity,omitempty"
-            }
+            },
+            "minimum": 0,
+            "maximum": 1
           },
           "targetArrowColor": {
             "type": "string",
@@ -6528,7 +6754,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "TargetArrowColor",
             "x-oapi-codegen-extra-tags": {
               "json": "targetArrowColor,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "targetArrowShape": {
             "x-go-name": "TargetArrowShape",
@@ -6570,7 +6797,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "MidTargetArrowColor",
             "x-oapi-codegen-extra-tags": {
               "json": "midTargetArrowColor,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "midTargetArrowShape": {
             "x-go-name": "MidTargetArrowShape",
@@ -6613,7 +6841,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "ArrowScale",
             "x-oapi-codegen-extra-tags": {
               "json": "arrowScale,omitempty"
-            }
+            },
+            "minimum": 0
           },
           "sourceLabel": {
             "type": "string",
@@ -6621,7 +6850,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "SourceLabel",
             "x-oapi-codegen-extra-tags": {
               "json": "sourceLabel,omitempty"
-            }
+            },
+            "maxLength": 500
           },
           "targetLabel": {
             "type": "string",
@@ -6629,7 +6859,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "x-go-name": "TargetLabel",
             "x-oapi-codegen-extra-tags": {
               "json": "targetLabel,omitempty"
-            }
+            },
+            "maxLength": 500
           }
         }
       },
@@ -6647,7 +6878,8 @@ const RelationshipSchema: Record<string, unknown> = {
             "type": "string",
             "x-oapi-codegen-extra-tags": {
               "json": "description"
-            }
+            },
+            "maxLength": 5000
           },
           "styles": {
             "x-go-type": "RelationshipDefinitionMetadataStyles",
@@ -6667,42 +6899,48 @@ const RelationshipSchema: Record<string, unknown> = {
                 "description": "Primary color of the component used for UI representation.",
                 "x-oapi-codegen-extra-tags": {
                   "json": "primaryColor"
-                }
+                },
+                "maxLength": 500
               },
               "secondaryColor": {
                 "type": "string",
                 "description": "Secondary color of the entity used for UI representation.",
                 "x-oapi-codegen-extra-tags": {
                   "json": "secondaryColor,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "svgWhite": {
                 "type": "string",
                 "description": "White SVG of the entity used for UI representation on dark background.",
                 "x-oapi-codegen-extra-tags": {
                   "json": "svgWhite"
-                }
+                },
+                "maxLength": 500
               },
               "svgColor": {
                 "type": "string",
                 "description": "Colored SVG of the entity used for UI representation on light background.",
                 "x-oapi-codegen-extra-tags": {
                   "json": "svgColor"
-                }
+                },
+                "maxLength": 500
               },
               "svgComplete": {
                 "type": "string",
                 "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
                 "x-oapi-codegen-extra-tags": {
                   "json": "svgComplete,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "color": {
                 "type": "string",
                 "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
                 "x-oapi-codegen-extra-tags": {
                   "json": "color,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "textOpacity": {
                 "type": "number",
@@ -6711,7 +6949,9 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "TextOpacity",
                 "x-oapi-codegen-extra-tags": {
                   "json": "textOpacity,omitempty"
-                }
+                },
+                "minimum": 0,
+                "maximum": 1
               },
               "fontFamily": {
                 "type": "string",
@@ -6719,7 +6959,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "FontFamily",
                 "x-oapi-codegen-extra-tags": {
                   "json": "fontFamily,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "fontSize": {
                 "type": "string",
@@ -6727,7 +6968,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "FontSize",
                 "x-oapi-codegen-extra-tags": {
                   "json": "fontSize,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "fontStyle": {
                 "type": "string",
@@ -6735,7 +6977,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "FontStyle",
                 "x-oapi-codegen-extra-tags": {
                   "json": "fontStyle,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "fontWeight": {
                 "type": "string",
@@ -6743,7 +6986,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "FontWeight",
                 "x-oapi-codegen-extra-tags": {
                   "json": "fontWeight,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "textTransform": {
                 "description": "A transformation to apply to the label text",
@@ -6765,7 +7009,9 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "Opacity",
                 "x-oapi-codegen-extra-tags": {
                   "json": "opacity,omitempty"
-                }
+                },
+                "minimum": 0,
+                "maximum": 1
               },
               "zIndex": {
                 "type": "integer",
@@ -6773,7 +7019,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "ZIndex",
                 "x-oapi-codegen-extra-tags": {
                   "json": "zIndex,omitempty"
-                }
+                },
+                "minimum": 0
               },
               "label": {
                 "type": "string",
@@ -6781,7 +7028,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "Label",
                 "x-oapi-codegen-extra-tags": {
                   "json": "label,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "edgeAnimation": {
                 "type": "string",
@@ -6789,7 +7037,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "EdgeAnimation",
                 "x-oapi-codegen-extra-tags": {
                   "json": "edgeAnimation,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "curveStyle": {
                 "x-go-name": "CurveStyle",
@@ -6813,7 +7062,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "LineColor",
                 "x-oapi-codegen-extra-tags": {
                   "json": "lineColor,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "lineStyle": {
                 "x-go-name": "LineStyle",
@@ -6848,7 +7098,9 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "LineOpacity",
                 "x-oapi-codegen-extra-tags": {
                   "json": "lineOpacity,omitempty"
-                }
+                },
+                "minimum": 0,
+                "maximum": 1
               },
               "targetArrowColor": {
                 "type": "string",
@@ -6856,7 +7108,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "TargetArrowColor",
                 "x-oapi-codegen-extra-tags": {
                   "json": "targetArrowColor,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "targetArrowShape": {
                 "x-go-name": "TargetArrowShape",
@@ -6898,7 +7151,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "MidTargetArrowColor",
                 "x-oapi-codegen-extra-tags": {
                   "json": "midTargetArrowColor,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "midTargetArrowShape": {
                 "x-go-name": "MidTargetArrowShape",
@@ -6941,7 +7195,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "ArrowScale",
                 "x-oapi-codegen-extra-tags": {
                   "json": "arrowScale,omitempty"
-                }
+                },
+                "minimum": 0
               },
               "sourceLabel": {
                 "type": "string",
@@ -6949,7 +7204,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "SourceLabel",
                 "x-oapi-codegen-extra-tags": {
                   "json": "sourceLabel,omitempty"
-                }
+                },
+                "maxLength": 500
               },
               "targetLabel": {
                 "type": "string",
@@ -6957,7 +7213,8 @@ const RelationshipSchema: Record<string, unknown> = {
                 "x-go-name": "TargetLabel",
                 "x-oapi-codegen-extra-tags": {
                   "json": "targetLabel,omitempty"
-                }
+                },
+                "maxLength": 500
               }
             }
           },

@@ -686,6 +686,7 @@ components:
           items:
             x-go-type: Workspace
             $ref: "#/components/schemas/Workspace"
+          description: The workspaces of the workspacepage.
 
     WorkspacesTeamsMappingPage:
       type: object
@@ -702,6 +703,7 @@ components:
           items:
             x-go-type: WorkspacesTeamsMapping
             $ref: "#/components/schemas/WorkspacesTeamsMapping"
+          description: The workspaces teams mapping of the workspacesteamsmappingpage.
 
     WorkspacesEnvironmentsMappingPage:
       type: object
@@ -718,6 +720,7 @@ components:
           items:
             x-go-type: WorkspacesEnvironmentsMapping
             $ref: "#/components/schemas/WorkspacesEnvironmentsMapping"
+          description: The workspaces environments mapping of the workspacesenvironmentsmappingpage.
 
     WorkspacesDesignsMappingPage:
       type: object
@@ -734,6 +737,7 @@ components:
           items:
             x-go-type: WorkspacesDesignsMapping
             $ref: "#/components/schemas/WorkspacesDesignsMapping"
+          description: The workspaces designs mapping of the workspacesdesignsmappingpage.
 
     WorkspacesViewsMappingPage:
       type: object
@@ -750,6 +754,7 @@ components:
           items:
             x-go-type: WorkspacesViewsMapping
             $ref: "#/components/schemas/WorkspacesViewsMapping"
+          description: The workspaces views mapping of the workspacesviewsmappingpage.
 
     MesheryDesignPage:
       type: object
@@ -765,6 +770,7 @@ components:
           x-go-type-skip-optional-pointer: true
           items:
             $ref: "../../v1beta1/design/api.yml#/components/schemas/MesheryPattern"
+          description: The designs of the mesherydesignpage.
 
     MesheryView:
       type: object
@@ -803,6 +809,7 @@ components:
           items:
             x-go-type: MesheryView
             $ref: "#/components/schemas/MesheryView"
+          description: The views of the mesheryviewpage.
 
   requestBodies:
     workspacePayload:

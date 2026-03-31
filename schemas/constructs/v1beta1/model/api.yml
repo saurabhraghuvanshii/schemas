@@ -122,6 +122,8 @@ components:
       "properties":
         "kind":
           "type": "string"
+          description: Kind of the registrant.
+          maxLength: 255
 
     ModelReference:
       type: "object"
@@ -181,6 +183,7 @@ components:
         register:
           type: boolean
           nullable: false
+          description: The register of the importrequest.
 
     ImportBody:
       oneOf:
@@ -191,6 +194,7 @@ components:
             fileName:
               type: string
               description: "Name of the file being uploaded."
+              maxLength: 255
             modelFile:
               type: string
               format: file
@@ -253,12 +257,19 @@ components:
       properties:
         page:
           type: integer
+          description: Current page number of the result set.
+          minimum: 0
         page_size:
           type: integer
+          description: Number of items per page.
+          minimum: 1
         total_count:
           type: integer
+          description: Total number of items available.
+          minimum: 0
         models:
           type: array
           items:
             type: object
             additionalProperties: true
+          description: The models of the meshmodelmodelspage.

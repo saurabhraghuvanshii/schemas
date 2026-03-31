@@ -90,13 +90,19 @@ const OrganizationSchema: Record<string, unknown> = {
                   "type": "object",
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "organizations": {
                       "type": "array",
@@ -157,7 +163,10 @@ const OrganizationSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "id": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Theme ID.",
+                                        "maxLength": 500,
+                                        "format": "uuid"
                                       },
                                       "logo": {
                                         "x-go-type": "Logo",
@@ -178,10 +187,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -194,10 +207,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -210,10 +227,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -226,10 +247,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           }
@@ -237,7 +262,8 @@ const OrganizationSchema: Record<string, unknown> = {
                                       },
                                       "vars": {
                                         "type": "object",
-                                        "additionalProperties": true
+                                        "additionalProperties": true,
+                                        "description": "The vars of the theme."
                                       }
                                     }
                                   },
@@ -271,7 +297,8 @@ const OrganizationSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The organizations of the organizationspage."
                     }
                   }
                 }
@@ -340,7 +367,8 @@ const OrganizationSchema: Record<string, unknown> = {
                     "x-go-type-skip-optional-pointer": true
                   },
                   "notifyOrgUpdate": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "The notify org update of the organization."
                   },
                   "preferences": {
                     "type": "object",
@@ -358,7 +386,10 @@ const OrganizationSchema: Record<string, unknown> = {
                         ],
                         "properties": {
                           "id": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Theme ID.",
+                            "maxLength": 500,
+                            "format": "uuid"
                           },
                           "logo": {
                             "x-go-type": "Logo",
@@ -379,10 +410,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "svg": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The svg of the location.",
+                                    "maxLength": 500
                                   },
                                   "location": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The location of the location.",
+                                    "maxLength": 500
                                   }
                                 }
                               },
@@ -395,10 +430,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "svg": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The svg of the location.",
+                                    "maxLength": 500
                                   },
                                   "location": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The location of the location.",
+                                    "maxLength": 500
                                   }
                                 }
                               },
@@ -411,10 +450,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "svg": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The svg of the location.",
+                                    "maxLength": 500
                                   },
                                   "location": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The location of the location.",
+                                    "maxLength": 500
                                   }
                                 }
                               },
@@ -427,10 +470,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "svg": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The svg of the location.",
+                                    "maxLength": 500
                                   },
                                   "location": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The location of the location.",
+                                    "maxLength": 500
                                   }
                                 }
                               }
@@ -438,7 +485,8 @@ const OrganizationSchema: Record<string, unknown> = {
                           },
                           "vars": {
                             "type": "object",
-                            "additionalProperties": true
+                            "additionalProperties": true,
+                            "description": "The vars of the theme."
                           }
                         }
                       },
@@ -465,13 +513,19 @@ const OrganizationSchema: Record<string, unknown> = {
                   "description": "Single-organization wrapper used by current meshery-cloud organization handlers.",
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "organizations": {
                       "type": "array",
@@ -533,7 +587,10 @@ const OrganizationSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "id": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Theme ID.",
+                                        "maxLength": 500,
+                                        "format": "uuid"
                                       },
                                       "logo": {
                                         "x-go-type": "Logo",
@@ -554,10 +611,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -570,10 +631,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -586,10 +651,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -602,10 +671,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           }
@@ -613,7 +686,8 @@ const OrganizationSchema: Record<string, unknown> = {
                                       },
                                       "vars": {
                                         "type": "object",
-                                        "additionalProperties": true
+                                        "additionalProperties": true,
+                                        "description": "The vars of the theme."
                                       }
                                     }
                                   },
@@ -647,7 +721,8 @@ const OrganizationSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The organizations of the organizationpage."
                     }
                   }
                 }
@@ -739,25 +814,34 @@ const OrganizationSchema: Record<string, unknown> = {
                       "type": "string",
                       "x-oapi-codegen-extra-tags": {
                         "db": "name"
-                      }
+                      },
+                      "description": "Name of the organization.",
+                      "minLength": 1,
+                      "maxLength": 255
                     },
                     "country": {
                       "type": "string",
                       "x-oapi-codegen-extra-tags": {
                         "db": "country"
-                      }
+                      },
+                      "description": "The country of the organization.",
+                      "maxLength": 500
                     },
                     "region": {
                       "type": "string",
                       "x-oapi-codegen-extra-tags": {
                         "db": "region"
-                      }
+                      },
+                      "description": "The region of the organization.",
+                      "maxLength": 500
                     },
                     "description": {
                       "type": "string",
                       "x-oapi-codegen-extra-tags": {
                         "db": "description"
-                      }
+                      },
+                      "description": "Description of the organization.",
+                      "maxLength": 5000
                     },
                     "owner": {
                       "x-oapi-codegen-extra-tags": {
@@ -798,7 +882,10 @@ const OrganizationSchema: Record<string, unknown> = {
                               ],
                               "properties": {
                                 "id": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Theme ID.",
+                                  "maxLength": 500,
+                                  "format": "uuid"
                                 },
                                 "logo": {
                                   "x-go-type": "Logo",
@@ -819,10 +906,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                       ],
                                       "properties": {
                                         "svg": {
-                                          "type": "string"
+                                          "type": "string",
+                                          "description": "The svg of the location.",
+                                          "maxLength": 500
                                         },
                                         "location": {
-                                          "type": "string"
+                                          "type": "string",
+                                          "description": "The location of the location.",
+                                          "maxLength": 500
                                         }
                                       }
                                     },
@@ -835,10 +926,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                       ],
                                       "properties": {
                                         "svg": {
-                                          "type": "string"
+                                          "type": "string",
+                                          "description": "The svg of the location.",
+                                          "maxLength": 500
                                         },
                                         "location": {
-                                          "type": "string"
+                                          "type": "string",
+                                          "description": "The location of the location.",
+                                          "maxLength": 500
                                         }
                                       }
                                     },
@@ -851,10 +946,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                       ],
                                       "properties": {
                                         "svg": {
-                                          "type": "string"
+                                          "type": "string",
+                                          "description": "The svg of the location.",
+                                          "maxLength": 500
                                         },
                                         "location": {
-                                          "type": "string"
+                                          "type": "string",
+                                          "description": "The location of the location.",
+                                          "maxLength": 500
                                         }
                                       }
                                     },
@@ -867,10 +966,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                       ],
                                       "properties": {
                                         "svg": {
-                                          "type": "string"
+                                          "type": "string",
+                                          "description": "The svg of the location.",
+                                          "maxLength": 500
                                         },
                                         "location": {
-                                          "type": "string"
+                                          "type": "string",
+                                          "description": "The location of the location.",
+                                          "maxLength": 500
                                         }
                                       }
                                     }
@@ -878,7 +981,8 @@ const OrganizationSchema: Record<string, unknown> = {
                                 },
                                 "vars": {
                                   "type": "object",
-                                  "additionalProperties": true
+                                  "additionalProperties": true,
+                                  "description": "The vars of the theme."
                                 }
                               }
                             },
@@ -925,7 +1029,9 @@ const OrganizationSchema: Record<string, unknown> = {
                       "nullable": true,
                       "x-oapi-codegen-extra-tags": {
                         "db": "domain"
-                      }
+                      },
+                      "description": "The domain of the organization.",
+                      "maxLength": 500
                     }
                   }
                 }
@@ -995,13 +1101,19 @@ const OrganizationSchema: Record<string, unknown> = {
                   "description": "Single-organization wrapper used by current meshery-cloud organization handlers.",
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "organizations": {
                       "type": "array",
@@ -1063,7 +1175,10 @@ const OrganizationSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "id": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Theme ID.",
+                                        "maxLength": 500,
+                                        "format": "uuid"
                                       },
                                       "logo": {
                                         "x-go-type": "Logo",
@@ -1084,10 +1199,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -1100,10 +1219,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -1116,10 +1239,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -1132,10 +1259,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           }
@@ -1143,7 +1274,8 @@ const OrganizationSchema: Record<string, unknown> = {
                                       },
                                       "vars": {
                                         "type": "object",
-                                        "additionalProperties": true
+                                        "additionalProperties": true,
+                                        "description": "The vars of the theme."
                                       }
                                     }
                                   },
@@ -1177,7 +1309,8 @@ const OrganizationSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The organizations of the organizationpage."
                     }
                   }
                 }
@@ -1353,7 +1486,8 @@ const OrganizationSchema: Record<string, unknown> = {
                     "x-go-type-skip-optional-pointer": true
                   },
                   "notifyOrgUpdate": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "The notify org update of the organization."
                   },
                   "preferences": {
                     "type": "object",
@@ -1371,7 +1505,10 @@ const OrganizationSchema: Record<string, unknown> = {
                         ],
                         "properties": {
                           "id": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Theme ID.",
+                            "maxLength": 500,
+                            "format": "uuid"
                           },
                           "logo": {
                             "x-go-type": "Logo",
@@ -1392,10 +1529,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "svg": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The svg of the location.",
+                                    "maxLength": 500
                                   },
                                   "location": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The location of the location.",
+                                    "maxLength": 500
                                   }
                                 }
                               },
@@ -1408,10 +1549,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "svg": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The svg of the location.",
+                                    "maxLength": 500
                                   },
                                   "location": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The location of the location.",
+                                    "maxLength": 500
                                   }
                                 }
                               },
@@ -1424,10 +1569,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "svg": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The svg of the location.",
+                                    "maxLength": 500
                                   },
                                   "location": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The location of the location.",
+                                    "maxLength": 500
                                   }
                                 }
                               },
@@ -1440,10 +1589,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                 ],
                                 "properties": {
                                   "svg": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The svg of the location.",
+                                    "maxLength": 500
                                   },
                                   "location": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The location of the location.",
+                                    "maxLength": 500
                                   }
                                 }
                               }
@@ -1451,7 +1604,8 @@ const OrganizationSchema: Record<string, unknown> = {
                           },
                           "vars": {
                             "type": "object",
-                            "additionalProperties": true
+                            "additionalProperties": true,
+                            "description": "The vars of the theme."
                           }
                         }
                       },
@@ -1478,13 +1632,19 @@ const OrganizationSchema: Record<string, unknown> = {
                   "description": "Single-organization wrapper used by current meshery-cloud organization handlers.",
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "organizations": {
                       "type": "array",
@@ -1546,7 +1706,10 @@ const OrganizationSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "id": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Theme ID.",
+                                        "maxLength": 500,
+                                        "format": "uuid"
                                       },
                                       "logo": {
                                         "x-go-type": "Logo",
@@ -1567,10 +1730,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -1583,10 +1750,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -1599,10 +1770,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           },
@@ -1615,10 +1790,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                             ],
                                             "properties": {
                                               "svg": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The svg of the location.",
+                                                "maxLength": 500
                                               },
                                               "location": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "description": "The location of the location.",
+                                                "maxLength": 500
                                               }
                                             }
                                           }
@@ -1626,7 +1805,8 @@ const OrganizationSchema: Record<string, unknown> = {
                                       },
                                       "vars": {
                                         "type": "object",
-                                        "additionalProperties": true
+                                        "additionalProperties": true,
+                                        "description": "The vars of the theme."
                                       }
                                     }
                                   },
@@ -1660,7 +1840,8 @@ const OrganizationSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The organizations of the organizationpage."
                     }
                   }
                 }
@@ -1772,7 +1953,10 @@ const OrganizationSchema: Record<string, unknown> = {
                           ],
                           "properties": {
                             "id": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Theme ID.",
+                              "maxLength": 500,
+                              "format": "uuid"
                             },
                             "logo": {
                               "x-go-type": "Logo",
@@ -1793,10 +1977,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 },
@@ -1809,10 +1997,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 },
@@ -1825,10 +2017,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 },
@@ -1841,10 +2037,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 }
@@ -1852,7 +2052,8 @@ const OrganizationSchema: Record<string, unknown> = {
                             },
                             "vars": {
                               "type": "object",
-                              "additionalProperties": true
+                              "additionalProperties": true,
+                              "description": "The vars of the theme."
                             }
                           }
                         },
@@ -1986,13 +2187,19 @@ const OrganizationSchema: Record<string, unknown> = {
                       "type": "object",
                       "properties": {
                         "page": {
-                          "type": "integer"
+                          "type": "integer",
+                          "description": "Current page number of the result set.",
+                          "minimum": 0
                         },
                         "page_size": {
-                          "type": "integer"
+                          "type": "integer",
+                          "description": "Number of items per page.",
+                          "minimum": 1
                         },
                         "total_count": {
-                          "type": "integer"
+                          "type": "integer",
+                          "description": "Total number of items available.",
+                          "minimum": 0
                         },
                         "teamsOrganizationsMapping": {
                           "type": "array",
@@ -2061,7 +2268,8 @@ const OrganizationSchema: Record<string, unknown> = {
                                 "x-go-type-skip-optional-pointer": true
                               }
                             }
-                          }
+                          },
+                          "description": "The teams organizations mapping of the teamsorganizationsmappingpage."
                         }
                       }
                     },
@@ -2069,13 +2277,19 @@ const OrganizationSchema: Record<string, unknown> = {
                       "type": "object",
                       "properties": {
                         "page": {
-                          "type": "integer"
+                          "type": "integer",
+                          "description": "Current page number of the result set.",
+                          "minimum": 0
                         },
                         "page_size": {
-                          "type": "integer"
+                          "type": "integer",
+                          "description": "Number of items per page.",
+                          "minimum": 1
                         },
                         "total_count": {
-                          "type": "integer"
+                          "type": "integer",
+                          "description": "Total number of items available.",
+                          "minimum": 0
                         },
                         "teams": {
                           "type": "array",
@@ -2135,7 +2349,8 @@ const OrganizationSchema: Record<string, unknown> = {
                                 "x-go-type-skip-optional-pointer": true
                               }
                             }
-                          }
+                          },
+                          "description": "The teams of the teamspage."
                         }
                       }
                     }
@@ -2221,13 +2436,19 @@ const OrganizationSchema: Record<string, unknown> = {
                   "type": "object",
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "teamsOrganizationsMapping": {
                       "type": "array",
@@ -2296,7 +2517,8 @@ const OrganizationSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The teams organizations mapping of the teamsorganizationsmappingpage."
                     }
                   }
                 }
@@ -2623,7 +2845,8 @@ const OrganizationSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 },
                 "notifyOrgUpdate": {
-                  "type": "boolean"
+                  "type": "boolean",
+                  "description": "The notify org update of the organization."
                 },
                 "preferences": {
                   "type": "object",
@@ -2641,7 +2864,10 @@ const OrganizationSchema: Record<string, unknown> = {
                       ],
                       "properties": {
                         "id": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Theme ID.",
+                          "maxLength": 500,
+                          "format": "uuid"
                         },
                         "logo": {
                           "x-go-type": "Logo",
@@ -2662,10 +2888,14 @@ const OrganizationSchema: Record<string, unknown> = {
                               ],
                               "properties": {
                                 "svg": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "The svg of the location.",
+                                  "maxLength": 500
                                 },
                                 "location": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "The location of the location.",
+                                  "maxLength": 500
                                 }
                               }
                             },
@@ -2678,10 +2908,14 @@ const OrganizationSchema: Record<string, unknown> = {
                               ],
                               "properties": {
                                 "svg": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "The svg of the location.",
+                                  "maxLength": 500
                                 },
                                 "location": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "The location of the location.",
+                                  "maxLength": 500
                                 }
                               }
                             },
@@ -2694,10 +2928,14 @@ const OrganizationSchema: Record<string, unknown> = {
                               ],
                               "properties": {
                                 "svg": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "The svg of the location.",
+                                  "maxLength": 500
                                 },
                                 "location": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "The location of the location.",
+                                  "maxLength": 500
                                 }
                               }
                             },
@@ -2710,10 +2948,14 @@ const OrganizationSchema: Record<string, unknown> = {
                               ],
                               "properties": {
                                 "svg": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "The svg of the location.",
+                                  "maxLength": 500
                                 },
                                 "location": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "The location of the location.",
+                                  "maxLength": 500
                                 }
                               }
                             }
@@ -2721,7 +2963,8 @@ const OrganizationSchema: Record<string, unknown> = {
                         },
                         "vars": {
                           "type": "object",
-                          "additionalProperties": true
+                          "additionalProperties": true,
+                          "description": "The vars of the theme."
                         }
                       }
                     },
@@ -2795,10 +3038,14 @@ const OrganizationSchema: Record<string, unknown> = {
         ],
         "properties": {
           "svg": {
-            "type": "string"
+            "type": "string",
+            "description": "The svg of the location.",
+            "maxLength": 500
           },
           "location": {
-            "type": "string"
+            "type": "string",
+            "description": "The location of the location.",
+            "maxLength": 500
           }
         }
       },
@@ -2820,10 +3067,14 @@ const OrganizationSchema: Record<string, unknown> = {
             ],
             "properties": {
               "svg": {
-                "type": "string"
+                "type": "string",
+                "description": "The svg of the location.",
+                "maxLength": 500
               },
               "location": {
-                "type": "string"
+                "type": "string",
+                "description": "The location of the location.",
+                "maxLength": 500
               }
             }
           },
@@ -2836,10 +3087,14 @@ const OrganizationSchema: Record<string, unknown> = {
             ],
             "properties": {
               "svg": {
-                "type": "string"
+                "type": "string",
+                "description": "The svg of the location.",
+                "maxLength": 500
               },
               "location": {
-                "type": "string"
+                "type": "string",
+                "description": "The location of the location.",
+                "maxLength": 500
               }
             }
           },
@@ -2852,10 +3107,14 @@ const OrganizationSchema: Record<string, unknown> = {
             ],
             "properties": {
               "svg": {
-                "type": "string"
+                "type": "string",
+                "description": "The svg of the location.",
+                "maxLength": 500
               },
               "location": {
-                "type": "string"
+                "type": "string",
+                "description": "The location of the location.",
+                "maxLength": 500
               }
             }
           },
@@ -2868,10 +3127,14 @@ const OrganizationSchema: Record<string, unknown> = {
             ],
             "properties": {
               "svg": {
-                "type": "string"
+                "type": "string",
+                "description": "The svg of the location.",
+                "maxLength": 500
               },
               "location": {
-                "type": "string"
+                "type": "string",
+                "description": "The location of the location.",
+                "maxLength": 500
               }
             }
           }
@@ -2885,7 +3148,10 @@ const OrganizationSchema: Record<string, unknown> = {
         ],
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Theme ID.",
+            "maxLength": 500,
+            "format": "uuid"
           },
           "logo": {
             "x-go-type": "Logo",
@@ -2906,10 +3172,14 @@ const OrganizationSchema: Record<string, unknown> = {
                 ],
                 "properties": {
                   "svg": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The svg of the location.",
+                    "maxLength": 500
                   },
                   "location": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The location of the location.",
+                    "maxLength": 500
                   }
                 }
               },
@@ -2922,10 +3192,14 @@ const OrganizationSchema: Record<string, unknown> = {
                 ],
                 "properties": {
                   "svg": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The svg of the location.",
+                    "maxLength": 500
                   },
                   "location": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The location of the location.",
+                    "maxLength": 500
                   }
                 }
               },
@@ -2938,10 +3212,14 @@ const OrganizationSchema: Record<string, unknown> = {
                 ],
                 "properties": {
                   "svg": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The svg of the location.",
+                    "maxLength": 500
                   },
                   "location": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The location of the location.",
+                    "maxLength": 500
                   }
                 }
               },
@@ -2954,10 +3232,14 @@ const OrganizationSchema: Record<string, unknown> = {
                 ],
                 "properties": {
                   "svg": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The svg of the location.",
+                    "maxLength": 500
                   },
                   "location": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The location of the location.",
+                    "maxLength": 500
                   }
                 }
               }
@@ -2965,7 +3247,8 @@ const OrganizationSchema: Record<string, unknown> = {
           },
           "vars": {
             "type": "object",
-            "additionalProperties": true
+            "additionalProperties": true,
+            "description": "The vars of the theme."
           }
         }
       },
@@ -2990,7 +3273,10 @@ const OrganizationSchema: Record<string, unknown> = {
             ],
             "properties": {
               "id": {
-                "type": "string"
+                "type": "string",
+                "description": "Theme ID.",
+                "maxLength": 500,
+                "format": "uuid"
               },
               "logo": {
                 "x-go-type": "Logo",
@@ -3011,10 +3297,14 @@ const OrganizationSchema: Record<string, unknown> = {
                     ],
                     "properties": {
                       "svg": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The svg of the location.",
+                        "maxLength": 500
                       },
                       "location": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The location of the location.",
+                        "maxLength": 500
                       }
                     }
                   },
@@ -3027,10 +3317,14 @@ const OrganizationSchema: Record<string, unknown> = {
                     ],
                     "properties": {
                       "svg": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The svg of the location.",
+                        "maxLength": 500
                       },
                       "location": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The location of the location.",
+                        "maxLength": 500
                       }
                     }
                   },
@@ -3043,10 +3337,14 @@ const OrganizationSchema: Record<string, unknown> = {
                     ],
                     "properties": {
                       "svg": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The svg of the location.",
+                        "maxLength": 500
                       },
                       "location": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The location of the location.",
+                        "maxLength": 500
                       }
                     }
                   },
@@ -3059,10 +3357,14 @@ const OrganizationSchema: Record<string, unknown> = {
                     ],
                     "properties": {
                       "svg": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The svg of the location.",
+                        "maxLength": 500
                       },
                       "location": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The location of the location.",
+                        "maxLength": 500
                       }
                     }
                   }
@@ -3070,7 +3372,8 @@ const OrganizationSchema: Record<string, unknown> = {
               },
               "vars": {
                 "type": "object",
-                "additionalProperties": true
+                "additionalProperties": true,
+                "description": "The vars of the theme."
               }
             }
           },
@@ -3105,7 +3408,10 @@ const OrganizationSchema: Record<string, unknown> = {
                 ],
                 "properties": {
                   "id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Theme ID.",
+                    "maxLength": 500,
+                    "format": "uuid"
                   },
                   "logo": {
                     "x-go-type": "Logo",
@@ -3126,10 +3432,14 @@ const OrganizationSchema: Record<string, unknown> = {
                         ],
                         "properties": {
                           "svg": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The svg of the location.",
+                            "maxLength": 500
                           },
                           "location": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The location of the location.",
+                            "maxLength": 500
                           }
                         }
                       },
@@ -3142,10 +3452,14 @@ const OrganizationSchema: Record<string, unknown> = {
                         ],
                         "properties": {
                           "svg": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The svg of the location.",
+                            "maxLength": 500
                           },
                           "location": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The location of the location.",
+                            "maxLength": 500
                           }
                         }
                       },
@@ -3158,10 +3472,14 @@ const OrganizationSchema: Record<string, unknown> = {
                         ],
                         "properties": {
                           "svg": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The svg of the location.",
+                            "maxLength": 500
                           },
                           "location": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The location of the location.",
+                            "maxLength": 500
                           }
                         }
                       },
@@ -3174,10 +3492,14 @@ const OrganizationSchema: Record<string, unknown> = {
                         ],
                         "properties": {
                           "svg": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The svg of the location.",
+                            "maxLength": 500
                           },
                           "location": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The location of the location.",
+                            "maxLength": 500
                           }
                         }
                       }
@@ -3185,7 +3507,8 @@ const OrganizationSchema: Record<string, unknown> = {
                   },
                   "vars": {
                     "type": "object",
-                    "additionalProperties": true
+                    "additionalProperties": true,
+                    "description": "The vars of the theme."
                   }
                 }
               },
@@ -3229,25 +3552,34 @@ const OrganizationSchema: Record<string, unknown> = {
             "type": "string",
             "x-oapi-codegen-extra-tags": {
               "db": "name"
-            }
+            },
+            "description": "Name of the organization.",
+            "minLength": 1,
+            "maxLength": 255
           },
           "country": {
             "type": "string",
             "x-oapi-codegen-extra-tags": {
               "db": "country"
-            }
+            },
+            "description": "The country of the organization.",
+            "maxLength": 500
           },
           "region": {
             "type": "string",
             "x-oapi-codegen-extra-tags": {
               "db": "region"
-            }
+            },
+            "description": "The region of the organization.",
+            "maxLength": 500
           },
           "description": {
             "type": "string",
             "x-oapi-codegen-extra-tags": {
               "db": "description"
-            }
+            },
+            "description": "Description of the organization.",
+            "maxLength": 5000
           },
           "owner": {
             "x-oapi-codegen-extra-tags": {
@@ -3288,7 +3620,10 @@ const OrganizationSchema: Record<string, unknown> = {
                     ],
                     "properties": {
                       "id": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Theme ID.",
+                        "maxLength": 500,
+                        "format": "uuid"
                       },
                       "logo": {
                         "x-go-type": "Logo",
@@ -3309,10 +3644,14 @@ const OrganizationSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "svg": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The svg of the location.",
+                                "maxLength": 500
                               },
                               "location": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The location of the location.",
+                                "maxLength": 500
                               }
                             }
                           },
@@ -3325,10 +3664,14 @@ const OrganizationSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "svg": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The svg of the location.",
+                                "maxLength": 500
                               },
                               "location": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The location of the location.",
+                                "maxLength": 500
                               }
                             }
                           },
@@ -3341,10 +3684,14 @@ const OrganizationSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "svg": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The svg of the location.",
+                                "maxLength": 500
                               },
                               "location": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The location of the location.",
+                                "maxLength": 500
                               }
                             }
                           },
@@ -3357,10 +3704,14 @@ const OrganizationSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "svg": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The svg of the location.",
+                                "maxLength": 500
                               },
                               "location": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The location of the location.",
+                                "maxLength": 500
                               }
                             }
                           }
@@ -3368,7 +3719,8 @@ const OrganizationSchema: Record<string, unknown> = {
                       },
                       "vars": {
                         "type": "object",
-                        "additionalProperties": true
+                        "additionalProperties": true,
+                        "description": "The vars of the theme."
                       }
                     }
                   },
@@ -3415,7 +3767,9 @@ const OrganizationSchema: Record<string, unknown> = {
             "nullable": true,
             "x-oapi-codegen-extra-tags": {
               "db": "domain"
-            }
+            },
+            "description": "The domain of the organization.",
+            "maxLength": 500
           }
         }
       },
@@ -3476,7 +3830,10 @@ const OrganizationSchema: Record<string, unknown> = {
                     ],
                     "properties": {
                       "id": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Theme ID.",
+                        "maxLength": 500,
+                        "format": "uuid"
                       },
                       "logo": {
                         "x-go-type": "Logo",
@@ -3497,10 +3854,14 @@ const OrganizationSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "svg": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The svg of the location.",
+                                "maxLength": 500
                               },
                               "location": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The location of the location.",
+                                "maxLength": 500
                               }
                             }
                           },
@@ -3513,10 +3874,14 @@ const OrganizationSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "svg": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The svg of the location.",
+                                "maxLength": 500
                               },
                               "location": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The location of the location.",
+                                "maxLength": 500
                               }
                             }
                           },
@@ -3529,10 +3894,14 @@ const OrganizationSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "svg": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The svg of the location.",
+                                "maxLength": 500
                               },
                               "location": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The location of the location.",
+                                "maxLength": 500
                               }
                             }
                           },
@@ -3545,10 +3914,14 @@ const OrganizationSchema: Record<string, unknown> = {
                             ],
                             "properties": {
                               "svg": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The svg of the location.",
+                                "maxLength": 500
                               },
                               "location": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The location of the location.",
+                                "maxLength": 500
                               }
                             }
                           }
@@ -3556,7 +3929,8 @@ const OrganizationSchema: Record<string, unknown> = {
                       },
                       "vars": {
                         "type": "object",
-                        "additionalProperties": true
+                        "additionalProperties": true,
+                        "description": "The vars of the theme."
                       }
                     }
                   },
@@ -3595,13 +3969,19 @@ const OrganizationSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "page": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "total_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total number of items available.",
+            "minimum": 0
           },
           "organizations": {
             "type": "array",
@@ -3662,7 +4042,10 @@ const OrganizationSchema: Record<string, unknown> = {
                           ],
                           "properties": {
                             "id": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Theme ID.",
+                              "maxLength": 500,
+                              "format": "uuid"
                             },
                             "logo": {
                               "x-go-type": "Logo",
@@ -3683,10 +4066,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 },
@@ -3699,10 +4086,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 },
@@ -3715,10 +4106,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 },
@@ -3731,10 +4126,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 }
@@ -3742,7 +4141,8 @@ const OrganizationSchema: Record<string, unknown> = {
                             },
                             "vars": {
                               "type": "object",
-                              "additionalProperties": true
+                              "additionalProperties": true,
+                              "description": "The vars of the theme."
                             }
                           }
                         },
@@ -3776,7 +4176,8 @@ const OrganizationSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The organizations of the organizationspage."
           }
         }
       },
@@ -3785,13 +4186,19 @@ const OrganizationSchema: Record<string, unknown> = {
         "description": "Single-organization wrapper used by current meshery-cloud organization handlers.",
         "properties": {
           "page": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "total_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total number of items available.",
+            "minimum": 0
           },
           "organizations": {
             "type": "array",
@@ -3853,7 +4260,10 @@ const OrganizationSchema: Record<string, unknown> = {
                           ],
                           "properties": {
                             "id": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Theme ID.",
+                              "maxLength": 500,
+                              "format": "uuid"
                             },
                             "logo": {
                               "x-go-type": "Logo",
@@ -3874,10 +4284,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 },
@@ -3890,10 +4304,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 },
@@ -3906,10 +4324,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 },
@@ -3922,10 +4344,14 @@ const OrganizationSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "svg": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The svg of the location.",
+                                      "maxLength": 500
                                     },
                                     "location": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "The location of the location.",
+                                      "maxLength": 500
                                     }
                                   }
                                 }
@@ -3933,7 +4359,8 @@ const OrganizationSchema: Record<string, unknown> = {
                             },
                             "vars": {
                               "type": "object",
-                              "additionalProperties": true
+                              "additionalProperties": true,
+                              "description": "The vars of the theme."
                             }
                           }
                         },
@@ -3967,7 +4394,8 @@ const OrganizationSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The organizations of the organizationpage."
           }
         }
       },
@@ -3991,7 +4419,8 @@ const OrganizationSchema: Record<string, unknown> = {
             "x-go-type-skip-optional-pointer": true
           },
           "notifyOrgUpdate": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "The notify org update of the organization."
           },
           "preferences": {
             "type": "object",
@@ -4009,7 +4438,10 @@ const OrganizationSchema: Record<string, unknown> = {
                 ],
                 "properties": {
                   "id": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Theme ID.",
+                    "maxLength": 500,
+                    "format": "uuid"
                   },
                   "logo": {
                     "x-go-type": "Logo",
@@ -4030,10 +4462,14 @@ const OrganizationSchema: Record<string, unknown> = {
                         ],
                         "properties": {
                           "svg": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The svg of the location.",
+                            "maxLength": 500
                           },
                           "location": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The location of the location.",
+                            "maxLength": 500
                           }
                         }
                       },
@@ -4046,10 +4482,14 @@ const OrganizationSchema: Record<string, unknown> = {
                         ],
                         "properties": {
                           "svg": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The svg of the location.",
+                            "maxLength": 500
                           },
                           "location": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The location of the location.",
+                            "maxLength": 500
                           }
                         }
                       },
@@ -4062,10 +4502,14 @@ const OrganizationSchema: Record<string, unknown> = {
                         ],
                         "properties": {
                           "svg": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The svg of the location.",
+                            "maxLength": 500
                           },
                           "location": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The location of the location.",
+                            "maxLength": 500
                           }
                         }
                       },
@@ -4078,10 +4522,14 @@ const OrganizationSchema: Record<string, unknown> = {
                         ],
                         "properties": {
                           "svg": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The svg of the location.",
+                            "maxLength": 500
                           },
                           "location": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The location of the location.",
+                            "maxLength": 500
                           }
                         }
                       }
@@ -4089,7 +4537,8 @@ const OrganizationSchema: Record<string, unknown> = {
                   },
                   "vars": {
                     "type": "object",
-                    "additionalProperties": true
+                    "additionalProperties": true,
+                    "description": "The vars of the theme."
                   }
                 }
               },
@@ -4164,13 +4613,19 @@ const OrganizationSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "page": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "total_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total number of items available.",
+            "minimum": 0
           },
           "teams": {
             "type": "array",
@@ -4230,7 +4685,8 @@ const OrganizationSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The teams of the teamspage."
           }
         }
       },
@@ -4304,13 +4760,19 @@ const OrganizationSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "page": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "total_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total number of items available.",
+            "minimum": 0
           },
           "teamsOrganizationsMapping": {
             "type": "array",
@@ -4379,7 +4841,8 @@ const OrganizationSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The teams organizations mapping of the teamsorganizationsmappingpage."
           }
         }
       }

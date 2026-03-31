@@ -125,13 +125,19 @@ const UserSchema: Record<string, unknown> = {
                   "description": "Paginated list of users with organization and team role context",
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "data": {
                       "type": "array",
@@ -173,7 +179,8 @@ const UserSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "user_id",
                               "json": "user_id"
-                            }
+                            },
+                            "x-id-format": "external"
                           },
                           "provider": {
                             "type": "string",
@@ -301,17 +308,22 @@ const UserSchema: Record<string, unknown> = {
                                   "x-go-type": "Adapter",
                                   "type": "object",
                                   "description": "Placeholder for Adapter struct definition."
-                                }
+                                },
+                                "description": "The mesh adapters of the preference."
                               },
                               "grafana": {
                                 "x-go-type": "Grafana",
                                 "type": "object",
                                 "properties": {
                                   "grafanaURL": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Grafana URL for the user configuration.",
+                                    "maxLength": 500
                                   },
                                   "grafanaAPIKey": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Grafana API key for the user configuration.",
+                                    "maxLength": 500
                                   },
                                   "selectedBoardsConfigs": {
                                     "type": "array",
@@ -327,16 +339,19 @@ const UserSchema: Record<string, unknown> = {
                                           "items": {
                                             "type": "object",
                                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                          }
+                                          },
+                                          "description": "Panels selected for the Grafana board configuration."
                                         },
                                         "templateVars": {
                                           "type": "array",
                                           "items": {
                                             "type": "string"
-                                          }
+                                          },
+                                          "description": "Template variables applied to the selected Grafana board configuration."
                                         }
                                       }
-                                    }
+                                    },
+                                    "description": "Selected Grafana board configurations for the user."
                                   }
                                 }
                               },
@@ -345,7 +360,9 @@ const UserSchema: Record<string, unknown> = {
                                 "type": "object",
                                 "properties": {
                                   "prometheusURL": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The prometheus u r l of the prometheus.",
+                                    "maxLength": 500
                                   },
                                   "selectedPrometheusBoardsConfigs": {
                                     "type": "array",
@@ -361,16 +378,19 @@ const UserSchema: Record<string, unknown> = {
                                           "items": {
                                             "type": "object",
                                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                          }
+                                          },
+                                          "description": "Panels selected for the Grafana board configuration."
                                         },
                                         "templateVars": {
                                           "type": "array",
                                           "items": {
                                             "type": "string"
-                                          }
+                                          },
+                                          "description": "Template variables applied to the selected Grafana board configuration."
                                         }
                                       }
-                                    }
+                                    },
+                                    "description": "The selected prometheus boards configs of the prometheus."
                                   }
                                 }
                               },
@@ -380,52 +400,66 @@ const UserSchema: Record<string, unknown> = {
                                 "properties": {
                                   "c": {
                                     "type": "integer",
-                                    "description": "Concurrent requests"
+                                    "description": "Concurrent requests",
+                                    "minimum": 0
                                   },
                                   "qps": {
                                     "type": "integer",
-                                    "description": "Queries per second"
+                                    "description": "Queries per second",
+                                    "minimum": 0
                                   },
                                   "t": {
                                     "type": "string",
-                                    "description": "Duration"
+                                    "description": "Duration",
+                                    "maxLength": 500
                                   },
                                   "gen": {
                                     "type": "string",
-                                    "description": "Load generator"
+                                    "description": "Load generator",
+                                    "maxLength": 500
                                   }
                                 }
                               },
                               "anonymousUsageStats": {
-                                "type": "boolean"
+                                "type": "boolean",
+                                "description": "The anonymous usage stats of the preference."
                               },
                               "anonymousPerfResults": {
-                                "type": "boolean"
+                                "type": "boolean",
+                                "description": "The anonymous perf results of the preference."
                               },
                               "updated_at": {
                                 "type": "string",
-                                "format": "date-time"
+                                "format": "date-time",
+                                "description": "Timestamp of when the resource was last updated."
                               },
                               "dashboardPreferences": {
                                 "type": "object",
-                                "additionalProperties": true
+                                "additionalProperties": true,
+                                "description": "The dashboard preferences of the preference."
                               },
                               "selectedOrganizationId": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "ID of the associated selectedOrganization.",
+                                "maxLength": 500,
+                                "format": "uuid"
                               },
                               "selectedWorkspaceForOrganizations": {
                                 "type": "object",
                                 "additionalProperties": {
                                   "type": "string"
-                                }
+                                },
+                                "description": "The selected workspace for organizations of the preference."
                               },
                               "usersExtensionPreferences": {
                                 "type": "object",
-                                "additionalProperties": true
+                                "additionalProperties": true,
+                                "description": "The users extension preferences of the preference."
                               },
                               "remoteProviderPreferences": {
                                 "type": "object",
-                                "additionalProperties": true
+                                "additionalProperties": true,
+                                "description": "The remote provider preferences of the preference."
                               }
                             }
                           },
@@ -490,11 +524,13 @@ const UserSchema: Record<string, unknown> = {
                               "properties": {
                                 "site": {
                                   "type": "string",
-                                  "maxLength": 50
+                                  "maxLength": 50,
+                                  "description": "The site of the social."
                                 },
                                 "link": {
                                   "type": "string",
-                                  "format": "uri"
+                                  "format": "uri",
+                                  "description": "The link of the social."
                                 }
                               },
                               "required": [
@@ -553,6 +589,7 @@ const UserSchema: Record<string, unknown> = {
                             "properties": {
                               "teams_with_roles": {
                                 "type": "array",
+                                "description": "Team memberships for the user with their assigned roles.",
                                 "items": {
                                   "type": "object"
                                 },
@@ -563,6 +600,8 @@ const UserSchema: Record<string, unknown> = {
                               },
                               "total_count": {
                                 "type": "integer",
+                                "description": "Total number of team memberships returned for the user.",
+                                "minimum": 0,
                                 "x-oapi-codegen-extra-tags": {
                                   "db": "total_count",
                                   "json": "total_count"
@@ -580,6 +619,7 @@ const UserSchema: Record<string, unknown> = {
                             "properties": {
                               "organizations_with_roles": {
                                 "type": "array",
+                                "description": "Organization memberships for the user with their assigned roles.",
                                 "items": {
                                   "type": "object"
                                 },
@@ -590,6 +630,8 @@ const UserSchema: Record<string, unknown> = {
                               },
                               "total_count": {
                                 "type": "integer",
+                                "description": "Total number of organization memberships returned for the user.",
+                                "minimum": 0,
                                 "x-oapi-codegen-extra-tags": {
                                   "db": "total_count",
                                   "json": "total_count"
@@ -599,7 +641,8 @@ const UserSchema: Record<string, unknown> = {
                           }
                         },
                         "additionalProperties": false
-                      }
+                      },
+                      "description": "The data of the userspageforadmin."
                     }
                   }
                 }
@@ -710,13 +753,19 @@ const UserSchema: Record<string, unknown> = {
                   "description": "Paginated list of public user records",
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "data": {
                       "type": "array",
@@ -758,7 +807,8 @@ const UserSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "user_id",
                               "json": "user_id"
-                            }
+                            },
+                            "x-id-format": "external"
                           },
                           "provider": {
                             "type": "string",
@@ -886,17 +936,22 @@ const UserSchema: Record<string, unknown> = {
                                   "x-go-type": "Adapter",
                                   "type": "object",
                                   "description": "Placeholder for Adapter struct definition."
-                                }
+                                },
+                                "description": "The mesh adapters of the preference."
                               },
                               "grafana": {
                                 "x-go-type": "Grafana",
                                 "type": "object",
                                 "properties": {
                                   "grafanaURL": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Grafana URL for the user configuration.",
+                                    "maxLength": 500
                                   },
                                   "grafanaAPIKey": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Grafana API key for the user configuration.",
+                                    "maxLength": 500
                                   },
                                   "selectedBoardsConfigs": {
                                     "type": "array",
@@ -912,16 +967,19 @@ const UserSchema: Record<string, unknown> = {
                                           "items": {
                                             "type": "object",
                                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                          }
+                                          },
+                                          "description": "Panels selected for the Grafana board configuration."
                                         },
                                         "templateVars": {
                                           "type": "array",
                                           "items": {
                                             "type": "string"
-                                          }
+                                          },
+                                          "description": "Template variables applied to the selected Grafana board configuration."
                                         }
                                       }
-                                    }
+                                    },
+                                    "description": "Selected Grafana board configurations for the user."
                                   }
                                 }
                               },
@@ -930,7 +988,9 @@ const UserSchema: Record<string, unknown> = {
                                 "type": "object",
                                 "properties": {
                                   "prometheusURL": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "The prometheus u r l of the prometheus.",
+                                    "maxLength": 500
                                   },
                                   "selectedPrometheusBoardsConfigs": {
                                     "type": "array",
@@ -946,16 +1006,19 @@ const UserSchema: Record<string, unknown> = {
                                           "items": {
                                             "type": "object",
                                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                          }
+                                          },
+                                          "description": "Panels selected for the Grafana board configuration."
                                         },
                                         "templateVars": {
                                           "type": "array",
                                           "items": {
                                             "type": "string"
-                                          }
+                                          },
+                                          "description": "Template variables applied to the selected Grafana board configuration."
                                         }
                                       }
-                                    }
+                                    },
+                                    "description": "The selected prometheus boards configs of the prometheus."
                                   }
                                 }
                               },
@@ -965,52 +1028,66 @@ const UserSchema: Record<string, unknown> = {
                                 "properties": {
                                   "c": {
                                     "type": "integer",
-                                    "description": "Concurrent requests"
+                                    "description": "Concurrent requests",
+                                    "minimum": 0
                                   },
                                   "qps": {
                                     "type": "integer",
-                                    "description": "Queries per second"
+                                    "description": "Queries per second",
+                                    "minimum": 0
                                   },
                                   "t": {
                                     "type": "string",
-                                    "description": "Duration"
+                                    "description": "Duration",
+                                    "maxLength": 500
                                   },
                                   "gen": {
                                     "type": "string",
-                                    "description": "Load generator"
+                                    "description": "Load generator",
+                                    "maxLength": 500
                                   }
                                 }
                               },
                               "anonymousUsageStats": {
-                                "type": "boolean"
+                                "type": "boolean",
+                                "description": "The anonymous usage stats of the preference."
                               },
                               "anonymousPerfResults": {
-                                "type": "boolean"
+                                "type": "boolean",
+                                "description": "The anonymous perf results of the preference."
                               },
                               "updated_at": {
                                 "type": "string",
-                                "format": "date-time"
+                                "format": "date-time",
+                                "description": "Timestamp of when the resource was last updated."
                               },
                               "dashboardPreferences": {
                                 "type": "object",
-                                "additionalProperties": true
+                                "additionalProperties": true,
+                                "description": "The dashboard preferences of the preference."
                               },
                               "selectedOrganizationId": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "ID of the associated selectedOrganization.",
+                                "maxLength": 500,
+                                "format": "uuid"
                               },
                               "selectedWorkspaceForOrganizations": {
                                 "type": "object",
                                 "additionalProperties": {
                                   "type": "string"
-                                }
+                                },
+                                "description": "The selected workspace for organizations of the preference."
                               },
                               "usersExtensionPreferences": {
                                 "type": "object",
-                                "additionalProperties": true
+                                "additionalProperties": true,
+                                "description": "The users extension preferences of the preference."
                               },
                               "remoteProviderPreferences": {
                                 "type": "object",
-                                "additionalProperties": true
+                                "additionalProperties": true,
+                                "description": "The remote provider preferences of the preference."
                               }
                             }
                           },
@@ -1075,11 +1152,13 @@ const UserSchema: Record<string, unknown> = {
                               "properties": {
                                 "site": {
                                   "type": "string",
-                                  "maxLength": 50
+                                  "maxLength": 50,
+                                  "description": "The site of the social."
                                 },
                                 "link": {
                                   "type": "string",
-                                  "format": "uri"
+                                  "format": "uri",
+                                  "description": "The link of the social."
                                 }
                               },
                               "required": [
@@ -1138,6 +1217,7 @@ const UserSchema: Record<string, unknown> = {
                             "properties": {
                               "teams_with_roles": {
                                 "type": "array",
+                                "description": "Team memberships for the user with their assigned roles.",
                                 "items": {
                                   "type": "object"
                                 },
@@ -1148,6 +1228,8 @@ const UserSchema: Record<string, unknown> = {
                               },
                               "total_count": {
                                 "type": "integer",
+                                "description": "Total number of team memberships returned for the user.",
+                                "minimum": 0,
                                 "x-oapi-codegen-extra-tags": {
                                   "db": "total_count",
                                   "json": "total_count"
@@ -1165,6 +1247,7 @@ const UserSchema: Record<string, unknown> = {
                             "properties": {
                               "organizations_with_roles": {
                                 "type": "array",
+                                "description": "Organization memberships for the user with their assigned roles.",
                                 "items": {
                                   "type": "object"
                                 },
@@ -1175,6 +1258,8 @@ const UserSchema: Record<string, unknown> = {
                               },
                               "total_count": {
                                 "type": "integer",
+                                "description": "Total number of organization memberships returned for the user.",
+                                "minimum": 0,
                                 "x-oapi-codegen-extra-tags": {
                                   "db": "total_count",
                                   "json": "total_count"
@@ -1184,7 +1269,8 @@ const UserSchema: Record<string, unknown> = {
                           }
                         },
                         "additionalProperties": false
-                      }
+                      },
+                      "description": "The data of the userspagefornonadmin."
                     }
                   }
                 }
@@ -1291,7 +1377,8 @@ const UserSchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "user_id",
                         "json": "user_id"
-                      }
+                      },
+                      "x-id-format": "external"
                     },
                     "provider": {
                       "type": "string",
@@ -1419,17 +1506,22 @@ const UserSchema: Record<string, unknown> = {
                             "x-go-type": "Adapter",
                             "type": "object",
                             "description": "Placeholder for Adapter struct definition."
-                          }
+                          },
+                          "description": "The mesh adapters of the preference."
                         },
                         "grafana": {
                           "x-go-type": "Grafana",
                           "type": "object",
                           "properties": {
                             "grafanaURL": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Grafana URL for the user configuration.",
+                              "maxLength": 500
                             },
                             "grafanaAPIKey": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Grafana API key for the user configuration.",
+                              "maxLength": 500
                             },
                             "selectedBoardsConfigs": {
                               "type": "array",
@@ -1445,16 +1537,19 @@ const UserSchema: Record<string, unknown> = {
                                     "items": {
                                       "type": "object",
                                       "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                    }
+                                    },
+                                    "description": "Panels selected for the Grafana board configuration."
                                   },
                                   "templateVars": {
                                     "type": "array",
                                     "items": {
                                       "type": "string"
-                                    }
+                                    },
+                                    "description": "Template variables applied to the selected Grafana board configuration."
                                   }
                                 }
-                              }
+                              },
+                              "description": "Selected Grafana board configurations for the user."
                             }
                           }
                         },
@@ -1463,7 +1558,9 @@ const UserSchema: Record<string, unknown> = {
                           "type": "object",
                           "properties": {
                             "prometheusURL": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "The prometheus u r l of the prometheus.",
+                              "maxLength": 500
                             },
                             "selectedPrometheusBoardsConfigs": {
                               "type": "array",
@@ -1479,16 +1576,19 @@ const UserSchema: Record<string, unknown> = {
                                     "items": {
                                       "type": "object",
                                       "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                    }
+                                    },
+                                    "description": "Panels selected for the Grafana board configuration."
                                   },
                                   "templateVars": {
                                     "type": "array",
                                     "items": {
                                       "type": "string"
-                                    }
+                                    },
+                                    "description": "Template variables applied to the selected Grafana board configuration."
                                   }
                                 }
-                              }
+                              },
+                              "description": "The selected prometheus boards configs of the prometheus."
                             }
                           }
                         },
@@ -1498,52 +1598,66 @@ const UserSchema: Record<string, unknown> = {
                           "properties": {
                             "c": {
                               "type": "integer",
-                              "description": "Concurrent requests"
+                              "description": "Concurrent requests",
+                              "minimum": 0
                             },
                             "qps": {
                               "type": "integer",
-                              "description": "Queries per second"
+                              "description": "Queries per second",
+                              "minimum": 0
                             },
                             "t": {
                               "type": "string",
-                              "description": "Duration"
+                              "description": "Duration",
+                              "maxLength": 500
                             },
                             "gen": {
                               "type": "string",
-                              "description": "Load generator"
+                              "description": "Load generator",
+                              "maxLength": 500
                             }
                           }
                         },
                         "anonymousUsageStats": {
-                          "type": "boolean"
+                          "type": "boolean",
+                          "description": "The anonymous usage stats of the preference."
                         },
                         "anonymousPerfResults": {
-                          "type": "boolean"
+                          "type": "boolean",
+                          "description": "The anonymous perf results of the preference."
                         },
                         "updated_at": {
                           "type": "string",
-                          "format": "date-time"
+                          "format": "date-time",
+                          "description": "Timestamp of when the resource was last updated."
                         },
                         "dashboardPreferences": {
                           "type": "object",
-                          "additionalProperties": true
+                          "additionalProperties": true,
+                          "description": "The dashboard preferences of the preference."
                         },
                         "selectedOrganizationId": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "ID of the associated selectedOrganization.",
+                          "maxLength": 500,
+                          "format": "uuid"
                         },
                         "selectedWorkspaceForOrganizations": {
                           "type": "object",
                           "additionalProperties": {
                             "type": "string"
-                          }
+                          },
+                          "description": "The selected workspace for organizations of the preference."
                         },
                         "usersExtensionPreferences": {
                           "type": "object",
-                          "additionalProperties": true
+                          "additionalProperties": true,
+                          "description": "The users extension preferences of the preference."
                         },
                         "remoteProviderPreferences": {
                           "type": "object",
-                          "additionalProperties": true
+                          "additionalProperties": true,
+                          "description": "The remote provider preferences of the preference."
                         }
                       }
                     },
@@ -1608,11 +1722,13 @@ const UserSchema: Record<string, unknown> = {
                         "properties": {
                           "site": {
                             "type": "string",
-                            "maxLength": 50
+                            "maxLength": 50,
+                            "description": "The site of the social."
                           },
                           "link": {
                             "type": "string",
-                            "format": "uri"
+                            "format": "uri",
+                            "description": "The link of the social."
                           }
                         },
                         "required": [
@@ -1671,6 +1787,7 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "teams_with_roles": {
                           "type": "array",
+                          "description": "Team memberships for the user with their assigned roles.",
                           "items": {
                             "type": "object"
                           },
@@ -1681,6 +1798,8 @@ const UserSchema: Record<string, unknown> = {
                         },
                         "total_count": {
                           "type": "integer",
+                          "description": "Total number of team memberships returned for the user.",
+                          "minimum": 0,
                           "x-oapi-codegen-extra-tags": {
                             "db": "total_count",
                             "json": "total_count"
@@ -1698,6 +1817,7 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "organizations_with_roles": {
                           "type": "array",
+                          "description": "Organization memberships for the user with their assigned roles.",
                           "items": {
                             "type": "object"
                           },
@@ -1708,6 +1828,8 @@ const UserSchema: Record<string, unknown> = {
                         },
                         "total_count": {
                           "type": "integer",
+                          "description": "Total number of organization memberships returned for the user.",
+                          "minimum": 0,
                           "x-oapi-codegen-extra-tags": {
                             "db": "total_count",
                             "json": "total_count"
@@ -1814,7 +1936,8 @@ const UserSchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "user_id",
                         "json": "user_id"
-                      }
+                      },
+                      "x-id-format": "external"
                     },
                     "provider": {
                       "type": "string",
@@ -1942,17 +2065,22 @@ const UserSchema: Record<string, unknown> = {
                             "x-go-type": "Adapter",
                             "type": "object",
                             "description": "Placeholder for Adapter struct definition."
-                          }
+                          },
+                          "description": "The mesh adapters of the preference."
                         },
                         "grafana": {
                           "x-go-type": "Grafana",
                           "type": "object",
                           "properties": {
                             "grafanaURL": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Grafana URL for the user configuration.",
+                              "maxLength": 500
                             },
                             "grafanaAPIKey": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Grafana API key for the user configuration.",
+                              "maxLength": 500
                             },
                             "selectedBoardsConfigs": {
                               "type": "array",
@@ -1968,16 +2096,19 @@ const UserSchema: Record<string, unknown> = {
                                     "items": {
                                       "type": "object",
                                       "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                    }
+                                    },
+                                    "description": "Panels selected for the Grafana board configuration."
                                   },
                                   "templateVars": {
                                     "type": "array",
                                     "items": {
                                       "type": "string"
-                                    }
+                                    },
+                                    "description": "Template variables applied to the selected Grafana board configuration."
                                   }
                                 }
-                              }
+                              },
+                              "description": "Selected Grafana board configurations for the user."
                             }
                           }
                         },
@@ -1986,7 +2117,9 @@ const UserSchema: Record<string, unknown> = {
                           "type": "object",
                           "properties": {
                             "prometheusURL": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "The prometheus u r l of the prometheus.",
+                              "maxLength": 500
                             },
                             "selectedPrometheusBoardsConfigs": {
                               "type": "array",
@@ -2002,16 +2135,19 @@ const UserSchema: Record<string, unknown> = {
                                     "items": {
                                       "type": "object",
                                       "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                    }
+                                    },
+                                    "description": "Panels selected for the Grafana board configuration."
                                   },
                                   "templateVars": {
                                     "type": "array",
                                     "items": {
                                       "type": "string"
-                                    }
+                                    },
+                                    "description": "Template variables applied to the selected Grafana board configuration."
                                   }
                                 }
-                              }
+                              },
+                              "description": "The selected prometheus boards configs of the prometheus."
                             }
                           }
                         },
@@ -2021,52 +2157,66 @@ const UserSchema: Record<string, unknown> = {
                           "properties": {
                             "c": {
                               "type": "integer",
-                              "description": "Concurrent requests"
+                              "description": "Concurrent requests",
+                              "minimum": 0
                             },
                             "qps": {
                               "type": "integer",
-                              "description": "Queries per second"
+                              "description": "Queries per second",
+                              "minimum": 0
                             },
                             "t": {
                               "type": "string",
-                              "description": "Duration"
+                              "description": "Duration",
+                              "maxLength": 500
                             },
                             "gen": {
                               "type": "string",
-                              "description": "Load generator"
+                              "description": "Load generator",
+                              "maxLength": 500
                             }
                           }
                         },
                         "anonymousUsageStats": {
-                          "type": "boolean"
+                          "type": "boolean",
+                          "description": "The anonymous usage stats of the preference."
                         },
                         "anonymousPerfResults": {
-                          "type": "boolean"
+                          "type": "boolean",
+                          "description": "The anonymous perf results of the preference."
                         },
                         "updated_at": {
                           "type": "string",
-                          "format": "date-time"
+                          "format": "date-time",
+                          "description": "Timestamp of when the resource was last updated."
                         },
                         "dashboardPreferences": {
                           "type": "object",
-                          "additionalProperties": true
+                          "additionalProperties": true,
+                          "description": "The dashboard preferences of the preference."
                         },
                         "selectedOrganizationId": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "ID of the associated selectedOrganization.",
+                          "maxLength": 500,
+                          "format": "uuid"
                         },
                         "selectedWorkspaceForOrganizations": {
                           "type": "object",
                           "additionalProperties": {
                             "type": "string"
-                          }
+                          },
+                          "description": "The selected workspace for organizations of the preference."
                         },
                         "usersExtensionPreferences": {
                           "type": "object",
-                          "additionalProperties": true
+                          "additionalProperties": true,
+                          "description": "The users extension preferences of the preference."
                         },
                         "remoteProviderPreferences": {
                           "type": "object",
-                          "additionalProperties": true
+                          "additionalProperties": true,
+                          "description": "The remote provider preferences of the preference."
                         }
                       }
                     },
@@ -2131,11 +2281,13 @@ const UserSchema: Record<string, unknown> = {
                         "properties": {
                           "site": {
                             "type": "string",
-                            "maxLength": 50
+                            "maxLength": 50,
+                            "description": "The site of the social."
                           },
                           "link": {
                             "type": "string",
-                            "format": "uri"
+                            "format": "uri",
+                            "description": "The link of the social."
                           }
                         },
                         "required": [
@@ -2194,6 +2346,7 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "teams_with_roles": {
                           "type": "array",
+                          "description": "Team memberships for the user with their assigned roles.",
                           "items": {
                             "type": "object"
                           },
@@ -2204,6 +2357,8 @@ const UserSchema: Record<string, unknown> = {
                         },
                         "total_count": {
                           "type": "integer",
+                          "description": "Total number of team memberships returned for the user.",
+                          "minimum": 0,
                           "x-oapi-codegen-extra-tags": {
                             "db": "total_count",
                             "json": "total_count"
@@ -2221,6 +2376,7 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "organizations_with_roles": {
                           "type": "array",
+                          "description": "Organization memberships for the user with their assigned roles.",
                           "items": {
                             "type": "object"
                           },
@@ -2231,6 +2387,8 @@ const UserSchema: Record<string, unknown> = {
                         },
                         "total_count": {
                           "type": "integer",
+                          "description": "Total number of organization memberships returned for the user.",
+                          "minimum": 0,
                           "x-oapi-codegen-extra-tags": {
                             "db": "total_count",
                             "json": "total_count"
@@ -2454,7 +2612,8 @@ const UserSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "db": "user_id",
               "json": "user_id"
-            }
+            },
+            "x-id-format": "external"
           },
           "provider": {
             "type": "string",
@@ -2582,17 +2741,22 @@ const UserSchema: Record<string, unknown> = {
                   "x-go-type": "Adapter",
                   "type": "object",
                   "description": "Placeholder for Adapter struct definition."
-                }
+                },
+                "description": "The mesh adapters of the preference."
               },
               "grafana": {
                 "x-go-type": "Grafana",
                 "type": "object",
                 "properties": {
                   "grafanaURL": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Grafana URL for the user configuration.",
+                    "maxLength": 500
                   },
                   "grafanaAPIKey": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Grafana API key for the user configuration.",
+                    "maxLength": 500
                   },
                   "selectedBoardsConfigs": {
                     "type": "array",
@@ -2608,16 +2772,19 @@ const UserSchema: Record<string, unknown> = {
                           "items": {
                             "type": "object",
                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                          }
+                          },
+                          "description": "Panels selected for the Grafana board configuration."
                         },
                         "templateVars": {
                           "type": "array",
                           "items": {
                             "type": "string"
-                          }
+                          },
+                          "description": "Template variables applied to the selected Grafana board configuration."
                         }
                       }
-                    }
+                    },
+                    "description": "Selected Grafana board configurations for the user."
                   }
                 }
               },
@@ -2626,7 +2793,9 @@ const UserSchema: Record<string, unknown> = {
                 "type": "object",
                 "properties": {
                   "prometheusURL": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The prometheus u r l of the prometheus.",
+                    "maxLength": 500
                   },
                   "selectedPrometheusBoardsConfigs": {
                     "type": "array",
@@ -2642,16 +2811,19 @@ const UserSchema: Record<string, unknown> = {
                           "items": {
                             "type": "object",
                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                          }
+                          },
+                          "description": "Panels selected for the Grafana board configuration."
                         },
                         "templateVars": {
                           "type": "array",
                           "items": {
                             "type": "string"
-                          }
+                          },
+                          "description": "Template variables applied to the selected Grafana board configuration."
                         }
                       }
-                    }
+                    },
+                    "description": "The selected prometheus boards configs of the prometheus."
                   }
                 }
               },
@@ -2661,52 +2833,66 @@ const UserSchema: Record<string, unknown> = {
                 "properties": {
                   "c": {
                     "type": "integer",
-                    "description": "Concurrent requests"
+                    "description": "Concurrent requests",
+                    "minimum": 0
                   },
                   "qps": {
                     "type": "integer",
-                    "description": "Queries per second"
+                    "description": "Queries per second",
+                    "minimum": 0
                   },
                   "t": {
                     "type": "string",
-                    "description": "Duration"
+                    "description": "Duration",
+                    "maxLength": 500
                   },
                   "gen": {
                     "type": "string",
-                    "description": "Load generator"
+                    "description": "Load generator",
+                    "maxLength": 500
                   }
                 }
               },
               "anonymousUsageStats": {
-                "type": "boolean"
+                "type": "boolean",
+                "description": "The anonymous usage stats of the preference."
               },
               "anonymousPerfResults": {
-                "type": "boolean"
+                "type": "boolean",
+                "description": "The anonymous perf results of the preference."
               },
               "updated_at": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "description": "Timestamp of when the resource was last updated."
               },
               "dashboardPreferences": {
                 "type": "object",
-                "additionalProperties": true
+                "additionalProperties": true,
+                "description": "The dashboard preferences of the preference."
               },
               "selectedOrganizationId": {
-                "type": "string"
+                "type": "string",
+                "description": "ID of the associated selectedOrganization.",
+                "maxLength": 500,
+                "format": "uuid"
               },
               "selectedWorkspaceForOrganizations": {
                 "type": "object",
                 "additionalProperties": {
                   "type": "string"
-                }
+                },
+                "description": "The selected workspace for organizations of the preference."
               },
               "usersExtensionPreferences": {
                 "type": "object",
-                "additionalProperties": true
+                "additionalProperties": true,
+                "description": "The users extension preferences of the preference."
               },
               "remoteProviderPreferences": {
                 "type": "object",
-                "additionalProperties": true
+                "additionalProperties": true,
+                "description": "The remote provider preferences of the preference."
               }
             }
           },
@@ -2771,11 +2957,13 @@ const UserSchema: Record<string, unknown> = {
               "properties": {
                 "site": {
                   "type": "string",
-                  "maxLength": 50
+                  "maxLength": 50,
+                  "description": "The site of the social."
                 },
                 "link": {
                   "type": "string",
-                  "format": "uri"
+                  "format": "uri",
+                  "description": "The link of the social."
                 }
               },
               "required": [
@@ -2834,6 +3022,7 @@ const UserSchema: Record<string, unknown> = {
             "properties": {
               "teams_with_roles": {
                 "type": "array",
+                "description": "Team memberships for the user with their assigned roles.",
                 "items": {
                   "type": "object"
                 },
@@ -2844,6 +3033,8 @@ const UserSchema: Record<string, unknown> = {
               },
               "total_count": {
                 "type": "integer",
+                "description": "Total number of team memberships returned for the user.",
+                "minimum": 0,
                 "x-oapi-codegen-extra-tags": {
                   "db": "total_count",
                   "json": "total_count"
@@ -2861,6 +3052,7 @@ const UserSchema: Record<string, unknown> = {
             "properties": {
               "organizations_with_roles": {
                 "type": "array",
+                "description": "Organization memberships for the user with their assigned roles.",
                 "items": {
                   "type": "object"
                 },
@@ -2871,6 +3063,8 @@ const UserSchema: Record<string, unknown> = {
               },
               "total_count": {
                 "type": "integer",
+                "description": "Total number of organization memberships returned for the user.",
+                "minimum": 0,
                 "x-oapi-codegen-extra-tags": {
                   "db": "total_count",
                   "json": "total_count"
@@ -2886,13 +3080,19 @@ const UserSchema: Record<string, unknown> = {
         "description": "Paginated list of users with organization and team role context",
         "properties": {
           "page": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "total_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total number of items available.",
+            "minimum": 0
           },
           "data": {
             "type": "array",
@@ -2934,7 +3134,8 @@ const UserSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "db": "user_id",
                     "json": "user_id"
-                  }
+                  },
+                  "x-id-format": "external"
                 },
                 "provider": {
                   "type": "string",
@@ -3062,17 +3263,22 @@ const UserSchema: Record<string, unknown> = {
                         "x-go-type": "Adapter",
                         "type": "object",
                         "description": "Placeholder for Adapter struct definition."
-                      }
+                      },
+                      "description": "The mesh adapters of the preference."
                     },
                     "grafana": {
                       "x-go-type": "Grafana",
                       "type": "object",
                       "properties": {
                         "grafanaURL": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Grafana URL for the user configuration.",
+                          "maxLength": 500
                         },
                         "grafanaAPIKey": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Grafana API key for the user configuration.",
+                          "maxLength": 500
                         },
                         "selectedBoardsConfigs": {
                           "type": "array",
@@ -3088,16 +3294,19 @@ const UserSchema: Record<string, unknown> = {
                                 "items": {
                                   "type": "object",
                                   "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                }
+                                },
+                                "description": "Panels selected for the Grafana board configuration."
                               },
                               "templateVars": {
                                 "type": "array",
                                 "items": {
                                   "type": "string"
-                                }
+                                },
+                                "description": "Template variables applied to the selected Grafana board configuration."
                               }
                             }
-                          }
+                          },
+                          "description": "Selected Grafana board configurations for the user."
                         }
                       }
                     },
@@ -3106,7 +3315,9 @@ const UserSchema: Record<string, unknown> = {
                       "type": "object",
                       "properties": {
                         "prometheusURL": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "The prometheus u r l of the prometheus.",
+                          "maxLength": 500
                         },
                         "selectedPrometheusBoardsConfigs": {
                           "type": "array",
@@ -3122,16 +3333,19 @@ const UserSchema: Record<string, unknown> = {
                                 "items": {
                                   "type": "object",
                                   "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                }
+                                },
+                                "description": "Panels selected for the Grafana board configuration."
                               },
                               "templateVars": {
                                 "type": "array",
                                 "items": {
                                   "type": "string"
-                                }
+                                },
+                                "description": "Template variables applied to the selected Grafana board configuration."
                               }
                             }
-                          }
+                          },
+                          "description": "The selected prometheus boards configs of the prometheus."
                         }
                       }
                     },
@@ -3141,52 +3355,66 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "c": {
                           "type": "integer",
-                          "description": "Concurrent requests"
+                          "description": "Concurrent requests",
+                          "minimum": 0
                         },
                         "qps": {
                           "type": "integer",
-                          "description": "Queries per second"
+                          "description": "Queries per second",
+                          "minimum": 0
                         },
                         "t": {
                           "type": "string",
-                          "description": "Duration"
+                          "description": "Duration",
+                          "maxLength": 500
                         },
                         "gen": {
                           "type": "string",
-                          "description": "Load generator"
+                          "description": "Load generator",
+                          "maxLength": 500
                         }
                       }
                     },
                     "anonymousUsageStats": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "description": "The anonymous usage stats of the preference."
                     },
                     "anonymousPerfResults": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "description": "The anonymous perf results of the preference."
                     },
                     "updated_at": {
                       "type": "string",
-                      "format": "date-time"
+                      "format": "date-time",
+                      "description": "Timestamp of when the resource was last updated."
                     },
                     "dashboardPreferences": {
                       "type": "object",
-                      "additionalProperties": true
+                      "additionalProperties": true,
+                      "description": "The dashboard preferences of the preference."
                     },
                     "selectedOrganizationId": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "ID of the associated selectedOrganization.",
+                      "maxLength": 500,
+                      "format": "uuid"
                     },
                     "selectedWorkspaceForOrganizations": {
                       "type": "object",
                       "additionalProperties": {
                         "type": "string"
-                      }
+                      },
+                      "description": "The selected workspace for organizations of the preference."
                     },
                     "usersExtensionPreferences": {
                       "type": "object",
-                      "additionalProperties": true
+                      "additionalProperties": true,
+                      "description": "The users extension preferences of the preference."
                     },
                     "remoteProviderPreferences": {
                       "type": "object",
-                      "additionalProperties": true
+                      "additionalProperties": true,
+                      "description": "The remote provider preferences of the preference."
                     }
                   }
                 },
@@ -3251,11 +3479,13 @@ const UserSchema: Record<string, unknown> = {
                     "properties": {
                       "site": {
                         "type": "string",
-                        "maxLength": 50
+                        "maxLength": 50,
+                        "description": "The site of the social."
                       },
                       "link": {
                         "type": "string",
-                        "format": "uri"
+                        "format": "uri",
+                        "description": "The link of the social."
                       }
                     },
                     "required": [
@@ -3314,6 +3544,7 @@ const UserSchema: Record<string, unknown> = {
                   "properties": {
                     "teams_with_roles": {
                       "type": "array",
+                      "description": "Team memberships for the user with their assigned roles.",
                       "items": {
                         "type": "object"
                       },
@@ -3324,6 +3555,8 @@ const UserSchema: Record<string, unknown> = {
                     },
                     "total_count": {
                       "type": "integer",
+                      "description": "Total number of team memberships returned for the user.",
+                      "minimum": 0,
                       "x-oapi-codegen-extra-tags": {
                         "db": "total_count",
                         "json": "total_count"
@@ -3341,6 +3574,7 @@ const UserSchema: Record<string, unknown> = {
                   "properties": {
                     "organizations_with_roles": {
                       "type": "array",
+                      "description": "Organization memberships for the user with their assigned roles.",
                       "items": {
                         "type": "object"
                       },
@@ -3351,6 +3585,8 @@ const UserSchema: Record<string, unknown> = {
                     },
                     "total_count": {
                       "type": "integer",
+                      "description": "Total number of organization memberships returned for the user.",
+                      "minimum": 0,
                       "x-oapi-codegen-extra-tags": {
                         "db": "total_count",
                         "json": "total_count"
@@ -3360,7 +3596,8 @@ const UserSchema: Record<string, unknown> = {
                 }
               },
               "additionalProperties": false
-            }
+            },
+            "description": "The data of the userspageforadmin."
           }
         }
       },
@@ -3369,13 +3606,19 @@ const UserSchema: Record<string, unknown> = {
         "description": "Paginated list of public user records",
         "properties": {
           "page": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "total_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total number of items available.",
+            "minimum": 0
           },
           "data": {
             "type": "array",
@@ -3417,7 +3660,8 @@ const UserSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "db": "user_id",
                     "json": "user_id"
-                  }
+                  },
+                  "x-id-format": "external"
                 },
                 "provider": {
                   "type": "string",
@@ -3545,17 +3789,22 @@ const UserSchema: Record<string, unknown> = {
                         "x-go-type": "Adapter",
                         "type": "object",
                         "description": "Placeholder for Adapter struct definition."
-                      }
+                      },
+                      "description": "The mesh adapters of the preference."
                     },
                     "grafana": {
                       "x-go-type": "Grafana",
                       "type": "object",
                       "properties": {
                         "grafanaURL": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Grafana URL for the user configuration.",
+                          "maxLength": 500
                         },
                         "grafanaAPIKey": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Grafana API key for the user configuration.",
+                          "maxLength": 500
                         },
                         "selectedBoardsConfigs": {
                           "type": "array",
@@ -3571,16 +3820,19 @@ const UserSchema: Record<string, unknown> = {
                                 "items": {
                                   "type": "object",
                                   "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                }
+                                },
+                                "description": "Panels selected for the Grafana board configuration."
                               },
                               "templateVars": {
                                 "type": "array",
                                 "items": {
                                   "type": "string"
-                                }
+                                },
+                                "description": "Template variables applied to the selected Grafana board configuration."
                               }
                             }
-                          }
+                          },
+                          "description": "Selected Grafana board configurations for the user."
                         }
                       }
                     },
@@ -3589,7 +3841,9 @@ const UserSchema: Record<string, unknown> = {
                       "type": "object",
                       "properties": {
                         "prometheusURL": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "The prometheus u r l of the prometheus.",
+                          "maxLength": 500
                         },
                         "selectedPrometheusBoardsConfigs": {
                           "type": "array",
@@ -3605,16 +3859,19 @@ const UserSchema: Record<string, unknown> = {
                                 "items": {
                                   "type": "object",
                                   "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                                }
+                                },
+                                "description": "Panels selected for the Grafana board configuration."
                               },
                               "templateVars": {
                                 "type": "array",
                                 "items": {
                                   "type": "string"
-                                }
+                                },
+                                "description": "Template variables applied to the selected Grafana board configuration."
                               }
                             }
-                          }
+                          },
+                          "description": "The selected prometheus boards configs of the prometheus."
                         }
                       }
                     },
@@ -3624,52 +3881,66 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "c": {
                           "type": "integer",
-                          "description": "Concurrent requests"
+                          "description": "Concurrent requests",
+                          "minimum": 0
                         },
                         "qps": {
                           "type": "integer",
-                          "description": "Queries per second"
+                          "description": "Queries per second",
+                          "minimum": 0
                         },
                         "t": {
                           "type": "string",
-                          "description": "Duration"
+                          "description": "Duration",
+                          "maxLength": 500
                         },
                         "gen": {
                           "type": "string",
-                          "description": "Load generator"
+                          "description": "Load generator",
+                          "maxLength": 500
                         }
                       }
                     },
                     "anonymousUsageStats": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "description": "The anonymous usage stats of the preference."
                     },
                     "anonymousPerfResults": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "description": "The anonymous perf results of the preference."
                     },
                     "updated_at": {
                       "type": "string",
-                      "format": "date-time"
+                      "format": "date-time",
+                      "description": "Timestamp of when the resource was last updated."
                     },
                     "dashboardPreferences": {
                       "type": "object",
-                      "additionalProperties": true
+                      "additionalProperties": true,
+                      "description": "The dashboard preferences of the preference."
                     },
                     "selectedOrganizationId": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "ID of the associated selectedOrganization.",
+                      "maxLength": 500,
+                      "format": "uuid"
                     },
                     "selectedWorkspaceForOrganizations": {
                       "type": "object",
                       "additionalProperties": {
                         "type": "string"
-                      }
+                      },
+                      "description": "The selected workspace for organizations of the preference."
                     },
                     "usersExtensionPreferences": {
                       "type": "object",
-                      "additionalProperties": true
+                      "additionalProperties": true,
+                      "description": "The users extension preferences of the preference."
                     },
                     "remoteProviderPreferences": {
                       "type": "object",
-                      "additionalProperties": true
+                      "additionalProperties": true,
+                      "description": "The remote provider preferences of the preference."
                     }
                   }
                 },
@@ -3734,11 +4005,13 @@ const UserSchema: Record<string, unknown> = {
                     "properties": {
                       "site": {
                         "type": "string",
-                        "maxLength": 50
+                        "maxLength": 50,
+                        "description": "The site of the social."
                       },
                       "link": {
                         "type": "string",
-                        "format": "uri"
+                        "format": "uri",
+                        "description": "The link of the social."
                       }
                     },
                     "required": [
@@ -3797,6 +4070,7 @@ const UserSchema: Record<string, unknown> = {
                   "properties": {
                     "teams_with_roles": {
                       "type": "array",
+                      "description": "Team memberships for the user with their assigned roles.",
                       "items": {
                         "type": "object"
                       },
@@ -3807,6 +4081,8 @@ const UserSchema: Record<string, unknown> = {
                     },
                     "total_count": {
                       "type": "integer",
+                      "description": "Total number of team memberships returned for the user.",
+                      "minimum": 0,
                       "x-oapi-codegen-extra-tags": {
                         "db": "total_count",
                         "json": "total_count"
@@ -3824,6 +4100,7 @@ const UserSchema: Record<string, unknown> = {
                   "properties": {
                     "organizations_with_roles": {
                       "type": "array",
+                      "description": "Organization memberships for the user with their assigned roles.",
                       "items": {
                         "type": "object"
                       },
@@ -3834,6 +4111,8 @@ const UserSchema: Record<string, unknown> = {
                     },
                     "total_count": {
                       "type": "integer",
+                      "description": "Total number of organization memberships returned for the user.",
+                      "minimum": 0,
                       "x-oapi-codegen-extra-tags": {
                         "db": "total_count",
                         "json": "total_count"
@@ -3843,7 +4122,8 @@ const UserSchema: Record<string, unknown> = {
                 }
               },
               "additionalProperties": false
-            }
+            },
+            "description": "The data of the userspagefornonadmin."
           }
         }
       },
@@ -3867,17 +4147,22 @@ const UserSchema: Record<string, unknown> = {
               "x-go-type": "Adapter",
               "type": "object",
               "description": "Placeholder for Adapter struct definition."
-            }
+            },
+            "description": "The mesh adapters of the preference."
           },
           "grafana": {
             "x-go-type": "Grafana",
             "type": "object",
             "properties": {
               "grafanaURL": {
-                "type": "string"
+                "type": "string",
+                "description": "Grafana URL for the user configuration.",
+                "maxLength": 500
               },
               "grafanaAPIKey": {
-                "type": "string"
+                "type": "string",
+                "description": "Grafana API key for the user configuration.",
+                "maxLength": 500
               },
               "selectedBoardsConfigs": {
                 "type": "array",
@@ -3893,16 +4178,19 @@ const UserSchema: Record<string, unknown> = {
                       "items": {
                         "type": "object",
                         "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                      }
+                      },
+                      "description": "Panels selected for the Grafana board configuration."
                     },
                     "templateVars": {
                       "type": "array",
                       "items": {
                         "type": "string"
-                      }
+                      },
+                      "description": "Template variables applied to the selected Grafana board configuration."
                     }
                   }
-                }
+                },
+                "description": "Selected Grafana board configurations for the user."
               }
             }
           },
@@ -3911,7 +4199,9 @@ const UserSchema: Record<string, unknown> = {
             "type": "object",
             "properties": {
               "prometheusURL": {
-                "type": "string"
+                "type": "string",
+                "description": "The prometheus u r l of the prometheus.",
+                "maxLength": 500
               },
               "selectedPrometheusBoardsConfigs": {
                 "type": "array",
@@ -3927,16 +4217,19 @@ const UserSchema: Record<string, unknown> = {
                       "items": {
                         "type": "object",
                         "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                      }
+                      },
+                      "description": "Panels selected for the Grafana board configuration."
                     },
                     "templateVars": {
                       "type": "array",
                       "items": {
                         "type": "string"
-                      }
+                      },
+                      "description": "Template variables applied to the selected Grafana board configuration."
                     }
                   }
-                }
+                },
+                "description": "The selected prometheus boards configs of the prometheus."
               }
             }
           },
@@ -3946,52 +4239,66 @@ const UserSchema: Record<string, unknown> = {
             "properties": {
               "c": {
                 "type": "integer",
-                "description": "Concurrent requests"
+                "description": "Concurrent requests",
+                "minimum": 0
               },
               "qps": {
                 "type": "integer",
-                "description": "Queries per second"
+                "description": "Queries per second",
+                "minimum": 0
               },
               "t": {
                 "type": "string",
-                "description": "Duration"
+                "description": "Duration",
+                "maxLength": 500
               },
               "gen": {
                 "type": "string",
-                "description": "Load generator"
+                "description": "Load generator",
+                "maxLength": 500
               }
             }
           },
           "anonymousUsageStats": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "The anonymous usage stats of the preference."
           },
           "anonymousPerfResults": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "The anonymous perf results of the preference."
           },
           "updated_at": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "Timestamp of when the resource was last updated."
           },
           "dashboardPreferences": {
             "type": "object",
-            "additionalProperties": true
+            "additionalProperties": true,
+            "description": "The dashboard preferences of the preference."
           },
           "selectedOrganizationId": {
-            "type": "string"
+            "type": "string",
+            "description": "ID of the associated selectedOrganization.",
+            "maxLength": 500,
+            "format": "uuid"
           },
           "selectedWorkspaceForOrganizations": {
             "type": "object",
             "additionalProperties": {
               "type": "string"
-            }
+            },
+            "description": "The selected workspace for organizations of the preference."
           },
           "usersExtensionPreferences": {
             "type": "object",
-            "additionalProperties": true
+            "additionalProperties": true,
+            "description": "The users extension preferences of the preference."
           },
           "remoteProviderPreferences": {
             "type": "object",
-            "additionalProperties": true
+            "additionalProperties": true,
+            "description": "The remote provider preferences of the preference."
           }
         }
       },
@@ -4003,10 +4310,14 @@ const UserSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "grafanaURL": {
-            "type": "string"
+            "type": "string",
+            "description": "Grafana URL for the user configuration.",
+            "maxLength": 500
           },
           "grafanaAPIKey": {
-            "type": "string"
+            "type": "string",
+            "description": "Grafana API key for the user configuration.",
+            "maxLength": 500
           },
           "selectedBoardsConfigs": {
             "type": "array",
@@ -4022,16 +4333,19 @@ const UserSchema: Record<string, unknown> = {
                   "items": {
                     "type": "object",
                     "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                  }
+                  },
+                  "description": "Panels selected for the Grafana board configuration."
                 },
                 "templateVars": {
                   "type": "array",
                   "items": {
                     "type": "string"
-                  }
+                  },
+                  "description": "Template variables applied to the selected Grafana board configuration."
                 }
               }
-            }
+            },
+            "description": "Selected Grafana board configurations for the user."
           }
         }
       },
@@ -4047,13 +4361,15 @@ const UserSchema: Record<string, unknown> = {
             "items": {
               "type": "object",
               "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-            }
+            },
+            "description": "Panels selected for the Grafana board configuration."
           },
           "templateVars": {
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Template variables applied to the selected Grafana board configuration."
           }
         }
       },
@@ -4069,7 +4385,9 @@ const UserSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "prometheusURL": {
-            "type": "string"
+            "type": "string",
+            "description": "The prometheus u r l of the prometheus.",
+            "maxLength": 500
           },
           "selectedPrometheusBoardsConfigs": {
             "type": "array",
@@ -4085,16 +4403,19 @@ const UserSchema: Record<string, unknown> = {
                   "items": {
                     "type": "object",
                     "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
-                  }
+                  },
+                  "description": "Panels selected for the Grafana board configuration."
                 },
                 "templateVars": {
                   "type": "array",
                   "items": {
                     "type": "string"
-                  }
+                  },
+                  "description": "Template variables applied to the selected Grafana board configuration."
                 }
               }
-            }
+            },
+            "description": "The selected prometheus boards configs of the prometheus."
           }
         }
       },
@@ -4103,19 +4424,23 @@ const UserSchema: Record<string, unknown> = {
         "properties": {
           "c": {
             "type": "integer",
-            "description": "Concurrent requests"
+            "description": "Concurrent requests",
+            "minimum": 0
           },
           "qps": {
             "type": "integer",
-            "description": "Queries per second"
+            "description": "Queries per second",
+            "minimum": 0
           },
           "t": {
             "type": "string",
-            "description": "Duration"
+            "description": "Duration",
+            "maxLength": 500
           },
           "gen": {
             "type": "string",
-            "description": "Load generator"
+            "description": "Load generator",
+            "maxLength": 500
           }
         }
       },
@@ -4125,11 +4450,13 @@ const UserSchema: Record<string, unknown> = {
         "properties": {
           "site": {
             "type": "string",
-            "maxLength": 50
+            "maxLength": 50,
+            "description": "The site of the social."
           },
           "link": {
             "type": "string",
-            "format": "uri"
+            "format": "uri",
+            "description": "The link of the social."
           }
         },
         "required": [

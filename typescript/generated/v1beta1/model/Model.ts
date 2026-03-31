@@ -379,7 +379,9 @@ export interface components {
         /** @description Version of the model as defined by the registrant. */
         version: string;
       };
+      /** @description The relationships of the model. */
       relationships: unknown[];
+      /** @description The components of the model. */
       components: unknown[];
       /**
        * @description Number of components associated with the model.
@@ -403,6 +405,7 @@ export interface components {
       updated_at?: string;
     };
     RegistrantReference: {
+      /** @description Kind of the registrant. */
       kind: string;
     };
     /** @description Reference to the specific registered model to which the component belongs and from which model version, category, and other properties may be referenced. Learn more at https://docs.meshery.io/concepts/models */
@@ -424,6 +427,7 @@ export interface components {
         version: string;
       };
       registrant: {
+        /** @description Kind of the registrant. */
         kind: string;
       };
     };
@@ -477,6 +481,7 @@ export interface components {
        * @enum {string}
        */
       uploadType: "file" | "urlImport" | "csv" | "url";
+      /** @description The register of the importrequest. */
       register: boolean;
     };
     ImportBody:
@@ -523,9 +528,13 @@ export interface components {
           model: unknown;
         });
     MeshModelModelsPage: {
+      /** @description Current page number of the result set. */
       page?: number;
+      /** @description Number of items per page. */
       page_size?: number;
+      /** @description Total number of items available. */
       total_count?: number;
+      /** @description The models of the meshmodelmodelspage. */
       models?: { [key: string]: unknown }[];
     };
   };
@@ -613,6 +622,7 @@ export interface operations {
            * @enum {string}
            */
           uploadType: "file" | "urlImport" | "csv" | "url";
+          /** @description The register of the importrequest. */
           register: boolean;
         };
       };
@@ -632,9 +642,13 @@ export interface operations {
       200: {
         content: {
           "application/json": {
+            /** @description Current page number of the result set. */
             page?: number;
+            /** @description Number of items per page. */
             page_size?: number;
+            /** @description Total number of items available. */
             total_count?: number;
+            /** @description The models of the meshmodelmodelspage. */
             models?: { [key: string]: unknown }[];
           };
         };

@@ -218,7 +218,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The workspaces of the workspacepage."
                     }
                   }
                 }
@@ -1021,7 +1022,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                             },
                             "x-order": 2,
                             "type": "string",
-                            "description": "Team name"
+                            "description": "Team name",
+                            "minLength": 1,
+                            "maxLength": 255
                           },
                           "description": {
                             "x-oapi-codegen-extra-tags": {
@@ -1030,7 +1033,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                             },
                             "x-order": 3,
                             "type": "string",
-                            "description": "Team description"
+                            "description": "Team description",
+                            "maxLength": 5000
                           },
                           "owner": {
                             "x-oapi-codegen-extra-tags": {
@@ -1094,7 +1098,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The teams of the teampage."
                     }
                   }
                 }
@@ -1303,7 +1308,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The workspaces teams mapping of the workspacesteamsmappingpage."
                     }
                   }
                 }
@@ -1716,7 +1722,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "Environments associated with this resource."
                     }
                   }
                 }
@@ -1925,7 +1932,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The workspaces environments mapping of the workspacesenvironmentsmappingpage."
                     }
                   }
                 }
@@ -3274,7 +3282,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                       },
                                                       "description": {
                                                         "type": "string",
-                                                        "description": "A written representation of the purpose and characteristics of the capability."
+                                                        "description": "A written representation of the purpose and characteristics of the capability.",
+                                                        "maxLength": 5000
                                                       },
                                                       "kind": {
                                                         "description": "Top-level categorization of the capability",
@@ -3542,7 +3551,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                 "gorm": "-",
                                                 "json": "relationships",
                                                 "yaml": "relationships"
-                                              }
+                                              },
+                                              "description": "The relationships of the model."
                                             },
                                             "components": {
                                               "type": "array",
@@ -3551,7 +3561,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                 "gorm": "-",
                                                 "json": "components",
                                                 "yaml": "components"
-                                              }
+                                              },
+                                              "description": "The components of the model."
                                             },
                                             "componentsCount": {
                                               "type": "integer",
@@ -3562,7 +3573,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                 "yaml": "components_count",
                                                 "gorm": "-"
                                               },
-                                              "default": 0
+                                              "default": 0,
+                                              "minimum": 0
                                             },
                                             "relationshipsCount": {
                                               "type": "integer",
@@ -3573,7 +3585,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                 "json": "relationships_count",
                                                 "yaml": "relationships_count"
                                               },
-                                              "default": 0
+                                              "default": 0,
+                                              "minimum": 0
                                             },
                                             "created_at": {
                                               "description": "Timestamp when the resource was created.",
@@ -3708,7 +3721,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -4172,7 +4187,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                               },
                                               "description": {
                                                 "type": "string",
-                                                "description": "A written representation of the purpose and characteristics of the capability."
+                                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                                "maxLength": 5000
                                               },
                                               "kind": {
                                                 "description": "Top-level categorization of the capability",
@@ -4779,7 +4795,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                               },
                                               "description": {
                                                 "type": "string",
-                                                "description": "A written representation of the purpose and characteristics of the capability."
+                                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                                "maxLength": 5000
                                               },
                                               "kind": {
                                                 "description": "Top-level categorization of the capability",
@@ -5375,7 +5392,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -5721,7 +5740,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -6075,7 +6096,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -6444,7 +6467,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -6798,7 +6823,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -6907,7 +6934,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The designs of the mesherydesignpage."
                     }
                   }
                 }
@@ -7117,7 +7145,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The workspaces designs mapping of the workspacesdesignsmappingpage."
                     }
                   }
                 }
@@ -7444,7 +7473,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The views of the mesheryviewpage."
                     }
                   }
                 }
@@ -7654,7 +7684,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           }
                         }
-                      }
+                      },
+                      "description": "The workspaces views mapping of the workspacesviewsmappingpage."
                     }
                   }
                 }
@@ -8600,7 +8631,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The workspaces of the workspacepage."
           }
         }
       },
@@ -8705,7 +8737,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The workspaces teams mapping of the workspacesteamsmappingpage."
           }
         }
       },
@@ -8810,7 +8843,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The workspaces environments mapping of the workspacesenvironmentsmappingpage."
           }
         }
       },
@@ -8915,7 +8949,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The workspaces designs mapping of the workspacesdesignsmappingpage."
           }
         }
       },
@@ -9020,7 +9055,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The workspaces views mapping of the workspacesviewsmappingpage."
           }
         }
       },
@@ -10146,7 +10182,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                             },
                                             "description": {
                                               "type": "string",
-                                              "description": "A written representation of the purpose and characteristics of the capability."
+                                              "description": "A written representation of the purpose and characteristics of the capability.",
+                                              "maxLength": 5000
                                             },
                                             "kind": {
                                               "description": "Top-level categorization of the capability",
@@ -10414,7 +10451,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                       "gorm": "-",
                                       "json": "relationships",
                                       "yaml": "relationships"
-                                    }
+                                    },
+                                    "description": "The relationships of the model."
                                   },
                                   "components": {
                                     "type": "array",
@@ -10423,7 +10461,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                       "gorm": "-",
                                       "json": "components",
                                       "yaml": "components"
-                                    }
+                                    },
+                                    "description": "The components of the model."
                                   },
                                   "componentsCount": {
                                     "type": "integer",
@@ -10434,7 +10473,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                       "yaml": "components_count",
                                       "gorm": "-"
                                     },
-                                    "default": 0
+                                    "default": 0,
+                                    "minimum": 0
                                   },
                                   "relationshipsCount": {
                                     "type": "integer",
@@ -10445,7 +10485,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                       "json": "relationships_count",
                                       "yaml": "relationships_count"
                                     },
-                                    "default": 0
+                                    "default": 0,
+                                    "minimum": 0
                                   },
                                   "created_at": {
                                     "description": "Timestamp when the resource was created.",
@@ -10580,7 +10621,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "kind": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Kind of the registrant.",
+                                        "maxLength": 255
                                       }
                                     }
                                   }
@@ -11044,7 +11087,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                     },
                                     "description": {
                                       "type": "string",
-                                      "description": "A written representation of the purpose and characteristics of the capability."
+                                      "description": "A written representation of the purpose and characteristics of the capability.",
+                                      "maxLength": 5000
                                     },
                                     "kind": {
                                       "description": "Top-level categorization of the capability",
@@ -11651,7 +11695,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                                     },
                                     "description": {
                                       "type": "string",
-                                      "description": "A written representation of the purpose and characteristics of the capability."
+                                      "description": "A written representation of the purpose and characteristics of the capability.",
+                                      "maxLength": 5000
                                     },
                                     "kind": {
                                       "description": "Top-level categorization of the capability",
@@ -12247,7 +12292,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "kind": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Kind of the registrant.",
+                                        "maxLength": 255
                                       }
                                     }
                                   }
@@ -12593,7 +12640,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -12947,7 +12996,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -13316,7 +13367,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -13670,7 +13723,9 @@ const WorkspaceSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -13779,7 +13834,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The designs of the mesherydesignpage."
           }
         }
       },
@@ -13963,7 +14019,8 @@ const WorkspaceSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 }
               }
-            }
+            },
+            "description": "The views of the mesheryviewpage."
           }
         }
       }

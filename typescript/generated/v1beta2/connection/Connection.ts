@@ -342,11 +342,17 @@ export interface components {
     };
     /** @description Meshery server instance information */
     MesheryInstance: {
-      /** @description Instance ID */
+      /**
+       * Format: uuid
+       * @description Instance ID
+       */
       id?: string;
       /** @description Instance name */
       name?: string;
-      /** @description Server ID */
+      /**
+       * Format: uuid
+       * @description Server ID
+       */
       server_id?: string;
       /** @description Meshery server version */
       server_version?: string;
@@ -354,22 +360,37 @@ export interface components {
       server_location?: string;
       /** @description Server build SHA */
       server_build_sha?: string;
-      /** @description Creation timestamp */
+      /**
+       * Format: date-time
+       * @description Creation timestamp
+       */
       created_at?: string;
-      /** @description Last update timestamp */
+      /**
+       * Format: date-time
+       * @description Last update timestamp
+       */
       updated_at?: string;
-      /** @description Deletion timestamp */
+      /**
+       * Format: date-time
+       * @description Deletion timestamp
+       */
       deleted_at?: string;
     };
     /** @description Paginated list of Meshery instances */
     MesheryInstancePage: {
       /** @description List of Meshery instances */
       mesheryInstances: {
-        /** @description Instance ID */
+        /**
+         * Format: uuid
+         * @description Instance ID
+         */
         id?: string;
         /** @description Instance name */
         name?: string;
-        /** @description Server ID */
+        /**
+         * Format: uuid
+         * @description Server ID
+         */
         server_id?: string;
         /** @description Meshery server version */
         server_version?: string;
@@ -377,11 +398,20 @@ export interface components {
         server_location?: string;
         /** @description Server build SHA */
         server_build_sha?: string;
-        /** @description Creation timestamp */
+        /**
+         * Format: date-time
+         * @description Creation timestamp
+         */
         created_at?: string;
-        /** @description Last update timestamp */
+        /**
+         * Format: date-time
+         * @description Last update timestamp
+         */
         updated_at?: string;
-        /** @description Deletion timestamp */
+        /**
+         * Format: date-time
+         * @description Deletion timestamp
+         */
         deleted_at?: string;
       }[];
       /** @description Current page number */

@@ -541,7 +541,9 @@ export interface components {
             /** @description Version of the model as defined by the registrant. */
             version: string;
           };
+          /** @description The relationships of the model. */
           relationships: unknown[];
+          /** @description The components of the model. */
           components: unknown[];
           /**
            * @description Number of components associated with the model.
@@ -583,6 +585,7 @@ export interface components {
             version: string;
           };
           registrant: {
+            /** @description Kind of the registrant. */
             kind: string;
           };
         };
@@ -1225,6 +1228,7 @@ export interface components {
             version: string;
           };
           registrant: {
+            /** @description Kind of the registrant. */
             kind: string;
           };
         };
@@ -1294,6 +1298,7 @@ export interface components {
                   version: string;
                 };
                 registrant: {
+                  /** @description Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -1381,6 +1386,7 @@ export interface components {
                   version: string;
                 };
                 registrant: {
+                  /** @description Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -1471,6 +1477,7 @@ export interface components {
                   version: string;
                 };
                 registrant: {
+                  /** @description Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -1558,6 +1565,7 @@ export interface components {
                   version: string;
                 };
                 registrant: {
+                  /** @description Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -2090,7 +2098,9 @@ export interface components {
               /** @description Version of the model as defined by the registrant. */
               version: string;
             };
+            /** @description The relationships of the model. */
             relationships: unknown[];
+            /** @description The components of the model. */
             components: unknown[];
             /**
              * @description Number of components associated with the model.
@@ -2132,6 +2142,7 @@ export interface components {
               version: string;
             };
             registrant: {
+              /** @description Kind of the registrant. */
               kind: string;
             };
           };
@@ -2774,6 +2785,7 @@ export interface components {
               version: string;
             };
             registrant: {
+              /** @description Kind of the registrant. */
               kind: string;
             };
           };
@@ -2843,6 +2855,7 @@ export interface components {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -2930,6 +2943,7 @@ export interface components {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -3020,6 +3034,7 @@ export interface components {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -3107,6 +3122,7 @@ export interface components {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -3648,7 +3664,9 @@ export interface components {
                 /** @description Version of the model as defined by the registrant. */
                 version: string;
               };
+              /** @description The relationships of the model. */
               relationships: unknown[];
+              /** @description The components of the model. */
               components: unknown[];
               /**
                * @description Number of components associated with the model.
@@ -3690,6 +3708,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -4332,6 +4351,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -4401,6 +4421,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -4488,6 +4509,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -4578,6 +4600,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -4665,6 +4688,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -5215,7 +5239,9 @@ export interface components {
                 /** @description Version of the model as defined by the registrant. */
                 version: string;
               };
+              /** @description The relationships of the model. */
               relationships: unknown[];
+              /** @description The components of the model. */
               components: unknown[];
               /**
                * @description Number of components associated with the model.
@@ -5257,6 +5283,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -5899,6 +5926,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -5968,6 +5996,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -6055,6 +6084,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -6145,6 +6175,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -6232,6 +6263,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -6790,7 +6822,9 @@ export interface components {
                 /** @description Version of the model as defined by the registrant. */
                 version: string;
               };
+              /** @description The relationships of the model. */
               relationships: unknown[];
+              /** @description The components of the model. */
               components: unknown[];
               /**
                * @description Number of components associated with the model.
@@ -6832,6 +6866,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -7474,6 +7509,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -7543,6 +7579,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -7630,6 +7667,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -7720,6 +7758,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -7807,6 +7846,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -8462,7 +8502,9 @@ export interface operations {
                       /** @description Version of the model as defined by the registrant. */
                       version: string;
                     };
+                    /** @description The relationships of the model. */
                     relationships: unknown[];
+                    /** @description The components of the model. */
                     components: unknown[];
                     /**
                      * @description Number of components associated with the model.
@@ -8504,6 +8546,7 @@ export interface operations {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -9156,6 +9199,7 @@ export interface operations {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -9225,6 +9269,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -9312,6 +9357,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -9402,6 +9448,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -9489,6 +9536,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -10052,7 +10100,9 @@ export interface operations {
                     /** @description Version of the model as defined by the registrant. */
                     version: string;
                   };
+                  /** @description The relationships of the model. */
                   relationships: unknown[];
+                  /** @description The components of the model. */
                   components: unknown[];
                   /**
                    * @description Number of components associated with the model.
@@ -10094,6 +10144,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -10746,6 +10797,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -10815,6 +10867,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -10902,6 +10955,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -10992,6 +11046,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -11079,6 +11134,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -11642,7 +11698,9 @@ export interface operations {
                     /** @description Version of the model as defined by the registrant. */
                     version: string;
                   };
+                  /** @description The relationships of the model. */
                   relationships: unknown[];
+                  /** @description The components of the model. */
                   components: unknown[];
                   /**
                    * @description Number of components associated with the model.
@@ -11684,6 +11742,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -12336,6 +12395,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -12405,6 +12465,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -12492,6 +12553,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -12582,6 +12644,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -12669,6 +12732,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -13378,7 +13442,9 @@ export interface operations {
                     /** @description Version of the model as defined by the registrant. */
                     version: string;
                   };
+                  /** @description The relationships of the model. */
                   relationships: unknown[];
+                  /** @description The components of the model. */
                   components: unknown[];
                   /**
                    * @description Number of components associated with the model.
@@ -13420,6 +13486,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -14072,6 +14139,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -14141,6 +14209,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -14228,6 +14297,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -14318,6 +14388,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -14405,6 +14476,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -15007,7 +15079,9 @@ export interface operations {
                     /** @description Version of the model as defined by the registrant. */
                     version: string;
                   };
+                  /** @description The relationships of the model. */
                   relationships: unknown[];
+                  /** @description The components of the model. */
                   components: unknown[];
                   /**
                    * @description Number of components associated with the model.
@@ -15049,6 +15123,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -15701,6 +15776,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -15770,6 +15846,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -15857,6 +15934,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -15947,6 +16025,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -16034,6 +16113,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -16737,7 +16817,9 @@ export interface operations {
                       /** @description Version of the model as defined by the registrant. */
                       version: string;
                     };
+                    /** @description The relationships of the model. */
                     relationships: unknown[];
+                    /** @description The components of the model. */
                     components: unknown[];
                     /**
                      * @description Number of components associated with the model.
@@ -16779,6 +16861,7 @@ export interface operations {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -17431,6 +17514,7 @@ export interface operations {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -17500,6 +17584,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -17587,6 +17672,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -17677,6 +17763,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -17764,6 +17851,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };

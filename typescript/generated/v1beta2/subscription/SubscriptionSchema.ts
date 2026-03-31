@@ -110,13 +110,19 @@ const SubscriptionSchema: Record<string, unknown> = {
                   ],
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "subscriptions": {
                       "type": "array",
@@ -259,7 +265,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                                   "db": "minimum_units",
                                   "json": "minimum_units",
                                   "csv": "minimum_units"
-                                }
+                                },
+                                "minimum": 0
                               },
                               "price_per_unit": {
                                 "type": "number",
@@ -268,7 +275,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                                   "db": "price_per_unit",
                                   "json": "price_per_unit",
                                   "csv": "price_per_unit"
-                                }
+                                },
+                                "minimum": 0
                               },
                               "currency": {
                                 "x-go-type": "Currency",
@@ -289,7 +297,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                             "type": "integer",
                             "x-oapi-codegen-extra-tags": {
                               "db": "quantity"
-                            }
+                            },
+                            "minimum": 0
                           },
                           "start_date": {
                             "x-oapi-codegen-extra-tags": {
@@ -364,12 +373,16 @@ const SubscriptionSchema: Record<string, unknown> = {
                           "billing_id": {
                             "type": "string",
                             "description": "Billing ID of the subscription. This is the ID of the subscription in the billing system. eg Stripe",
+                            "x-id-format": "external",
                             "x-oapi-codegen-extra-tags": {
                               "db": "billing_id"
-                            }
+                            },
+                            "maxLength": 500,
+                            "pattern": "^[A-Za-z0-9_\\-]+$"
                           }
                         }
-                      }
+                      },
+                      "description": "Subscriptions returned in the current page of results."
                     }
                   }
                 }
@@ -450,13 +463,19 @@ const SubscriptionSchema: Record<string, unknown> = {
                   ],
                   "properties": {
                     "page": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Current page number of the result set.",
+                      "minimum": 0
                     },
                     "page_size": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Number of items per page.",
+                      "minimum": 1
                     },
                     "total_count": {
-                      "type": "integer"
+                      "type": "integer",
+                      "description": "Total number of items available.",
+                      "minimum": 0
                     },
                     "subscriptions": {
                       "type": "array",
@@ -599,7 +618,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                                   "db": "minimum_units",
                                   "json": "minimum_units",
                                   "csv": "minimum_units"
-                                }
+                                },
+                                "minimum": 0
                               },
                               "price_per_unit": {
                                 "type": "number",
@@ -608,7 +628,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                                   "db": "price_per_unit",
                                   "json": "price_per_unit",
                                   "csv": "price_per_unit"
-                                }
+                                },
+                                "minimum": 0
                               },
                               "currency": {
                                 "x-go-type": "Currency",
@@ -629,7 +650,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                             "type": "integer",
                             "x-oapi-codegen-extra-tags": {
                               "db": "quantity"
-                            }
+                            },
+                            "minimum": 0
                           },
                           "start_date": {
                             "x-oapi-codegen-extra-tags": {
@@ -704,12 +726,16 @@ const SubscriptionSchema: Record<string, unknown> = {
                           "billing_id": {
                             "type": "string",
                             "description": "Billing ID of the subscription. This is the ID of the subscription in the billing system. eg Stripe",
+                            "x-id-format": "external",
                             "x-oapi-codegen-extra-tags": {
                               "db": "billing_id"
-                            }
+                            },
+                            "maxLength": 500,
+                            "pattern": "^[A-Za-z0-9_\\-]+$"
                           }
                         }
-                      }
+                      },
+                      "description": "Subscriptions returned in the current page of results."
                     }
                   }
                 }
@@ -782,20 +808,32 @@ const SubscriptionSchema: Record<string, unknown> = {
                 "type": "object",
                 "properties": {
                   "orgId": {
+                    "description": "Organization ID",
                     "type": "string",
-                    "description": "Organization ID"
+                    "format": "uuid",
+                    "x-go-type": "uuid.UUID",
+                    "x-go-type-import": {
+                      "path": "github.com/gofrs/uuid"
+                    }
                   },
                   "planId": {
                     "type": "string",
-                    "description": "Price ID from the payment processor"
+                    "description": "Price ID from the payment processor",
+                    "x-id-format": "external",
+                    "maxLength": 500,
+                    "pattern": "^[A-Za-z0-9_\\-]+$"
                   },
                   "couponId": {
                     "type": "string",
-                    "description": "Coupon ID to apply"
+                    "description": "Coupon ID to apply",
+                    "x-id-format": "external",
+                    "maxLength": 500,
+                    "pattern": "^[A-Za-z0-9_\\-]+$"
                   },
                   "userCount": {
                     "type": "integer",
-                    "description": "Number of users in the organization"
+                    "description": "Number of users in the organization",
+                    "minimum": 0
                   },
                   "email": {
                     "type": "string",
@@ -825,10 +863,16 @@ const SubscriptionSchema: Record<string, unknown> = {
                   "type": "object",
                   "properties": {
                     "subscriptionId": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "ID of the associated subscription.",
+                      "x-id-format": "external",
+                      "maxLength": 500,
+                      "pattern": "^[A-Za-z0-9_\\-]+$"
                     },
                     "clientSecret": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "Client secret returned by the payment processor for the subscription checkout flow.",
+                      "maxLength": 500
                     }
                   }
                 }
@@ -1066,7 +1110,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                             "db": "minimum_units",
                             "json": "minimum_units",
                             "csv": "minimum_units"
-                          }
+                          },
+                          "minimum": 0
                         },
                         "price_per_unit": {
                           "type": "number",
@@ -1075,7 +1120,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                             "db": "price_per_unit",
                             "json": "price_per_unit",
                             "csv": "price_per_unit"
-                          }
+                          },
+                          "minimum": 0
                         },
                         "currency": {
                           "x-go-type": "Currency",
@@ -1096,7 +1142,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                       "type": "integer",
                       "x-oapi-codegen-extra-tags": {
                         "db": "quantity"
-                      }
+                      },
+                      "minimum": 0
                     },
                     "start_date": {
                       "x-oapi-codegen-extra-tags": {
@@ -1171,9 +1218,12 @@ const SubscriptionSchema: Record<string, unknown> = {
                     "billing_id": {
                       "type": "string",
                       "description": "Billing ID of the subscription. This is the ID of the subscription in the billing system. eg Stripe",
+                      "x-id-format": "external",
                       "x-oapi-codegen-extra-tags": {
                         "db": "billing_id"
-                      }
+                      },
+                      "maxLength": 500,
+                      "pattern": "^[A-Za-z0-9_\\-]+$"
                     }
                   }
                 }
@@ -1500,20 +1550,32 @@ const SubscriptionSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "orgId": {
+            "description": "Organization ID",
             "type": "string",
-            "description": "Organization ID"
+            "format": "uuid",
+            "x-go-type": "uuid.UUID",
+            "x-go-type-import": {
+              "path": "github.com/gofrs/uuid"
+            }
           },
           "planId": {
             "type": "string",
-            "description": "Price ID from the payment processor"
+            "description": "Price ID from the payment processor",
+            "x-id-format": "external",
+            "maxLength": 500,
+            "pattern": "^[A-Za-z0-9_\\-]+$"
           },
           "couponId": {
             "type": "string",
-            "description": "Coupon ID to apply"
+            "description": "Coupon ID to apply",
+            "x-id-format": "external",
+            "maxLength": 500,
+            "pattern": "^[A-Za-z0-9_\\-]+$"
           },
           "userCount": {
             "type": "integer",
-            "description": "Number of users in the organization"
+            "description": "Number of users in the organization",
+            "minimum": 0
           },
           "email": {
             "type": "string",
@@ -1558,10 +1620,16 @@ const SubscriptionSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "subscriptionId": {
-            "type": "string"
+            "type": "string",
+            "description": "ID of the associated subscription.",
+            "x-id-format": "external",
+            "maxLength": 500,
+            "pattern": "^[A-Za-z0-9_\\-]+$"
           },
           "clientSecret": {
-            "type": "string"
+            "type": "string",
+            "description": "Client secret returned by the payment processor for the subscription checkout flow.",
+            "maxLength": 500
           }
         }
       },
@@ -1584,7 +1652,10 @@ const SubscriptionSchema: Record<string, unknown> = {
         "properties": {
           "subscriptionId": {
             "type": "string",
-            "description": "Subscription ID from the payment processor"
+            "description": "Subscription ID from the payment processor",
+            "x-id-format": "external",
+            "maxLength": 500,
+            "pattern": "^[A-Za-z0-9_\\-]+$"
           },
           "paymentProcessor": {
             "type": "string",
@@ -1611,13 +1682,19 @@ const SubscriptionSchema: Record<string, unknown> = {
         ],
         "properties": {
           "page": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "total_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total number of items available.",
+            "minimum": 0
           },
           "subscriptions": {
             "type": "array",
@@ -1760,7 +1837,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                         "db": "minimum_units",
                         "json": "minimum_units",
                         "csv": "minimum_units"
-                      }
+                      },
+                      "minimum": 0
                     },
                     "price_per_unit": {
                       "type": "number",
@@ -1769,7 +1847,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                         "db": "price_per_unit",
                         "json": "price_per_unit",
                         "csv": "price_per_unit"
-                      }
+                      },
+                      "minimum": 0
                     },
                     "currency": {
                       "x-go-type": "Currency",
@@ -1790,7 +1869,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                   "type": "integer",
                   "x-oapi-codegen-extra-tags": {
                     "db": "quantity"
-                  }
+                  },
+                  "minimum": 0
                 },
                 "start_date": {
                   "x-oapi-codegen-extra-tags": {
@@ -1865,12 +1945,16 @@ const SubscriptionSchema: Record<string, unknown> = {
                 "billing_id": {
                   "type": "string",
                   "description": "Billing ID of the subscription. This is the ID of the subscription in the billing system. eg Stripe",
+                  "x-id-format": "external",
                   "x-oapi-codegen-extra-tags": {
                     "db": "billing_id"
-                  }
+                  },
+                  "maxLength": 500,
+                  "pattern": "^[A-Za-z0-9_\\-]+$"
                 }
               }
-            }
+            },
+            "description": "Subscriptions returned in the current page of results."
           }
         }
       },
@@ -2012,7 +2096,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                   "db": "minimum_units",
                   "json": "minimum_units",
                   "csv": "minimum_units"
-                }
+                },
+                "minimum": 0
               },
               "price_per_unit": {
                 "type": "number",
@@ -2021,7 +2106,8 @@ const SubscriptionSchema: Record<string, unknown> = {
                   "db": "price_per_unit",
                   "json": "price_per_unit",
                   "csv": "price_per_unit"
-                }
+                },
+                "minimum": 0
               },
               "currency": {
                 "x-go-type": "Currency",
@@ -2042,7 +2128,8 @@ const SubscriptionSchema: Record<string, unknown> = {
             "type": "integer",
             "x-oapi-codegen-extra-tags": {
               "db": "quantity"
-            }
+            },
+            "minimum": 0
           },
           "start_date": {
             "x-oapi-codegen-extra-tags": {
@@ -2117,9 +2204,12 @@ const SubscriptionSchema: Record<string, unknown> = {
           "billing_id": {
             "type": "string",
             "description": "Billing ID of the subscription. This is the ID of the subscription in the billing system. eg Stripe",
+            "x-id-format": "external",
             "x-oapi-codegen-extra-tags": {
               "db": "billing_id"
-            }
+            },
+            "maxLength": 500,
+            "pattern": "^[A-Za-z0-9_\\-]+$"
           }
         }
       },

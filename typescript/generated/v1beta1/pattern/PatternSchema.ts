@@ -1257,7 +1257,8 @@ const PatternSchema: Record<string, unknown> = {
                                                       },
                                                       "description": {
                                                         "type": "string",
-                                                        "description": "A written representation of the purpose and characteristics of the capability."
+                                                        "description": "A written representation of the purpose and characteristics of the capability.",
+                                                        "maxLength": 5000
                                                       },
                                                       "kind": {
                                                         "description": "Top-level categorization of the capability",
@@ -1525,7 +1526,8 @@ const PatternSchema: Record<string, unknown> = {
                                                 "gorm": "-",
                                                 "json": "relationships",
                                                 "yaml": "relationships"
-                                              }
+                                              },
+                                              "description": "The relationships of the model."
                                             },
                                             "components": {
                                               "type": "array",
@@ -1534,7 +1536,8 @@ const PatternSchema: Record<string, unknown> = {
                                                 "gorm": "-",
                                                 "json": "components",
                                                 "yaml": "components"
-                                              }
+                                              },
+                                              "description": "The components of the model."
                                             },
                                             "componentsCount": {
                                               "type": "integer",
@@ -1545,7 +1548,8 @@ const PatternSchema: Record<string, unknown> = {
                                                 "yaml": "components_count",
                                                 "gorm": "-"
                                               },
-                                              "default": 0
+                                              "default": 0,
+                                              "minimum": 0
                                             },
                                             "relationshipsCount": {
                                               "type": "integer",
@@ -1556,7 +1560,8 @@ const PatternSchema: Record<string, unknown> = {
                                                 "json": "relationships_count",
                                                 "yaml": "relationships_count"
                                               },
-                                              "default": 0
+                                              "default": 0,
+                                              "minimum": 0
                                             },
                                             "created_at": {
                                               "x-order": 14,
@@ -1691,7 +1696,9 @@ const PatternSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -2155,7 +2162,8 @@ const PatternSchema: Record<string, unknown> = {
                                               },
                                               "description": {
                                                 "type": "string",
-                                                "description": "A written representation of the purpose and characteristics of the capability."
+                                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                                "maxLength": 5000
                                               },
                                               "kind": {
                                                 "description": "Top-level categorization of the capability",
@@ -2762,7 +2770,8 @@ const PatternSchema: Record<string, unknown> = {
                                               },
                                               "description": {
                                                 "type": "string",
-                                                "description": "A written representation of the purpose and characteristics of the capability."
+                                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                                "maxLength": 5000
                                               },
                                               "kind": {
                                                 "description": "Top-level categorization of the capability",
@@ -3358,7 +3367,9 @@ const PatternSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -3704,7 +3715,9 @@ const PatternSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -4058,7 +4071,9 @@ const PatternSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -4427,7 +4442,9 @@ const PatternSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -4781,7 +4798,9 @@ const PatternSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -6051,7 +6070,8 @@ const PatternSchema: Record<string, unknown> = {
                                                   },
                                                   "description": {
                                                     "type": "string",
-                                                    "description": "A written representation of the purpose and characteristics of the capability."
+                                                    "description": "A written representation of the purpose and characteristics of the capability.",
+                                                    "maxLength": 5000
                                                   },
                                                   "kind": {
                                                     "description": "Top-level categorization of the capability",
@@ -6319,7 +6339,8 @@ const PatternSchema: Record<string, unknown> = {
                                             "gorm": "-",
                                             "json": "relationships",
                                             "yaml": "relationships"
-                                          }
+                                          },
+                                          "description": "The relationships of the model."
                                         },
                                         "components": {
                                           "type": "array",
@@ -6328,7 +6349,8 @@ const PatternSchema: Record<string, unknown> = {
                                             "gorm": "-",
                                             "json": "components",
                                             "yaml": "components"
-                                          }
+                                          },
+                                          "description": "The components of the model."
                                         },
                                         "componentsCount": {
                                           "type": "integer",
@@ -6339,7 +6361,8 @@ const PatternSchema: Record<string, unknown> = {
                                             "yaml": "components_count",
                                             "gorm": "-"
                                           },
-                                          "default": 0
+                                          "default": 0,
+                                          "minimum": 0
                                         },
                                         "relationshipsCount": {
                                           "type": "integer",
@@ -6350,7 +6373,8 @@ const PatternSchema: Record<string, unknown> = {
                                             "json": "relationships_count",
                                             "yaml": "relationships_count"
                                           },
-                                          "default": 0
+                                          "default": 0,
+                                          "minimum": 0
                                         },
                                         "created_at": {
                                           "x-order": 14,
@@ -6485,7 +6509,9 @@ const PatternSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -6949,7 +6975,8 @@ const PatternSchema: Record<string, unknown> = {
                                           },
                                           "description": {
                                             "type": "string",
-                                            "description": "A written representation of the purpose and characteristics of the capability."
+                                            "description": "A written representation of the purpose and characteristics of the capability.",
+                                            "maxLength": 5000
                                           },
                                           "kind": {
                                             "description": "Top-level categorization of the capability",
@@ -7556,7 +7583,8 @@ const PatternSchema: Record<string, unknown> = {
                                           },
                                           "description": {
                                             "type": "string",
-                                            "description": "A written representation of the purpose and characteristics of the capability."
+                                            "description": "A written representation of the purpose and characteristics of the capability.",
+                                            "maxLength": 5000
                                           },
                                           "kind": {
                                             "description": "Top-level categorization of the capability",
@@ -8152,7 +8180,9 @@ const PatternSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -8498,7 +8528,9 @@ const PatternSchema: Record<string, unknown> = {
                                                           ],
                                                           "properties": {
                                                             "kind": {
-                                                              "type": "string"
+                                                              "type": "string",
+                                                              "description": "Kind of the registrant.",
+                                                              "maxLength": 255
                                                             }
                                                           }
                                                         }
@@ -8852,7 +8884,9 @@ const PatternSchema: Record<string, unknown> = {
                                                           ],
                                                           "properties": {
                                                             "kind": {
-                                                              "type": "string"
+                                                              "type": "string",
+                                                              "description": "Kind of the registrant.",
+                                                              "maxLength": 255
                                                             }
                                                           }
                                                         }
@@ -9221,7 +9255,9 @@ const PatternSchema: Record<string, unknown> = {
                                                           ],
                                                           "properties": {
                                                             "kind": {
-                                                              "type": "string"
+                                                              "type": "string",
+                                                              "description": "Kind of the registrant.",
+                                                              "maxLength": 255
                                                             }
                                                           }
                                                         }
@@ -9575,7 +9611,9 @@ const PatternSchema: Record<string, unknown> = {
                                                           ],
                                                           "properties": {
                                                             "kind": {
-                                                              "type": "string"
+                                                              "type": "string",
+                                                              "description": "Kind of the registrant.",
+                                                              "maxLength": 255
                                                             }
                                                           }
                                                         }
@@ -10812,7 +10850,8 @@ const PatternSchema: Record<string, unknown> = {
                                                 },
                                                 "description": {
                                                   "type": "string",
-                                                  "description": "A written representation of the purpose and characteristics of the capability."
+                                                  "description": "A written representation of the purpose and characteristics of the capability.",
+                                                  "maxLength": 5000
                                                 },
                                                 "kind": {
                                                   "description": "Top-level categorization of the capability",
@@ -11080,7 +11119,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "relationships",
                                           "yaml": "relationships"
-                                        }
+                                        },
+                                        "description": "The relationships of the model."
                                       },
                                       "components": {
                                         "type": "array",
@@ -11089,7 +11129,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "components",
                                           "yaml": "components"
-                                        }
+                                        },
+                                        "description": "The components of the model."
                                       },
                                       "componentsCount": {
                                         "type": "integer",
@@ -11100,7 +11141,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "yaml": "components_count",
                                           "gorm": "-"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "relationshipsCount": {
                                         "type": "integer",
@@ -11111,7 +11153,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "json": "relationships_count",
                                           "yaml": "relationships_count"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "created_at": {
                                         "x-order": 14,
@@ -11246,7 +11289,9 @@ const PatternSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -11710,7 +11755,8 @@ const PatternSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -12317,7 +12363,8 @@ const PatternSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -12913,7 +12960,9 @@ const PatternSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -13259,7 +13308,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -13613,7 +13664,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -13982,7 +14035,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -14336,7 +14391,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -15944,7 +16001,8 @@ const PatternSchema: Record<string, unknown> = {
                                                 },
                                                 "description": {
                                                   "type": "string",
-                                                  "description": "A written representation of the purpose and characteristics of the capability."
+                                                  "description": "A written representation of the purpose and characteristics of the capability.",
+                                                  "maxLength": 5000
                                                 },
                                                 "kind": {
                                                   "description": "Top-level categorization of the capability",
@@ -16212,7 +16270,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "relationships",
                                           "yaml": "relationships"
-                                        }
+                                        },
+                                        "description": "The relationships of the model."
                                       },
                                       "components": {
                                         "type": "array",
@@ -16221,7 +16280,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "components",
                                           "yaml": "components"
-                                        }
+                                        },
+                                        "description": "The components of the model."
                                       },
                                       "componentsCount": {
                                         "type": "integer",
@@ -16232,7 +16292,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "yaml": "components_count",
                                           "gorm": "-"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "relationshipsCount": {
                                         "type": "integer",
@@ -16243,7 +16304,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "json": "relationships_count",
                                           "yaml": "relationships_count"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "created_at": {
                                         "x-order": 14,
@@ -16378,7 +16440,9 @@ const PatternSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -16842,7 +16906,8 @@ const PatternSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -17449,7 +17514,8 @@ const PatternSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -18045,7 +18111,9 @@ const PatternSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -18391,7 +18459,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -18745,7 +18815,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -19114,7 +19186,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -19468,7 +19542,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -20813,7 +20889,8 @@ const PatternSchema: Record<string, unknown> = {
                                                 },
                                                 "description": {
                                                   "type": "string",
-                                                  "description": "A written representation of the purpose and characteristics of the capability."
+                                                  "description": "A written representation of the purpose and characteristics of the capability.",
+                                                  "maxLength": 5000
                                                 },
                                                 "kind": {
                                                   "description": "Top-level categorization of the capability",
@@ -21081,7 +21158,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "relationships",
                                           "yaml": "relationships"
-                                        }
+                                        },
+                                        "description": "The relationships of the model."
                                       },
                                       "components": {
                                         "type": "array",
@@ -21090,7 +21168,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "gorm": "-",
                                           "json": "components",
                                           "yaml": "components"
-                                        }
+                                        },
+                                        "description": "The components of the model."
                                       },
                                       "componentsCount": {
                                         "type": "integer",
@@ -21101,7 +21180,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "yaml": "components_count",
                                           "gorm": "-"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "relationshipsCount": {
                                         "type": "integer",
@@ -21112,7 +21192,8 @@ const PatternSchema: Record<string, unknown> = {
                                           "json": "relationships_count",
                                           "yaml": "relationships_count"
                                         },
-                                        "default": 0
+                                        "default": 0,
+                                        "minimum": 0
                                       },
                                       "created_at": {
                                         "x-order": 14,
@@ -21247,7 +21328,9 @@ const PatternSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -21711,7 +21794,8 @@ const PatternSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -22318,7 +22402,8 @@ const PatternSchema: Record<string, unknown> = {
                                         },
                                         "description": {
                                           "type": "string",
-                                          "description": "A written representation of the purpose and characteristics of the capability."
+                                          "description": "A written representation of the purpose and characteristics of the capability.",
+                                          "maxLength": 5000
                                         },
                                         "kind": {
                                           "description": "Top-level categorization of the capability",
@@ -22914,7 +22999,9 @@ const PatternSchema: Record<string, unknown> = {
                                         ],
                                         "properties": {
                                           "kind": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Kind of the registrant.",
+                                            "maxLength": 255
                                           }
                                         }
                                       }
@@ -23260,7 +23347,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -23614,7 +23703,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -23983,7 +24074,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -24337,7 +24430,9 @@ const PatternSchema: Record<string, unknown> = {
                                                         ],
                                                         "properties": {
                                                           "kind": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "Kind of the registrant.",
+                                                            "maxLength": 255
                                                           }
                                                         }
                                                       }
@@ -26002,7 +26097,8 @@ const PatternSchema: Record<string, unknown> = {
                                                       },
                                                       "description": {
                                                         "type": "string",
-                                                        "description": "A written representation of the purpose and characteristics of the capability."
+                                                        "description": "A written representation of the purpose and characteristics of the capability.",
+                                                        "maxLength": 5000
                                                       },
                                                       "kind": {
                                                         "description": "Top-level categorization of the capability",
@@ -26270,7 +26366,8 @@ const PatternSchema: Record<string, unknown> = {
                                                 "gorm": "-",
                                                 "json": "relationships",
                                                 "yaml": "relationships"
-                                              }
+                                              },
+                                              "description": "The relationships of the model."
                                             },
                                             "components": {
                                               "type": "array",
@@ -26279,7 +26376,8 @@ const PatternSchema: Record<string, unknown> = {
                                                 "gorm": "-",
                                                 "json": "components",
                                                 "yaml": "components"
-                                              }
+                                              },
+                                              "description": "The components of the model."
                                             },
                                             "componentsCount": {
                                               "type": "integer",
@@ -26290,7 +26388,8 @@ const PatternSchema: Record<string, unknown> = {
                                                 "yaml": "components_count",
                                                 "gorm": "-"
                                               },
-                                              "default": 0
+                                              "default": 0,
+                                              "minimum": 0
                                             },
                                             "relationshipsCount": {
                                               "type": "integer",
@@ -26301,7 +26400,8 @@ const PatternSchema: Record<string, unknown> = {
                                                 "json": "relationships_count",
                                                 "yaml": "relationships_count"
                                               },
-                                              "default": 0
+                                              "default": 0,
+                                              "minimum": 0
                                             },
                                             "created_at": {
                                               "x-order": 14,
@@ -26436,7 +26536,9 @@ const PatternSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -26900,7 +27002,8 @@ const PatternSchema: Record<string, unknown> = {
                                               },
                                               "description": {
                                                 "type": "string",
-                                                "description": "A written representation of the purpose and characteristics of the capability."
+                                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                                "maxLength": 5000
                                               },
                                               "kind": {
                                                 "description": "Top-level categorization of the capability",
@@ -27507,7 +27610,8 @@ const PatternSchema: Record<string, unknown> = {
                                               },
                                               "description": {
                                                 "type": "string",
-                                                "description": "A written representation of the purpose and characteristics of the capability."
+                                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                                "maxLength": 5000
                                               },
                                               "kind": {
                                                 "description": "Top-level categorization of the capability",
@@ -28103,7 +28207,9 @@ const PatternSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -28449,7 +28555,9 @@ const PatternSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -28803,7 +28911,9 @@ const PatternSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -29172,7 +29282,9 @@ const PatternSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -29526,7 +29638,9 @@ const PatternSchema: Record<string, unknown> = {
                                                               ],
                                                               "properties": {
                                                                 "kind": {
-                                                                  "type": "string"
+                                                                  "type": "string",
+                                                                  "description": "Kind of the registrant.",
+                                                                  "maxLength": 255
                                                                 }
                                                               }
                                                             }
@@ -31937,7 +32051,8 @@ const PatternSchema: Record<string, unknown> = {
                                   },
                                   "description": {
                                     "type": "string",
-                                    "description": "A written representation of the purpose and characteristics of the capability."
+                                    "description": "A written representation of the purpose and characteristics of the capability.",
+                                    "maxLength": 5000
                                   },
                                   "kind": {
                                     "description": "Top-level categorization of the capability",
@@ -32205,7 +32320,8 @@ const PatternSchema: Record<string, unknown> = {
                             "gorm": "-",
                             "json": "relationships",
                             "yaml": "relationships"
-                          }
+                          },
+                          "description": "The relationships of the model."
                         },
                         "components": {
                           "type": "array",
@@ -32214,7 +32330,8 @@ const PatternSchema: Record<string, unknown> = {
                             "gorm": "-",
                             "json": "components",
                             "yaml": "components"
-                          }
+                          },
+                          "description": "The components of the model."
                         },
                         "componentsCount": {
                           "type": "integer",
@@ -32225,7 +32342,8 @@ const PatternSchema: Record<string, unknown> = {
                             "yaml": "components_count",
                             "gorm": "-"
                           },
-                          "default": 0
+                          "default": 0,
+                          "minimum": 0
                         },
                         "relationshipsCount": {
                           "type": "integer",
@@ -32236,7 +32354,8 @@ const PatternSchema: Record<string, unknown> = {
                             "json": "relationships_count",
                             "yaml": "relationships_count"
                           },
-                          "default": 0
+                          "default": 0,
+                          "minimum": 0
                         },
                         "created_at": {
                           "x-order": 14,
@@ -32371,7 +32490,9 @@ const PatternSchema: Record<string, unknown> = {
                           ],
                           "properties": {
                             "kind": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Kind of the registrant.",
+                              "maxLength": 255
                             }
                           }
                         }
@@ -32835,7 +32956,8 @@ const PatternSchema: Record<string, unknown> = {
                           },
                           "description": {
                             "type": "string",
-                            "description": "A written representation of the purpose and characteristics of the capability."
+                            "description": "A written representation of the purpose and characteristics of the capability.",
+                            "maxLength": 5000
                           },
                           "kind": {
                             "description": "Top-level categorization of the capability",
@@ -33442,7 +33564,8 @@ const PatternSchema: Record<string, unknown> = {
                           },
                           "description": {
                             "type": "string",
-                            "description": "A written representation of the purpose and characteristics of the capability."
+                            "description": "A written representation of the purpose and characteristics of the capability.",
+                            "maxLength": 5000
                           },
                           "kind": {
                             "description": "Top-level categorization of the capability",
@@ -34038,7 +34161,9 @@ const PatternSchema: Record<string, unknown> = {
                           ],
                           "properties": {
                             "kind": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Kind of the registrant.",
+                              "maxLength": 255
                             }
                           }
                         }
@@ -34384,7 +34509,9 @@ const PatternSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -34738,7 +34865,9 @@ const PatternSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -35107,7 +35236,9 @@ const PatternSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -35461,7 +35592,9 @@ const PatternSchema: Record<string, unknown> = {
                                           ],
                                           "properties": {
                                             "kind": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "description": "Kind of the registrant.",
+                                              "maxLength": 255
                                             }
                                           }
                                         }
@@ -36655,7 +36788,8 @@ const PatternSchema: Record<string, unknown> = {
                                       },
                                       "description": {
                                         "type": "string",
-                                        "description": "A written representation of the purpose and characteristics of the capability."
+                                        "description": "A written representation of the purpose and characteristics of the capability.",
+                                        "maxLength": 5000
                                       },
                                       "kind": {
                                         "description": "Top-level categorization of the capability",
@@ -36923,7 +37057,8 @@ const PatternSchema: Record<string, unknown> = {
                                 "gorm": "-",
                                 "json": "relationships",
                                 "yaml": "relationships"
-                              }
+                              },
+                              "description": "The relationships of the model."
                             },
                             "components": {
                               "type": "array",
@@ -36932,7 +37067,8 @@ const PatternSchema: Record<string, unknown> = {
                                 "gorm": "-",
                                 "json": "components",
                                 "yaml": "components"
-                              }
+                              },
+                              "description": "The components of the model."
                             },
                             "componentsCount": {
                               "type": "integer",
@@ -36943,7 +37079,8 @@ const PatternSchema: Record<string, unknown> = {
                                 "yaml": "components_count",
                                 "gorm": "-"
                               },
-                              "default": 0
+                              "default": 0,
+                              "minimum": 0
                             },
                             "relationshipsCount": {
                               "type": "integer",
@@ -36954,7 +37091,8 @@ const PatternSchema: Record<string, unknown> = {
                                 "json": "relationships_count",
                                 "yaml": "relationships_count"
                               },
-                              "default": 0
+                              "default": 0,
+                              "minimum": 0
                             },
                             "created_at": {
                               "x-order": 14,
@@ -37089,7 +37227,9 @@ const PatternSchema: Record<string, unknown> = {
                               ],
                               "properties": {
                                 "kind": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Kind of the registrant.",
+                                  "maxLength": 255
                                 }
                               }
                             }
@@ -37553,7 +37693,8 @@ const PatternSchema: Record<string, unknown> = {
                               },
                               "description": {
                                 "type": "string",
-                                "description": "A written representation of the purpose and characteristics of the capability."
+                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                "maxLength": 5000
                               },
                               "kind": {
                                 "description": "Top-level categorization of the capability",
@@ -38160,7 +38301,8 @@ const PatternSchema: Record<string, unknown> = {
                               },
                               "description": {
                                 "type": "string",
-                                "description": "A written representation of the purpose and characteristics of the capability."
+                                "description": "A written representation of the purpose and characteristics of the capability.",
+                                "maxLength": 5000
                               },
                               "kind": {
                                 "description": "Top-level categorization of the capability",
@@ -38756,7 +38898,9 @@ const PatternSchema: Record<string, unknown> = {
                               ],
                               "properties": {
                                 "kind": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Kind of the registrant.",
+                                  "maxLength": 255
                                 }
                               }
                             }
@@ -39102,7 +39246,9 @@ const PatternSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -39456,7 +39602,9 @@ const PatternSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -39825,7 +39973,9 @@ const PatternSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -40179,7 +40329,9 @@ const PatternSchema: Record<string, unknown> = {
                                               ],
                                               "properties": {
                                                 "kind": {
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "description": "Kind of the registrant.",
+                                                  "maxLength": 255
                                                 }
                                               }
                                             }
@@ -41405,7 +41557,8 @@ const PatternSchema: Record<string, unknown> = {
                                             },
                                             "description": {
                                               "type": "string",
-                                              "description": "A written representation of the purpose and characteristics of the capability."
+                                              "description": "A written representation of the purpose and characteristics of the capability.",
+                                              "maxLength": 5000
                                             },
                                             "kind": {
                                               "description": "Top-level categorization of the capability",
@@ -41673,7 +41826,8 @@ const PatternSchema: Record<string, unknown> = {
                                       "gorm": "-",
                                       "json": "relationships",
                                       "yaml": "relationships"
-                                    }
+                                    },
+                                    "description": "The relationships of the model."
                                   },
                                   "components": {
                                     "type": "array",
@@ -41682,7 +41836,8 @@ const PatternSchema: Record<string, unknown> = {
                                       "gorm": "-",
                                       "json": "components",
                                       "yaml": "components"
-                                    }
+                                    },
+                                    "description": "The components of the model."
                                   },
                                   "componentsCount": {
                                     "type": "integer",
@@ -41693,7 +41848,8 @@ const PatternSchema: Record<string, unknown> = {
                                       "yaml": "components_count",
                                       "gorm": "-"
                                     },
-                                    "default": 0
+                                    "default": 0,
+                                    "minimum": 0
                                   },
                                   "relationshipsCount": {
                                     "type": "integer",
@@ -41704,7 +41860,8 @@ const PatternSchema: Record<string, unknown> = {
                                       "json": "relationships_count",
                                       "yaml": "relationships_count"
                                     },
-                                    "default": 0
+                                    "default": 0,
+                                    "minimum": 0
                                   },
                                   "created_at": {
                                     "x-order": 14,
@@ -41839,7 +41996,9 @@ const PatternSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "kind": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Kind of the registrant.",
+                                        "maxLength": 255
                                       }
                                     }
                                   }
@@ -42303,7 +42462,8 @@ const PatternSchema: Record<string, unknown> = {
                                     },
                                     "description": {
                                       "type": "string",
-                                      "description": "A written representation of the purpose and characteristics of the capability."
+                                      "description": "A written representation of the purpose and characteristics of the capability.",
+                                      "maxLength": 5000
                                     },
                                     "kind": {
                                       "description": "Top-level categorization of the capability",
@@ -42910,7 +43070,8 @@ const PatternSchema: Record<string, unknown> = {
                                     },
                                     "description": {
                                       "type": "string",
-                                      "description": "A written representation of the purpose and characteristics of the capability."
+                                      "description": "A written representation of the purpose and characteristics of the capability.",
+                                      "maxLength": 5000
                                     },
                                     "kind": {
                                       "description": "Top-level categorization of the capability",
@@ -43506,7 +43667,9 @@ const PatternSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "kind": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Kind of the registrant.",
+                                        "maxLength": 255
                                       }
                                     }
                                   }
@@ -43852,7 +44015,9 @@ const PatternSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -44206,7 +44371,9 @@ const PatternSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -44575,7 +44742,9 @@ const PatternSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -44929,7 +45098,9 @@ const PatternSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -46187,7 +46358,8 @@ const PatternSchema: Record<string, unknown> = {
                                           },
                                           "description": {
                                             "type": "string",
-                                            "description": "A written representation of the purpose and characteristics of the capability."
+                                            "description": "A written representation of the purpose and characteristics of the capability.",
+                                            "maxLength": 5000
                                           },
                                           "kind": {
                                             "description": "Top-level categorization of the capability",
@@ -46455,7 +46627,8 @@ const PatternSchema: Record<string, unknown> = {
                                     "gorm": "-",
                                     "json": "relationships",
                                     "yaml": "relationships"
-                                  }
+                                  },
+                                  "description": "The relationships of the model."
                                 },
                                 "components": {
                                   "type": "array",
@@ -46464,7 +46637,8 @@ const PatternSchema: Record<string, unknown> = {
                                     "gorm": "-",
                                     "json": "components",
                                     "yaml": "components"
-                                  }
+                                  },
+                                  "description": "The components of the model."
                                 },
                                 "componentsCount": {
                                   "type": "integer",
@@ -46475,7 +46649,8 @@ const PatternSchema: Record<string, unknown> = {
                                     "yaml": "components_count",
                                     "gorm": "-"
                                   },
-                                  "default": 0
+                                  "default": 0,
+                                  "minimum": 0
                                 },
                                 "relationshipsCount": {
                                   "type": "integer",
@@ -46486,7 +46661,8 @@ const PatternSchema: Record<string, unknown> = {
                                     "json": "relationships_count",
                                     "yaml": "relationships_count"
                                   },
-                                  "default": 0
+                                  "default": 0,
+                                  "minimum": 0
                                 },
                                 "created_at": {
                                   "x-order": 14,
@@ -46621,7 +46797,9 @@ const PatternSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "kind": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Kind of the registrant.",
+                                      "maxLength": 255
                                     }
                                   }
                                 }
@@ -47085,7 +47263,8 @@ const PatternSchema: Record<string, unknown> = {
                                   },
                                   "description": {
                                     "type": "string",
-                                    "description": "A written representation of the purpose and characteristics of the capability."
+                                    "description": "A written representation of the purpose and characteristics of the capability.",
+                                    "maxLength": 5000
                                   },
                                   "kind": {
                                     "description": "Top-level categorization of the capability",
@@ -47692,7 +47871,8 @@ const PatternSchema: Record<string, unknown> = {
                                   },
                                   "description": {
                                     "type": "string",
-                                    "description": "A written representation of the purpose and characteristics of the capability."
+                                    "description": "A written representation of the purpose and characteristics of the capability.",
+                                    "maxLength": 5000
                                   },
                                   "kind": {
                                     "description": "Top-level categorization of the capability",
@@ -48288,7 +48468,9 @@ const PatternSchema: Record<string, unknown> = {
                                   ],
                                   "properties": {
                                     "kind": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Kind of the registrant.",
+                                      "maxLength": 255
                                     }
                                   }
                                 }
@@ -48634,7 +48816,9 @@ const PatternSchema: Record<string, unknown> = {
                                                   ],
                                                   "properties": {
                                                     "kind": {
-                                                      "type": "string"
+                                                      "type": "string",
+                                                      "description": "Kind of the registrant.",
+                                                      "maxLength": 255
                                                     }
                                                   }
                                                 }
@@ -48988,7 +49172,9 @@ const PatternSchema: Record<string, unknown> = {
                                                   ],
                                                   "properties": {
                                                     "kind": {
-                                                      "type": "string"
+                                                      "type": "string",
+                                                      "description": "Kind of the registrant.",
+                                                      "maxLength": 255
                                                     }
                                                   }
                                                 }
@@ -49357,7 +49543,9 @@ const PatternSchema: Record<string, unknown> = {
                                                   ],
                                                   "properties": {
                                                     "kind": {
-                                                      "type": "string"
+                                                      "type": "string",
+                                                      "description": "Kind of the registrant.",
+                                                      "maxLength": 255
                                                     }
                                                   }
                                                 }
@@ -49711,7 +49899,9 @@ const PatternSchema: Record<string, unknown> = {
                                                   ],
                                                   "properties": {
                                                     "kind": {
-                                                      "type": "string"
+                                                      "type": "string",
+                                                      "description": "Kind of the registrant.",
+                                                      "maxLength": 255
                                                     }
                                                   }
                                                 }
@@ -51001,7 +51191,8 @@ const PatternSchema: Record<string, unknown> = {
                                             },
                                             "description": {
                                               "type": "string",
-                                              "description": "A written representation of the purpose and characteristics of the capability."
+                                              "description": "A written representation of the purpose and characteristics of the capability.",
+                                              "maxLength": 5000
                                             },
                                             "kind": {
                                               "description": "Top-level categorization of the capability",
@@ -51269,7 +51460,8 @@ const PatternSchema: Record<string, unknown> = {
                                       "gorm": "-",
                                       "json": "relationships",
                                       "yaml": "relationships"
-                                    }
+                                    },
+                                    "description": "The relationships of the model."
                                   },
                                   "components": {
                                     "type": "array",
@@ -51278,7 +51470,8 @@ const PatternSchema: Record<string, unknown> = {
                                       "gorm": "-",
                                       "json": "components",
                                       "yaml": "components"
-                                    }
+                                    },
+                                    "description": "The components of the model."
                                   },
                                   "componentsCount": {
                                     "type": "integer",
@@ -51289,7 +51482,8 @@ const PatternSchema: Record<string, unknown> = {
                                       "yaml": "components_count",
                                       "gorm": "-"
                                     },
-                                    "default": 0
+                                    "default": 0,
+                                    "minimum": 0
                                   },
                                   "relationshipsCount": {
                                     "type": "integer",
@@ -51300,7 +51494,8 @@ const PatternSchema: Record<string, unknown> = {
                                       "json": "relationships_count",
                                       "yaml": "relationships_count"
                                     },
-                                    "default": 0
+                                    "default": 0,
+                                    "minimum": 0
                                   },
                                   "created_at": {
                                     "x-order": 14,
@@ -51435,7 +51630,9 @@ const PatternSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "kind": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Kind of the registrant.",
+                                        "maxLength": 255
                                       }
                                     }
                                   }
@@ -51899,7 +52096,8 @@ const PatternSchema: Record<string, unknown> = {
                                     },
                                     "description": {
                                       "type": "string",
-                                      "description": "A written representation of the purpose and characteristics of the capability."
+                                      "description": "A written representation of the purpose and characteristics of the capability.",
+                                      "maxLength": 5000
                                     },
                                     "kind": {
                                       "description": "Top-level categorization of the capability",
@@ -52506,7 +52704,8 @@ const PatternSchema: Record<string, unknown> = {
                                     },
                                     "description": {
                                       "type": "string",
-                                      "description": "A written representation of the purpose and characteristics of the capability."
+                                      "description": "A written representation of the purpose and characteristics of the capability.",
+                                      "maxLength": 5000
                                     },
                                     "kind": {
                                       "description": "Top-level categorization of the capability",
@@ -53102,7 +53301,9 @@ const PatternSchema: Record<string, unknown> = {
                                     ],
                                     "properties": {
                                       "kind": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Kind of the registrant.",
+                                        "maxLength": 255
                                       }
                                     }
                                   }
@@ -53448,7 +53649,9 @@ const PatternSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -53802,7 +54005,9 @@ const PatternSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -54171,7 +54376,9 @@ const PatternSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }
@@ -54525,7 +54732,9 @@ const PatternSchema: Record<string, unknown> = {
                                                     ],
                                                     "properties": {
                                                       "kind": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "Kind of the registrant.",
+                                                        "maxLength": 255
                                                       }
                                                     }
                                                   }

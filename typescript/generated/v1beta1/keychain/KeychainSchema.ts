@@ -135,6 +135,8 @@ const KeychainSchema: Record<string, unknown> = {
                           "name": {
                             "type": "string",
                             "description": "Name of the keychain.",
+                            "minLength": 1,
+                            "maxLength": 255,
                             "x-oapi-codegen-extra-tags": {
                               "db": "name"
                             },
@@ -196,7 +198,8 @@ const KeychainSchema: Record<string, unknown> = {
                           }
                         }
                       },
-                      "x-order": 4
+                      "x-order": 4,
+                      "description": "The keychains of the keychainpage."
                     }
                   }
                 }
@@ -258,7 +261,9 @@ const KeychainSchema: Record<string, unknown> = {
                   "name": {
                     "type": "string",
                     "description": "Name of the keychain.",
-                    "x-order": 1
+                    "x-order": 1,
+                    "minLength": 1,
+                    "maxLength": 255
                   },
                   "owner": {
                     "description": "Owner of the keychain.",
@@ -309,6 +314,8 @@ const KeychainSchema: Record<string, unknown> = {
                     "name": {
                       "type": "string",
                       "description": "Name of the keychain.",
+                      "minLength": 1,
+                      "maxLength": 255,
                       "x-oapi-codegen-extra-tags": {
                         "db": "name"
                       },
@@ -467,6 +474,8 @@ const KeychainSchema: Record<string, unknown> = {
                     "name": {
                       "type": "string",
                       "description": "Name of the keychain.",
+                      "minLength": 1,
+                      "maxLength": 255,
                       "x-oapi-codegen-extra-tags": {
                         "db": "name"
                       },
@@ -613,7 +622,9 @@ const KeychainSchema: Record<string, unknown> = {
                   "name": {
                     "type": "string",
                     "description": "Name of the keychain.",
-                    "x-order": 1
+                    "x-order": 1,
+                    "minLength": 1,
+                    "maxLength": 255
                   },
                   "owner": {
                     "description": "Owner of the keychain.",
@@ -664,6 +675,8 @@ const KeychainSchema: Record<string, unknown> = {
                     "name": {
                       "type": "string",
                       "description": "Name of the keychain.",
+                      "minLength": 1,
+                      "maxLength": 255,
                       "x-oapi-codegen-extra-tags": {
                         "db": "name"
                       },
@@ -1158,7 +1171,8 @@ const KeychainSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "function"
                             },
-                            "x-order": 3
+                            "x-order": 3,
+                            "maxLength": 500
                           },
                           "category": {
                             "type": "string",
@@ -1166,7 +1180,8 @@ const KeychainSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "category"
                             },
-                            "x-order": 4
+                            "x-order": 4,
+                            "maxLength": 500
                           },
                           "subcategory": {
                             "type": "string",
@@ -1174,7 +1189,8 @@ const KeychainSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "subcategory"
                             },
-                            "x-order": 5
+                            "x-order": 5,
+                            "maxLength": 500
                           },
                           "description": {
                             "type": "string",
@@ -1182,7 +1198,8 @@ const KeychainSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "description"
                             },
-                            "x-order": 6
+                            "x-order": 6,
+                            "maxLength": 5000
                           },
                           "created_at": {
                             "x-order": 7,
@@ -1227,7 +1244,8 @@ const KeychainSchema: Record<string, unknown> = {
                           }
                         }
                       },
-                      "x-order": 4
+                      "x-order": 4,
+                      "description": "The keys of the keypage."
                     }
                   }
                 }
@@ -1422,6 +1440,8 @@ const KeychainSchema: Record<string, unknown> = {
           "name": {
             "type": "string",
             "description": "Name of the keychain.",
+            "minLength": 1,
+            "maxLength": 255,
             "x-oapi-codegen-extra-tags": {
               "db": "name"
             },
@@ -1493,7 +1513,9 @@ const KeychainSchema: Record<string, unknown> = {
           "name": {
             "type": "string",
             "description": "Name of the keychain.",
-            "x-order": 1
+            "x-order": 1,
+            "minLength": 1,
+            "maxLength": 255
           },
           "owner": {
             "description": "Owner of the keychain.",
@@ -1562,6 +1584,8 @@ const KeychainSchema: Record<string, unknown> = {
                 "name": {
                   "type": "string",
                   "description": "Name of the keychain.",
+                  "minLength": 1,
+                  "maxLength": 255,
                   "x-oapi-codegen-extra-tags": {
                     "db": "name"
                   },
@@ -1623,7 +1647,8 @@ const KeychainSchema: Record<string, unknown> = {
                 }
               }
             },
-            "x-order": 4
+            "x-order": 4,
+            "description": "The keychains of the keychainpage."
           }
         }
       }

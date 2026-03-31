@@ -119,6 +119,7 @@ export interface components {
        * @default v0.0.1
        */
       version: string;
+      /** @description Additional metadata associated with this resource. */
       metadata?: {
         /** @description Map of resolved aliases present in the design */
         resolvedAliases?: {
@@ -138,6 +139,7 @@ export interface components {
              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
              */
             immediateParentId: string;
+            /** @description The immediate ref field path of the nonresolvedalias. */
             immediateRefFieldPath: string[];
           } & {
             /**
@@ -145,6 +147,7 @@ export interface components {
              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
              */
             resolvedParentId: string;
+            /** @description Fully resolved field path targeted by the alias. */
             resolvedRefFieldPath: string[];
           };
         };
@@ -541,7 +544,9 @@ export interface components {
             /** @description Version of the model as defined by the registrant. */
             version: string;
           };
+          /** @description The relationships of the model. */
           relationships: unknown[];
+          /** @description The components of the model. */
           components: unknown[];
           /**
            * @description Number of components associated with the model.
@@ -583,6 +588,7 @@ export interface components {
             version: string;
           };
           registrant: {
+            /** @description Kind of the registrant. */
             kind: string;
           };
         };
@@ -668,8 +674,11 @@ export interface components {
           };
           /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
           bodyText?: string;
-          /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-          bodyTextWrap?: string;
+          /**
+           * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+           * @enum {string}
+           */
+          bodyTextWrap?: "none" | "wrap" | "ellipsis";
           /** @description The maximum width for wrapping text in the node. */
           bodyTextMaxWidth?: string;
           /** @description The opacity of the node's body text, including its outline. */
@@ -692,7 +701,10 @@ export interface components {
           width?: number;
           /** @description The height of the node's body */
           height?: number;
-          /** @description The URL that points to the image to show in the node. */
+          /**
+           * Format: uri
+           * @description The URL that points to the image to show in the node.
+           */
           backgroundImage?: string;
           /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
           backgroundColor?: string;
@@ -708,14 +720,26 @@ export interface components {
           backgroundOffsetX?: string;
           /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
           backgroundOffsetY?: string;
-          /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-          backgroundFit?: string;
-          /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-          backgroundClip?: string;
-          /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-          backgroundWidthRelativeTo?: string;
-          /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-          backgroundHeightRelativeTo?: string;
+          /**
+           * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+           * @enum {string}
+           */
+          backgroundFit?: "none" | "contain" | "cover";
+          /**
+           * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+           * @enum {string}
+           */
+          backgroundClip?: "none" | "node" | "node-border";
+          /**
+           * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+           * @enum {string}
+           */
+          backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+          /**
+           * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+           * @enum {string}
+           */
+          backgroundHeightRelativeTo?: "none" | "inner" | "outer";
           /** @description The size of the node's border. */
           borderWidth?: number;
           /**
@@ -1225,6 +1249,7 @@ export interface components {
             version: string;
           };
           registrant: {
+            /** @description Kind of the registrant. */
             kind: string;
           };
         };
@@ -1246,27 +1271,33 @@ export interface components {
                * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                */
               id?: string;
+              /** @description Kind of the resource. */
               kind?: string;
               /** @description Match configuration for selector */
               match?: {
+                /** @description The refs of the matchselector. */
                 refs?: string[][];
+                /** @description The from of the matchselector. */
                 from?: {
                   /**
                    * Format: uuid
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind: string;
                   /** @description JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** @description The to of the matchselector. */
                 to?: {
                   /**
                    * Format: uuid
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind: string;
                   /** @description JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -1294,6 +1325,7 @@ export interface components {
                   version: string;
                 };
                 registrant: {
+                  /** @description Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -1332,27 +1364,33 @@ export interface components {
                * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                */
               id?: string;
+              /** @description Kind of the resource. */
               kind?: string;
               /** @description Match configuration for selector */
               match?: {
+                /** @description The refs of the matchselector. */
                 refs?: string[][];
+                /** @description The from of the matchselector. */
                 from?: {
                   /**
                    * Format: uuid
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind: string;
                   /** @description JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** @description The to of the matchselector. */
                 to?: {
                   /**
                    * Format: uuid
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind: string;
                   /** @description JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -1380,6 +1418,7 @@ export interface components {
                   version: string;
                 };
                 registrant: {
+                  /** @description Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -1421,27 +1460,33 @@ export interface components {
                * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                */
               id?: string;
+              /** @description Kind of the resource. */
               kind?: string;
               /** @description Match configuration for selector */
               match?: {
+                /** @description The refs of the matchselector. */
                 refs?: string[][];
+                /** @description The from of the matchselector. */
                 from?: {
                   /**
                    * Format: uuid
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind: string;
                   /** @description JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** @description The to of the matchselector. */
                 to?: {
                   /**
                    * Format: uuid
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind: string;
                   /** @description JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -1469,6 +1514,7 @@ export interface components {
                   version: string;
                 };
                 registrant: {
+                  /** @description Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -1507,27 +1553,33 @@ export interface components {
                * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                */
               id?: string;
+              /** @description Kind of the resource. */
               kind?: string;
               /** @description Match configuration for selector */
               match?: {
+                /** @description The refs of the matchselector. */
                 refs?: string[][];
+                /** @description The from of the matchselector. */
                 from?: {
                   /**
                    * Format: uuid
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind: string;
                   /** @description JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
                   mutatedRef?: string[][];
                 }[];
+                /** @description The to of the matchselector. */
                 to?: {
                   /**
                    * Format: uuid
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind: string;
                   /** @description JSON ref to value from where patch should be applied. */
                   mutatorRef?: string[][];
@@ -1555,6 +1607,7 @@ export interface components {
                   version: string;
                 };
                 registrant: {
+                  /** @description Kind of the registrant. */
                   kind: string;
                 };
               };
@@ -1664,6 +1717,7 @@ export interface components {
          * @default v0.0.1
          */
         version: string;
+        /** @description Additional metadata associated with this resource. */
         metadata?: {
           /** @description Map of resolved aliases present in the design */
           resolvedAliases?: {
@@ -1683,6 +1737,7 @@ export interface components {
                * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                */
               immediateParentId: string;
+              /** @description The immediate ref field path of the nonresolvedalias. */
               immediateRefFieldPath: string[];
             } & {
               /**
@@ -1690,6 +1745,7 @@ export interface components {
                * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                */
               resolvedParentId: string;
+              /** @description Fully resolved field path targeted by the alias. */
               resolvedRefFieldPath: string[];
             };
           };
@@ -2086,7 +2142,9 @@ export interface components {
               /** @description Version of the model as defined by the registrant. */
               version: string;
             };
+            /** @description The relationships of the model. */
             relationships: unknown[];
+            /** @description The components of the model. */
             components: unknown[];
             /**
              * @description Number of components associated with the model.
@@ -2128,6 +2186,7 @@ export interface components {
               version: string;
             };
             registrant: {
+              /** @description Kind of the registrant. */
               kind: string;
             };
           };
@@ -2213,8 +2272,11 @@ export interface components {
             };
             /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
             bodyText?: string;
-            /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-            bodyTextWrap?: string;
+            /**
+             * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+             * @enum {string}
+             */
+            bodyTextWrap?: "none" | "wrap" | "ellipsis";
             /** @description The maximum width for wrapping text in the node. */
             bodyTextMaxWidth?: string;
             /** @description The opacity of the node's body text, including its outline. */
@@ -2237,7 +2299,10 @@ export interface components {
             width?: number;
             /** @description The height of the node's body */
             height?: number;
-            /** @description The URL that points to the image to show in the node. */
+            /**
+             * Format: uri
+             * @description The URL that points to the image to show in the node.
+             */
             backgroundImage?: string;
             /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
             backgroundColor?: string;
@@ -2253,14 +2318,26 @@ export interface components {
             backgroundOffsetX?: string;
             /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
             backgroundOffsetY?: string;
-            /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-            backgroundFit?: string;
-            /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-            backgroundClip?: string;
-            /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-            backgroundWidthRelativeTo?: string;
-            /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-            backgroundHeightRelativeTo?: string;
+            /**
+             * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+             * @enum {string}
+             */
+            backgroundFit?: "none" | "contain" | "cover";
+            /**
+             * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+             * @enum {string}
+             */
+            backgroundClip?: "none" | "node" | "node-border";
+            /**
+             * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+             * @enum {string}
+             */
+            backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+            /**
+             * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+             * @enum {string}
+             */
+            backgroundHeightRelativeTo?: "none" | "inner" | "outer";
             /** @description The size of the node's border. */
             borderWidth?: number;
             /**
@@ -2770,6 +2847,7 @@ export interface components {
               version: string;
             };
             registrant: {
+              /** @description Kind of the registrant. */
               kind: string;
             };
           };
@@ -2791,27 +2869,33 @@ export interface components {
                  * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                  */
                 id?: string;
+                /** @description Kind of the resource. */
                 kind?: string;
                 /** @description Match configuration for selector */
                 match?: {
+                  /** @description The refs of the matchselector. */
                   refs?: string[][];
+                  /** @description The from of the matchselector. */
                   from?: {
                     /**
                      * Format: uuid
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     id?: string;
+                    /** @description Kind of the resource. */
                     kind: string;
                     /** @description JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
                     mutatedRef?: string[][];
                   }[];
+                  /** @description The to of the matchselector. */
                   to?: {
                     /**
                      * Format: uuid
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     id?: string;
+                    /** @description Kind of the resource. */
                     kind: string;
                     /** @description JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
@@ -2839,6 +2923,7 @@ export interface components {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -2877,27 +2962,33 @@ export interface components {
                  * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                  */
                 id?: string;
+                /** @description Kind of the resource. */
                 kind?: string;
                 /** @description Match configuration for selector */
                 match?: {
+                  /** @description The refs of the matchselector. */
                   refs?: string[][];
+                  /** @description The from of the matchselector. */
                   from?: {
                     /**
                      * Format: uuid
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     id?: string;
+                    /** @description Kind of the resource. */
                     kind: string;
                     /** @description JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
                     mutatedRef?: string[][];
                   }[];
+                  /** @description The to of the matchselector. */
                   to?: {
                     /**
                      * Format: uuid
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     id?: string;
+                    /** @description Kind of the resource. */
                     kind: string;
                     /** @description JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
@@ -2925,6 +3016,7 @@ export interface components {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -2966,27 +3058,33 @@ export interface components {
                  * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                  */
                 id?: string;
+                /** @description Kind of the resource. */
                 kind?: string;
                 /** @description Match configuration for selector */
                 match?: {
+                  /** @description The refs of the matchselector. */
                   refs?: string[][];
+                  /** @description The from of the matchselector. */
                   from?: {
                     /**
                      * Format: uuid
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     id?: string;
+                    /** @description Kind of the resource. */
                     kind: string;
                     /** @description JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
                     mutatedRef?: string[][];
                   }[];
+                  /** @description The to of the matchselector. */
                   to?: {
                     /**
                      * Format: uuid
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     id?: string;
+                    /** @description Kind of the resource. */
                     kind: string;
                     /** @description JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
@@ -3014,6 +3112,7 @@ export interface components {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -3052,27 +3151,33 @@ export interface components {
                  * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                  */
                 id?: string;
+                /** @description Kind of the resource. */
                 kind?: string;
                 /** @description Match configuration for selector */
                 match?: {
+                  /** @description The refs of the matchselector. */
                   refs?: string[][];
+                  /** @description The from of the matchselector. */
                   from?: {
                     /**
                      * Format: uuid
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     id?: string;
+                    /** @description Kind of the resource. */
                     kind: string;
                     /** @description JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
                     mutatedRef?: string[][];
                   }[];
+                  /** @description The to of the matchselector. */
                   to?: {
                     /**
                      * Format: uuid
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     id?: string;
+                    /** @description Kind of the resource. */
                     kind: string;
                     /** @description JSON ref to value from where patch should be applied. */
                     mutatorRef?: string[][];
@@ -3100,6 +3205,7 @@ export interface components {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -3142,8 +3248,11 @@ export interface components {
       visibility?: string;
     };
     MesheryPatternPage: {
+      /** @description Current page number of the result set. */
       page?: number;
+      /** @description Number of items per page. */
       page_size?: number;
+      /** @description The patterns of the mesherypatternpage. */
       patterns?: {
         catalogData?: {
           /** @description Tracks the specific content version that has been made available in the Catalog. */
@@ -3218,6 +3327,7 @@ export interface components {
            * @default v0.0.1
            */
           version: string;
+          /** @description Additional metadata associated with this resource. */
           metadata?: {
             /** @description Map of resolved aliases present in the design */
             resolvedAliases?: {
@@ -3237,6 +3347,7 @@ export interface components {
                  * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                  */
                 immediateParentId: string;
+                /** @description The immediate ref field path of the nonresolvedalias. */
                 immediateRefFieldPath: string[];
               } & {
                 /**
@@ -3244,6 +3355,7 @@ export interface components {
                  * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                  */
                 resolvedParentId: string;
+                /** @description Fully resolved field path targeted by the alias. */
                 resolvedRefFieldPath: string[];
               };
             };
@@ -3640,7 +3752,9 @@ export interface components {
                 /** @description Version of the model as defined by the registrant. */
                 version: string;
               };
+              /** @description The relationships of the model. */
               relationships: unknown[];
+              /** @description The components of the model. */
               components: unknown[];
               /**
                * @description Number of components associated with the model.
@@ -3682,6 +3796,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -3767,8 +3882,11 @@ export interface components {
               };
               /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
               bodyText?: string;
-              /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-              bodyTextWrap?: string;
+              /**
+               * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+               * @enum {string}
+               */
+              bodyTextWrap?: "none" | "wrap" | "ellipsis";
               /** @description The maximum width for wrapping text in the node. */
               bodyTextMaxWidth?: string;
               /** @description The opacity of the node's body text, including its outline. */
@@ -3791,7 +3909,10 @@ export interface components {
               width?: number;
               /** @description The height of the node's body */
               height?: number;
-              /** @description The URL that points to the image to show in the node. */
+              /**
+               * Format: uri
+               * @description The URL that points to the image to show in the node.
+               */
               backgroundImage?: string;
               /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
               backgroundColor?: string;
@@ -3807,14 +3928,26 @@ export interface components {
               backgroundOffsetX?: string;
               /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
               backgroundOffsetY?: string;
-              /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-              backgroundFit?: string;
-              /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-              backgroundClip?: string;
-              /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-              backgroundWidthRelativeTo?: string;
-              /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-              backgroundHeightRelativeTo?: string;
+              /**
+               * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+               * @enum {string}
+               */
+              backgroundFit?: "none" | "contain" | "cover";
+              /**
+               * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+               * @enum {string}
+               */
+              backgroundClip?: "none" | "node" | "node-border";
+              /**
+               * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+               * @enum {string}
+               */
+              backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+              /**
+               * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+               * @enum {string}
+               */
+              backgroundHeightRelativeTo?: "none" | "inner" | "outer";
               /** @description The size of the node's border. */
               borderWidth?: number;
               /**
@@ -4324,6 +4457,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -4345,27 +4479,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -4393,6 +4533,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -4431,27 +4572,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -4479,6 +4626,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -4520,27 +4668,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -4568,6 +4722,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -4606,27 +4761,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -4654,6 +4815,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -4695,10 +4857,13 @@ export interface components {
         id?: string;
         visibility?: string;
       }[];
+      /** @description The result type of the mesherypatternpage. */
       resultType?: string;
+      /** @description Total number of items available. */
       total_count?: number;
     };
     MesheryPatternDeleteRequestBody: {
+      /** @description The patterns of the mesherypatterndeleterequestbody. */
       patterns?: {
         /** Format: uuid */
         id?: string;
@@ -4781,6 +4946,7 @@ export interface components {
            * @default v0.0.1
            */
           version: string;
+          /** @description Additional metadata associated with this resource. */
           metadata?: {
             /** @description Map of resolved aliases present in the design */
             resolvedAliases?: {
@@ -4800,6 +4966,7 @@ export interface components {
                  * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                  */
                 immediateParentId: string;
+                /** @description The immediate ref field path of the nonresolvedalias. */
                 immediateRefFieldPath: string[];
               } & {
                 /**
@@ -4807,6 +4974,7 @@ export interface components {
                  * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                  */
                 resolvedParentId: string;
+                /** @description Fully resolved field path targeted by the alias. */
                 resolvedRefFieldPath: string[];
               };
             };
@@ -5203,7 +5371,9 @@ export interface components {
                 /** @description Version of the model as defined by the registrant. */
                 version: string;
               };
+              /** @description The relationships of the model. */
               relationships: unknown[];
+              /** @description The components of the model. */
               components: unknown[];
               /**
                * @description Number of components associated with the model.
@@ -5245,6 +5415,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -5330,8 +5501,11 @@ export interface components {
               };
               /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
               bodyText?: string;
-              /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-              bodyTextWrap?: string;
+              /**
+               * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+               * @enum {string}
+               */
+              bodyTextWrap?: "none" | "wrap" | "ellipsis";
               /** @description The maximum width for wrapping text in the node. */
               bodyTextMaxWidth?: string;
               /** @description The opacity of the node's body text, including its outline. */
@@ -5354,7 +5528,10 @@ export interface components {
               width?: number;
               /** @description The height of the node's body */
               height?: number;
-              /** @description The URL that points to the image to show in the node. */
+              /**
+               * Format: uri
+               * @description The URL that points to the image to show in the node.
+               */
               backgroundImage?: string;
               /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
               backgroundColor?: string;
@@ -5370,14 +5547,26 @@ export interface components {
               backgroundOffsetX?: string;
               /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
               backgroundOffsetY?: string;
-              /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-              backgroundFit?: string;
-              /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-              backgroundClip?: string;
-              /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-              backgroundWidthRelativeTo?: string;
-              /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-              backgroundHeightRelativeTo?: string;
+              /**
+               * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+               * @enum {string}
+               */
+              backgroundFit?: "none" | "contain" | "cover";
+              /**
+               * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+               * @enum {string}
+               */
+              backgroundClip?: "none" | "node" | "node-border";
+              /**
+               * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+               * @enum {string}
+               */
+              backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+              /**
+               * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+               * @enum {string}
+               */
+              backgroundHeightRelativeTo?: "none" | "inner" | "outer";
               /** @description The size of the node's border. */
               borderWidth?: number;
               /**
@@ -5887,6 +6076,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -5908,27 +6098,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -5956,6 +6152,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -5994,27 +6191,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -6042,6 +6245,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -6083,27 +6287,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -6131,6 +6341,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -6169,27 +6380,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -6217,6 +6434,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -6258,12 +6476,14 @@ export interface components {
         id?: string;
         visibility?: string;
       };
+      /** @description The save of the mesherypatternrequestbody. */
       save?: boolean;
       /**
        * Format: uri
        * @description endpoint
        */
       url?: string;
+      /** @description Name of the mesherypatternrequestbody. */
       name?: string;
     };
     /**
@@ -6278,9 +6498,13 @@ export interface components {
     };
     CatalogContentItem: { [key: string]: unknown };
     CatalogContentPage: {
+      /** @description Current page number of the result set. */
       page?: number;
+      /** @description Number of items per page. */
       page_size?: number;
+      /** @description Total number of items available. */
       total_count?: number;
+      /** @description The patterns of the catalogcontentpage. */
       patterns?: {
         catalogData?: {
           /** @description Tracks the specific content version that has been made available in the Catalog. */
@@ -6355,6 +6579,7 @@ export interface components {
            * @default v0.0.1
            */
           version: string;
+          /** @description Additional metadata associated with this resource. */
           metadata?: {
             /** @description Map of resolved aliases present in the design */
             resolvedAliases?: {
@@ -6374,6 +6599,7 @@ export interface components {
                  * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                  */
                 immediateParentId: string;
+                /** @description The immediate ref field path of the nonresolvedalias. */
                 immediateRefFieldPath: string[];
               } & {
                 /**
@@ -6381,6 +6607,7 @@ export interface components {
                  * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                  */
                 resolvedParentId: string;
+                /** @description Fully resolved field path targeted by the alias. */
                 resolvedRefFieldPath: string[];
               };
             };
@@ -6777,7 +7004,9 @@ export interface components {
                 /** @description Version of the model as defined by the registrant. */
                 version: string;
               };
+              /** @description The relationships of the model. */
               relationships: unknown[];
+              /** @description The components of the model. */
               components: unknown[];
               /**
                * @description Number of components associated with the model.
@@ -6819,6 +7048,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -6904,8 +7134,11 @@ export interface components {
               };
               /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
               bodyText?: string;
-              /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-              bodyTextWrap?: string;
+              /**
+               * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+               * @enum {string}
+               */
+              bodyTextWrap?: "none" | "wrap" | "ellipsis";
               /** @description The maximum width for wrapping text in the node. */
               bodyTextMaxWidth?: string;
               /** @description The opacity of the node's body text, including its outline. */
@@ -6928,7 +7161,10 @@ export interface components {
               width?: number;
               /** @description The height of the node's body */
               height?: number;
-              /** @description The URL that points to the image to show in the node. */
+              /**
+               * Format: uri
+               * @description The URL that points to the image to show in the node.
+               */
               backgroundImage?: string;
               /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
               backgroundColor?: string;
@@ -6944,14 +7180,26 @@ export interface components {
               backgroundOffsetX?: string;
               /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
               backgroundOffsetY?: string;
-              /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-              backgroundFit?: string;
-              /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-              backgroundClip?: string;
-              /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-              backgroundWidthRelativeTo?: string;
-              /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-              backgroundHeightRelativeTo?: string;
+              /**
+               * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+               * @enum {string}
+               */
+              backgroundFit?: "none" | "contain" | "cover";
+              /**
+               * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+               * @enum {string}
+               */
+              backgroundClip?: "none" | "node" | "node-border";
+              /**
+               * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+               * @enum {string}
+               */
+              backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+              /**
+               * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+               * @enum {string}
+               */
+              backgroundHeightRelativeTo?: "none" | "inner" | "outer";
               /** @description The size of the node's border. */
               borderWidth?: number;
               /**
@@ -7461,6 +7709,7 @@ export interface components {
                 version: string;
               };
               registrant: {
+                /** @description Kind of the registrant. */
                 kind: string;
               };
             };
@@ -7482,27 +7731,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -7530,6 +7785,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -7568,27 +7824,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -7616,6 +7878,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -7657,27 +7920,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -7705,6 +7974,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -7743,27 +8013,33 @@ export interface components {
                    * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                    */
                   id?: string;
+                  /** @description Kind of the resource. */
                   kind?: string;
                   /** @description Match configuration for selector */
                   match?: {
+                    /** @description The refs of the matchselector. */
                     refs?: string[][];
+                    /** @description The from of the matchselector. */
                     from?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
                       mutatedRef?: string[][];
                     }[];
+                    /** @description The to of the matchselector. */
                     to?: {
                       /**
                        * Format: uuid
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind: string;
                       /** @description JSON ref to value from where patch should be applied. */
                       mutatorRef?: string[][];
@@ -7791,6 +8067,7 @@ export interface components {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -7832,31 +8109,45 @@ export interface components {
         id?: string;
         visibility?: string;
       }[];
+      /** @description The filters of the catalogcontentpage. */
       filters?: { [key: string]: unknown }[];
+      /** @description The models count of the catalogcontentpage. */
       modelsCount?: { [key: string]: unknown }[];
+      /** @description The category count of the catalogcontentpage. */
       categoryCount?: { [key: string]: unknown }[];
     };
     CatalogRequest: { [key: string]: unknown };
     CatalogRequestsPage: {
+      /** @description Current page number of the result set. */
       page?: number;
+      /** @description Number of items per page. */
       page_size?: number;
+      /** @description Total number of items available. */
       total_count?: number;
+      /** @description The catalog requests of the catalogrequestspage. */
       catalogRequests?: { [key: string]: unknown }[];
     };
     CatalogContentClass: {
+      /** @description The class of the catalogcontentclass. */
       class?: string;
+      /** @description Description of the catalogcontentclass. */
       description?: string;
     } & { [key: string]: unknown };
     MesheryFilter: { [key: string]: unknown };
     MesheryView: { [key: string]: unknown };
     MesheryViewPage: {
+      /** @description Current page number of the result set. */
       page?: number;
+      /** @description Number of items per page. */
       page_size?: number;
+      /** @description Total number of items available. */
       total_count?: number;
+      /** @description The views of the mesheryviewpage. */
       views?: { [key: string]: unknown }[];
     };
     ResourceAccessMapping: { [key: string]: unknown };
     ResourceAccessActorsResponse: {
+      /** @description The users of the resourceaccessactorsresponse. */
       users?: { [key: string]: unknown }[];
     };
   };
@@ -7947,8 +8238,11 @@ export interface operations {
       200: {
         content: {
           "application/json": {
+            /** @description Current page number of the result set. */
             page?: number;
+            /** @description Number of items per page. */
             page_size?: number;
+            /** @description The patterns of the mesherypatternpage. */
             patterns?: {
               catalogData?: {
                 /** @description Tracks the specific content version that has been made available in the Catalog. */
@@ -8023,6 +8317,7 @@ export interface operations {
                  * @default v0.0.1
                  */
                 version: string;
+                /** @description Additional metadata associated with this resource. */
                 metadata?: {
                   /** @description Map of resolved aliases present in the design */
                   resolvedAliases?: {
@@ -8042,6 +8337,7 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       immediateParentId: string;
+                      /** @description The immediate ref field path of the nonresolvedalias. */
                       immediateRefFieldPath: string[];
                     } & {
                       /**
@@ -8049,6 +8345,7 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       resolvedParentId: string;
+                      /** @description Fully resolved field path targeted by the alias. */
                       resolvedRefFieldPath: string[];
                     };
                   };
@@ -8445,7 +8742,9 @@ export interface operations {
                       /** @description Version of the model as defined by the registrant. */
                       version: string;
                     };
+                    /** @description The relationships of the model. */
                     relationships: unknown[];
+                    /** @description The components of the model. */
                     components: unknown[];
                     /**
                      * @description Number of components associated with the model.
@@ -8487,6 +8786,7 @@ export interface operations {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -8572,8 +8872,11 @@ export interface operations {
                     };
                     /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
                     bodyText?: string;
-                    /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-                    bodyTextWrap?: string;
+                    /**
+                     * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+                     * @enum {string}
+                     */
+                    bodyTextWrap?: "none" | "wrap" | "ellipsis";
                     /** @description The maximum width for wrapping text in the node. */
                     bodyTextMaxWidth?: string;
                     /** @description The opacity of the node's body text, including its outline. */
@@ -8596,7 +8899,10 @@ export interface operations {
                     width?: number;
                     /** @description The height of the node's body */
                     height?: number;
-                    /** @description The URL that points to the image to show in the node. */
+                    /**
+                     * Format: uri
+                     * @description The URL that points to the image to show in the node.
+                     */
                     backgroundImage?: string;
                     /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
                     backgroundColor?: string;
@@ -8612,14 +8918,26 @@ export interface operations {
                     backgroundOffsetX?: string;
                     /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
                     backgroundOffsetY?: string;
-                    /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-                    backgroundFit?: string;
-                    /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-                    backgroundClip?: string;
-                    /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-                    backgroundWidthRelativeTo?: string;
-                    /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-                    backgroundHeightRelativeTo?: string;
+                    /**
+                     * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+                     * @enum {string}
+                     */
+                    backgroundFit?: "none" | "contain" | "cover";
+                    /**
+                     * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+                     * @enum {string}
+                     */
+                    backgroundClip?: "none" | "node" | "node-border";
+                    /**
+                     * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+                     * @enum {string}
+                     */
+                    backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+                    /**
+                     * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+                     * @enum {string}
+                     */
+                    backgroundHeightRelativeTo?: "none" | "inner" | "outer";
                     /** @description The size of the node's border. */
                     borderWidth?: number;
                     /**
@@ -9139,6 +9457,7 @@ export interface operations {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -9160,27 +9479,33 @@ export interface operations {
                          * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                          */
                         id?: string;
+                        /** @description Kind of the resource. */
                         kind?: string;
                         /** @description Match configuration for selector */
                         match?: {
+                          /** @description The refs of the matchselector. */
                           refs?: string[][];
+                          /** @description The from of the matchselector. */
                           from?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
                             mutatedRef?: string[][];
                           }[];
+                          /** @description The to of the matchselector. */
                           to?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
@@ -9208,6 +9533,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -9246,27 +9572,33 @@ export interface operations {
                          * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                          */
                         id?: string;
+                        /** @description Kind of the resource. */
                         kind?: string;
                         /** @description Match configuration for selector */
                         match?: {
+                          /** @description The refs of the matchselector. */
                           refs?: string[][];
+                          /** @description The from of the matchselector. */
                           from?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
                             mutatedRef?: string[][];
                           }[];
+                          /** @description The to of the matchselector. */
                           to?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
@@ -9294,6 +9626,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -9335,27 +9668,33 @@ export interface operations {
                          * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                          */
                         id?: string;
+                        /** @description Kind of the resource. */
                         kind?: string;
                         /** @description Match configuration for selector */
                         match?: {
+                          /** @description The refs of the matchselector. */
                           refs?: string[][];
+                          /** @description The from of the matchselector. */
                           from?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
                             mutatedRef?: string[][];
                           }[];
+                          /** @description The to of the matchselector. */
                           to?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
@@ -9383,6 +9722,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -9421,27 +9761,33 @@ export interface operations {
                          * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                          */
                         id?: string;
+                        /** @description Kind of the resource. */
                         kind?: string;
                         /** @description Match configuration for selector */
                         match?: {
+                          /** @description The refs of the matchselector. */
                           refs?: string[][];
+                          /** @description The from of the matchselector. */
                           from?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
                             mutatedRef?: string[][];
                           }[];
+                          /** @description The to of the matchselector. */
                           to?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
@@ -9469,6 +9815,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -9510,7 +9857,9 @@ export interface operations {
               id?: string;
               visibility?: string;
             }[];
+            /** @description The result type of the mesherypatternpage. */
             resultType?: string;
+            /** @description Total number of items available. */
             total_count?: number;
           };
         };
@@ -9609,6 +9958,7 @@ export interface operations {
                * @default v0.0.1
                */
               version: string;
+              /** @description Additional metadata associated with this resource. */
               metadata?: {
                 /** @description Map of resolved aliases present in the design */
                 resolvedAliases?: {
@@ -9628,6 +9978,7 @@ export interface operations {
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     immediateParentId: string;
+                    /** @description The immediate ref field path of the nonresolvedalias. */
                     immediateRefFieldPath: string[];
                   } & {
                     /**
@@ -9635,6 +9986,7 @@ export interface operations {
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     resolvedParentId: string;
+                    /** @description Fully resolved field path targeted by the alias. */
                     resolvedRefFieldPath: string[];
                   };
                 };
@@ -10031,7 +10383,9 @@ export interface operations {
                     /** @description Version of the model as defined by the registrant. */
                     version: string;
                   };
+                  /** @description The relationships of the model. */
                   relationships: unknown[];
+                  /** @description The components of the model. */
                   components: unknown[];
                   /**
                    * @description Number of components associated with the model.
@@ -10073,6 +10427,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -10158,8 +10513,11 @@ export interface operations {
                   };
                   /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
                   bodyText?: string;
-                  /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-                  bodyTextWrap?: string;
+                  /**
+                   * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+                   * @enum {string}
+                   */
+                  bodyTextWrap?: "none" | "wrap" | "ellipsis";
                   /** @description The maximum width for wrapping text in the node. */
                   bodyTextMaxWidth?: string;
                   /** @description The opacity of the node's body text, including its outline. */
@@ -10182,7 +10540,10 @@ export interface operations {
                   width?: number;
                   /** @description The height of the node's body */
                   height?: number;
-                  /** @description The URL that points to the image to show in the node. */
+                  /**
+                   * Format: uri
+                   * @description The URL that points to the image to show in the node.
+                   */
                   backgroundImage?: string;
                   /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
                   backgroundColor?: string;
@@ -10198,14 +10559,26 @@ export interface operations {
                   backgroundOffsetX?: string;
                   /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
                   backgroundOffsetY?: string;
-                  /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-                  backgroundFit?: string;
-                  /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-                  backgroundClip?: string;
-                  /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-                  backgroundWidthRelativeTo?: string;
-                  /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-                  backgroundHeightRelativeTo?: string;
+                  /**
+                   * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+                   * @enum {string}
+                   */
+                  backgroundFit?: "none" | "contain" | "cover";
+                  /**
+                   * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+                   * @enum {string}
+                   */
+                  backgroundClip?: "none" | "node" | "node-border";
+                  /**
+                   * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+                   * @enum {string}
+                   */
+                  backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+                  /**
+                   * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+                   * @enum {string}
+                   */
+                  backgroundHeightRelativeTo?: "none" | "inner" | "outer";
                   /** @description The size of the node's border. */
                   borderWidth?: number;
                   /**
@@ -10725,6 +11098,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -10746,27 +11120,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -10794,6 +11174,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -10832,27 +11213,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -10880,6 +11267,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -10921,27 +11309,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -10969,6 +11363,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -11007,27 +11402,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -11055,6 +11456,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -11195,6 +11597,7 @@ export interface operations {
                * @default v0.0.1
                */
               version: string;
+              /** @description Additional metadata associated with this resource. */
               metadata?: {
                 /** @description Map of resolved aliases present in the design */
                 resolvedAliases?: {
@@ -11214,6 +11617,7 @@ export interface operations {
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     immediateParentId: string;
+                    /** @description The immediate ref field path of the nonresolvedalias. */
                     immediateRefFieldPath: string[];
                   } & {
                     /**
@@ -11221,6 +11625,7 @@ export interface operations {
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     resolvedParentId: string;
+                    /** @description Fully resolved field path targeted by the alias. */
                     resolvedRefFieldPath: string[];
                   };
                 };
@@ -11617,7 +12022,9 @@ export interface operations {
                     /** @description Version of the model as defined by the registrant. */
                     version: string;
                   };
+                  /** @description The relationships of the model. */
                   relationships: unknown[];
+                  /** @description The components of the model. */
                   components: unknown[];
                   /**
                    * @description Number of components associated with the model.
@@ -11659,6 +12066,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -11744,8 +12152,11 @@ export interface operations {
                   };
                   /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
                   bodyText?: string;
-                  /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-                  bodyTextWrap?: string;
+                  /**
+                   * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+                   * @enum {string}
+                   */
+                  bodyTextWrap?: "none" | "wrap" | "ellipsis";
                   /** @description The maximum width for wrapping text in the node. */
                   bodyTextMaxWidth?: string;
                   /** @description The opacity of the node's body text, including its outline. */
@@ -11768,7 +12179,10 @@ export interface operations {
                   width?: number;
                   /** @description The height of the node's body */
                   height?: number;
-                  /** @description The URL that points to the image to show in the node. */
+                  /**
+                   * Format: uri
+                   * @description The URL that points to the image to show in the node.
+                   */
                   backgroundImage?: string;
                   /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
                   backgroundColor?: string;
@@ -11784,14 +12198,26 @@ export interface operations {
                   backgroundOffsetX?: string;
                   /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
                   backgroundOffsetY?: string;
-                  /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-                  backgroundFit?: string;
-                  /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-                  backgroundClip?: string;
-                  /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-                  backgroundWidthRelativeTo?: string;
-                  /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-                  backgroundHeightRelativeTo?: string;
+                  /**
+                   * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+                   * @enum {string}
+                   */
+                  backgroundFit?: "none" | "contain" | "cover";
+                  /**
+                   * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+                   * @enum {string}
+                   */
+                  backgroundClip?: "none" | "node" | "node-border";
+                  /**
+                   * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+                   * @enum {string}
+                   */
+                  backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+                  /**
+                   * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+                   * @enum {string}
+                   */
+                  backgroundHeightRelativeTo?: "none" | "inner" | "outer";
                   /** @description The size of the node's border. */
                   borderWidth?: number;
                   /**
@@ -12311,6 +12737,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -12332,27 +12759,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -12380,6 +12813,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -12418,27 +12852,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -12466,6 +12906,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -12507,27 +12948,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -12555,6 +13002,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -12593,27 +13041,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -12641,6 +13095,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -12682,12 +13137,14 @@ export interface operations {
             id?: string;
             visibility?: string;
           };
+          /** @description The save of the mesherypatternrequestbody. */
           save?: boolean;
           /**
            * Format: uri
            * @description endpoint
            */
           url?: string;
+          /** @description Name of the mesherypatternrequestbody. */
           name?: string;
         };
       };
@@ -12720,6 +13177,7 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": {
+          /** @description The patterns of the mesherypatterndeleterequestbody. */
           patterns?: {
             /** Format: uuid */
             id?: string;
@@ -12930,6 +13388,7 @@ export interface operations {
                * @default v0.0.1
                */
               version: string;
+              /** @description Additional metadata associated with this resource. */
               metadata?: {
                 /** @description Map of resolved aliases present in the design */
                 resolvedAliases?: {
@@ -12949,6 +13408,7 @@ export interface operations {
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     immediateParentId: string;
+                    /** @description The immediate ref field path of the nonresolvedalias. */
                     immediateRefFieldPath: string[];
                   } & {
                     /**
@@ -12956,6 +13416,7 @@ export interface operations {
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     resolvedParentId: string;
+                    /** @description Fully resolved field path targeted by the alias. */
                     resolvedRefFieldPath: string[];
                   };
                 };
@@ -13352,7 +13813,9 @@ export interface operations {
                     /** @description Version of the model as defined by the registrant. */
                     version: string;
                   };
+                  /** @description The relationships of the model. */
                   relationships: unknown[];
+                  /** @description The components of the model. */
                   components: unknown[];
                   /**
                    * @description Number of components associated with the model.
@@ -13394,6 +13857,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -13479,8 +13943,11 @@ export interface operations {
                   };
                   /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
                   bodyText?: string;
-                  /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-                  bodyTextWrap?: string;
+                  /**
+                   * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+                   * @enum {string}
+                   */
+                  bodyTextWrap?: "none" | "wrap" | "ellipsis";
                   /** @description The maximum width for wrapping text in the node. */
                   bodyTextMaxWidth?: string;
                   /** @description The opacity of the node's body text, including its outline. */
@@ -13503,7 +13970,10 @@ export interface operations {
                   width?: number;
                   /** @description The height of the node's body */
                   height?: number;
-                  /** @description The URL that points to the image to show in the node. */
+                  /**
+                   * Format: uri
+                   * @description The URL that points to the image to show in the node.
+                   */
                   backgroundImage?: string;
                   /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
                   backgroundColor?: string;
@@ -13519,14 +13989,26 @@ export interface operations {
                   backgroundOffsetX?: string;
                   /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
                   backgroundOffsetY?: string;
-                  /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-                  backgroundFit?: string;
-                  /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-                  backgroundClip?: string;
-                  /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-                  backgroundWidthRelativeTo?: string;
-                  /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-                  backgroundHeightRelativeTo?: string;
+                  /**
+                   * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+                   * @enum {string}
+                   */
+                  backgroundFit?: "none" | "contain" | "cover";
+                  /**
+                   * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+                   * @enum {string}
+                   */
+                  backgroundClip?: "none" | "node" | "node-border";
+                  /**
+                   * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+                   * @enum {string}
+                   */
+                  backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+                  /**
+                   * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+                   * @enum {string}
+                   */
+                  backgroundHeightRelativeTo?: "none" | "inner" | "outer";
                   /** @description The size of the node's border. */
                   borderWidth?: number;
                   /**
@@ -14046,6 +14528,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -14067,27 +14550,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -14115,6 +14604,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -14153,27 +14643,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -14201,6 +14697,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -14242,27 +14739,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -14290,6 +14793,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -14328,27 +14832,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -14376,6 +14886,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -14555,6 +15066,7 @@ export interface operations {
                * @default v0.0.1
                */
               version: string;
+              /** @description Additional metadata associated with this resource. */
               metadata?: {
                 /** @description Map of resolved aliases present in the design */
                 resolvedAliases?: {
@@ -14574,6 +15086,7 @@ export interface operations {
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     immediateParentId: string;
+                    /** @description The immediate ref field path of the nonresolvedalias. */
                     immediateRefFieldPath: string[];
                   } & {
                     /**
@@ -14581,6 +15094,7 @@ export interface operations {
                      * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                      */
                     resolvedParentId: string;
+                    /** @description Fully resolved field path targeted by the alias. */
                     resolvedRefFieldPath: string[];
                   };
                 };
@@ -14977,7 +15491,9 @@ export interface operations {
                     /** @description Version of the model as defined by the registrant. */
                     version: string;
                   };
+                  /** @description The relationships of the model. */
                   relationships: unknown[];
+                  /** @description The components of the model. */
                   components: unknown[];
                   /**
                    * @description Number of components associated with the model.
@@ -15019,6 +15535,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -15104,8 +15621,11 @@ export interface operations {
                   };
                   /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
                   bodyText?: string;
-                  /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-                  bodyTextWrap?: string;
+                  /**
+                   * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+                   * @enum {string}
+                   */
+                  bodyTextWrap?: "none" | "wrap" | "ellipsis";
                   /** @description The maximum width for wrapping text in the node. */
                   bodyTextMaxWidth?: string;
                   /** @description The opacity of the node's body text, including its outline. */
@@ -15128,7 +15648,10 @@ export interface operations {
                   width?: number;
                   /** @description The height of the node's body */
                   height?: number;
-                  /** @description The URL that points to the image to show in the node. */
+                  /**
+                   * Format: uri
+                   * @description The URL that points to the image to show in the node.
+                   */
                   backgroundImage?: string;
                   /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
                   backgroundColor?: string;
@@ -15144,14 +15667,26 @@ export interface operations {
                   backgroundOffsetX?: string;
                   /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
                   backgroundOffsetY?: string;
-                  /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-                  backgroundFit?: string;
-                  /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-                  backgroundClip?: string;
-                  /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-                  backgroundWidthRelativeTo?: string;
-                  /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-                  backgroundHeightRelativeTo?: string;
+                  /**
+                   * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+                   * @enum {string}
+                   */
+                  backgroundFit?: "none" | "contain" | "cover";
+                  /**
+                   * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+                   * @enum {string}
+                   */
+                  backgroundClip?: "none" | "node" | "node-border";
+                  /**
+                   * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+                   * @enum {string}
+                   */
+                  backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+                  /**
+                   * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+                   * @enum {string}
+                   */
+                  backgroundHeightRelativeTo?: "none" | "inner" | "outer";
                   /** @description The size of the node's border. */
                   borderWidth?: number;
                   /**
@@ -15671,6 +16206,7 @@ export interface operations {
                     version: string;
                   };
                   registrant: {
+                    /** @description Kind of the registrant. */
                     kind: string;
                   };
                 };
@@ -15692,27 +16228,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -15740,6 +16282,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -15778,27 +16321,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -15826,6 +16375,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -15867,27 +16417,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -15915,6 +16471,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -15953,27 +16510,33 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       id?: string;
+                      /** @description Kind of the resource. */
                       kind?: string;
                       /** @description Match configuration for selector */
                       match?: {
+                        /** @description The refs of the matchselector. */
                         refs?: string[][];
+                        /** @description The from of the matchselector. */
                         from?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
                           mutatedRef?: string[][];
                         }[];
+                        /** @description The to of the matchselector. */
                         to?: {
                           /**
                            * Format: uuid
                            * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                            */
                           id?: string;
+                          /** @description Kind of the resource. */
                           kind: string;
                           /** @description JSON ref to value from where patch should be applied. */
                           mutatorRef?: string[][];
@@ -16001,6 +16564,7 @@ export interface operations {
                           version: string;
                         };
                         registrant: {
+                          /** @description Kind of the registrant. */
                           kind: string;
                         };
                       };
@@ -16204,9 +16768,13 @@ export interface operations {
       200: {
         content: {
           "application/json": {
+            /** @description Current page number of the result set. */
             page?: number;
+            /** @description Number of items per page. */
             page_size?: number;
+            /** @description Total number of items available. */
             total_count?: number;
+            /** @description The patterns of the catalogcontentpage. */
             patterns?: {
               catalogData?: {
                 /** @description Tracks the specific content version that has been made available in the Catalog. */
@@ -16281,6 +16849,7 @@ export interface operations {
                  * @default v0.0.1
                  */
                 version: string;
+                /** @description Additional metadata associated with this resource. */
                 metadata?: {
                   /** @description Map of resolved aliases present in the design */
                   resolvedAliases?: {
@@ -16300,6 +16869,7 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       immediateParentId: string;
+                      /** @description The immediate ref field path of the nonresolvedalias. */
                       immediateRefFieldPath: string[];
                     } & {
                       /**
@@ -16307,6 +16877,7 @@ export interface operations {
                        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                        */
                       resolvedParentId: string;
+                      /** @description Fully resolved field path targeted by the alias. */
                       resolvedRefFieldPath: string[];
                     };
                   };
@@ -16703,7 +17274,9 @@ export interface operations {
                       /** @description Version of the model as defined by the registrant. */
                       version: string;
                     };
+                    /** @description The relationships of the model. */
                     relationships: unknown[];
+                    /** @description The components of the model. */
                     components: unknown[];
                     /**
                      * @description Number of components associated with the model.
@@ -16745,6 +17318,7 @@ export interface operations {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -16830,8 +17404,11 @@ export interface operations {
                     };
                     /** @description The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id */
                     bodyText?: string;
-                    /** @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'. */
-                    bodyTextWrap?: string;
+                    /**
+                     * @description How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.
+                     * @enum {string}
+                     */
+                    bodyTextWrap?: "none" | "wrap" | "ellipsis";
                     /** @description The maximum width for wrapping text in the node. */
                     bodyTextMaxWidth?: string;
                     /** @description The opacity of the node's body text, including its outline. */
@@ -16854,7 +17431,10 @@ export interface operations {
                     width?: number;
                     /** @description The height of the node's body */
                     height?: number;
-                    /** @description The URL that points to the image to show in the node. */
+                    /**
+                     * Format: uri
+                     * @description The URL that points to the image to show in the node.
+                     */
                     backgroundImage?: string;
                     /** @description The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g. */
                     backgroundColor?: string;
@@ -16870,14 +17450,26 @@ export interface operations {
                     backgroundOffsetX?: string;
                     /** @description The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px) */
                     backgroundOffsetY?: string;
-                    /** @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'. */
-                    backgroundFit?: string;
-                    /** @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'. */
-                    backgroundClip?: string;
-                    /** @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'. */
-                    backgroundWidthRelativeTo?: string;
-                    /** @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'. */
-                    backgroundHeightRelativeTo?: string;
+                    /**
+                     * @description How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.
+                     * @enum {string}
+                     */
+                    backgroundFit?: "none" | "contain" | "cover";
+                    /**
+                     * @description How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.
+                     * @enum {string}
+                     */
+                    backgroundClip?: "none" | "node" | "node-border";
+                    /**
+                     * @description How the background image's width is determined. Can be 'none', 'inner', or 'outer'.
+                     * @enum {string}
+                     */
+                    backgroundWidthRelativeTo?: "none" | "inner" | "outer";
+                    /**
+                     * @description How the background image's height is determined. Can be 'none', 'inner', or 'outer'.
+                     * @enum {string}
+                     */
+                    backgroundHeightRelativeTo?: "none" | "inner" | "outer";
                     /** @description The size of the node's border. */
                     borderWidth?: number;
                     /**
@@ -17397,6 +17989,7 @@ export interface operations {
                       version: string;
                     };
                     registrant: {
+                      /** @description Kind of the registrant. */
                       kind: string;
                     };
                   };
@@ -17418,27 +18011,33 @@ export interface operations {
                          * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                          */
                         id?: string;
+                        /** @description Kind of the resource. */
                         kind?: string;
                         /** @description Match configuration for selector */
                         match?: {
+                          /** @description The refs of the matchselector. */
                           refs?: string[][];
+                          /** @description The from of the matchselector. */
                           from?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
                             mutatedRef?: string[][];
                           }[];
+                          /** @description The to of the matchselector. */
                           to?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
@@ -17466,6 +18065,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -17504,27 +18104,33 @@ export interface operations {
                          * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                          */
                         id?: string;
+                        /** @description Kind of the resource. */
                         kind?: string;
                         /** @description Match configuration for selector */
                         match?: {
+                          /** @description The refs of the matchselector. */
                           refs?: string[][];
+                          /** @description The from of the matchselector. */
                           from?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
                             mutatedRef?: string[][];
                           }[];
+                          /** @description The to of the matchselector. */
                           to?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
@@ -17552,6 +18158,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -17593,27 +18200,33 @@ export interface operations {
                          * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                          */
                         id?: string;
+                        /** @description Kind of the resource. */
                         kind?: string;
                         /** @description Match configuration for selector */
                         match?: {
+                          /** @description The refs of the matchselector. */
                           refs?: string[][];
+                          /** @description The from of the matchselector. */
                           from?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
                             mutatedRef?: string[][];
                           }[];
+                          /** @description The to of the matchselector. */
                           to?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
@@ -17641,6 +18254,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -17679,27 +18293,33 @@ export interface operations {
                          * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                          */
                         id?: string;
+                        /** @description Kind of the resource. */
                         kind?: string;
                         /** @description Match configuration for selector */
                         match?: {
+                          /** @description The refs of the matchselector. */
                           refs?: string[][];
+                          /** @description The from of the matchselector. */
                           from?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
                             mutatedRef?: string[][];
                           }[];
+                          /** @description The to of the matchselector. */
                           to?: {
                             /**
                              * Format: uuid
                              * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                              */
                             id?: string;
+                            /** @description Kind of the resource. */
                             kind: string;
                             /** @description JSON ref to value from where patch should be applied. */
                             mutatorRef?: string[][];
@@ -17727,6 +18347,7 @@ export interface operations {
                             version: string;
                           };
                           registrant: {
+                            /** @description Kind of the registrant. */
                             kind: string;
                           };
                         };
@@ -17768,8 +18389,11 @@ export interface operations {
               id?: string;
               visibility?: string;
             }[];
+            /** @description The filters of the catalogcontentpage. */
             filters?: { [key: string]: unknown }[];
+            /** @description The models count of the catalogcontentpage. */
             modelsCount?: { [key: string]: unknown }[];
+            /** @description The category count of the catalogcontentpage. */
             categoryCount?: { [key: string]: unknown }[];
           };
         };
@@ -17894,7 +18518,9 @@ export interface operations {
       200: {
         content: {
           "application/json": ({
+            /** @description The class of the catalogcontentclass. */
             class?: string;
+            /** @description Description of the catalogcontentclass. */
             description?: string;
           } & { [key: string]: unknown })[];
         };
@@ -18174,9 +18800,13 @@ export interface operations {
       200: {
         content: {
           "application/json": {
+            /** @description Current page number of the result set. */
             page?: number;
+            /** @description Number of items per page. */
             page_size?: number;
+            /** @description Total number of items available. */
             total_count?: number;
+            /** @description The views of the mesheryviewpage. */
             views?: { [key: string]: unknown }[];
           };
         };
@@ -18253,6 +18883,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
+            /** @description The users of the resourceaccessactorsresponse. */
             users?: { [key: string]: unknown }[];
           };
         };
@@ -18296,9 +18927,13 @@ export interface operations {
       200: {
         content: {
           "application/json": {
+            /** @description Current page number of the result set. */
             page?: number;
+            /** @description Number of items per page. */
             page_size?: number;
+            /** @description Total number of items available. */
             total_count?: number;
+            /** @description The catalog requests of the catalogrequestspage. */
             catalogRequests?: { [key: string]: unknown }[];
           };
         };

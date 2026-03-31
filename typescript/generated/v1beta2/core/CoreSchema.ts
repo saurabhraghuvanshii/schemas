@@ -178,19 +178,27 @@ const CoreSchema: Record<string, unknown> = {
         "properties": {
           "page": {
             "type": "integer",
-            "x-go-type-skip-optional-pointer": true
+            "x-go-type-skip-optional-pointer": true,
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
             "type": "integer",
-            "x-go-type-skip-optional-pointer": true
+            "x-go-type-skip-optional-pointer": true,
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "recordsTotal": {
             "type": "integer",
-            "x-go-type-skip-optional-pointer": true
+            "x-go-type-skip-optional-pointer": true,
+            "description": "The records total of the recordspage.",
+            "minimum": 0
           },
           "recordType": {
             "type": "string",
-            "x-go-type-skip-optional-pointer": true
+            "x-go-type-skip-optional-pointer": true,
+            "description": "The record type of the recordspage.",
+            "maxLength": 500
           }
         },
         "x-go-type-skip-optional-pointer": true
@@ -202,19 +210,27 @@ const CoreSchema: Record<string, unknown> = {
         "properties": {
           "page": {
             "type": "integer",
-            "x-go-type-skip-optional-pointer": true
+            "x-go-type-skip-optional-pointer": true,
+            "description": "Current page number of the result set.",
+            "minimum": 0
           },
           "page_size": {
             "type": "integer",
-            "x-go-type-skip-optional-pointer": true
+            "x-go-type-skip-optional-pointer": true,
+            "description": "Number of items per page.",
+            "minimum": 1
           },
           "total_count": {
             "type": "integer",
-            "x-go-type-skip-optional-pointer": true
+            "x-go-type-skip-optional-pointer": true,
+            "description": "Total number of items available.",
+            "minimum": 0
           },
           "resultType": {
             "type": "string",
-            "x-go-type-skip-optional-pointer": true
+            "x-go-type-skip-optional-pointer": true,
+            "description": "The result type of the resultspage.",
+            "maxLength": 500
           }
         },
         "x-go-type-skip-optional-pointer": true
@@ -230,11 +246,13 @@ const CoreSchema: Record<string, unknown> = {
         "properties": {
           "welcomeEmail": {
             "type": "boolean",
-            "x-go-type-skip-optional-pointer": true
+            "x-go-type-skip-optional-pointer": true,
+            "description": "The welcome email of the emailpreference."
           },
           "notifyRoleChange": {
             "type": "boolean",
-            "x-go-type-skip-optional-pointer": true
+            "x-go-type-skip-optional-pointer": true,
+            "description": "The notify role change of the emailpreference."
           }
         },
         "x-go-type-skip-optional-pointer": true
@@ -485,27 +503,33 @@ const CoreSchema: Record<string, unknown> = {
         "properties": {
           "primaryColor": {
             "type": "string",
-            "description": "Primary color of the component used for UI representation."
+            "description": "Primary color of the component used for UI representation.",
+            "maxLength": 500
           },
           "secondaryColor": {
             "type": "string",
-            "description": "Secondary color of the entity used for UI representation."
+            "description": "Secondary color of the entity used for UI representation.",
+            "maxLength": 500
           },
           "svgWhite": {
             "type": "string",
-            "description": "White SVG of the entity used for UI representation on dark background."
+            "description": "White SVG of the entity used for UI representation on dark background.",
+            "maxLength": 500
           },
           "svgColor": {
             "type": "string",
-            "description": "Colored SVG of the entity used for UI representation on light background."
+            "description": "Colored SVG of the entity used for UI representation on light background.",
+            "maxLength": 500
           },
           "svgComplete": {
             "type": "string",
-            "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+            "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+            "maxLength": 500
           },
           "color": {
             "type": "string",
-            "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+            "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+            "maxLength": 500
           },
           "textOpacity": {
             "type": "number",
@@ -515,19 +539,23 @@ const CoreSchema: Record<string, unknown> = {
           },
           "fontFamily": {
             "type": "string",
-            "description": "A comma-separated list of font names to use on the label text."
+            "description": "A comma-separated list of font names to use on the label text.",
+            "maxLength": 500
           },
           "fontSize": {
             "type": "string",
-            "description": "The size of the label text."
+            "description": "The size of the label text.",
+            "maxLength": 500
           },
           "fontStyle": {
             "type": "string",
-            "description": "A CSS font style to be applied to the label text."
+            "description": "A CSS font style to be applied to the label text.",
+            "maxLength": 500
           },
           "fontWeight": {
             "type": "string",
-            "description": "A CSS font weight to be applied to the label text."
+            "description": "A CSS font weight to be applied to the label text.",
+            "maxLength": 500
           },
           "textTransform": {
             "type": "string",
@@ -546,11 +574,13 @@ const CoreSchema: Record<string, unknown> = {
           },
           "zIndex": {
             "type": "integer",
-            "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+            "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+            "minimum": 0
           },
           "label": {
             "type": "string",
-            "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+            "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+            "maxLength": 500
           },
           "animation": {
             "type": "object",
@@ -606,27 +636,33 @@ const CoreSchema: Record<string, unknown> = {
             "properties": {
               "primaryColor": {
                 "type": "string",
-                "description": "Primary color of the component used for UI representation."
+                "description": "Primary color of the component used for UI representation.",
+                "maxLength": 500
               },
               "secondaryColor": {
                 "type": "string",
-                "description": "Secondary color of the entity used for UI representation."
+                "description": "Secondary color of the entity used for UI representation.",
+                "maxLength": 500
               },
               "svgWhite": {
                 "type": "string",
-                "description": "White SVG of the entity used for UI representation on dark background."
+                "description": "White SVG of the entity used for UI representation on dark background.",
+                "maxLength": 500
               },
               "svgColor": {
                 "type": "string",
-                "description": "Colored SVG of the entity used for UI representation on light background."
+                "description": "Colored SVG of the entity used for UI representation on light background.",
+                "maxLength": 500
               },
               "svgComplete": {
                 "type": "string",
-                "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                "maxLength": 500
               },
               "color": {
                 "type": "string",
-                "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 500
               },
               "textOpacity": {
                 "type": "number",
@@ -636,19 +672,23 @@ const CoreSchema: Record<string, unknown> = {
               },
               "fontFamily": {
                 "type": "string",
-                "description": "A comma-separated list of font names to use on the label text."
+                "description": "A comma-separated list of font names to use on the label text.",
+                "maxLength": 500
               },
               "fontSize": {
                 "type": "string",
-                "description": "The size of the label text."
+                "description": "The size of the label text.",
+                "maxLength": 500
               },
               "fontStyle": {
                 "type": "string",
-                "description": "A CSS font style to be applied to the label text."
+                "description": "A CSS font style to be applied to the label text.",
+                "maxLength": 500
               },
               "fontWeight": {
                 "type": "string",
-                "description": "A CSS font weight to be applied to the label text."
+                "description": "A CSS font weight to be applied to the label text.",
+                "maxLength": 500
               },
               "textTransform": {
                 "type": "string",
@@ -667,11 +707,13 @@ const CoreSchema: Record<string, unknown> = {
               },
               "zIndex": {
                 "type": "integer",
-                "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                "minimum": 0
               },
               "label": {
                 "type": "string",
-                "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                "maxLength": 500
               },
               "animation": {
                 "type": "object",
@@ -684,7 +726,8 @@ const CoreSchema: Record<string, unknown> = {
             "properties": {
               "edgeAnimation": {
                 "type": "string",
-                "description": "The animation to use for the edge. Can be like 'marching-ants' , 'blink' , 'moving-gradient',etc ."
+                "description": "The animation to use for the edge. Can be like 'marching-ants' , 'blink' , 'moving-gradient',etc .",
+                "maxLength": 100
               },
               "curveStyle": {
                 "type": "string",
@@ -701,7 +744,8 @@ const CoreSchema: Record<string, unknown> = {
               },
               "lineColor": {
                 "type": "string",
-                "description": "The colour of the edge's line. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The colour of the edge's line. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               },
               "lineStyle": {
                 "type": "string",
@@ -731,7 +775,8 @@ const CoreSchema: Record<string, unknown> = {
               },
               "targetArrowColor": {
                 "type": "string",
-                "description": "The colour of the edge's source arrow. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The colour of the edge's source arrow. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               },
               "targetArrowShape": {
                 "type": "string",
@@ -761,7 +806,8 @@ const CoreSchema: Record<string, unknown> = {
               },
               "midTargetArrowColor": {
                 "type": "string",
-                "description": "The colour of the edge's source arrow. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The colour of the edge's source arrow. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               },
               "midTargetArrowShape": {
                 "type": "string",
@@ -796,11 +842,13 @@ const CoreSchema: Record<string, unknown> = {
               },
               "sourceLabel": {
                 "type": "string",
-                "description": "The text to display for an edge's source label. Can give a path, e.g. data(id) will label with the elements id"
+                "description": "The text to display for an edge's source label. Can give a path, e.g. data(id) will label with the elements id",
+                "maxLength": 500
               },
               "targetLabel": {
                 "type": "string",
-                "description": "The text to display for an edge's target label. Can give a path, e.g. data(id) will label with the elements id"
+                "description": "The text to display for an edge's target label. Can give a path, e.g. data(id) will label with the elements id",
+                "maxLength": 500
               }
             }
           }
@@ -830,27 +878,33 @@ const CoreSchema: Record<string, unknown> = {
             "properties": {
               "primaryColor": {
                 "type": "string",
-                "description": "Primary color of the component used for UI representation."
+                "description": "Primary color of the component used for UI representation.",
+                "maxLength": 500
               },
               "secondaryColor": {
                 "type": "string",
-                "description": "Secondary color of the entity used for UI representation."
+                "description": "Secondary color of the entity used for UI representation.",
+                "maxLength": 500
               },
               "svgWhite": {
                 "type": "string",
-                "description": "White SVG of the entity used for UI representation on dark background."
+                "description": "White SVG of the entity used for UI representation on dark background.",
+                "maxLength": 500
               },
               "svgColor": {
                 "type": "string",
-                "description": "Colored SVG of the entity used for UI representation on light background."
+                "description": "Colored SVG of the entity used for UI representation on light background.",
+                "maxLength": 500
               },
               "svgComplete": {
                 "type": "string",
-                "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                "maxLength": 500
               },
               "color": {
                 "type": "string",
-                "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 500
               },
               "textOpacity": {
                 "type": "number",
@@ -860,19 +914,23 @@ const CoreSchema: Record<string, unknown> = {
               },
               "fontFamily": {
                 "type": "string",
-                "description": "A comma-separated list of font names to use on the label text."
+                "description": "A comma-separated list of font names to use on the label text.",
+                "maxLength": 500
               },
               "fontSize": {
                 "type": "string",
-                "description": "The size of the label text."
+                "description": "The size of the label text.",
+                "maxLength": 500
               },
               "fontStyle": {
                 "type": "string",
-                "description": "A CSS font style to be applied to the label text."
+                "description": "A CSS font style to be applied to the label text.",
+                "maxLength": 500
               },
               "fontWeight": {
                 "type": "string",
-                "description": "A CSS font weight to be applied to the label text."
+                "description": "A CSS font weight to be applied to the label text.",
+                "maxLength": 500
               },
               "textTransform": {
                 "type": "string",
@@ -891,11 +949,13 @@ const CoreSchema: Record<string, unknown> = {
               },
               "zIndex": {
                 "type": "integer",
-                "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                "minimum": 0
               },
               "label": {
                 "type": "string",
-                "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                "maxLength": 500
               },
               "animation": {
                 "type": "object",
@@ -949,26 +1009,37 @@ const CoreSchema: Record<string, unknown> = {
                   "x": {
                     "type": "number",
                     "description": "The x-coordinate of the node.",
+                    "minimum": -1000000,
+                    "maximum": 1000000,
                     "x-go-type": "float64"
                   },
                   "y": {
                     "type": "number",
                     "description": "The y-coordinate of the node.",
+                    "minimum": -1000000,
+                    "maximum": 1000000,
                     "x-go-type": "float64"
                   }
                 }
               },
               "bodyText": {
                 "type": "string",
-                "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                "maxLength": 500
               },
               "bodyTextWrap": {
                 "type": "string",
-                "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                "enum": [
+                  "none",
+                  "wrap",
+                  "ellipsis"
+                ]
               },
               "bodyTextMaxWidth": {
                 "type": "string",
-                "description": "The maximum width for wrapping text in the node."
+                "description": "The maximum width for wrapping text in the node.",
+                "maxLength": 50
               },
               "bodyTextOpacity": {
                 "type": "number",
@@ -978,47 +1049,59 @@ const CoreSchema: Record<string, unknown> = {
               },
               "bodyTextBackgroundColor": {
                 "type": "string",
-                "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               },
               "bodyTextFontSize": {
                 "type": "number",
-                "description": "The size of the node's body text."
+                "description": "The size of the node's body text.",
+                "minimum": 0
               },
               "bodyTextColor": {
                 "type": "string",
-                "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               },
               "bodyTextFontWeight": {
                 "type": "string",
-                "description": "A CSS font weight to be applied to the node's body text."
+                "description": "A CSS font weight to be applied to the node's body text.",
+                "maxLength": 50
               },
               "bodyTextHorizontalAlign": {
                 "type": "string",
-                "description": "A CSS horizontal alignment to be applied to the node's body text."
+                "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                "maxLength": 50
               },
               "bodyTextDecoration": {
                 "type": "string",
-                "description": "A CSS text decoration to be applied to the node's body text."
+                "description": "A CSS text decoration to be applied to the node's body text.",
+                "maxLength": 100
               },
               "bodyTextVerticalAlign": {
                 "type": "string",
-                "description": "A CSS vertical alignment to be applied to the node's body text."
+                "description": "A CSS vertical alignment to be applied to the node's body text.",
+                "maxLength": 50
               },
               "width": {
                 "type": "number",
-                "description": "The width of the node's body or the width of an edge's line."
+                "description": "The width of the node's body or the width of an edge's line.",
+                "minimum": 0
               },
               "height": {
                 "type": "number",
-                "description": "The height of the node's body"
+                "description": "The height of the node's body",
+                "minimum": 0
               },
               "backgroundImage": {
                 "type": "string",
-                "description": "The URL that points to the image to show in the node."
+                "format": "uri",
+                "description": "The URL that points to the image to show in the node.",
+                "maxLength": 2048
               },
               "backgroundColor": {
                 "type": "string",
-                "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               },
               "backgroundBlacken": {
                 "type": "number",
@@ -1034,35 +1117,59 @@ const CoreSchema: Record<string, unknown> = {
               },
               "backgroundPositionX": {
                 "type": "string",
-                "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                "maxLength": 50
               },
               "backgroundPositionY": {
                 "type": "string",
-                "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                "maxLength": 50
               },
               "backgroundOffsetX": {
                 "type": "string",
-                "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                "maxLength": 50
               },
               "backgroundOffsetY": {
                 "type": "string",
-                "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                "maxLength": 50
               },
               "backgroundFit": {
                 "type": "string",
-                "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                "enum": [
+                  "none",
+                  "contain",
+                  "cover"
+                ]
               },
               "backgroundClip": {
                 "type": "string",
-                "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                "enum": [
+                  "none",
+                  "node",
+                  "node-border"
+                ]
               },
               "backgroundWidthRelativeTo": {
                 "type": "string",
-                "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                "enum": [
+                  "none",
+                  "inner",
+                  "outer"
+                ]
               },
               "backgroundHeightRelativeTo": {
                 "type": "string",
-                "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                "enum": [
+                  "none",
+                  "inner",
+                  "outer"
+                ]
               },
               "borderWidth": {
                 "type": "number",
@@ -1081,7 +1188,8 @@ const CoreSchema: Record<string, unknown> = {
               },
               "borderColor": {
                 "type": "string",
-                "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               },
               "borderOpacity": {
                 "type": "number",
@@ -1123,23 +1231,28 @@ const CoreSchema: Record<string, unknown> = {
               },
               "activeBgColor": {
                 "type": "string",
-                "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               },
               "activeBgOpacity": {
                 "type": "string",
-                "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                "maxLength": 50
               },
               "activeBgSize": {
                 "type": "string",
-                "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                "maxLength": 50
               },
               "selectionBoxColor": {
                 "type": "string",
-                "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               },
               "selectionBoxBorderWidth": {
                 "type": "number",
-                "description": "The size of the border on the selection box. Selector needs to be *core*"
+                "description": "The size of the border on the selection box. Selector needs to be *core*",
+                "minimum": 0
               },
               "selectionBoxOpacity": {
                 "type": "number",
@@ -1149,7 +1262,8 @@ const CoreSchema: Record<string, unknown> = {
               },
               "outsideTextureBgColor": {
                 "type": "string",
-                "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               },
               "outsideTextureBgOpacity": {
                 "type": "number",
@@ -1159,11 +1273,13 @@ const CoreSchema: Record<string, unknown> = {
               },
               "shapePolygonPoints": {
                 "type": "string",
-                "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                "maxLength": 2000
               },
               "menuBackgroundColor": {
                 "type": "string",
-                "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               },
               "menuBackgroundOpacity": {
                 "type": "number",
@@ -1173,7 +1289,8 @@ const CoreSchema: Record<string, unknown> = {
               },
               "menuForgroundColor": {
                 "type": "string",
-                "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                "maxLength": 100
               }
             }
           }
@@ -1198,27 +1315,33 @@ const CoreSchema: Record<string, unknown> = {
                 "properties": {
                   "primaryColor": {
                     "type": "string",
-                    "description": "Primary color of the component used for UI representation."
+                    "description": "Primary color of the component used for UI representation.",
+                    "maxLength": 500
                   },
                   "secondaryColor": {
                     "type": "string",
-                    "description": "Secondary color of the entity used for UI representation."
+                    "description": "Secondary color of the entity used for UI representation.",
+                    "maxLength": 500
                   },
                   "svgWhite": {
                     "type": "string",
-                    "description": "White SVG of the entity used for UI representation on dark background."
+                    "description": "White SVG of the entity used for UI representation on dark background.",
+                    "maxLength": 500
                   },
                   "svgColor": {
                     "type": "string",
-                    "description": "Colored SVG of the entity used for UI representation on light background."
+                    "description": "Colored SVG of the entity used for UI representation on light background.",
+                    "maxLength": 500
                   },
                   "svgComplete": {
                     "type": "string",
-                    "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                    "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                    "maxLength": 500
                   },
                   "color": {
                     "type": "string",
-                    "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                    "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                    "maxLength": 500
                   },
                   "textOpacity": {
                     "type": "number",
@@ -1228,19 +1351,23 @@ const CoreSchema: Record<string, unknown> = {
                   },
                   "fontFamily": {
                     "type": "string",
-                    "description": "A comma-separated list of font names to use on the label text."
+                    "description": "A comma-separated list of font names to use on the label text.",
+                    "maxLength": 500
                   },
                   "fontSize": {
                     "type": "string",
-                    "description": "The size of the label text."
+                    "description": "The size of the label text.",
+                    "maxLength": 500
                   },
                   "fontStyle": {
                     "type": "string",
-                    "description": "A CSS font style to be applied to the label text."
+                    "description": "A CSS font style to be applied to the label text.",
+                    "maxLength": 500
                   },
                   "fontWeight": {
                     "type": "string",
-                    "description": "A CSS font weight to be applied to the label text."
+                    "description": "A CSS font weight to be applied to the label text.",
+                    "maxLength": 500
                   },
                   "textTransform": {
                     "type": "string",
@@ -1259,11 +1386,13 @@ const CoreSchema: Record<string, unknown> = {
                   },
                   "zIndex": {
                     "type": "integer",
-                    "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                    "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                    "minimum": 0
                   },
                   "label": {
                     "type": "string",
-                    "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                    "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                    "maxLength": 500
                   },
                   "animation": {
                     "type": "object",
@@ -1276,7 +1405,8 @@ const CoreSchema: Record<string, unknown> = {
                 "properties": {
                   "edgeAnimation": {
                     "type": "string",
-                    "description": "The animation to use for the edge. Can be like 'marching-ants' , 'blink' , 'moving-gradient',etc ."
+                    "description": "The animation to use for the edge. Can be like 'marching-ants' , 'blink' , 'moving-gradient',etc .",
+                    "maxLength": 100
                   },
                   "curveStyle": {
                     "type": "string",
@@ -1293,7 +1423,8 @@ const CoreSchema: Record<string, unknown> = {
                   },
                   "lineColor": {
                     "type": "string",
-                    "description": "The colour of the edge's line. Colours may be specified by name (e.g. red), hex (e.g."
+                    "description": "The colour of the edge's line. Colours may be specified by name (e.g. red), hex (e.g.",
+                    "maxLength": 100
                   },
                   "lineStyle": {
                     "type": "string",
@@ -1323,7 +1454,8 @@ const CoreSchema: Record<string, unknown> = {
                   },
                   "targetArrowColor": {
                     "type": "string",
-                    "description": "The colour of the edge's source arrow. Colours may be specified by name (e.g. red), hex (e.g."
+                    "description": "The colour of the edge's source arrow. Colours may be specified by name (e.g. red), hex (e.g.",
+                    "maxLength": 100
                   },
                   "targetArrowShape": {
                     "type": "string",
@@ -1353,7 +1485,8 @@ const CoreSchema: Record<string, unknown> = {
                   },
                   "midTargetArrowColor": {
                     "type": "string",
-                    "description": "The colour of the edge's source arrow. Colours may be specified by name (e.g. red), hex (e.g."
+                    "description": "The colour of the edge's source arrow. Colours may be specified by name (e.g. red), hex (e.g.",
+                    "maxLength": 100
                   },
                   "midTargetArrowShape": {
                     "type": "string",
@@ -1388,11 +1521,13 @@ const CoreSchema: Record<string, unknown> = {
                   },
                   "sourceLabel": {
                     "type": "string",
-                    "description": "The text to display for an edge's source label. Can give a path, e.g. data(id) will label with the elements id"
+                    "description": "The text to display for an edge's source label. Can give a path, e.g. data(id) will label with the elements id",
+                    "maxLength": 500
                   },
                   "targetLabel": {
                     "type": "string",
-                    "description": "The text to display for an edge's target label. Can give a path, e.g. data(id) will label with the elements id"
+                    "description": "The text to display for an edge's target label. Can give a path, e.g. data(id) will label with the elements id",
+                    "maxLength": 500
                   }
                 }
               }
@@ -1413,27 +1548,33 @@ const CoreSchema: Record<string, unknown> = {
                 "properties": {
                   "primaryColor": {
                     "type": "string",
-                    "description": "Primary color of the component used for UI representation."
+                    "description": "Primary color of the component used for UI representation.",
+                    "maxLength": 500
                   },
                   "secondaryColor": {
                     "type": "string",
-                    "description": "Secondary color of the entity used for UI representation."
+                    "description": "Secondary color of the entity used for UI representation.",
+                    "maxLength": 500
                   },
                   "svgWhite": {
                     "type": "string",
-                    "description": "White SVG of the entity used for UI representation on dark background."
+                    "description": "White SVG of the entity used for UI representation on dark background.",
+                    "maxLength": 500
                   },
                   "svgColor": {
                     "type": "string",
-                    "description": "Colored SVG of the entity used for UI representation on light background."
+                    "description": "Colored SVG of the entity used for UI representation on light background.",
+                    "maxLength": 500
                   },
                   "svgComplete": {
                     "type": "string",
-                    "description": "Complete SVG of the entity used for UI representation, often inclusive of background."
+                    "description": "Complete SVG of the entity used for UI representation, often inclusive of background.",
+                    "maxLength": 500
                   },
                   "color": {
                     "type": "string",
-                    "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g."
+                    "description": "The color of the element's label. Colours may be specified by name (e.g. red), hex (e.g.",
+                    "maxLength": 500
                   },
                   "textOpacity": {
                     "type": "number",
@@ -1443,19 +1584,23 @@ const CoreSchema: Record<string, unknown> = {
                   },
                   "fontFamily": {
                     "type": "string",
-                    "description": "A comma-separated list of font names to use on the label text."
+                    "description": "A comma-separated list of font names to use on the label text.",
+                    "maxLength": 500
                   },
                   "fontSize": {
                     "type": "string",
-                    "description": "The size of the label text."
+                    "description": "The size of the label text.",
+                    "maxLength": 500
                   },
                   "fontStyle": {
                     "type": "string",
-                    "description": "A CSS font style to be applied to the label text."
+                    "description": "A CSS font style to be applied to the label text.",
+                    "maxLength": 500
                   },
                   "fontWeight": {
                     "type": "string",
-                    "description": "A CSS font weight to be applied to the label text."
+                    "description": "A CSS font weight to be applied to the label text.",
+                    "maxLength": 500
                   },
                   "textTransform": {
                     "type": "string",
@@ -1474,11 +1619,13 @@ const CoreSchema: Record<string, unknown> = {
                   },
                   "zIndex": {
                     "type": "integer",
-                    "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index."
+                    "description": "An integer value that affects the relative draw order of elements. In general, an element with a higher z-index will be drawn on top of an element with a lower z-index. Note that edges are under nodes despite z-index.",
+                    "minimum": 0
                   },
                   "label": {
                     "type": "string",
-                    "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id"
+                    "description": "The text to display for an element's label. Can give a path, e.g. data(id) will label with the elements id",
+                    "maxLength": 500
                   },
                   "animation": {
                     "type": "object",
@@ -1529,7 +1676,8 @@ const CoreSchema: Record<string, unknown> = {
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "The immediate ref field path of the nonresolvedalias."
           }
         },
         "required": [
@@ -1577,7 +1725,8 @@ const CoreSchema: Record<string, unknown> = {
                 "type": "array",
                 "items": {
                   "type": "string"
-                }
+                },
+                "description": "The immediate ref field path of the nonresolvedalias."
               }
             },
             "required": [
@@ -1601,6 +1750,7 @@ const CoreSchema: Record<string, unknown> = {
               },
               "resolvedRefFieldPath": {
                 "type": "array",
+                "description": "Fully resolved field path targeted by the alias.",
                 "items": {
                   "type": "string"
                 }
