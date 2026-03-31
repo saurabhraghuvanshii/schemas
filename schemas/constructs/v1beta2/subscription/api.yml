@@ -277,7 +277,7 @@ components:
           pattern: '^[A-Za-z0-9_\-]+$'
         clientSecret:
           type: string
-          description: The client secret of the createsubscriptionresponse.
+          description: Client secret returned by the payment processor for the subscription checkout flow.
           maxLength: 500
     UpdateUsersRequest:
       type: object
@@ -323,7 +323,7 @@ components:
           items:
             $ref: '#/components/schemas/Subscription'
             x-go-type: Subscription
-          description: The subscriptions of the subscriptionpage.
+          description: Subscriptions returned in the current page of results.
     Subscription:
       $ref: ./subscription.yaml
     SubscriptionStatus:

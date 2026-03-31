@@ -186,6 +186,7 @@ components:
             fileName:
               type: string
               description: "Name of the file being uploaded."
+              maxLength: 255
             modelFile:
               type: string
               format: file

@@ -837,6 +837,8 @@ components:
         properties:
           registration_count:
             type: number
+            description: Number of registrations associated with this curriculum.
+            minimum: 0
             x-oapi-codegen-extra-tags:
               db: registration_count,omitempty
               json: registration_count,omitempty
@@ -918,6 +920,8 @@ components:
         properties:
           registration_count:
             type: number
+            description: Number of registrations associated with this curriculum.
+            minimum: 0
             x-oapi-codegen-extra-tags:
               db: registration_count,omitempty
               json: registration_count,omitempty

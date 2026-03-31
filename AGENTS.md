@@ -169,7 +169,7 @@ The schema validator (`build/validate-schemas.js`) enforces per-property constra
 |---|---|
 | 36 | Every property has a `description` |
 | 37 | String properties have `minLength`, `maxLength`, or `pattern` |
-| 38 | Numeric properties have `minimum` or `maximum` |
+| 38 | Numeric properties have `minimum`, `maximum`, or `const` |
 | 39 | ID-like properties (`id`, `*_id`, `*Id`) have `format: uuid` or `$ref` to a UUID type |
 | 40 | Page-size properties (`page_size`, `pagesize`, `pageSize`) have `minimum: 1` |
 
@@ -400,7 +400,7 @@ These patterns are deliberate. Do not suggest changes during code review:
 - [ ] (New endpoint) No `DELETE` operation has a `requestBody` — bulk deletes use `POST .../delete`
 - [ ] (New `POST` for creation only) Response code is 201, not 200
 - [ ] (New property) String properties have `description`, `maxLength`, and where appropriate `minLength` or `pattern`
-- [ ] (New property) Numeric properties have `minimum` and/or `maximum`
+- [ ] (New property) Numeric properties have `minimum`, `maximum`, or `const`
 - [ ] (New property) ID properties have `format: uuid` (or `$ref` to UUID type), OR `x-id-format: external` if they hold non-UUID external identifiers
 - [ ] (New property) Page-size properties have `minimum: 1`
 

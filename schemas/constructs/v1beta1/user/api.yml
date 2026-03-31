@@ -362,6 +362,7 @@ components:
           properties:
             teams_with_roles:
               type: array
+              description: Team memberships for the user with their assigned roles.
               items:
                 type: object
               x-oapi-codegen-extra-tags:
@@ -369,6 +370,8 @@ components:
                 json: "teams_with_roles"
             total_count:
               type: integer
+              description: Total number of team memberships returned for the user.
+              minimum: 0
               x-oapi-codegen-extra-tags:
                 db: "total_count"
                 json: "total_count"
@@ -381,6 +384,7 @@ components:
           properties:
             organizations_with_roles:
               type: array
+              description: Organization memberships for the user with their assigned roles.
               items:
                 type: object
               x-oapi-codegen-extra-tags:
@@ -388,6 +392,8 @@ components:
                 json: "organizations_with_roles"
             total_count:
               type: integer
+              description: Total number of organization memberships returned for the user.
+              minimum: 0
               x-oapi-codegen-extra-tags:
                 db: "total_count"
                 json: "total_count"

@@ -49,7 +49,8 @@
  *   Rule 36 — Every schema property should have a `description` field.
  *   Rule 37 — String properties (without $ref or enum) should have at least one validation
  *              constraint: minLength, maxLength, pattern, or format.
- *   Rule 38 — Integer/number properties should have minimum and/or maximum bounds.
+ *   Rule 38 — Integer/number properties should have minimum and/or maximum bounds,
+ *              or use const to pin a single allowed value.
  *   Rule 39 — String properties named *id/*Id must have format: uuid or $ref to a UUID schema.
  *              Skips non-string types and properties annotated with `x-id-format: external`.
  *   Rule 40 — Page-size properties (page_size, pagesize) must have minimum: 1.
@@ -80,6 +81,7 @@ const {
 } = require("./lib/consistency-policy");
 const { findNewNonLowercaseEnumValues } = require("./lib/enum-validation");
 const { detectPostCreate, isSingleResourceDelete } = require("./lib/response-code-semantics");
+const { collectPropertyConstraintIssues } = require("./lib/property-constraint-validation");
 
 const ROOT = path.resolve(__dirname, "..");
 const CONSTRUCTS_DIR = path.join(ROOT, "schemas", "constructs");
@@ -2212,162 +2214,18 @@ function validateResponseText(filePath, doc) {
   }
 }
 
-// ─── Rule 36: property descriptions ─────────────────────────────────────────
-
-function validatePropertyDescriptions(filePath, properties, schemaName) {
-  if (!properties || typeof properties !== "object") return;
-
-  for (const [propName, propDef] of Object.entries(properties)) {
-    if (!propDef || typeof propDef !== "object") continue;
-
-    // Skip $ref-only properties — they inherit description from the referenced schema.
-    const ownKeys = Object.keys(propDef).filter(
-      (k) => !k.startsWith("x-") && k !== "$ref" && k !== "default",
-    );
-    if (propDef.$ref && ownKeys.length === 0) continue;
-
-    if (!propDef.description) {
-      const context = schemaName ? `Schema "${schemaName}" — ` : "";
-      reportDesignAdvisory(
-        filePath,
-        `${context}property "${propName}" is missing a \`description\`.`,
-      );
-    }
-  }
-}
-
-// ─── Rule 37: string validation constraints ──────────────────────────────────
-
-function validateStringConstraints(filePath, properties, schemaName) {
-  if (!properties || typeof properties !== "object") return;
-
-  for (const [propName, propDef] of Object.entries(properties)) {
-    if (!propDef || typeof propDef !== "object") continue;
-    if (propDef.type !== "string") continue;
-    if (propDef.$ref || propDef.enum || propDef.const !== undefined) continue;
-
-    const hasConstraint =
-      propDef.minLength !== undefined ||
-      propDef.maxLength !== undefined ||
-      propDef.pattern !== undefined ||
-      propDef.format !== undefined;
-
-    if (!hasConstraint) {
-      const context = schemaName ? `Schema "${schemaName}" — ` : "";
-      reportDesignAdvisory(
-        filePath,
-        `${context}string property "${propName}" has no validation constraint (minLength, maxLength, pattern, or format). ` +
-          `Add at least one to prevent unbounded input.`,
-      );
-    }
-  }
-}
-
-// ─── Rule 38: numeric bounds ─────────────────────────────────────────────────
-
-function validateNumericBounds(filePath, properties, schemaName) {
-  if (!properties || typeof properties !== "object") return;
-
-  for (const [propName, propDef] of Object.entries(properties)) {
-    if (!propDef || typeof propDef !== "object") continue;
-    if (propDef.type !== "integer" && propDef.type !== "number") continue;
-
-    const hasBound =
-      propDef.minimum !== undefined ||
-      propDef.maximum !== undefined ||
-      propDef.exclusiveMinimum !== undefined ||
-      propDef.exclusiveMaximum !== undefined ||
-      propDef.enum !== undefined;
-
-    if (!hasBound) {
-      const context = schemaName ? `Schema "${schemaName}" — ` : "";
-      reportDesignAdvisory(
-        filePath,
-        `${context}${propDef.type} property "${propName}" has no bounds (minimum/maximum). ` +
-          `Add at least one to prevent unbounded values.`,
-      );
-    }
-  }
-}
-
-// ─── Rule 39: string ID properties must use format: uuid or $ref ─────────────
-//
-// Properties with `x-id-format: external` are exempt — they represent IDs from
-// external systems (payment processors, third-party APIs) that are not UUIDs.
-
-const ID_PROPERTY_PATTERN = /(?:^id$|_id$|Id$|ID$)/i;
-
-function validateIdFormat(filePath, properties, schemaName) {
-  if (!properties || typeof properties !== "object") return;
-
-  for (const [propName, propDef] of Object.entries(properties)) {
-    if (!propDef || typeof propDef !== "object") continue;
-    if (!ID_PROPERTY_PATTERN.test(propName)) continue;
-    // Only applies to string-type properties
-    if (propDef.type && propDef.type !== "string") continue;
-    if (propDef.$ref) continue; // $ref to UUID schema is fine
-    if (propDef.format === "uuid") continue;
-    // Skip properties annotated as external IDs
-    if (propDef["x-id-format"] === "external") continue;
-    // Check allOf wrappers that may contain a $ref
-    if (propDef.allOf?.some((entry) => entry.$ref) ||
-        propDef.anyOf?.some((entry) => entry.$ref) ||
-        propDef.oneOf?.some((entry) => entry.$ref)) continue;
-
-    const context = schemaName ? `Schema "${schemaName}" — ` : "";
-    reportDesignAdvisory(
-      filePath,
-      `${context}ID property "${propName}" should have \`format: uuid\`, use a \`$ref\` to a UUID schema, ` +
-        `or add \`x-id-format: external\` if this is an external system identifier.`,
-    );
-  }
-}
-
-// ─── Rule 40: page-size properties must have minimum: 1 ─────────────────────
-
-const PAGE_SIZE_NAMES = new Set(["page_size", "pagesize", "pageSize"]);
-
-function validatePageSizeMinimum(filePath, properties, schemaName) {
-  if (!properties || typeof properties !== "object") return;
-
-  for (const [propName, propDef] of Object.entries(properties)) {
-    if (!propDef || typeof propDef !== "object") continue;
-    if (!PAGE_SIZE_NAMES.has(propName)) continue;
-    if (propDef.type !== "integer" && propDef.type !== "number") continue;
-
-    if (propDef.minimum === undefined || propDef.minimum < 1) {
-      const context = schemaName ? `Schema "${schemaName}" — ` : "";
-      reportDesignAdvisory(
-        filePath,
-        `${context}page-size property "${propName}" must have \`minimum: 1\`. ` +
-          `A page size of 0 is invalid for pagination.`,
-      );
-    }
-  }
-}
-
-// ─── Rules 36–40: run property-level validation on all schema properties ─────
+// ─── Rules 36–40: property-level validation constraints ─────────────────────
 
 function validatePropertyConstraints(filePath, doc) {
-  // Entity-level schemas (top-level properties in .yaml files)
-  if (doc.properties && doc.type === "object") {
-    validatePropertyDescriptions(filePath, doc.properties, null);
-    validateStringConstraints(filePath, doc.properties, null);
-    validateNumericBounds(filePath, doc.properties, null);
-    validateIdFormat(filePath, doc.properties, null);
-    validatePageSizeMinimum(filePath, doc.properties, null);
+  for (const issue of collectPropertyConstraintIssues(doc)) {
+    reportDesignAdvisory(filePath, issue);
   }
+}
 
-  // Component schemas in api.yml
-  if (doc.components?.schemas) {
-    for (const [schemaName, schema] of Object.entries(doc.components.schemas)) {
-      if (!schema?.properties) continue;
-      validatePropertyDescriptions(filePath, schema.properties, schemaName);
-      validateStringConstraints(filePath, schema.properties, schemaName);
-      validateNumericBounds(filePath, schema.properties, schemaName);
-      validateIdFormat(filePath, schema.properties, schemaName);
-      validatePageSizeMinimum(filePath, schema.properties, schemaName);
-    }
+
+function validatePropertyConstraints(filePath, doc) {
+  for (const issue of collectPropertyConstraintIssues(doc)) {
+    reportDesignAdvisory(filePath, issue);
   }
 }
 

@@ -61,13 +61,11 @@ properties:
         invitation is valid , null means the invitation is valid for all email addresses
     description: The emails of the invitation.
   org_id:
-    type: string
+    $ref: ../core/api.yml#/components/schemas/Uuid
     description: ID of the organization to which the user is invited
     x-oapi-codegen-extra-tags:
       db: org_id
       json: org_id
-    maxLength: 500
-    format: uuid
   expires_at:
     type: string
     format: date-time
