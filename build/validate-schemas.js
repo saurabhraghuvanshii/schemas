@@ -1331,30 +1331,35 @@ function validateTemplateTypes(constructDir) {
 
       for (const [key, value] of Object.entries(template)) {
         const prop = schema.properties[key];
-        if (!prop || !prop.type) continue;
+        if (!prop) continue;
+        // Use explicit type only. Properties with $ref are skipped because
+        // the ref target may be any type (string, object, array) and cannot
+        // be determined without resolving. Rule 34 validates explicit types only.
+        if (!prop.type) continue;
+        const propType = prop.type;
         if (value === null) continue; // null is a valid default for nullable fields
 
         const isArray = Array.isArray(value);
         const jsType = isArray ? "array" : typeof value;
 
-        if (prop.type === "string" && jsType === "object") {
+        if (propType === "string" && jsType === "object") {
           warn(
             tmplPath,
             `Template property "${key}" is an object but schema declares type: string. ` +
               `Use an empty string "" as the default value.`,
           );
         }
-        if (prop.type === "array" && jsType === "object" && !isArray) {
+        if (propType === "array" && jsType === "object" && !isArray) {
           warn(
             tmplPath,
             `Template property "${key}" is an object {} but schema declares type: array. ` +
               `Use an empty array [] as the default value.`,
           );
         }
-        if ((prop.type === "integer" || prop.type === "number") && jsType === "string") {
+        if ((propType === "integer" || propType === "number") && jsType === "string") {
           warn(
             tmplPath,
-            `Template property "${key}" is a string but schema declares type: ${prop.type}. ` +
+            `Template property "${key}" is a string but schema declares type: ${propType}. ` +
               `Use 0 as the default value.`,
           );
         }
