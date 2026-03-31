@@ -800,10 +800,13 @@ const SubscriptionSchema: Record<string, unknown> = {
                 "type": "object",
                 "properties": {
                   "orgId": {
-                    "type": "string",
                     "description": "Organization ID",
-                    "maxLength": 500,
-                    "format": "uuid"
+                    "type": "string",
+                    "format": "uuid",
+                    "x-go-type": "uuid.UUID",
+                    "x-go-type-import": {
+                      "path": "github.com/gofrs/uuid"
+                    }
                   },
                   "planId": {
                     "type": "string",
@@ -1527,10 +1530,13 @@ const SubscriptionSchema: Record<string, unknown> = {
         "type": "object",
         "properties": {
           "orgId": {
-            "type": "string",
             "description": "Organization ID",
-            "maxLength": 500,
-            "format": "uuid"
+            "type": "string",
+            "format": "uuid",
+            "x-go-type": "uuid.UUID",
+            "x-go-type-import": {
+              "path": "github.com/gofrs/uuid"
+            }
           },
           "planId": {
             "type": "string",

@@ -27,14 +27,14 @@ properties:
     x-order: 4
     x-oapi-codegen-extra-tags:
       db: access_token
-    maxLength: 500
+    maxLength: 4096
   refresh_token:
     type: string
     description: Refresh token value when applicable.
     x-order: 5
     x-oapi-codegen-extra-tags:
       db: refresh_token
-    maxLength: 500
+    maxLength: 4096
   name:
     type: string
     description: Human-readable token name.

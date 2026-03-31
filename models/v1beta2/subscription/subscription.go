@@ -80,8 +80,8 @@ type CreateSubscriptionRequest struct {
 	// Email Email of the customer
 	Email *openapi_types.Email `json:"email,omitempty" yaml:"email,omitempty"`
 
-	// OrgId Organization ID
-	OrgId *openapi_types.UUID `json:"orgId,omitempty" yaml:"orgId,omitempty"`
+	// OrgId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
+	OrgId *core.Uuid `json:"orgId,omitempty" yaml:"orgId,omitempty"`
 
 	// PaymentProcessor Supported payment processors
 	PaymentProcessor *PaymentProcessor `json:"paymentProcessor,omitempty" yaml:"paymentProcessor,omitempty"`

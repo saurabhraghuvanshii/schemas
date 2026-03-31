@@ -110,7 +110,7 @@ export interface paths {
                   /**
                    * Format: uuid
                    * @description Unique identifier for the certificate
-                   * @example 1234567890abcdef
+                   * @example 550e8400-e29b-41d4-a716-446655440000
                    */
                   id: string;
                   /**
@@ -121,7 +121,7 @@ export interface paths {
                   /**
                    * Format: uuid
                    * @description ID of the recipient (user) who received the certificate
-                   * @example 1234567890abcdef
+                   * @example 550e8400-e29b-41d4-a716-446655440001
                    */
                   recipientId: string;
                   /**
@@ -183,7 +183,7 @@ export interface paths {
                   /**
                    * Format: uuid
                    * @description Unique identifier for the course
-                   * @example 1234567890abcdef
+                   * @example 550e8400-e29b-41d4-a716-446655440002
                    */
                   id: string;
                   /**
@@ -321,7 +321,7 @@ export interface paths {
                 /**
                  * Format: uuid
                  * @description Unique identifier for the certificate
-                 * @example 1234567890abcdef
+                 * @example 550e8400-e29b-41d4-a716-446655440000
                  */
                 id: string;
                 /**
@@ -332,7 +332,7 @@ export interface paths {
                 /**
                  * Format: uuid
                  * @description ID of the recipient (user) who received the certificate
-                 * @example 1234567890abcdef
+                 * @example 550e8400-e29b-41d4-a716-446655440001
                  */
                 recipientId: string;
                 /**
@@ -492,7 +492,7 @@ export interface components {
         /**
          * Format: uuid
          * @description Unique identifier for the certificate
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440000
          */
         id: string;
         /**
@@ -503,7 +503,7 @@ export interface components {
         /**
          * Format: uuid
          * @description ID of the recipient (user) who received the certificate
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440001
          */
         recipientId: string;
         /**
@@ -565,7 +565,7 @@ export interface components {
         /**
          * Format: uuid
          * @description Unique identifier for the course
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440002
          */
         id: string;
         /**
@@ -711,7 +711,7 @@ export interface components {
           /**
            * Format: uuid
            * @description Unique identifier for the certificate
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440000
            */
           id: string;
           /**
@@ -722,7 +722,7 @@ export interface components {
           /**
            * Format: uuid
            * @description ID of the recipient (user) who received the certificate
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440001
            */
           recipientId: string;
           /**
@@ -784,7 +784,7 @@ export interface components {
           /**
            * Format: uuid
            * @description Unique identifier for the course
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440002
            */
           id: string;
           /**
@@ -906,7 +906,7 @@ export interface components {
           /**
            * Format: uuid
            * @description Unique identifier for the certificate
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440000
            */
           id: string;
           /**
@@ -917,7 +917,7 @@ export interface components {
           /**
            * Format: uuid
            * @description ID of the recipient (user) who received the certificate
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440001
            */
           recipientId: string;
           /**
@@ -979,7 +979,7 @@ export interface components {
           /**
            * Format: uuid
            * @description Unique identifier for the course
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440002
            */
           id: string;
           /**
@@ -1148,7 +1148,7 @@ export interface components {
           /**
            * Format: uuid
            * @description Unique identifier for the certificate
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440000
            */
           id: string;
           /**
@@ -1159,7 +1159,7 @@ export interface components {
           /**
            * Format: uuid
            * @description ID of the recipient (user) who received the certificate
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440001
            */
           recipientId: string;
           /**
@@ -1221,7 +1221,7 @@ export interface components {
           /**
            * Format: uuid
            * @description Unique identifier for the course
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440002
            */
           id: string;
           /**
@@ -1343,7 +1343,7 @@ export interface components {
           /**
            * Format: uuid
            * @description Unique identifier for the certificate
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440000
            */
           id: string;
           /**
@@ -1354,7 +1354,7 @@ export interface components {
           /**
            * Format: uuid
            * @description ID of the recipient (user) who received the certificate
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440001
            */
           recipientId: string;
           /**
@@ -1416,7 +1416,7 @@ export interface components {
           /**
            * Format: uuid
            * @description Unique identifier for the course
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440002
            */
           id: string;
           /**
@@ -1547,7 +1547,7 @@ export interface components {
             /**
              * Format: uuid
              * @description Unique identifier for the certificate
-             * @example 1234567890abcdef
+             * @example 550e8400-e29b-41d4-a716-446655440000
              */
             id: string;
             /**
@@ -1558,7 +1558,7 @@ export interface components {
             /**
              * Format: uuid
              * @description ID of the recipient (user) who received the certificate
-             * @example 1234567890abcdef
+             * @example 550e8400-e29b-41d4-a716-446655440001
              */
             recipientId: string;
             /**
@@ -1620,7 +1620,7 @@ export interface components {
             /**
              * Format: uuid
              * @description Unique identifier for the course
-             * @example 1234567890abcdef
+             * @example 550e8400-e29b-41d4-a716-446655440002
              */
             id: string;
             /**
@@ -1750,7 +1750,7 @@ export interface components {
             /**
              * Format: uuid
              * @description Unique identifier for the certificate
-             * @example 1234567890abcdef
+             * @example 550e8400-e29b-41d4-a716-446655440000
              */
             id: string;
             /**
@@ -1761,7 +1761,7 @@ export interface components {
             /**
              * Format: uuid
              * @description ID of the recipient (user) who received the certificate
-             * @example 1234567890abcdef
+             * @example 550e8400-e29b-41d4-a716-446655440001
              */
             recipientId: string;
             /**
@@ -1823,7 +1823,7 @@ export interface components {
             /**
              * Format: uuid
              * @description Unique identifier for the course
-             * @example 1234567890abcdef
+             * @example 550e8400-e29b-41d4-a716-446655440002
              */
             id: string;
             /**
@@ -1898,7 +1898,7 @@ export interface components {
         /**
          * Format: uuid
          * @description Unique identifier for the certificate
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440000
          */
         id: string;
         /**
@@ -1909,7 +1909,7 @@ export interface components {
         /**
          * Format: uuid
          * @description ID of the recipient (user) who received the certificate
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440001
          */
         recipientId: string;
         /**
@@ -1971,7 +1971,7 @@ export interface components {
         /**
          * Format: uuid
          * @description Unique identifier for the course
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440002
          */
         id: string;
         /**
@@ -2042,7 +2042,7 @@ export interface components {
         /**
          * Format: uuid
          * @description Unique identifier for the certificate
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440000
          */
         id: string;
         /**
@@ -2053,7 +2053,7 @@ export interface components {
         /**
          * Format: uuid
          * @description ID of the recipient (user) who received the certificate
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440001
          */
         recipientId: string;
         /**
@@ -2115,7 +2115,7 @@ export interface components {
         /**
          * Format: uuid
          * @description Unique identifier for the course
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440002
          */
         id: string;
         /**
@@ -2178,7 +2178,7 @@ export interface components {
       /**
        * Format: uuid
        * @description Unique identifier for the certificate
-       * @example 1234567890abcdef
+       * @example 550e8400-e29b-41d4-a716-446655440000
        */
       id: string;
       /**
@@ -2189,7 +2189,7 @@ export interface components {
       /**
        * Format: uuid
        * @description ID of the recipient (user) who received the certificate
-       * @example 1234567890abcdef
+       * @example 550e8400-e29b-41d4-a716-446655440001
        */
       recipientId: string;
       /**
@@ -2278,7 +2278,7 @@ export interface components {
         /**
          * Format: uuid
          * @description Unique identifier for the certificate
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440000
          */
         id: string;
         /**
@@ -2289,7 +2289,7 @@ export interface components {
         /**
          * Format: uuid
          * @description ID of the recipient (user) who received the certificate
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440001
          */
         recipientId: string;
         /**
@@ -2351,7 +2351,7 @@ export interface components {
         /**
          * Format: uuid
          * @description Unique identifier for the course
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440002
          */
         id: string;
         /**
@@ -2445,7 +2445,7 @@ export interface components {
         /**
          * Format: uuid
          * @description Unique identifier for the certificate
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440000
          */
         id: string;
         /**
@@ -2456,7 +2456,7 @@ export interface components {
         /**
          * Format: uuid
          * @description ID of the recipient (user) who received the certificate
-         * @example 1234567890abcdef
+         * @example 550e8400-e29b-41d4-a716-446655440001
          */
         recipientId: string;
         /**
@@ -2852,7 +2852,7 @@ export interface components {
       /**
        * Format: uuid
        * @description Unique identifier for the course
-       * @example 1234567890abcdef
+       * @example 550e8400-e29b-41d4-a716-446655440002
        */
       id: string;
       /**
@@ -2943,7 +2943,7 @@ export interface components {
           /**
            * Format: uuid
            * @description Unique identifier for the certificate
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440000
            */
           id: string;
           /**
@@ -2954,7 +2954,7 @@ export interface components {
           /**
            * Format: uuid
            * @description ID of the recipient (user) who received the certificate
-           * @example 1234567890abcdef
+           * @example 550e8400-e29b-41d4-a716-446655440001
            */
           recipientId: string;
           /**
@@ -4580,7 +4580,7 @@ export interface operations {
                   /**
                    * Format: uuid
                    * @description Unique identifier for the certificate
-                   * @example 1234567890abcdef
+                   * @example 550e8400-e29b-41d4-a716-446655440000
                    */
                   id: string;
                   /**
@@ -4591,7 +4591,7 @@ export interface operations {
                   /**
                    * Format: uuid
                    * @description ID of the recipient (user) who received the certificate
-                   * @example 1234567890abcdef
+                   * @example 550e8400-e29b-41d4-a716-446655440001
                    */
                   recipientId: string;
                   /**
@@ -4653,7 +4653,7 @@ export interface operations {
                   /**
                    * Format: uuid
                    * @description Unique identifier for the course
-                   * @example 1234567890abcdef
+                   * @example 550e8400-e29b-41d4-a716-446655440002
                    */
                   id: string;
                   /**
@@ -4829,7 +4829,7 @@ export interface operations {
                   /**
                    * Format: uuid
                    * @description Unique identifier for the certificate
-                   * @example 1234567890abcdef
+                   * @example 550e8400-e29b-41d4-a716-446655440000
                    */
                   id: string;
                   /**
@@ -4840,7 +4840,7 @@ export interface operations {
                   /**
                    * Format: uuid
                    * @description ID of the recipient (user) who received the certificate
-                   * @example 1234567890abcdef
+                   * @example 550e8400-e29b-41d4-a716-446655440001
                    */
                   recipientId: string;
                   /**
@@ -4902,7 +4902,7 @@ export interface operations {
                   /**
                    * Format: uuid
                    * @description Unique identifier for the course
-                   * @example 1234567890abcdef
+                   * @example 550e8400-e29b-41d4-a716-446655440002
                    */
                   id: string;
                   /**
@@ -5047,7 +5047,7 @@ export interface operations {
                 /**
                  * Format: uuid
                  * @description Unique identifier for the certificate
-                 * @example 1234567890abcdef
+                 * @example 550e8400-e29b-41d4-a716-446655440000
                  */
                 id: string;
                 /**
@@ -5058,7 +5058,7 @@ export interface operations {
                 /**
                  * Format: uuid
                  * @description ID of the recipient (user) who received the certificate
-                 * @example 1234567890abcdef
+                 * @example 550e8400-e29b-41d4-a716-446655440001
                  */
                 recipientId: string;
                 /**
@@ -5120,7 +5120,7 @@ export interface operations {
                 /**
                  * Format: uuid
                  * @description Unique identifier for the course
-                 * @example 1234567890abcdef
+                 * @example 550e8400-e29b-41d4-a716-446655440002
                  */
                 id: string;
                 /**
@@ -5243,7 +5243,7 @@ export interface operations {
               /**
                * Format: uuid
                * @description Unique identifier for the certificate
-               * @example 1234567890abcdef
+               * @example 550e8400-e29b-41d4-a716-446655440000
                */
               id: string;
               /**
@@ -5254,7 +5254,7 @@ export interface operations {
               /**
                * Format: uuid
                * @description ID of the recipient (user) who received the certificate
-               * @example 1234567890abcdef
+               * @example 550e8400-e29b-41d4-a716-446655440001
                */
               recipientId: string;
               /**
@@ -5316,7 +5316,7 @@ export interface operations {
               /**
                * Format: uuid
                * @description Unique identifier for the course
-               * @example 1234567890abcdef
+               * @example 550e8400-e29b-41d4-a716-446655440002
                */
               id: string;
               /**
@@ -5410,7 +5410,7 @@ export interface operations {
               /**
                * Format: uuid
                * @description Unique identifier for the certificate
-               * @example 1234567890abcdef
+               * @example 550e8400-e29b-41d4-a716-446655440000
                */
               id: string;
               /**
@@ -5421,7 +5421,7 @@ export interface operations {
               /**
                * Format: uuid
                * @description ID of the recipient (user) who received the certificate
-               * @example 1234567890abcdef
+               * @example 550e8400-e29b-41d4-a716-446655440001
                */
               recipientId: string;
               /**
@@ -5570,7 +5570,7 @@ export interface operations {
               /**
                * Format: uuid
                * @description Unique identifier for the certificate
-               * @example 1234567890abcdef
+               * @example 550e8400-e29b-41d4-a716-446655440000
                */
               id: string;
               /**
@@ -5581,7 +5581,7 @@ export interface operations {
               /**
                * Format: uuid
                * @description ID of the recipient (user) who received the certificate
-               * @example 1234567890abcdef
+               * @example 550e8400-e29b-41d4-a716-446655440001
                */
               recipientId: string;
               /**
@@ -5755,7 +5755,7 @@ export interface operations {
                 /**
                  * Format: uuid
                  * @description Unique identifier for the certificate
-                 * @example 1234567890abcdef
+                 * @example 550e8400-e29b-41d4-a716-446655440000
                  */
                 id: string;
                 /**
@@ -5766,7 +5766,7 @@ export interface operations {
                 /**
                  * Format: uuid
                  * @description ID of the recipient (user) who received the certificate
-                 * @example 1234567890abcdef
+                 * @example 550e8400-e29b-41d4-a716-446655440001
                  */
                 recipientId: string;
                 /**
@@ -5828,7 +5828,7 @@ export interface operations {
                 /**
                  * Format: uuid
                  * @description Unique identifier for the course
-                 * @example 1234567890abcdef
+                 * @example 550e8400-e29b-41d4-a716-446655440002
                  */
                 id: string;
                 /**
@@ -6039,7 +6039,7 @@ export interface operations {
                 /**
                  * Format: uuid
                  * @description Unique identifier for the certificate
-                 * @example 1234567890abcdef
+                 * @example 550e8400-e29b-41d4-a716-446655440000
                  */
                 id: string;
                 /**
@@ -6050,7 +6050,7 @@ export interface operations {
                 /**
                  * Format: uuid
                  * @description ID of the recipient (user) who received the certificate
-                 * @example 1234567890abcdef
+                 * @example 550e8400-e29b-41d4-a716-446655440001
                  */
                 recipientId: string;
                 /**
@@ -6112,7 +6112,7 @@ export interface operations {
                 /**
                  * Format: uuid
                  * @description Unique identifier for the course
-                 * @example 1234567890abcdef
+                 * @example 550e8400-e29b-41d4-a716-446655440002
                  */
                 id: string;
                 /**
@@ -6298,7 +6298,7 @@ export interface operations {
               /**
                * Format: uuid
                * @description Unique identifier for the certificate
-               * @example 1234567890abcdef
+               * @example 550e8400-e29b-41d4-a716-446655440000
                */
               id: string;
               /**
@@ -6309,7 +6309,7 @@ export interface operations {
               /**
                * Format: uuid
                * @description ID of the recipient (user) who received the certificate
-               * @example 1234567890abcdef
+               * @example 550e8400-e29b-41d4-a716-446655440001
                */
               recipientId: string;
               /**
@@ -6371,7 +6371,7 @@ export interface operations {
               /**
                * Format: uuid
                * @description Unique identifier for the course
-               * @example 1234567890abcdef
+               * @example 550e8400-e29b-41d4-a716-446655440002
                */
               id: string;
               /**
@@ -7665,7 +7665,7 @@ export interface operations {
             /**
              * Format: uuid
              * @description Unique identifier for the certificate
-             * @example 1234567890abcdef
+             * @example 550e8400-e29b-41d4-a716-446655440000
              */
             id: string;
             /**
@@ -7676,7 +7676,7 @@ export interface operations {
             /**
              * Format: uuid
              * @description ID of the recipient (user) who received the certificate
-             * @example 1234567890abcdef
+             * @example 550e8400-e29b-41d4-a716-446655440001
              */
             recipientId: string;
             /**

@@ -345,7 +345,7 @@ const AcademySchema: Record<string, unknown> = {
                                       "id": {
                                         "type": "string",
                                         "description": "Unique identifier for the certificate",
-                                        "example": "1234567890abcdef",
+                                        "example": "550e8400-e29b-41d4-a716-446655440000",
                                         "x-go-name": "ID",
                                         "maxLength": 500,
                                         "format": "uuid"
@@ -362,7 +362,7 @@ const AcademySchema: Record<string, unknown> = {
                                       "recipientId": {
                                         "type": "string",
                                         "description": "ID of the recipient (user) who received the certificate",
-                                        "example": "1234567890abcdef",
+                                        "example": "550e8400-e29b-41d4-a716-446655440001",
                                         "maxLength": 500,
                                         "format": "uuid"
                                       },
@@ -447,7 +447,7 @@ const AcademySchema: Record<string, unknown> = {
                                         "id": {
                                           "type": "string",
                                           "description": "Unique identifier for the course",
-                                          "example": "1234567890abcdef",
+                                          "example": "550e8400-e29b-41d4-a716-446655440002",
                                           "x-go-name": "ID",
                                           "x-oapi-codegen-extra-tags": {
                                             "db": "id",
@@ -748,7 +748,7 @@ const AcademySchema: Record<string, unknown> = {
                               "id": {
                                 "type": "string",
                                 "description": "Unique identifier for the certificate",
-                                "example": "1234567890abcdef",
+                                "example": "550e8400-e29b-41d4-a716-446655440000",
                                 "x-go-name": "ID",
                                 "maxLength": 500,
                                 "format": "uuid"
@@ -765,7 +765,7 @@ const AcademySchema: Record<string, unknown> = {
                               "recipientId": {
                                 "type": "string",
                                 "description": "ID of the recipient (user) who received the certificate",
-                                "example": "1234567890abcdef",
+                                "example": "550e8400-e29b-41d4-a716-446655440001",
                                 "maxLength": 500,
                                 "format": "uuid"
                               },
@@ -850,7 +850,7 @@ const AcademySchema: Record<string, unknown> = {
                                 "id": {
                                   "type": "string",
                                   "description": "Unique identifier for the course",
-                                  "example": "1234567890abcdef",
+                                  "example": "550e8400-e29b-41d4-a716-446655440002",
                                   "x-go-name": "ID",
                                   "x-oapi-codegen-extra-tags": {
                                     "db": "id",
@@ -1207,7 +1207,7 @@ const AcademySchema: Record<string, unknown> = {
                                 "id": {
                                   "type": "string",
                                   "description": "Unique identifier for the certificate",
-                                  "example": "1234567890abcdef",
+                                  "example": "550e8400-e29b-41d4-a716-446655440000",
                                   "x-go-name": "ID",
                                   "maxLength": 500,
                                   "format": "uuid"
@@ -1224,7 +1224,7 @@ const AcademySchema: Record<string, unknown> = {
                                 "recipientId": {
                                   "type": "string",
                                   "description": "ID of the recipient (user) who received the certificate",
-                                  "example": "1234567890abcdef",
+                                  "example": "550e8400-e29b-41d4-a716-446655440001",
                                   "maxLength": 500,
                                   "format": "uuid"
                                 },
@@ -1309,7 +1309,7 @@ const AcademySchema: Record<string, unknown> = {
                                   "id": {
                                     "type": "string",
                                     "description": "Unique identifier for the course",
-                                    "example": "1234567890abcdef",
+                                    "example": "550e8400-e29b-41d4-a716-446655440002",
                                     "x-go-name": "ID",
                                     "x-oapi-codegen-extra-tags": {
                                       "db": "id",
@@ -1835,7 +1835,7 @@ const AcademySchema: Record<string, unknown> = {
                                           "id": {
                                             "type": "string",
                                             "description": "Unique identifier for the certificate",
-                                            "example": "1234567890abcdef",
+                                            "example": "550e8400-e29b-41d4-a716-446655440000",
                                             "x-go-name": "ID",
                                             "maxLength": 500,
                                             "format": "uuid"
@@ -1852,7 +1852,7 @@ const AcademySchema: Record<string, unknown> = {
                                           "recipientId": {
                                             "type": "string",
                                             "description": "ID of the recipient (user) who received the certificate",
-                                            "example": "1234567890abcdef",
+                                            "example": "550e8400-e29b-41d4-a716-446655440001",
                                             "maxLength": 500,
                                             "format": "uuid"
                                           },
@@ -1937,7 +1937,7 @@ const AcademySchema: Record<string, unknown> = {
                                             "id": {
                                               "type": "string",
                                               "description": "Unique identifier for the course",
-                                              "example": "1234567890abcdef",
+                                              "example": "550e8400-e29b-41d4-a716-446655440002",
                                               "x-go-name": "ID",
                                               "x-oapi-codegen-extra-tags": {
                                                 "db": "id",
@@ -2362,7 +2362,7 @@ const AcademySchema: Record<string, unknown> = {
                                 "id": {
                                   "type": "string",
                                   "description": "Unique identifier for the certificate",
-                                  "example": "1234567890abcdef",
+                                  "example": "550e8400-e29b-41d4-a716-446655440000",
                                   "x-go-name": "ID",
                                   "maxLength": 500,
                                   "format": "uuid"
@@ -2379,7 +2379,7 @@ const AcademySchema: Record<string, unknown> = {
                                 "recipientId": {
                                   "type": "string",
                                   "description": "ID of the recipient (user) who received the certificate",
-                                  "example": "1234567890abcdef",
+                                  "example": "550e8400-e29b-41d4-a716-446655440001",
                                   "maxLength": 500,
                                   "format": "uuid"
                                 },
@@ -2464,7 +2464,7 @@ const AcademySchema: Record<string, unknown> = {
                                   "id": {
                                     "type": "string",
                                     "description": "Unique identifier for the course",
-                                    "example": "1234567890abcdef",
+                                    "example": "550e8400-e29b-41d4-a716-446655440002",
                                     "x-go-name": "ID",
                                     "x-oapi-codegen-extra-tags": {
                                       "db": "id",
@@ -2751,7 +2751,7 @@ const AcademySchema: Record<string, unknown> = {
                         "id": {
                           "type": "string",
                           "description": "Unique identifier for the certificate",
-                          "example": "1234567890abcdef",
+                          "example": "550e8400-e29b-41d4-a716-446655440000",
                           "x-go-name": "ID",
                           "maxLength": 500,
                           "format": "uuid"
@@ -2768,7 +2768,7 @@ const AcademySchema: Record<string, unknown> = {
                         "recipientId": {
                           "type": "string",
                           "description": "ID of the recipient (user) who received the certificate",
-                          "example": "1234567890abcdef",
+                          "example": "550e8400-e29b-41d4-a716-446655440001",
                           "maxLength": 500,
                           "format": "uuid"
                         },
@@ -3030,7 +3030,7 @@ const AcademySchema: Record<string, unknown> = {
                         "id": {
                           "type": "string",
                           "description": "Unique identifier for the certificate",
-                          "example": "1234567890abcdef",
+                          "example": "550e8400-e29b-41d4-a716-446655440000",
                           "x-go-name": "ID",
                           "maxLength": 500,
                           "format": "uuid"
@@ -3047,7 +3047,7 @@ const AcademySchema: Record<string, unknown> = {
                         "recipientId": {
                           "type": "string",
                           "description": "ID of the recipient (user) who received the certificate",
-                          "example": "1234567890abcdef",
+                          "example": "550e8400-e29b-41d4-a716-446655440001",
                           "maxLength": 500,
                           "format": "uuid"
                         },
@@ -3370,7 +3370,7 @@ const AcademySchema: Record<string, unknown> = {
                               "id": {
                                 "type": "string",
                                 "description": "Unique identifier for the certificate",
-                                "example": "1234567890abcdef",
+                                "example": "550e8400-e29b-41d4-a716-446655440000",
                                 "x-go-name": "ID",
                                 "maxLength": 500,
                                 "format": "uuid"
@@ -3387,7 +3387,7 @@ const AcademySchema: Record<string, unknown> = {
                               "recipientId": {
                                 "type": "string",
                                 "description": "ID of the recipient (user) who received the certificate",
-                                "example": "1234567890abcdef",
+                                "example": "550e8400-e29b-41d4-a716-446655440001",
                                 "maxLength": 500,
                                 "format": "uuid"
                               },
@@ -3472,7 +3472,7 @@ const AcademySchema: Record<string, unknown> = {
                                 "id": {
                                   "type": "string",
                                   "description": "Unique identifier for the course",
-                                  "example": "1234567890abcdef",
+                                  "example": "550e8400-e29b-41d4-a716-446655440002",
                                   "x-go-name": "ID",
                                   "x-oapi-codegen-extra-tags": {
                                     "db": "id",
@@ -3832,7 +3832,7 @@ const AcademySchema: Record<string, unknown> = {
                                     "id": {
                                       "type": "string",
                                       "description": "Unique identifier for the certificate",
-                                      "example": "1234567890abcdef",
+                                      "example": "550e8400-e29b-41d4-a716-446655440000",
                                       "x-go-name": "ID",
                                       "maxLength": 500,
                                       "format": "uuid"
@@ -3849,7 +3849,7 @@ const AcademySchema: Record<string, unknown> = {
                                     "recipientId": {
                                       "type": "string",
                                       "description": "ID of the recipient (user) who received the certificate",
-                                      "example": "1234567890abcdef",
+                                      "example": "550e8400-e29b-41d4-a716-446655440001",
                                       "maxLength": 500,
                                       "format": "uuid"
                                     },
@@ -3934,7 +3934,7 @@ const AcademySchema: Record<string, unknown> = {
                                       "id": {
                                         "type": "string",
                                         "description": "Unique identifier for the course",
-                                        "example": "1234567890abcdef",
+                                        "example": "550e8400-e29b-41d4-a716-446655440002",
                                         "x-go-name": "ID",
                                         "x-oapi-codegen-extra-tags": {
                                           "db": "id",
@@ -4576,7 +4576,7 @@ const AcademySchema: Record<string, unknown> = {
                                     "id": {
                                       "type": "string",
                                       "description": "Unique identifier for the certificate",
-                                      "example": "1234567890abcdef",
+                                      "example": "550e8400-e29b-41d4-a716-446655440000",
                                       "x-go-name": "ID",
                                       "maxLength": 500,
                                       "format": "uuid"
@@ -4593,7 +4593,7 @@ const AcademySchema: Record<string, unknown> = {
                                     "recipientId": {
                                       "type": "string",
                                       "description": "ID of the recipient (user) who received the certificate",
-                                      "example": "1234567890abcdef",
+                                      "example": "550e8400-e29b-41d4-a716-446655440001",
                                       "maxLength": 500,
                                       "format": "uuid"
                                     },
@@ -4678,7 +4678,7 @@ const AcademySchema: Record<string, unknown> = {
                                       "id": {
                                         "type": "string",
                                         "description": "Unique identifier for the course",
-                                        "example": "1234567890abcdef",
+                                        "example": "550e8400-e29b-41d4-a716-446655440002",
                                         "x-go-name": "ID",
                                         "x-oapi-codegen-extra-tags": {
                                           "db": "id",
@@ -5146,7 +5146,7 @@ const AcademySchema: Record<string, unknown> = {
                         "id": {
                           "type": "string",
                           "description": "Unique identifier for the certificate",
-                          "example": "1234567890abcdef",
+                          "example": "550e8400-e29b-41d4-a716-446655440000",
                           "x-go-name": "ID",
                           "maxLength": 500,
                           "format": "uuid"
@@ -5163,7 +5163,7 @@ const AcademySchema: Record<string, unknown> = {
                         "recipientId": {
                           "type": "string",
                           "description": "ID of the recipient (user) who received the certificate",
-                          "example": "1234567890abcdef",
+                          "example": "550e8400-e29b-41d4-a716-446655440001",
                           "maxLength": 500,
                           "format": "uuid"
                         },
@@ -8191,7 +8191,7 @@ const AcademySchema: Record<string, unknown> = {
                     "id": {
                       "type": "string",
                       "description": "Unique identifier for the certificate",
-                      "example": "1234567890abcdef",
+                      "example": "550e8400-e29b-41d4-a716-446655440000",
                       "x-go-name": "ID",
                       "maxLength": 500,
                       "format": "uuid"
@@ -8208,7 +8208,7 @@ const AcademySchema: Record<string, unknown> = {
                     "recipientId": {
                       "type": "string",
                       "description": "ID of the recipient (user) who received the certificate",
-                      "example": "1234567890abcdef",
+                      "example": "550e8400-e29b-41d4-a716-446655440001",
                       "maxLength": 500,
                       "format": "uuid"
                     },
@@ -8547,7 +8547,7 @@ const AcademySchema: Record<string, unknown> = {
                   "id": {
                     "type": "string",
                     "description": "Unique identifier for the certificate",
-                    "example": "1234567890abcdef",
+                    "example": "550e8400-e29b-41d4-a716-446655440000",
                     "x-go-name": "ID",
                     "maxLength": 500,
                     "format": "uuid"
@@ -8564,7 +8564,7 @@ const AcademySchema: Record<string, unknown> = {
                   "recipientId": {
                     "type": "string",
                     "description": "ID of the recipient (user) who received the certificate",
-                    "example": "1234567890abcdef",
+                    "example": "550e8400-e29b-41d4-a716-446655440001",
                     "maxLength": 500,
                     "format": "uuid"
                   },
@@ -8649,7 +8649,7 @@ const AcademySchema: Record<string, unknown> = {
                     "id": {
                       "type": "string",
                       "description": "Unique identifier for the course",
-                      "example": "1234567890abcdef",
+                      "example": "550e8400-e29b-41d4-a716-446655440002",
                       "x-go-name": "ID",
                       "x-oapi-codegen-extra-tags": {
                         "db": "id",
@@ -9061,7 +9061,7 @@ const AcademySchema: Record<string, unknown> = {
                       "id": {
                         "type": "string",
                         "description": "Unique identifier for the certificate",
-                        "example": "1234567890abcdef",
+                        "example": "550e8400-e29b-41d4-a716-446655440000",
                         "x-go-name": "ID",
                         "maxLength": 500,
                         "format": "uuid"
@@ -9078,7 +9078,7 @@ const AcademySchema: Record<string, unknown> = {
                       "recipientId": {
                         "type": "string",
                         "description": "ID of the recipient (user) who received the certificate",
-                        "example": "1234567890abcdef",
+                        "example": "550e8400-e29b-41d4-a716-446655440001",
                         "maxLength": 500,
                         "format": "uuid"
                       },
@@ -9163,7 +9163,7 @@ const AcademySchema: Record<string, unknown> = {
                         "id": {
                           "type": "string",
                           "description": "Unique identifier for the course",
-                          "example": "1234567890abcdef",
+                          "example": "550e8400-e29b-41d4-a716-446655440002",
                           "x-go-name": "ID",
                           "x-oapi-codegen-extra-tags": {
                             "db": "id",
@@ -9506,7 +9506,7 @@ const AcademySchema: Record<string, unknown> = {
                           "id": {
                             "type": "string",
                             "description": "Unique identifier for the certificate",
-                            "example": "1234567890abcdef",
+                            "example": "550e8400-e29b-41d4-a716-446655440000",
                             "x-go-name": "ID",
                             "maxLength": 500,
                             "format": "uuid"
@@ -9523,7 +9523,7 @@ const AcademySchema: Record<string, unknown> = {
                           "recipientId": {
                             "type": "string",
                             "description": "ID of the recipient (user) who received the certificate",
-                            "example": "1234567890abcdef",
+                            "example": "550e8400-e29b-41d4-a716-446655440001",
                             "maxLength": 500,
                             "format": "uuid"
                           },
@@ -9608,7 +9608,7 @@ const AcademySchema: Record<string, unknown> = {
                             "id": {
                               "type": "string",
                               "description": "Unique identifier for the course",
-                              "example": "1234567890abcdef",
+                              "example": "550e8400-e29b-41d4-a716-446655440002",
                               "x-go-name": "ID",
                               "x-oapi-codegen-extra-tags": {
                                 "db": "id",
@@ -10067,7 +10067,7 @@ const AcademySchema: Record<string, unknown> = {
                       "id": {
                         "type": "string",
                         "description": "Unique identifier for the certificate",
-                        "example": "1234567890abcdef",
+                        "example": "550e8400-e29b-41d4-a716-446655440000",
                         "x-go-name": "ID",
                         "maxLength": 500,
                         "format": "uuid"
@@ -10084,7 +10084,7 @@ const AcademySchema: Record<string, unknown> = {
                       "recipientId": {
                         "type": "string",
                         "description": "ID of the recipient (user) who received the certificate",
-                        "example": "1234567890abcdef",
+                        "example": "550e8400-e29b-41d4-a716-446655440001",
                         "maxLength": 500,
                         "format": "uuid"
                       },
@@ -10169,7 +10169,7 @@ const AcademySchema: Record<string, unknown> = {
                         "id": {
                           "type": "string",
                           "description": "Unique identifier for the course",
-                          "example": "1234567890abcdef",
+                          "example": "550e8400-e29b-41d4-a716-446655440002",
                           "x-go-name": "ID",
                           "x-oapi-codegen-extra-tags": {
                             "db": "id",
@@ -10520,7 +10520,7 @@ const AcademySchema: Record<string, unknown> = {
                           "id": {
                             "type": "string",
                             "description": "Unique identifier for the certificate",
-                            "example": "1234567890abcdef",
+                            "example": "550e8400-e29b-41d4-a716-446655440000",
                             "x-go-name": "ID",
                             "maxLength": 500,
                             "format": "uuid"
@@ -10537,7 +10537,7 @@ const AcademySchema: Record<string, unknown> = {
                           "recipientId": {
                             "type": "string",
                             "description": "ID of the recipient (user) who received the certificate",
-                            "example": "1234567890abcdef",
+                            "example": "550e8400-e29b-41d4-a716-446655440001",
                             "maxLength": 500,
                             "format": "uuid"
                           },
@@ -10622,7 +10622,7 @@ const AcademySchema: Record<string, unknown> = {
                             "id": {
                               "type": "string",
                               "description": "Unique identifier for the course",
-                              "example": "1234567890abcdef",
+                              "example": "550e8400-e29b-41d4-a716-446655440002",
                               "x-go-name": "ID",
                               "x-oapi-codegen-extra-tags": {
                                 "db": "id",
@@ -10991,7 +10991,7 @@ const AcademySchema: Record<string, unknown> = {
                             "id": {
                               "type": "string",
                               "description": "Unique identifier for the certificate",
-                              "example": "1234567890abcdef",
+                              "example": "550e8400-e29b-41d4-a716-446655440000",
                               "x-go-name": "ID",
                               "maxLength": 500,
                               "format": "uuid"
@@ -11008,7 +11008,7 @@ const AcademySchema: Record<string, unknown> = {
                             "recipientId": {
                               "type": "string",
                               "description": "ID of the recipient (user) who received the certificate",
-                              "example": "1234567890abcdef",
+                              "example": "550e8400-e29b-41d4-a716-446655440001",
                               "maxLength": 500,
                               "format": "uuid"
                             },
@@ -11093,7 +11093,7 @@ const AcademySchema: Record<string, unknown> = {
                               "id": {
                                 "type": "string",
                                 "description": "Unique identifier for the course",
-                                "example": "1234567890abcdef",
+                                "example": "550e8400-e29b-41d4-a716-446655440002",
                                 "x-go-name": "ID",
                                 "x-oapi-codegen-extra-tags": {
                                   "db": "id",
@@ -11456,7 +11456,7 @@ const AcademySchema: Record<string, unknown> = {
                                 "id": {
                                   "type": "string",
                                   "description": "Unique identifier for the certificate",
-                                  "example": "1234567890abcdef",
+                                  "example": "550e8400-e29b-41d4-a716-446655440000",
                                   "x-go-name": "ID",
                                   "maxLength": 500,
                                   "format": "uuid"
@@ -11473,7 +11473,7 @@ const AcademySchema: Record<string, unknown> = {
                                 "recipientId": {
                                   "type": "string",
                                   "description": "ID of the recipient (user) who received the certificate",
-                                  "example": "1234567890abcdef",
+                                  "example": "550e8400-e29b-41d4-a716-446655440001",
                                   "maxLength": 500,
                                   "format": "uuid"
                                 },
@@ -11558,7 +11558,7 @@ const AcademySchema: Record<string, unknown> = {
                                   "id": {
                                     "type": "string",
                                     "description": "Unique identifier for the course",
-                                    "example": "1234567890abcdef",
+                                    "example": "550e8400-e29b-41d4-a716-446655440002",
                                     "x-go-name": "ID",
                                     "x-oapi-codegen-extra-tags": {
                                       "db": "id",
@@ -11713,7 +11713,7 @@ const AcademySchema: Record<string, unknown> = {
               "id": {
                 "type": "string",
                 "description": "Unique identifier for the certificate",
-                "example": "1234567890abcdef",
+                "example": "550e8400-e29b-41d4-a716-446655440000",
                 "x-go-name": "ID",
                 "maxLength": 500,
                 "format": "uuid"
@@ -11730,7 +11730,7 @@ const AcademySchema: Record<string, unknown> = {
               "recipientId": {
                 "type": "string",
                 "description": "ID of the recipient (user) who received the certificate",
-                "example": "1234567890abcdef",
+                "example": "550e8400-e29b-41d4-a716-446655440001",
                 "maxLength": 500,
                 "format": "uuid"
               },
@@ -11815,7 +11815,7 @@ const AcademySchema: Record<string, unknown> = {
                 "id": {
                   "type": "string",
                   "description": "Unique identifier for the course",
-                  "example": "1234567890abcdef",
+                  "example": "550e8400-e29b-41d4-a716-446655440002",
                   "x-go-name": "ID",
                   "x-oapi-codegen-extra-tags": {
                     "db": "id",
@@ -11941,7 +11941,7 @@ const AcademySchema: Record<string, unknown> = {
               "id": {
                 "type": "string",
                 "description": "Unique identifier for the certificate",
-                "example": "1234567890abcdef",
+                "example": "550e8400-e29b-41d4-a716-446655440000",
                 "x-go-name": "ID",
                 "maxLength": 500,
                 "format": "uuid"
@@ -11958,7 +11958,7 @@ const AcademySchema: Record<string, unknown> = {
               "recipientId": {
                 "type": "string",
                 "description": "ID of the recipient (user) who received the certificate",
-                "example": "1234567890abcdef",
+                "example": "550e8400-e29b-41d4-a716-446655440001",
                 "maxLength": 500,
                 "format": "uuid"
               },
@@ -12043,7 +12043,7 @@ const AcademySchema: Record<string, unknown> = {
                 "id": {
                   "type": "string",
                   "description": "Unique identifier for the course",
-                  "example": "1234567890abcdef",
+                  "example": "550e8400-e29b-41d4-a716-446655440002",
                   "x-go-name": "ID",
                   "x-oapi-codegen-extra-tags": {
                     "db": "id",
@@ -12161,7 +12161,7 @@ const AcademySchema: Record<string, unknown> = {
           "id": {
             "type": "string",
             "description": "Unique identifier for the certificate",
-            "example": "1234567890abcdef",
+            "example": "550e8400-e29b-41d4-a716-446655440000",
             "x-go-name": "ID",
             "maxLength": 500,
             "format": "uuid"
@@ -12178,7 +12178,7 @@ const AcademySchema: Record<string, unknown> = {
           "recipientId": {
             "type": "string",
             "description": "ID of the recipient (user) who received the certificate",
-            "example": "1234567890abcdef",
+            "example": "550e8400-e29b-41d4-a716-446655440001",
             "maxLength": 500,
             "format": "uuid"
           },
@@ -12304,7 +12304,7 @@ const AcademySchema: Record<string, unknown> = {
               "id": {
                 "type": "string",
                 "description": "Unique identifier for the certificate",
-                "example": "1234567890abcdef",
+                "example": "550e8400-e29b-41d4-a716-446655440000",
                 "x-go-name": "ID",
                 "maxLength": 500,
                 "format": "uuid"
@@ -12321,7 +12321,7 @@ const AcademySchema: Record<string, unknown> = {
               "recipientId": {
                 "type": "string",
                 "description": "ID of the recipient (user) who received the certificate",
-                "example": "1234567890abcdef",
+                "example": "550e8400-e29b-41d4-a716-446655440001",
                 "maxLength": 500,
                 "format": "uuid"
               },
@@ -12406,7 +12406,7 @@ const AcademySchema: Record<string, unknown> = {
                 "id": {
                   "type": "string",
                   "description": "Unique identifier for the course",
-                  "example": "1234567890abcdef",
+                  "example": "550e8400-e29b-41d4-a716-446655440002",
                   "x-go-name": "ID",
                   "x-oapi-codegen-extra-tags": {
                     "db": "id",
@@ -12620,7 +12620,7 @@ const AcademySchema: Record<string, unknown> = {
               "id": {
                 "type": "string",
                 "description": "Unique identifier for the certificate",
-                "example": "1234567890abcdef",
+                "example": "550e8400-e29b-41d4-a716-446655440000",
                 "x-go-name": "ID",
                 "maxLength": 500,
                 "format": "uuid"
@@ -12637,7 +12637,7 @@ const AcademySchema: Record<string, unknown> = {
               "recipientId": {
                 "type": "string",
                 "description": "ID of the recipient (user) who received the certificate",
-                "example": "1234567890abcdef",
+                "example": "550e8400-e29b-41d4-a716-446655440001",
                 "maxLength": 500,
                 "format": "uuid"
               },
@@ -13555,7 +13555,7 @@ const AcademySchema: Record<string, unknown> = {
           "id": {
             "type": "string",
             "description": "Unique identifier for the course",
-            "example": "1234567890abcdef",
+            "example": "550e8400-e29b-41d4-a716-446655440002",
             "x-go-name": "ID",
             "x-oapi-codegen-extra-tags": {
               "db": "id",
@@ -13759,7 +13759,7 @@ const AcademySchema: Record<string, unknown> = {
                     "id": {
                       "type": "string",
                       "description": "Unique identifier for the certificate",
-                      "example": "1234567890abcdef",
+                      "example": "550e8400-e29b-41d4-a716-446655440000",
                       "x-go-name": "ID",
                       "maxLength": 500,
                       "format": "uuid"
@@ -13776,7 +13776,7 @@ const AcademySchema: Record<string, unknown> = {
                     "recipientId": {
                       "type": "string",
                       "description": "ID of the recipient (user) who received the certificate",
-                      "example": "1234567890abcdef",
+                      "example": "550e8400-e29b-41d4-a716-446655440001",
                       "maxLength": 500,
                       "format": "uuid"
                     },

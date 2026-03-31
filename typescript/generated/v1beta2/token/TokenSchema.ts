@@ -163,7 +163,7 @@ const TokenSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "access_token"
                             },
-                            "maxLength": 500
+                            "maxLength": 4096
                           },
                           "refresh_token": {
                             "type": "string",
@@ -172,7 +172,7 @@ const TokenSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "refresh_token"
                             },
-                            "maxLength": 500
+                            "maxLength": 4096
                           },
                           "name": {
                             "type": "string",
@@ -376,7 +376,7 @@ const TokenSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "access_token"
                             },
-                            "maxLength": 500
+                            "maxLength": 4096
                           },
                           "refresh_token": {
                             "type": "string",
@@ -385,7 +385,7 @@ const TokenSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "refresh_token"
                             },
-                            "maxLength": 500
+                            "maxLength": 4096
                           },
                           "name": {
                             "type": "string",
@@ -597,7 +597,7 @@ const TokenSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "access_token"
                             },
-                            "maxLength": 500
+                            "maxLength": 4096
                           },
                           "refresh_token": {
                             "type": "string",
@@ -606,7 +606,7 @@ const TokenSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "refresh_token"
                             },
-                            "maxLength": 500
+                            "maxLength": 4096
                           },
                           "name": {
                             "type": "string",
@@ -807,7 +807,7 @@ const TokenSchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "access_token"
                       },
-                      "maxLength": 500
+                      "maxLength": 4096
                     },
                     "refresh_token": {
                       "type": "string",
@@ -816,7 +816,7 @@ const TokenSchema: Record<string, unknown> = {
                       "x-oapi-codegen-extra-tags": {
                         "db": "refresh_token"
                       },
-                      "maxLength": 500
+                      "maxLength": 4096
                     },
                     "name": {
                       "type": "string",
@@ -1016,7 +1016,7 @@ const TokenSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "access_token"
                             },
-                            "maxLength": 500
+                            "maxLength": 4096
                           },
                           "refresh_token": {
                             "type": "string",
@@ -1025,7 +1025,7 @@ const TokenSchema: Record<string, unknown> = {
                             "x-oapi-codegen-extra-tags": {
                               "db": "refresh_token"
                             },
-                            "maxLength": 500
+                            "maxLength": 4096
                           },
                           "name": {
                             "type": "string",
@@ -1358,7 +1358,7 @@ const TokenSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "db": "access_token"
             },
-            "maxLength": 500
+            "maxLength": 4096
           },
           "refresh_token": {
             "type": "string",
@@ -1367,7 +1367,7 @@ const TokenSchema: Record<string, unknown> = {
             "x-oapi-codegen-extra-tags": {
               "db": "refresh_token"
             },
-            "maxLength": 500
+            "maxLength": 4096
           },
           "name": {
             "type": "string",
@@ -1489,7 +1489,7 @@ const TokenSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "db": "access_token"
                   },
-                  "maxLength": 500
+                  "maxLength": 4096
                 },
                 "refresh_token": {
                   "type": "string",
@@ -1498,7 +1498,7 @@ const TokenSchema: Record<string, unknown> = {
                   "x-oapi-codegen-extra-tags": {
                     "db": "refresh_token"
                   },
-                  "maxLength": 500
+                  "maxLength": 4096
                 },
                 "name": {
                   "type": "string",

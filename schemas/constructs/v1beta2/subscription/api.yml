@@ -233,10 +233,8 @@ components:
       type: object
       properties:
         orgId:
-          type: string
+          $ref: ../core/api.yml#/components/schemas/Uuid
           description: Organization ID
-          maxLength: 500
-          format: uuid
         planId:
           type: string
           description: Price ID from the payment processor
