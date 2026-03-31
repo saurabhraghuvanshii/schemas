@@ -960,10 +960,10 @@ components:
                 json: "registration_count,omitempty"
             invitation:
               $ref: "../invitation/api.yml#/components/schemas/Invitation"
-              x-go-type: "invitationv1beta1.Invitation"
+              x-go-type: "invitationv1beta2.Invitation"
               x-go-type-import:
-                path: "github.com/meshery/schemas/models/v1beta1/invitation"
-                name: invitationv1beta1
+                path: "github.com/meshery/schemas/models/v1beta2/invitation"
+                name: invitationv1beta2
 
     CreateAcademyCurriculaRequest:
       type: object
@@ -1017,10 +1017,10 @@ components:
           $ref: "../invitation/api.yml#/components/schemas/InvitationStatus"
           description: Current access status of the curricula
           x-go-name: AccessStatus
-          x-go-type: "invitationv1beta1.InvitationStatus"
+          x-go-type: "invitationv1beta2.InvitationStatus"
           x-go-type-import:
-            path: "github.com/meshery/schemas/models/v1beta1/invitation"
-            name: invitationv1beta1
+            path: "github.com/meshery/schemas/models/v1beta2/invitation"
+            name: invitationv1beta2
           x-oapi-codegen-extra-tags:
             json: "access_status"
             db: "access_status"

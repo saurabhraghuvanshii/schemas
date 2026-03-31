@@ -1314,6 +1314,7 @@ function validateTemplateTypes(constructDir) {
       for (const [key, value] of Object.entries(template)) {
         const prop = schema.properties[key];
         if (!prop || !prop.type) continue;
+        if (value === null) continue; // null is a valid default for nullable fields
 
         const isArray = Array.isArray(value);
         const jsType = isArray ? "array" : typeof value;
@@ -1332,10 +1333,10 @@ function validateTemplateTypes(constructDir) {
               `Use an empty array [] as the default value.`,
           );
         }
-        if (prop.type === "integer" && jsType === "string") {
+        if ((prop.type === "integer" || prop.type === "number") && jsType === "string") {
           warn(
             tmplPath,
-            `Template property "${key}" is a string but schema declares type: integer. ` +
+            `Template property "${key}" is a string but schema declares type: ${prop.type}. ` +
               `Use 0 as the default value.`,
           );
         }
