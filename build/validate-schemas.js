@@ -2310,7 +2310,9 @@ function validateIdFormat(filePath, properties, schemaName) {
     // Skip properties annotated as external IDs
     if (propDef["x-id-format"] === "external") continue;
     // Check allOf wrappers that may contain a $ref
-    if (propDef.allOf?.some((entry) => entry.$ref)) continue;
+    if (propDef.allOf?.some((entry) => entry.$ref) ||
+        propDef.anyOf?.some((entry) => entry.$ref) ||
+        propDef.oneOf?.some((entry) => entry.$ref)) continue;
 
     const context = schemaName ? `Schema "${schemaName}" — ` : "";
     reportDesignAdvisory(
