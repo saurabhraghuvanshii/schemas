@@ -2435,7 +2435,7 @@ function walk(dir) {
             if (entityDoc.components?.schemas) {
               validateGoTypeImportConsistency(entityPath, entityDoc);
             }
-            // Rules 36–39: property-level validation constraints
+            // Rules 36–40: property-level validation constraints
             validatePropertyConstraints(entityPath, entityDoc);
           }
         }
