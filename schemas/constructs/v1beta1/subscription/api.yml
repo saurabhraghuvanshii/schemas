@@ -69,6 +69,8 @@ paths:
   /api/entitlement/subscriptions/{subscriptionId}/cancel:
     post:
       x-internal: ["cloud"]
+      tags:
+        - Subscriptions
       summary: Cancel an existing subscription . The subscription will remain active until the end of the billing period and then it will be canceled.
       security:
         - jwt: []

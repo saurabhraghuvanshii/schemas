@@ -321,6 +321,8 @@ paths:
 
   /api/pattern/import:
     post:
+      tags:
+        - designs
       summary: Import Design
       operationId: importDesign
       requestBody:

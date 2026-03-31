@@ -46,6 +46,7 @@
  *   Rule 33 — Pagination envelopes must use page, page_size, total_count.
  *   Rule 34 — Template file values must match schema property types.
  *   Rule 35 — x-go-type alias must match x-go-type-import.name, and import path must match alias.
+ *   Rule 36 — Every operation must define at least one OpenAPI tag.
  *
  * USAGE:
  *   node build/validate-schemas.js          # exits 0 if no blocking violations found
@@ -2026,6 +2027,28 @@ function validateResponseCodeSemantics(filePath, doc) {
   }
 }
 
+// ─── Rule 36: every operation must have tags ──────────────────────────────────
+
+function validateOperationTags(filePath, doc) {
+  if (!doc?.paths) return;
+
+  for (const [routePath, pathItem] of Object.entries(doc.paths)) {
+    for (const method of HTTP_METHODS) {
+      const op = pathItem[method];
+      if (!op) continue;
+
+      if (!Array.isArray(op.tags) || op.tags.length === 0) {
+        reportDesignAdvisory(
+          filePath,
+          `${method.toUpperCase()} ${routePath} — operation is missing \`tags\`. ` +
+            `Every operation must have at least one tag for consistent API documentation and client generation. ` +
+            `See CLAUDE.md § "Checklist for Schema Changes".`,
+        );
+      }
+    }
+  }
+}
+
 // ─── Rule 29: detect duplicate schemas across constructs ──────────────────────
 
 /**
@@ -2316,6 +2339,7 @@ function walk(dir) {
           validateDbBackedPropertyNames(apiYml, doc);
           validatePaginationEnvelopeFieldNames(apiYml, doc);
           validateResponseCodeSemantics(apiYml, doc);
+          validateOperationTags(apiYml, doc);
           collectSchemaFingerprints(apiYml, doc);
           validateResponseSchemaRefs(apiYml, doc);
           validateResponseText(apiYml, doc);
