@@ -26,10 +26,10 @@ type ErrorResponse struct {
 	Error *string `json:"error,omitempty" yaml:"error,omitempty"`
 }
 
-// EventResult defines model for EventResult.
+// EventResult EventResult entity schema.
 type EventResult struct {
-	Action   *string `json:"action,omitempty" yaml:"action,omitempty"`
-	Category *string `json:"category,omitempty" yaml:"category,omitempty"`
+	Action   string `json:"action" yaml:"action"`
+	Category string `json:"category" yaml:"category"`
 
 	// CreatedAt Timestamp when the resource was created.
 	CreatedAt   core.CreatedAt `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`

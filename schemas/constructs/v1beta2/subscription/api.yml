@@ -11,168 +11,168 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: http://localhost:8080
-    description: Local development server
-
+- url: http://localhost:8080
+  description: Local development server
 tags:
-  - name: Subscriptions
-    description: Operations related to subscriptions
-
-  - name: Plans
-    description: Operations related to plans
-
-  - name: Payment Processors
-    description: Operations related to payment processors
-
+- name: Subscriptions
+  description: Operations related to subscriptions
+- name: Plans
+  description: Operations related to plans
+- name: Payment Processors
+  description: Operations related to payment processors
 paths:
   /api/entitlement/subscriptions:
     get:
-      x-internal: ["cloud"]
+      x-internal:
+      - cloud
       tags:
-        - Subscriptions
+      - Subscriptions
       description: Returns all subscriptions for the organization
       operationId: getSubscriptions
       summary: Read subscriptions
       security:
-        - jwt: []
+      - jwt: []
       parameters:
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/pagesize"
-        - $ref: "#/components/parameters/order"
-        - name: status
-          in: query
-          description: Filter subscriptions by status
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-          style: form
-          explode: true
-
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - $ref: '#/components/parameters/order'
+      - name: status
+        in: query
+        description: Filter subscriptions by status
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SubscriptionPage"
+                $ref: '#/components/schemas/SubscriptionPage'
           description: Get subscription response
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "500":
-          $ref: "#/components/responses/500"
-
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
   /api/entitlement/subscriptions/{subscriptionId}/cancel:
     post:
-      x-internal: ["cloud"]
-      summary: Cancel an existing subscription. The subscription will remain active until the end of the billing period and then it will be canceled.
+      x-internal:
+      - cloud
+      summary: Cancel an existing subscription. The subscription will remain active until the end of the billing period and
+        then it will be canceled.
       security:
-        - jwt: []
-
+      - jwt: []
       parameters:
-        - $ref: "#/components/parameters/subscriptionId"
+      - $ref: '#/components/parameters/subscriptionId'
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SubscriptionPage"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
+                $ref: '#/components/schemas/SubscriptionPage'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/entitlement/subscriptions/create:
     post:
-      x-internal: ["cloud"]
+      x-internal:
+      - cloud
       summary: Create a new subscription for an organization
       security:
-        - jwt: []
+      - jwt: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateSubscriptionRequest"
+              $ref: '#/components/schemas/CreateSubscriptionRequest'
       responses:
-        "201":
+        '201':
           description: A new subscription has been created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreateSubscriptionResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "500":
-          $ref: "#/components/responses/500"
+                $ref: '#/components/schemas/CreateSubscriptionResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
   /api/entitlement/subscriptions/{subscriptionId}/upgrade:
     post:
-      x-internal: ["cloud"]
+      x-internal:
+      - cloud
       summary: Upgrade or downgrade an existing subscription by changing one of the plans in the subscription
       security:
-        - jwt: []
+      - jwt: []
       parameters:
-        - $ref: "#/components/parameters/subscriptionId"
+      - $ref: '#/components/parameters/subscriptionId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpgradeSubscriptionRequest"
+              $ref: '#/components/schemas/UpgradeSubscriptionRequest'
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Subscription"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
+                $ref: '#/components/schemas/Subscription'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/entitlement/subscriptions/{subscriptionId}/upgrade-preview:
     post:
-      x-internal: ["cloud"]
-      summary: Preview the invoice for upgrading or downgrading an existing subscription by changing one of the plans in the subscription
+      x-internal:
+      - cloud
+      summary: Preview the invoice for upgrading or downgrading an existing subscription by changing one of the plans in the
+        subscription
       security:
-        - jwt: []
+      - jwt: []
       parameters:
-        - $ref: "#/components/parameters/subscriptionId"
+      - $ref: '#/components/parameters/subscriptionId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpgradeSubscriptionRequest"
+              $ref: '#/components/schemas/UpgradeSubscriptionRequest'
       responses:
-        "200":
+        '200':
           description: Preview of the upgraded subscription invoice
           content:
             application/json:
               schema:
                 type: object
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/entitlement/subscriptions/webhooks:
     post:
-      x-internal: ["cloud"]
+      x-internal:
+      - cloud
       summary: Handle webhook events from payment processors
       security: []
       requestBody:
@@ -180,37 +180,31 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/WebhookEvent"
+              $ref: '#/components/schemas/WebhookEvent'
       responses:
-        "200":
+        '200':
           description: Webhook processed
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "500":
-          $ref: "#/components/responses/500"
-
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   responses:
     400:
-      $ref: "../core/api.yml#/components/responses/400"
-
+      $ref: ../core/api.yml#/components/responses/400
     401:
-      $ref: "../core/api.yml#/components/responses/401"
-
+      $ref: ../core/api.yml#/components/responses/401
     404:
-      $ref: "../core/api.yml#/components/responses/404"
-
+      $ref: ../core/api.yml#/components/responses/404
     500:
-      $ref: "../core/api.yml#/components/responses/500"
-
+      $ref: ../core/api.yml#/components/responses/500
   securitySchemes:
     jwt:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
   parameters:
     subscriptionId:
       name: subscriptionId
@@ -219,26 +213,22 @@ components:
       description: Subscription ID
       schema:
         type: string
-
     page:
-      $ref: "../core/api.yml#/components/parameters/page"
+      $ref: ../core/api.yml#/components/parameters/page
     pagesize:
-      $ref: "../core/api.yml#/components/parameters/pagesize"
-
+      $ref: ../core/api.yml#/components/parameters/pagesize
     pagesizeWithAll:
-      $ref: "../core/api.yml#/components/parameters/pagesizeWithAll"
+      $ref: ../core/api.yml#/components/parameters/pagesizeWithAll
     order:
-      $ref: "../core/api.yml#/components/parameters/order"
-
+      $ref: ../core/api.yml#/components/parameters/order
   schemas:
     PaymentProcessor:
       type: string
       enum:
-        - stripe
-        - paypal
-        - braintree
+      - stripe
+      - paypal
+      - braintree
       description: Supported payment processors
-
     CreateSubscriptionRequest:
       type: object
       properties:
@@ -259,18 +249,16 @@ components:
           format: email
           description: Email of the customer
         paymentProcessor:
-          $ref: "#/components/schemas/PaymentProcessor"
-
+          $ref: '#/components/schemas/PaymentProcessor'
     UpgradeSubscriptionRequest:
       type: object
       properties:
         oldPlanId:
-          $ref: "../core/api.yml#/components/schemas/Uuid"
+          $ref: ../core/api.yml#/components/schemas/Uuid
           description: Old Plan id that is being changed
         newPlanId:
-          $ref: "../core/api.yml#/components/schemas/Uuid"
+          $ref: ../core/api.yml#/components/schemas/Uuid
           description: New Plan id that is being changed to
-
     CreateSubscriptionResponse:
       type: object
       properties:
@@ -278,13 +266,11 @@ components:
           type: string
         clientSecret:
           type: string
-
     UpdateUsersRequest:
       type: object
       properties:
         paymentProcessor:
-          $ref: "#/components/schemas/PaymentProcessor"
-
+          $ref: '#/components/schemas/PaymentProcessor'
     CancelSubscriptionRequest:
       type: object
       properties:
@@ -292,19 +278,17 @@ components:
           type: string
           description: Subscription ID from the payment processor
         paymentProcessor:
-          $ref: "#/components/schemas/PaymentProcessor"
-
+          $ref: '#/components/schemas/PaymentProcessor'
     WebhookEvent:
       type: object
       description: Payload for webhook events from payment processors
-
     SubscriptionPage:
       type: object
       required:
-        - page
-        - page_size
-        - total_count
-        - subscriptions
+      - page
+      - page_size
+      - total_count
+      - subscriptions
       properties:
         page:
           type: integer
@@ -313,99 +297,29 @@ components:
         total_count:
           type: integer
         subscriptions:
-          type: "array"
+          type: array
           items:
-            $ref: "#/components/schemas/Subscription"
+            $ref: '#/components/schemas/Subscription'
             x-go-type: Subscription
     Subscription:
-      type: object
-      properties:
-        id:
-          $ref: "../core/api.yml#/components/schemas/Uuid"
-          x-oapi-codegen-extra-tags:
-            db: "id"
-        org_id:
-          $ref: "../core/api.yml#/components/schemas/Uuid"
-          x-oapi-codegen-extra-tags:
-            db: "org_id"
-        plan_id:
-          $ref: "../core/api.yml#/components/schemas/Uuid"
-          x-oapi-codegen-extra-tags:
-            db: "plan_id"
-        plan:
-          $ref: "../plan/api.yml#/components/schemas/Plan"
-          x-go-type: planv1beta2.Plan
-          x-go-type-import:
-            path: github.com/meshery/schemas/models/v1beta2/plan
-            name: planv1beta2
-          x-oapi-codegen-extra-tags:
-            belongs_to: "plans"
-            fk_id: "PlanId"
-            json: "plan,omitempty"
-
-        quantity:
-          description: "number of units subscribed (eg number of users)"
-          type: "integer"
-          x-oapi-codegen-extra-tags:
-            db: "quantity"
-        start_date:
-          $ref: "../core/api.yml#/components/schemas/Time"
-          x-oapi-codegen-extra-tags:
-            db: "start_date"
-        end_date:
-          $ref: "../core/api.yml#/components/schemas/Time"
-          x-oapi-codegen-extra-tags:
-            db: "end_date"
-        status:
-          $ref: "#/components/schemas/SubscriptionStatus"
-          x-go-type: SubscriptionStatus
-          x-oapi-codegen-extra-tags:
-            db: "status"
-        created_at:
-          $ref: "../core/api.yml#/components/schemas/Time"
-          x-oapi-codegen-extra-tags:
-            db: "created_at"
-        updated_at:
-          $ref: "../core/api.yml#/components/schemas/Time"
-          x-oapi-codegen-extra-tags:
-            db: "updated_at"
-        deleted_at:
-          # Uses SqlNullTime (not NullTime) for backward compatibility with
-          # v1beta1 Subscription entities and downstream GORM/Pop consumers.
-          $ref: "../core/api.yml#/components/schemas/SqlNullTime"
-          x-oapi-codegen-extra-tags:
-            db: "deleted_at"
-        billing_id:
-          type: string
-          description: "Billing ID of the subscription. This is the ID of the subscription in the billing system. eg Stripe"
-          x-oapi-codegen-extra-tags:
-            db: "billing_id"
-
-      required:
-        - id
-        - org_id
-        - plan_id
-        - billing_id
-        - status
-        - quantity
-
+      $ref: ./subscription.yaml
     SubscriptionStatus:
       type: string
       description: Possible statuses of a Stripe subscription.
       enum:
-        - incomplete
-        - incomplete_expired
-        - trialing
-        - active
-        - past_due
-        - canceled
-        - unpaid
+      - incomplete
+      - incomplete_expired
+      - trialing
+      - active
+      - past_due
+      - canceled
+      - unpaid
       x-enumDescriptions:
-        incomplete: "The subscription has been created, but the initial payment is pending. It may transition to 'active' or 'incomplete_expired'."
-        incomplete_expired: "The subscription was created but never activated due to failed initial payment. It is now expired."
-        trialing: "The subscription is currently in a trial period before the first payment is due."
-        active: "The subscription is active, and billing is functioning normally."
-        past_due: "The latest payment attempt failed, but the subscription remains active. Stripe may retry the charge."
-        canceled: "The subscription has been canceled and will no longer generate invoices."
-
-        unpaid: "The subscription is still technically active but has unpaid invoices and is no longer generating new invoices."
+        incomplete: The subscription has been created, but the initial payment is pending. It may transition to 'active' or
+          'incomplete_expired'.
+        incomplete_expired: The subscription was created but never activated due to failed initial payment. It is now expired.
+        trialing: The subscription is currently in a trial period before the first payment is due.
+        active: The subscription is active, and billing is functioning normally.
+        past_due: The latest payment attempt failed, but the subscription remains active. Stripe may retry the charge.
+        canceled: The subscription has been canceled and will no longer generate invoices.
+        unpaid: The subscription is still technically active but has unpaid invoices and is no longer generating new invoices.

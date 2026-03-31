@@ -27,7 +27,7 @@ export interface components {
          */
         name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
         /** @enum {string} */
-        cadence: "monthly" | "yearly";
+        cadence: "none" | "monthly" | "annually";
         /** @enum {string} */
         unit: "user" | "free";
         /** @description Minimum number of units required for the plan */
@@ -38,6 +38,7 @@ export interface components {
         currency: "usd";
       }[];
     };
+    /** @description Plan entity schema. */
     Plan: {
       /**
        * Format: uuid
@@ -50,7 +51,7 @@ export interface components {
        */
       name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
       /** @enum {string} */
-      cadence: "monthly" | "yearly";
+      cadence: "none" | "monthly" | "annually";
       /** @enum {string} */
       unit: "user" | "free";
       /** @description Minimum number of units required for the plan */
@@ -66,7 +67,7 @@ export interface components {
      */
     PlanName: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
     /** @enum {string} */
-    PlanCadence: "monthly" | "yearly";
+    PlanCadence: "none" | "monthly" | "annually";
     /** @enum {string} */
     PlanUnit: "user" | "free";
     /** @enum {string} */
@@ -120,7 +121,7 @@ export interface operations {
              */
             name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
             /** @enum {string} */
-            cadence: "monthly" | "yearly";
+            cadence: "none" | "monthly" | "annually";
             /** @enum {string} */
             unit: "user" | "free";
             /** @description Minimum number of units required for the plan */

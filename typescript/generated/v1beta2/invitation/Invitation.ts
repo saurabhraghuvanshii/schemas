@@ -146,6 +146,7 @@ export interface components {
      * @enum {string}
      */
     InvitationStatus: "enabled" | "disabled";
+    /** @description Invitation entity schema. */
     Invitation: {
       /**
        * Format: uuid

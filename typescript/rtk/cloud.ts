@@ -5616,6 +5616,7 @@ export type UpdateAcademyCurriculaByIdApiResponse = /** status 200 updated the c
   };
 } & {
   registration_count: number;
+  /** Invitation entity schema. */
   invitation?: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id: string;
@@ -5826,6 +5827,7 @@ export type GetAcademyCurriculaByIdApiResponse = /** status 200 A single curricu
   };
 } & {
   registration_count: number;
+  /** Invitation entity schema. */
   invitation?: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id: string;
@@ -13083,10 +13085,10 @@ export type GetEventsOfWorkspaceApiResponse = /** status 200 Workspace events */
   page_size?: number;
   total_count?: number;
   data?: {
-    user_id?: string;
+    user_id: string;
     system_id?: string;
-    category?: string;
-    action?: string;
+    category: string;
+    action: string;
     description?: string;
     firstName?: string;
     lastName?: string;
@@ -13122,10 +13124,10 @@ export type GetEventsApiResponse = /** status 200 Events page */ {
   page_size?: number;
   total_count?: number;
   data?: {
-    user_id?: string;
+    user_id: string;
     system_id?: string;
-    category?: string;
-    action?: string;
+    category: string;
+    action: string;
     description?: string;
     firstName?: string;
     lastName?: string;
@@ -13460,7 +13462,7 @@ export type GetPlansApiResponse = /** status 200 Plans response */ {
   id: string;
   /** Name of the plan */
   name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
-  cadence: "monthly" | "yearly";
+  cadence: "none" | "monthly" | "annually";
   unit: "user" | "free";
   /** Minimum number of units required for the plan */
   minimum_units: number;
@@ -13485,12 +13487,13 @@ export type GetSubscriptionsApiResponse = /** status 200 Get subscription respon
     org_id: string;
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     plan_id: string;
+    /** Plan entity schema. */
     plan?: {
       /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
       id: string;
       /** Name of the plan */
       name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
-      cadence: "monthly" | "yearly";
+      cadence: "none" | "monthly" | "annually";
       unit: "user" | "free";
       /** Minimum number of units required for the plan */
       minimum_units: number;
@@ -13532,12 +13535,13 @@ export type PostApiEntitlementSubscriptionsBySubscriptionIdCancelApiResponse = /
     org_id: string;
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     plan_id: string;
+    /** Plan entity schema. */
     plan?: {
       /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
       id: string;
       /** Name of the plan */
       name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
-      cadence: "monthly" | "yearly";
+      cadence: "none" | "monthly" | "annually";
       unit: "user" | "free";
       /** Minimum number of units required for the plan */
       minimum_units: number;
@@ -13589,12 +13593,13 @@ export type PostApiEntitlementSubscriptionsBySubscriptionIdUpgradeApiResponse = 
   org_id: string;
   /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
   plan_id: string;
+  /** Plan entity schema. */
   plan?: {
     /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
     id: string;
     /** Name of the plan */
     name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
-    cadence: "monthly" | "yearly";
+    cadence: "none" | "monthly" | "annually";
     unit: "user" | "free";
     /** Minimum number of units required for the plan */
     minimum_units: number;
@@ -13643,11 +13648,11 @@ export type PostApiEntitlementSubscriptionsWebhooksApiArg = {
 export type GetUserTokensApiResponse = /** status 200 Tokens response */ {
   tokens: {
     /** Unique identifier for the token. */
-    id?: string;
+    id: string;
     /** UUID of the user who owns the token. */
-    user_id?: string;
+    user_id: string;
     /** Authentication provider associated with the token. */
-    provider?: string;
+    provider: string;
     /** Access token value. */
     access_token?: string;
     /** Refresh token value when applicable. */
@@ -13685,11 +13690,11 @@ export type GetUserTokensApiArg = {
 export type GenerateTokenApiResponse = /** status 200 Token generated */ {
   tokens: {
     /** Unique identifier for the token. */
-    id?: string;
+    id: string;
     /** UUID of the user who owns the token. */
-    user_id?: string;
+    user_id: string;
     /** Authentication provider associated with the token. */
-    provider?: string;
+    provider: string;
     /** Access token value. */
     access_token?: string;
     /** Refresh token value when applicable. */
@@ -13721,11 +13726,11 @@ export type GenerateTokenApiArg = {
 export type DeleteUserTokenApiResponse = /** status 200 Token deleted */ {
   tokens: {
     /** Unique identifier for the token. */
-    id?: string;
+    id: string;
     /** UUID of the user who owns the token. */
-    user_id?: string;
+    user_id: string;
     /** Authentication provider associated with the token. */
-    provider?: string;
+    provider: string;
     /** Access token value. */
     access_token?: string;
     /** Refresh token value when applicable. */
@@ -13754,11 +13759,11 @@ export type DeleteUserTokenApiArg = {
 };
 export type GetUserTokensByIdApiResponse = /** status 200 Token response */ {
   /** Unique identifier for the token. */
-  id?: string;
+  id: string;
   /** UUID of the user who owns the token. */
-  user_id?: string;
+  user_id: string;
   /** Authentication provider associated with the token. */
-  provider?: string;
+  provider: string;
   /** Access token value. */
   access_token?: string;
   /** Refresh token value when applicable. */
@@ -13781,11 +13786,11 @@ export type GetUserTokensByIdApiArg = {
 export type IssueIndefiniteLifetimeTokenApiResponse = /** status 200 Token generated */ {
   tokens: {
     /** Unique identifier for the token. */
-    id?: string;
+    id: string;
     /** UUID of the user who owns the token. */
-    user_id?: string;
+    user_id: string;
     /** Authentication provider associated with the token. */
-    provider?: string;
+    provider: string;
     /** Access token value. */
     access_token?: string;
     /** Refresh token value when applicable. */

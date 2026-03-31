@@ -102,7 +102,7 @@ type CreateSubscriptionResponse struct {
 // PaymentProcessor Supported payment processors
 type PaymentProcessor string
 
-// Subscription defines model for Subscription.
+// Subscription Subscription entity schema.
 type Subscription struct {
 	// BillingId Billing ID of the subscription. This is the ID of the subscription in the billing system. eg Stripe
 	BillingId string                   `db:"billing_id" json:"billing_id" yaml:"billing_id"`
@@ -114,8 +114,10 @@ type Subscription struct {
 	ID core.Uuid `db:"id" json:"id" yaml:"id"`
 
 	// OrgId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	OrgId core.Uuid  `db:"org_id" json:"org_id" yaml:"org_id"`
-	Plan  *planv1beta2.Plan `fk_id:"PlanId" belongs_to:"plans" json:"plan,omitempty" yaml:"plan,omitempty"`
+	OrgId core.Uuid `db:"org_id" json:"org_id" yaml:"org_id"`
+
+	// Plan Plan entity schema.
+	Plan *planv1beta2.Plan `fk_id:"PlanId" belongs_to:"plans" json:"plan,omitempty" yaml:"plan,omitempty"`
 
 	// PlanId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
 	PlanId core.Uuid `db:"plan_id" json:"plan_id" yaml:"plan_id"`

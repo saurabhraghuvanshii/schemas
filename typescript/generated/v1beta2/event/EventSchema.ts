@@ -518,6 +518,8 @@ const EventSchema: Record<string, unknown> = {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "additionalProperties": false,
+                        "description": "EventResult entity schema.",
                         "properties": {
                           "user_id": {
                             "type": "string",
@@ -584,7 +586,12 @@ const EventSchema: Record<string, unknown> = {
                             },
                             "x-go-type-skip-optional-pointer": true
                           }
-                        }
+                        },
+                        "required": [
+                          "user_id",
+                          "category",
+                          "action"
+                        ]
                       }
                     }
                   }
@@ -744,6 +751,8 @@ const EventSchema: Record<string, unknown> = {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "additionalProperties": false,
+                        "description": "EventResult entity schema.",
                         "properties": {
                           "user_id": {
                             "type": "string",
@@ -810,7 +819,12 @@ const EventSchema: Record<string, unknown> = {
                             },
                             "x-go-type-skip-optional-pointer": true
                           }
-                        }
+                        },
+                        "required": [
+                          "user_id",
+                          "category",
+                          "action"
+                        ]
                       }
                     }
                   }
@@ -1174,6 +1188,8 @@ const EventSchema: Record<string, unknown> = {
       },
       "EventResult": {
         "type": "object",
+        "additionalProperties": false,
+        "description": "EventResult entity schema.",
         "properties": {
           "user_id": {
             "type": "string",
@@ -1240,7 +1256,12 @@ const EventSchema: Record<string, unknown> = {
             },
             "x-go-type-skip-optional-pointer": true
           }
-        }
+        },
+        "required": [
+          "user_id",
+          "category",
+          "action"
+        ]
       },
       "EventsPage": {
         "type": "object",
@@ -1261,6 +1282,8 @@ const EventSchema: Record<string, unknown> = {
             "type": "array",
             "items": {
               "type": "object",
+              "additionalProperties": false,
+              "description": "EventResult entity schema.",
               "properties": {
                 "user_id": {
                   "type": "string",
@@ -1327,7 +1350,12 @@ const EventSchema: Record<string, unknown> = {
                   },
                   "x-go-type-skip-optional-pointer": true
                 }
-              }
+              },
+              "required": [
+                "user_id",
+                "category",
+                "action"
+              ]
             }
           }
         }

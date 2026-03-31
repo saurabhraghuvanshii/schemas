@@ -28,7 +28,7 @@ func (e InvitationStatus) Valid() bool {
 	}
 }
 
-// Invitation defines model for Invitation.
+// Invitation Invitation entity schema.
 type Invitation struct {
 	// AcceptedBy List of user ids that have already accepted the invitation, null or empty string means the invitation has not been used yet
 	AcceptedBy pq.StringArray `db:"accepted_by" json:"accepted_by" yaml:"accepted_by"`

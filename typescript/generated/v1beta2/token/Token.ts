@@ -30,14 +30,14 @@ export interface components {
        * Format: uuid
        * @description Unique identifier for the token.
        */
-      id?: string;
+      id: string;
       /**
        * Format: uuid
        * @description UUID of the user who owns the token.
        */
-      user_id?: string;
+      user_id: string;
       /** @description Authentication provider associated with the token. */
-      provider?: string;
+      provider: string;
       /** @description Access token value. */
       access_token?: string;
       /** @description Refresh token value when applicable. */
@@ -66,14 +66,14 @@ export interface components {
          * Format: uuid
          * @description Unique identifier for the token.
          */
-        id?: string;
+        id: string;
         /**
          * Format: uuid
          * @description UUID of the user who owns the token.
          */
-        user_id?: string;
+        user_id: string;
         /** @description Authentication provider associated with the token. */
-        provider?: string;
+        provider: string;
         /** @description Access token value. */
         access_token?: string;
         /** @description Refresh token value when applicable. */
@@ -182,14 +182,14 @@ export interface operations {
                * Format: uuid
                * @description Unique identifier for the token.
                */
-              id?: string;
+              id: string;
               /**
                * Format: uuid
                * @description UUID of the user who owns the token.
                */
-              user_id?: string;
+              user_id: string;
               /** @description Authentication provider associated with the token. */
-              provider?: string;
+              provider: string;
               /** @description Access token value. */
               access_token?: string;
               /** @description Refresh token value when applicable. */
@@ -254,14 +254,14 @@ export interface operations {
                * Format: uuid
                * @description Unique identifier for the token.
                */
-              id?: string;
+              id: string;
               /**
                * Format: uuid
                * @description UUID of the user who owns the token.
                */
-              user_id?: string;
+              user_id: string;
               /** @description Authentication provider associated with the token. */
-              provider?: string;
+              provider: string;
               /** @description Access token value. */
               access_token?: string;
               /** @description Refresh token value when applicable. */
@@ -330,14 +330,14 @@ export interface operations {
                * Format: uuid
                * @description Unique identifier for the token.
                */
-              id?: string;
+              id: string;
               /**
                * Format: uuid
                * @description UUID of the user who owns the token.
                */
-              user_id?: string;
+              user_id: string;
               /** @description Authentication provider associated with the token. */
-              provider?: string;
+              provider: string;
               /** @description Access token value. */
               access_token?: string;
               /** @description Refresh token value when applicable. */
@@ -405,14 +405,14 @@ export interface operations {
              * Format: uuid
              * @description Unique identifier for the token.
              */
-            id?: string;
+            id: string;
             /**
              * Format: uuid
              * @description UUID of the user who owns the token.
              */
-            user_id?: string;
+            user_id: string;
             /** @description Authentication provider associated with the token. */
-            provider?: string;
+            provider: string;
             /** @description Access token value. */
             access_token?: string;
             /** @description Refresh token value when applicable. */
@@ -476,14 +476,14 @@ export interface operations {
                * Format: uuid
                * @description Unique identifier for the token.
                */
-              id?: string;
+              id: string;
               /**
                * Format: uuid
                * @description UUID of the user who owns the token.
                */
-              user_id?: string;
+              user_id: string;
               /** @description Authentication provider associated with the token. */
-              provider?: string;
+              provider: string;
               /** @description Access token value. */
               access_token?: string;
               /** @description Refresh token value when applicable. */

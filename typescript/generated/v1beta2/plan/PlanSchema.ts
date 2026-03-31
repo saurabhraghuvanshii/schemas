@@ -68,6 +68,17 @@ const PlanSchema: Record<string, unknown> = {
                   "type": "array",
                   "items": {
                     "type": "object",
+                    "additionalProperties": false,
+                    "description": "Plan entity schema.",
+                    "required": [
+                      "id",
+                      "name",
+                      "cadence",
+                      "unit",
+                      "price_per_unit",
+                      "minimum_units",
+                      "currency"
+                    ],
                     "properties": {
                       "id": {
                         "x-oapi-codegen-extra-tags": {
@@ -109,8 +120,9 @@ const PlanSchema: Record<string, unknown> = {
                         },
                         "type": "string",
                         "enum": [
+                          "none",
                           "monthly",
-                          "yearly"
+                          "annually"
                         ]
                       },
                       "unit": {
@@ -156,16 +168,7 @@ const PlanSchema: Record<string, unknown> = {
                           "usd"
                         ]
                       }
-                    },
-                    "required": [
-                      "id",
-                      "name",
-                      "cadence",
-                      "unit",
-                      "price_per_unit",
-                      "minimum_units",
-                      "currency"
-                    ]
+                    }
                   }
                 }
               }
@@ -268,6 +271,17 @@ const PlanSchema: Record<string, unknown> = {
             "type": "array",
             "items": {
               "type": "object",
+              "additionalProperties": false,
+              "description": "Plan entity schema.",
+              "required": [
+                "id",
+                "name",
+                "cadence",
+                "unit",
+                "price_per_unit",
+                "minimum_units",
+                "currency"
+              ],
               "properties": {
                 "id": {
                   "x-oapi-codegen-extra-tags": {
@@ -309,8 +323,9 @@ const PlanSchema: Record<string, unknown> = {
                   },
                   "type": "string",
                   "enum": [
+                    "none",
                     "monthly",
-                    "yearly"
+                    "annually"
                   ]
                 },
                 "unit": {
@@ -357,15 +372,6 @@ const PlanSchema: Record<string, unknown> = {
                   ]
                 }
               },
-              "required": [
-                "id",
-                "name",
-                "cadence",
-                "unit",
-                "price_per_unit",
-                "minimum_units",
-                "currency"
-              ],
               "x-go-type": "Plan"
             }
           }
@@ -373,6 +379,17 @@ const PlanSchema: Record<string, unknown> = {
       },
       "Plan": {
         "type": "object",
+        "additionalProperties": false,
+        "description": "Plan entity schema.",
+        "required": [
+          "id",
+          "name",
+          "cadence",
+          "unit",
+          "price_per_unit",
+          "minimum_units",
+          "currency"
+        ],
         "properties": {
           "id": {
             "x-oapi-codegen-extra-tags": {
@@ -414,8 +431,9 @@ const PlanSchema: Record<string, unknown> = {
             },
             "type": "string",
             "enum": [
+              "none",
               "monthly",
-              "yearly"
+              "annually"
             ]
           },
           "unit": {
@@ -461,16 +479,7 @@ const PlanSchema: Record<string, unknown> = {
               "usd"
             ]
           }
-        },
-        "required": [
-          "id",
-          "name",
-          "cadence",
-          "unit",
-          "price_per_unit",
-          "minimum_units",
-          "currency"
-        ]
+        }
       },
       "PlanName": {
         "type": "string",
@@ -486,8 +495,9 @@ const PlanSchema: Record<string, unknown> = {
       "PlanCadence": {
         "type": "string",
         "enum": [
+          "none",
           "monthly",
-          "yearly"
+          "annually"
         ]
       },
       "PlanUnit": {

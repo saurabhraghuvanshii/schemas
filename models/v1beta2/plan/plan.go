@@ -24,16 +24,19 @@ func (e Currency) Valid() bool {
 
 // Defines values for PlanCadence.
 const (
-	Monthly PlanCadence = "monthly"
-	Yearly  PlanCadence = "yearly"
+	Annually PlanCadence = "annually"
+	Monthly  PlanCadence = "monthly"
+	None     PlanCadence = "none"
 )
 
 // Valid indicates whether the value is a known member of the PlanCadence enum.
 func (e PlanCadence) Valid() bool {
 	switch e {
+	case Annually:
+		return true
 	case Monthly:
 		return true
-	case Yearly:
+	case None:
 		return true
 	default:
 		return false
@@ -85,7 +88,7 @@ func (e PlanUnit) Valid() bool {
 // Currency defines model for Currency.
 type Currency string
 
-// Plan defines model for Plan.
+// Plan Plan entity schema.
 type Plan struct {
 	Cadence  PlanCadence `csv:"cadence" db:"cadence" json:"cadence" yaml:"cadence"`
 	Currency Currency    `csv:"currency" db:"currency" json:"currency" yaml:"currency"`

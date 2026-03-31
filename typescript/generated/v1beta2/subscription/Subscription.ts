@@ -39,6 +39,7 @@ export interface paths {
                  * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                  */
                 plan_id: string;
+                /** @description Plan entity schema. */
                 plan?: {
                   /**
                    * Format: uuid
@@ -55,7 +56,7 @@ export interface paths {
                     | "Team Operator"
                     | "Enterprise";
                   /** @enum {string} */
-                  cadence: "monthly" | "yearly";
+                  cadence: "none" | "monthly" | "annually";
                   /** @enum {string} */
                   unit: "user" | "free";
                   /** @description Minimum number of units required for the plan */
@@ -206,6 +207,7 @@ export interface paths {
                * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                */
               plan_id: string;
+              /** @description Plan entity schema. */
               plan?: {
                 /**
                  * Format: uuid
@@ -218,7 +220,7 @@ export interface paths {
                  */
                 name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
                 /** @enum {string} */
-                cadence: "monthly" | "yearly";
+                cadence: "none" | "monthly" | "annually";
                 /** @enum {string} */
                 unit: "user" | "free";
                 /** @description Minimum number of units required for the plan */
@@ -472,6 +474,7 @@ export interface components {
          * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
          */
         plan_id: string;
+        /** @description Plan entity schema. */
         plan?: {
           /**
            * Format: uuid
@@ -484,7 +487,7 @@ export interface components {
            */
           name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
           /** @enum {string} */
-          cadence: "monthly" | "yearly";
+          cadence: "none" | "monthly" | "annually";
           /** @enum {string} */
           unit: "user" | "free";
           /** @description Minimum number of units required for the plan */
@@ -522,6 +525,7 @@ export interface components {
         billing_id: string;
       }[];
     };
+    /** @description Subscription entity schema. */
     Subscription: {
       /**
        * Format: uuid
@@ -538,6 +542,7 @@ export interface components {
        * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
        */
       plan_id: string;
+      /** @description Plan entity schema. */
       plan?: {
         /**
          * Format: uuid
@@ -550,7 +555,7 @@ export interface components {
          */
         name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
         /** @enum {string} */
-        cadence: "monthly" | "yearly";
+        cadence: "none" | "monthly" | "annually";
         /** @enum {string} */
         unit: "user" | "free";
         /** @description Minimum number of units required for the plan */
@@ -679,6 +684,7 @@ export interface operations {
                * @description A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
                */
               plan_id: string;
+              /** @description Plan entity schema. */
               plan?: {
                 /**
                  * Format: uuid
@@ -691,7 +697,7 @@ export interface operations {
                  */
                 name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
                 /** @enum {string} */
-                cadence: "monthly" | "yearly";
+                cadence: "none" | "monthly" | "annually";
                 /** @enum {string} */
                 unit: "user" | "free";
                 /** @description Minimum number of units required for the plan */

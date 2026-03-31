@@ -123,6 +123,16 @@ const SubscriptionSchema: Record<string, unknown> = {
                       "items": {
                         "x-go-type": "Subscription",
                         "type": "object",
+                        "additionalProperties": false,
+                        "description": "Subscription entity schema.",
+                        "required": [
+                          "id",
+                          "org_id",
+                          "plan_id",
+                          "billing_id",
+                          "status",
+                          "quantity"
+                        ],
                         "properties": {
                           "id": {
                             "x-oapi-codegen-extra-tags": {
@@ -172,6 +182,17 @@ const SubscriptionSchema: Record<string, unknown> = {
                               "json": "plan,omitempty"
                             },
                             "type": "object",
+                            "additionalProperties": false,
+                            "description": "Plan entity schema.",
+                            "required": [
+                              "id",
+                              "name",
+                              "cadence",
+                              "unit",
+                              "price_per_unit",
+                              "minimum_units",
+                              "currency"
+                            ],
                             "properties": {
                               "id": {
                                 "x-oapi-codegen-extra-tags": {
@@ -213,8 +234,9 @@ const SubscriptionSchema: Record<string, unknown> = {
                                 },
                                 "type": "string",
                                 "enum": [
+                                  "none",
                                   "monthly",
-                                  "yearly"
+                                  "annually"
                                 ]
                               },
                               "unit": {
@@ -260,16 +282,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                                   "usd"
                                 ]
                               }
-                            },
-                            "required": [
-                              "id",
-                              "name",
-                              "cadence",
-                              "unit",
-                              "price_per_unit",
-                              "minimum_units",
-                              "currency"
-                            ]
+                            }
                           },
                           "quantity": {
                             "description": "number of units subscribed (eg number of users)",
@@ -355,15 +368,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                               "db": "billing_id"
                             }
                           }
-                        },
-                        "required": [
-                          "id",
-                          "org_id",
-                          "plan_id",
-                          "billing_id",
-                          "status",
-                          "quantity"
-                        ]
+                        }
                       }
                     }
                   }
@@ -454,6 +459,16 @@ const SubscriptionSchema: Record<string, unknown> = {
                       "items": {
                         "x-go-type": "Subscription",
                         "type": "object",
+                        "additionalProperties": false,
+                        "description": "Subscription entity schema.",
+                        "required": [
+                          "id",
+                          "org_id",
+                          "plan_id",
+                          "billing_id",
+                          "status",
+                          "quantity"
+                        ],
                         "properties": {
                           "id": {
                             "x-oapi-codegen-extra-tags": {
@@ -503,6 +518,17 @@ const SubscriptionSchema: Record<string, unknown> = {
                               "json": "plan,omitempty"
                             },
                             "type": "object",
+                            "additionalProperties": false,
+                            "description": "Plan entity schema.",
+                            "required": [
+                              "id",
+                              "name",
+                              "cadence",
+                              "unit",
+                              "price_per_unit",
+                              "minimum_units",
+                              "currency"
+                            ],
                             "properties": {
                               "id": {
                                 "x-oapi-codegen-extra-tags": {
@@ -544,8 +570,9 @@ const SubscriptionSchema: Record<string, unknown> = {
                                 },
                                 "type": "string",
                                 "enum": [
+                                  "none",
                                   "monthly",
-                                  "yearly"
+                                  "annually"
                                 ]
                               },
                               "unit": {
@@ -591,16 +618,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                                   "usd"
                                 ]
                               }
-                            },
-                            "required": [
-                              "id",
-                              "name",
-                              "cadence",
-                              "unit",
-                              "price_per_unit",
-                              "minimum_units",
-                              "currency"
-                            ]
+                            }
                           },
                           "quantity": {
                             "description": "number of units subscribed (eg number of users)",
@@ -686,15 +704,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                               "db": "billing_id"
                             }
                           }
-                        },
-                        "required": [
-                          "id",
-                          "org_id",
-                          "plan_id",
-                          "billing_id",
-                          "status",
-                          "quantity"
-                        ]
+                        }
                       }
                     }
                   }
@@ -908,6 +918,16 @@ const SubscriptionSchema: Record<string, unknown> = {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
+                  "description": "Subscription entity schema.",
+                  "required": [
+                    "id",
+                    "org_id",
+                    "plan_id",
+                    "billing_id",
+                    "status",
+                    "quantity"
+                  ],
                   "properties": {
                     "id": {
                       "x-oapi-codegen-extra-tags": {
@@ -957,6 +977,17 @@ const SubscriptionSchema: Record<string, unknown> = {
                         "json": "plan,omitempty"
                       },
                       "type": "object",
+                      "additionalProperties": false,
+                      "description": "Plan entity schema.",
+                      "required": [
+                        "id",
+                        "name",
+                        "cadence",
+                        "unit",
+                        "price_per_unit",
+                        "minimum_units",
+                        "currency"
+                      ],
                       "properties": {
                         "id": {
                           "x-oapi-codegen-extra-tags": {
@@ -998,8 +1029,9 @@ const SubscriptionSchema: Record<string, unknown> = {
                           },
                           "type": "string",
                           "enum": [
+                            "none",
                             "monthly",
-                            "yearly"
+                            "annually"
                           ]
                         },
                         "unit": {
@@ -1045,16 +1077,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                             "usd"
                           ]
                         }
-                      },
-                      "required": [
-                        "id",
-                        "name",
-                        "cadence",
-                        "unit",
-                        "price_per_unit",
-                        "minimum_units",
-                        "currency"
-                      ]
+                      }
                     },
                     "quantity": {
                       "description": "number of units subscribed (eg number of users)",
@@ -1140,15 +1163,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                         "db": "billing_id"
                       }
                     }
-                  },
-                  "required": [
-                    "id",
-                    "org_id",
-                    "plan_id",
-                    "billing_id",
-                    "status",
-                    "quantity"
-                  ]
+                  }
                 }
               }
             }
@@ -1589,6 +1604,16 @@ const SubscriptionSchema: Record<string, unknown> = {
             "items": {
               "x-go-type": "Subscription",
               "type": "object",
+              "additionalProperties": false,
+              "description": "Subscription entity schema.",
+              "required": [
+                "id",
+                "org_id",
+                "plan_id",
+                "billing_id",
+                "status",
+                "quantity"
+              ],
               "properties": {
                 "id": {
                   "x-oapi-codegen-extra-tags": {
@@ -1638,6 +1663,17 @@ const SubscriptionSchema: Record<string, unknown> = {
                     "json": "plan,omitempty"
                   },
                   "type": "object",
+                  "additionalProperties": false,
+                  "description": "Plan entity schema.",
+                  "required": [
+                    "id",
+                    "name",
+                    "cadence",
+                    "unit",
+                    "price_per_unit",
+                    "minimum_units",
+                    "currency"
+                  ],
                   "properties": {
                     "id": {
                       "x-oapi-codegen-extra-tags": {
@@ -1679,8 +1715,9 @@ const SubscriptionSchema: Record<string, unknown> = {
                       },
                       "type": "string",
                       "enum": [
+                        "none",
                         "monthly",
-                        "yearly"
+                        "annually"
                       ]
                     },
                     "unit": {
@@ -1726,16 +1763,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                         "usd"
                       ]
                     }
-                  },
-                  "required": [
-                    "id",
-                    "name",
-                    "cadence",
-                    "unit",
-                    "price_per_unit",
-                    "minimum_units",
-                    "currency"
-                  ]
+                  }
                 },
                 "quantity": {
                   "description": "number of units subscribed (eg number of users)",
@@ -1821,21 +1849,23 @@ const SubscriptionSchema: Record<string, unknown> = {
                     "db": "billing_id"
                   }
                 }
-              },
-              "required": [
-                "id",
-                "org_id",
-                "plan_id",
-                "billing_id",
-                "status",
-                "quantity"
-              ]
+              }
             }
           }
         }
       },
       "Subscription": {
         "type": "object",
+        "additionalProperties": false,
+        "description": "Subscription entity schema.",
+        "required": [
+          "id",
+          "org_id",
+          "plan_id",
+          "billing_id",
+          "status",
+          "quantity"
+        ],
         "properties": {
           "id": {
             "x-oapi-codegen-extra-tags": {
@@ -1885,6 +1915,17 @@ const SubscriptionSchema: Record<string, unknown> = {
               "json": "plan,omitempty"
             },
             "type": "object",
+            "additionalProperties": false,
+            "description": "Plan entity schema.",
+            "required": [
+              "id",
+              "name",
+              "cadence",
+              "unit",
+              "price_per_unit",
+              "minimum_units",
+              "currency"
+            ],
             "properties": {
               "id": {
                 "x-oapi-codegen-extra-tags": {
@@ -1926,8 +1967,9 @@ const SubscriptionSchema: Record<string, unknown> = {
                 },
                 "type": "string",
                 "enum": [
+                  "none",
                   "monthly",
-                  "yearly"
+                  "annually"
                 ]
               },
               "unit": {
@@ -1973,16 +2015,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                   "usd"
                 ]
               }
-            },
-            "required": [
-              "id",
-              "name",
-              "cadence",
-              "unit",
-              "price_per_unit",
-              "minimum_units",
-              "currency"
-            ]
+            }
           },
           "quantity": {
             "description": "number of units subscribed (eg number of users)",
@@ -2068,15 +2101,7 @@ const SubscriptionSchema: Record<string, unknown> = {
               "db": "billing_id"
             }
           }
-        },
-        "required": [
-          "id",
-          "org_id",
-          "plan_id",
-          "billing_id",
-          "status",
-          "quantity"
-        ]
+        }
       },
       "SubscriptionStatus": {
         "type": "string",

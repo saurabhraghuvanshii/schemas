@@ -118,6 +118,7 @@ const TokenSchema: Record<string, unknown> = {
                       "items": {
                         "x-go-type": "UserToken",
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "Represents a user-owned API token or OAuth session.",
                         "properties": {
                           "id": {
@@ -220,7 +221,12 @@ const TokenSchema: Record<string, unknown> = {
                             },
                             "x-go-type-skip-optional-pointer": true
                           }
-                        }
+                        },
+                        "required": [
+                          "id",
+                          "user_id",
+                          "provider"
+                        ]
                       },
                       "x-order": 1
                     },
@@ -315,6 +321,7 @@ const TokenSchema: Record<string, unknown> = {
                       "items": {
                         "x-go-type": "UserToken",
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "Represents a user-owned API token or OAuth session.",
                         "properties": {
                           "id": {
@@ -417,7 +424,12 @@ const TokenSchema: Record<string, unknown> = {
                             },
                             "x-go-type-skip-optional-pointer": true
                           }
-                        }
+                        },
+                        "required": [
+                          "id",
+                          "user_id",
+                          "provider"
+                        ]
                       },
                       "x-order": 1
                     },
@@ -520,6 +532,7 @@ const TokenSchema: Record<string, unknown> = {
                       "items": {
                         "x-go-type": "UserToken",
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "Represents a user-owned API token or OAuth session.",
                         "properties": {
                           "id": {
@@ -622,7 +635,12 @@ const TokenSchema: Record<string, unknown> = {
                             },
                             "x-go-type-skip-optional-pointer": true
                           }
-                        }
+                        },
+                        "required": [
+                          "id",
+                          "user_id",
+                          "provider"
+                        ]
                       },
                       "x-order": 1
                     },
@@ -714,6 +732,7 @@ const TokenSchema: Record<string, unknown> = {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "description": "Represents a user-owned API token or OAuth session.",
                   "properties": {
                     "id": {
@@ -816,7 +835,12 @@ const TokenSchema: Record<string, unknown> = {
                       },
                       "x-go-type-skip-optional-pointer": true
                     }
-                  }
+                  },
+                  "required": [
+                    "id",
+                    "user_id",
+                    "provider"
+                  ]
                 }
               }
             }
@@ -911,6 +935,7 @@ const TokenSchema: Record<string, unknown> = {
                       "items": {
                         "x-go-type": "UserToken",
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "Represents a user-owned API token or OAuth session.",
                         "properties": {
                           "id": {
@@ -1013,7 +1038,12 @@ const TokenSchema: Record<string, unknown> = {
                             },
                             "x-go-type-skip-optional-pointer": true
                           }
-                        }
+                        },
+                        "required": [
+                          "id",
+                          "user_id",
+                          "provider"
+                        ]
                       },
                       "x-order": 1
                     },
@@ -1237,6 +1267,7 @@ const TokenSchema: Record<string, unknown> = {
     "schemas": {
       "UserToken": {
         "type": "object",
+        "additionalProperties": false,
         "description": "Represents a user-owned API token or OAuth session.",
         "properties": {
           "id": {
@@ -1339,7 +1370,12 @@ const TokenSchema: Record<string, unknown> = {
             },
             "x-go-type-skip-optional-pointer": true
           }
-        }
+        },
+        "required": [
+          "id",
+          "user_id",
+          "provider"
+        ]
       },
       "TokenPage": {
         "type": "object",
@@ -1356,6 +1392,7 @@ const TokenSchema: Record<string, unknown> = {
             "items": {
               "x-go-type": "UserToken",
               "type": "object",
+              "additionalProperties": false,
               "description": "Represents a user-owned API token or OAuth session.",
               "properties": {
                 "id": {
@@ -1458,7 +1495,12 @@ const TokenSchema: Record<string, unknown> = {
                   },
                   "x-go-type-skip-optional-pointer": true
                 }
-              }
+              },
+              "required": [
+                "id",
+                "user_id",
+                "provider"
+              ]
             },
             "x-order": 1
           },

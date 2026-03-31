@@ -161,7 +161,7 @@ func (e Visibility) Valid() bool {
 	}
 }
 
-// AcademyCurricula defines model for AcademyCurricula.
+// AcademyCurricula AcademyCurricula entity schema.
 type AcademyCurricula struct {
 	// BadgeId ID of the badge to be awarded on completion of this curricula
 	BadgeId *core.Uuid `db:"badge_id" json:"badge_id" yaml:"badge_id"`
@@ -606,7 +606,9 @@ type SingleAcademyCurriculaResponse struct {
 	DeletedAt AcademyCurriculaDeletedAt `db:"deleted_at" json:"deleted_at" yaml:"deleted_at"`
 
 	// ID Id of the Curricula
-	ID         string                   `db:"id" json:"id" yaml:"id"`
+	ID string `db:"id" json:"id" yaml:"id"`
+
+	// Invitation Invitation entity schema.
 	Invitation *invitationv1beta2.Invitation `json:"invitation,omitempty" yaml:"invitation,omitempty"`
 
 	// InviteId ID of the invite associated with this Curricula

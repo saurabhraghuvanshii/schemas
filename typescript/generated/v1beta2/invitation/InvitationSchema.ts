@@ -58,6 +58,8 @@ const InvitationSchema: Record<string, unknown> = {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
+                  "description": "Invitation entity schema.",
                   "required": [
                     "id",
                     "owner_id",
@@ -489,6 +491,8 @@ const InvitationSchema: Record<string, unknown> = {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
+                  "description": "Invitation entity schema.",
                   "required": [
                     "id",
                     "owner_id",
@@ -728,6 +732,8 @@ const InvitationSchema: Record<string, unknown> = {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "additionalProperties": false,
+                        "description": "Invitation entity schema.",
                         "required": [
                           "id",
                           "owner_id",
@@ -1087,6 +1093,8 @@ const InvitationSchema: Record<string, unknown> = {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
+                  "description": "Invitation entity schema.",
                   "required": [
                     "id",
                     "owner_id",
@@ -1318,6 +1326,8 @@ const InvitationSchema: Record<string, unknown> = {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
+                  "description": "Invitation entity schema.",
                   "required": [
                     "id",
                     "owner_id",
@@ -2038,6 +2048,8 @@ const InvitationSchema: Record<string, unknown> = {
             "type": "array",
             "items": {
               "type": "object",
+              "additionalProperties": false,
+              "description": "Invitation entity schema.",
               "required": [
                 "id",
                 "owner_id",
@@ -2375,6 +2387,8 @@ const InvitationSchema: Record<string, unknown> = {
       },
       "Invitation": {
         "type": "object",
+        "additionalProperties": false,
+        "description": "Invitation entity schema.",
         "required": [
           "id",
           "owner_id",

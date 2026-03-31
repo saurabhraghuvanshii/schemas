@@ -240,13 +240,14 @@ export interface components {
       /** @example failed */
       status: string;
     };
+    /** @description EventResult entity schema. */
     EventResult: {
       /** Format: uuid */
-      user_id?: string;
+      user_id: string;
       /** Format: uuid */
       system_id?: string;
-      category?: string;
-      action?: string;
+      category: string;
+      action: string;
       description?: string;
       firstName?: string;
       lastName?: string;
@@ -269,11 +270,11 @@ export interface components {
       total_count?: number;
       data?: {
         /** Format: uuid */
-        user_id?: string;
+        user_id: string;
         /** Format: uuid */
         system_id?: string;
-        category?: string;
-        action?: string;
+        category: string;
+        action: string;
         description?: string;
         firstName?: string;
         lastName?: string;
@@ -383,11 +384,11 @@ export interface operations {
             total_count?: number;
             data?: {
               /** Format: uuid */
-              user_id?: string;
+              user_id: string;
               /** Format: uuid */
               system_id?: string;
-              category?: string;
-              action?: string;
+              category: string;
+              action: string;
               description?: string;
               firstName?: string;
               lastName?: string;
@@ -471,11 +472,11 @@ export interface operations {
             total_count?: number;
             data?: {
               /** Format: uuid */
-              user_id?: string;
+              user_id: string;
               /** Format: uuid */
               system_id?: string;
-              category?: string;
-              action?: string;
+              category: string;
+              action: string;
               description?: string;
               firstName?: string;
               lastName?: string;

@@ -84,6 +84,21 @@ const AcademySchema: Record<string, unknown> = {
                       "items": {
                         "x-go-type": "AcademyCurricula",
                         "type": "object",
+                        "additionalProperties": false,
+                        "description": "AcademyCurricula entity schema.",
+                        "required": [
+                          "id",
+                          "type",
+                          "org_id",
+                          "visibility",
+                          "status",
+                          "slug",
+                          "created_at",
+                          "updated_at",
+                          "deleted_at",
+                          "metadata",
+                          "level"
+                        ],
                         "properties": {
                           "id": {
                             "type": "string",
@@ -389,13 +404,13 @@ const AcademySchema: Record<string, unknown> = {
                                         "type": "string",
                                         "format": "date-time",
                                         "description": "Date when the certificate was issued",
-                                        "example": "2023-10-01T12:00:00Z"
+                                        "example": "2023-10-01 12:00:00+00:00"
                                       },
                                       "expirationDate": {
                                         "type": "string",
                                         "format": "date-time",
                                         "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                                        "example": "2025-10-01T12:00:00Z"
+                                        "example": "2025-10-01 12:00:00+00:00"
                                       },
                                       "expiresIn": {
                                         "type": "integer",
@@ -485,20 +500,7 @@ const AcademySchema: Record<string, unknown> = {
                               }
                             ]
                           }
-                        },
-                        "required": [
-                          "id",
-                          "type",
-                          "org_id",
-                          "visibility",
-                          "status",
-                          "slug",
-                          "created_at",
-                          "updated_at",
-                          "deleted_at",
-                          "metadata",
-                          "level"
-                        ]
+                        }
                       }
                     }
                   },
@@ -784,13 +786,13 @@ const AcademySchema: Record<string, unknown> = {
                                 "type": "string",
                                 "format": "date-time",
                                 "description": "Date when the certificate was issued",
-                                "example": "2023-10-01T12:00:00Z"
+                                "example": "2023-10-01 12:00:00+00:00"
                               },
                               "expirationDate": {
                                 "type": "string",
                                 "format": "date-time",
                                 "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                                "example": "2025-10-01T12:00:00Z"
+                                "example": "2025-10-01 12:00:00+00:00"
                               },
                               "expiresIn": {
                                 "type": "integer",
@@ -901,6 +903,21 @@ const AcademySchema: Record<string, unknown> = {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
+                  "description": "AcademyCurricula entity schema.",
+                  "required": [
+                    "id",
+                    "type",
+                    "org_id",
+                    "visibility",
+                    "status",
+                    "slug",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at",
+                    "metadata",
+                    "level"
+                  ],
                   "properties": {
                     "id": {
                       "type": "string",
@@ -1206,13 +1223,13 @@ const AcademySchema: Record<string, unknown> = {
                                   "type": "string",
                                   "format": "date-time",
                                   "description": "Date when the certificate was issued",
-                                  "example": "2023-10-01T12:00:00Z"
+                                  "example": "2023-10-01 12:00:00+00:00"
                                 },
                                 "expirationDate": {
                                   "type": "string",
                                   "format": "date-time",
                                   "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                                  "example": "2025-10-01T12:00:00Z"
+                                  "example": "2025-10-01 12:00:00+00:00"
                                 },
                                 "expiresIn": {
                                   "type": "integer",
@@ -1302,20 +1319,7 @@ const AcademySchema: Record<string, unknown> = {
                         }
                       ]
                     }
-                  },
-                  "required": [
-                    "id",
-                    "type",
-                    "org_id",
-                    "visibility",
-                    "status",
-                    "slug",
-                    "created_at",
-                    "updated_at",
-                    "deleted_at",
-                    "metadata",
-                    "level"
-                  ]
+                  }
                 }
               }
             }
@@ -1504,6 +1508,21 @@ const AcademySchema: Record<string, unknown> = {
                         "allOf": [
                           {
                             "type": "object",
+                            "additionalProperties": false,
+                            "description": "AcademyCurricula entity schema.",
+                            "required": [
+                              "id",
+                              "type",
+                              "org_id",
+                              "visibility",
+                              "status",
+                              "slug",
+                              "created_at",
+                              "updated_at",
+                              "deleted_at",
+                              "metadata",
+                              "level"
+                            ],
                             "properties": {
                               "id": {
                                 "type": "string",
@@ -1809,13 +1828,13 @@ const AcademySchema: Record<string, unknown> = {
                                             "type": "string",
                                             "format": "date-time",
                                             "description": "Date when the certificate was issued",
-                                            "example": "2023-10-01T12:00:00Z"
+                                            "example": "2023-10-01 12:00:00+00:00"
                                           },
                                           "expirationDate": {
                                             "type": "string",
                                             "format": "date-time",
                                             "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                                            "example": "2025-10-01T12:00:00Z"
+                                            "example": "2025-10-01 12:00:00+00:00"
                                           },
                                           "expiresIn": {
                                             "type": "integer",
@@ -1905,20 +1924,7 @@ const AcademySchema: Record<string, unknown> = {
                                   }
                                 ]
                               }
-                            },
-                            "required": [
-                              "id",
-                              "type",
-                              "org_id",
-                              "visibility",
-                              "status",
-                              "slug",
-                              "created_at",
-                              "updated_at",
-                              "deleted_at",
-                              "metadata",
-                              "level"
-                            ]
+                            }
                           },
                           {
                             "type": "object",
@@ -2006,6 +2012,21 @@ const AcademySchema: Record<string, unknown> = {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
+                  "description": "AcademyCurricula entity schema.",
+                  "required": [
+                    "id",
+                    "type",
+                    "org_id",
+                    "visibility",
+                    "status",
+                    "slug",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at",
+                    "metadata",
+                    "level"
+                  ],
                   "properties": {
                     "id": {
                       "type": "string",
@@ -2311,13 +2332,13 @@ const AcademySchema: Record<string, unknown> = {
                                   "type": "string",
                                   "format": "date-time",
                                   "description": "Date when the certificate was issued",
-                                  "example": "2023-10-01T12:00:00Z"
+                                  "example": "2023-10-01 12:00:00+00:00"
                                 },
                                 "expirationDate": {
                                   "type": "string",
                                   "format": "date-time",
                                   "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                                  "example": "2025-10-01T12:00:00Z"
+                                  "example": "2025-10-01 12:00:00+00:00"
                                 },
                                 "expiresIn": {
                                   "type": "integer",
@@ -2407,20 +2428,7 @@ const AcademySchema: Record<string, unknown> = {
                         }
                       ]
                     }
-                  },
-                  "required": [
-                    "id",
-                    "type",
-                    "org_id",
-                    "visibility",
-                    "status",
-                    "slug",
-                    "created_at",
-                    "updated_at",
-                    "deleted_at",
-                    "metadata",
-                    "level"
-                  ]
+                  }
                 }
               }
             }
@@ -2693,13 +2701,13 @@ const AcademySchema: Record<string, unknown> = {
                           "type": "string",
                           "format": "date-time",
                           "description": "Date when the certificate was issued",
-                          "example": "2023-10-01T12:00:00Z"
+                          "example": "2023-10-01 12:00:00+00:00"
                         },
                         "expirationDate": {
                           "type": "string",
                           "format": "date-time",
                           "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                          "example": "2025-10-01T12:00:00Z"
+                          "example": "2025-10-01 12:00:00+00:00"
                         },
                         "expiresIn": {
                           "type": "integer",
@@ -2959,13 +2967,13 @@ const AcademySchema: Record<string, unknown> = {
                           "type": "string",
                           "format": "date-time",
                           "description": "Date when the certificate was issued",
-                          "example": "2023-10-01T12:00:00Z"
+                          "example": "2023-10-01 12:00:00+00:00"
                         },
                         "expirationDate": {
                           "type": "string",
                           "format": "date-time",
                           "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                          "example": "2025-10-01T12:00:00Z"
+                          "example": "2025-10-01 12:00:00+00:00"
                         },
                         "expiresIn": {
                           "type": "integer",
@@ -3284,13 +3292,13 @@ const AcademySchema: Record<string, unknown> = {
                                 "type": "string",
                                 "format": "date-time",
                                 "description": "Date when the certificate was issued",
-                                "example": "2023-10-01T12:00:00Z"
+                                "example": "2023-10-01 12:00:00+00:00"
                               },
                               "expirationDate": {
                                 "type": "string",
                                 "format": "date-time",
                                 "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                                "example": "2025-10-01T12:00:00Z"
+                                "example": "2025-10-01 12:00:00+00:00"
                               },
                               "expiresIn": {
                                 "type": "integer",
@@ -3404,6 +3412,21 @@ const AcademySchema: Record<string, unknown> = {
                   "allOf": [
                     {
                       "type": "object",
+                      "additionalProperties": false,
+                      "description": "AcademyCurricula entity schema.",
+                      "required": [
+                        "id",
+                        "type",
+                        "org_id",
+                        "visibility",
+                        "status",
+                        "slug",
+                        "created_at",
+                        "updated_at",
+                        "deleted_at",
+                        "metadata",
+                        "level"
+                      ],
                       "properties": {
                         "id": {
                           "type": "string",
@@ -3709,13 +3732,13 @@ const AcademySchema: Record<string, unknown> = {
                                       "type": "string",
                                       "format": "date-time",
                                       "description": "Date when the certificate was issued",
-                                      "example": "2023-10-01T12:00:00Z"
+                                      "example": "2023-10-01 12:00:00+00:00"
                                     },
                                     "expirationDate": {
                                       "type": "string",
                                       "format": "date-time",
                                       "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                                      "example": "2025-10-01T12:00:00Z"
+                                      "example": "2025-10-01 12:00:00+00:00"
                                     },
                                     "expiresIn": {
                                       "type": "integer",
@@ -3805,20 +3828,7 @@ const AcademySchema: Record<string, unknown> = {
                             }
                           ]
                         }
-                      },
-                      "required": [
-                        "id",
-                        "type",
-                        "org_id",
-                        "visibility",
-                        "status",
-                        "slug",
-                        "created_at",
-                        "updated_at",
-                        "deleted_at",
-                        "metadata",
-                        "level"
-                      ]
+                      }
                     },
                     {
                       "type": "object",
@@ -3840,6 +3850,8 @@ const AcademySchema: Record<string, unknown> = {
                             "name": "invitationv1beta2"
                           },
                           "type": "object",
+                          "additionalProperties": false,
+                          "description": "Invitation entity schema.",
                           "required": [
                             "id",
                             "owner_id",
@@ -4113,6 +4125,21 @@ const AcademySchema: Record<string, unknown> = {
                   "allOf": [
                     {
                       "type": "object",
+                      "additionalProperties": false,
+                      "description": "AcademyCurricula entity schema.",
+                      "required": [
+                        "id",
+                        "type",
+                        "org_id",
+                        "visibility",
+                        "status",
+                        "slug",
+                        "created_at",
+                        "updated_at",
+                        "deleted_at",
+                        "metadata",
+                        "level"
+                      ],
                       "properties": {
                         "id": {
                           "type": "string",
@@ -4418,13 +4445,13 @@ const AcademySchema: Record<string, unknown> = {
                                       "type": "string",
                                       "format": "date-time",
                                       "description": "Date when the certificate was issued",
-                                      "example": "2023-10-01T12:00:00Z"
+                                      "example": "2023-10-01 12:00:00+00:00"
                                     },
                                     "expirationDate": {
                                       "type": "string",
                                       "format": "date-time",
                                       "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                                      "example": "2025-10-01T12:00:00Z"
+                                      "example": "2025-10-01 12:00:00+00:00"
                                     },
                                     "expiresIn": {
                                       "type": "integer",
@@ -4514,20 +4541,7 @@ const AcademySchema: Record<string, unknown> = {
                             }
                           ]
                         }
-                      },
-                      "required": [
-                        "id",
-                        "type",
-                        "org_id",
-                        "visibility",
-                        "status",
-                        "slug",
-                        "created_at",
-                        "updated_at",
-                        "deleted_at",
-                        "metadata",
-                        "level"
-                      ]
+                      }
                     },
                     {
                       "type": "object",
@@ -4549,6 +4563,8 @@ const AcademySchema: Record<string, unknown> = {
                             "name": "invitationv1beta2"
                           },
                           "type": "object",
+                          "additionalProperties": false,
+                          "description": "Invitation entity schema.",
                           "required": [
                             "id",
                             "owner_id",
@@ -4972,13 +4988,13 @@ const AcademySchema: Record<string, unknown> = {
                           "type": "string",
                           "format": "date-time",
                           "description": "Date when the certificate was issued",
-                          "example": "2023-10-01T12:00:00Z"
+                          "example": "2023-10-01 12:00:00+00:00"
                         },
                         "expirationDate": {
                           "type": "string",
                           "format": "date-time",
                           "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                          "example": "2025-10-01T12:00:00Z"
+                          "example": "2025-10-01 12:00:00+00:00"
                         },
                         "expiresIn": {
                           "type": "integer",
@@ -7469,13 +7485,13 @@ const AcademySchema: Record<string, unknown> = {
                       "type": "string",
                       "format": "date-time",
                       "description": "Date when the certificate was issued",
-                      "example": "2023-10-01T12:00:00Z"
+                      "example": "2023-10-01 12:00:00+00:00"
                     },
                     "expirationDate": {
                       "type": "string",
                       "format": "date-time",
                       "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                      "example": "2025-10-01T12:00:00Z"
+                      "example": "2025-10-01 12:00:00+00:00"
                     },
                     "expiresIn": {
                       "type": "integer",
@@ -7811,13 +7827,13 @@ const AcademySchema: Record<string, unknown> = {
                     "type": "string",
                     "format": "date-time",
                     "description": "Date when the certificate was issued",
-                    "example": "2023-10-01T12:00:00Z"
+                    "example": "2023-10-01 12:00:00+00:00"
                   },
                   "expirationDate": {
                     "type": "string",
                     "format": "date-time",
                     "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                    "example": "2025-10-01T12:00:00Z"
+                    "example": "2025-10-01 12:00:00+00:00"
                   },
                   "expiresIn": {
                     "type": "integer",
@@ -7981,6 +7997,21 @@ const AcademySchema: Record<string, unknown> = {
       },
       "AcademyCurricula": {
         "type": "object",
+        "additionalProperties": false,
+        "description": "AcademyCurricula entity schema.",
+        "required": [
+          "id",
+          "type",
+          "org_id",
+          "visibility",
+          "status",
+          "slug",
+          "created_at",
+          "updated_at",
+          "deleted_at",
+          "metadata",
+          "level"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -8286,13 +8317,13 @@ const AcademySchema: Record<string, unknown> = {
                         "type": "string",
                         "format": "date-time",
                         "description": "Date when the certificate was issued",
-                        "example": "2023-10-01T12:00:00Z"
+                        "example": "2023-10-01 12:00:00+00:00"
                       },
                       "expirationDate": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                        "example": "2025-10-01T12:00:00Z"
+                        "example": "2025-10-01 12:00:00+00:00"
                       },
                       "expiresIn": {
                         "type": "integer",
@@ -8382,26 +8413,28 @@ const AcademySchema: Record<string, unknown> = {
               }
             ]
           }
-        },
-        "required": [
-          "id",
-          "type",
-          "org_id",
-          "visibility",
-          "status",
-          "slug",
-          "created_at",
-          "updated_at",
-          "deleted_at",
-          "metadata",
-          "level"
-        ]
+        }
       },
       "SingleAcademyCurriculaResponse": {
         "type": "object",
         "allOf": [
           {
             "type": "object",
+            "additionalProperties": false,
+            "description": "AcademyCurricula entity schema.",
+            "required": [
+              "id",
+              "type",
+              "org_id",
+              "visibility",
+              "status",
+              "slug",
+              "created_at",
+              "updated_at",
+              "deleted_at",
+              "metadata",
+              "level"
+            ],
             "properties": {
               "id": {
                 "type": "string",
@@ -8707,13 +8740,13 @@ const AcademySchema: Record<string, unknown> = {
                             "type": "string",
                             "format": "date-time",
                             "description": "Date when the certificate was issued",
-                            "example": "2023-10-01T12:00:00Z"
+                            "example": "2023-10-01 12:00:00+00:00"
                           },
                           "expirationDate": {
                             "type": "string",
                             "format": "date-time",
                             "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                            "example": "2025-10-01T12:00:00Z"
+                            "example": "2025-10-01 12:00:00+00:00"
                           },
                           "expiresIn": {
                             "type": "integer",
@@ -8803,20 +8836,7 @@ const AcademySchema: Record<string, unknown> = {
                   }
                 ]
               }
-            },
-            "required": [
-              "id",
-              "type",
-              "org_id",
-              "visibility",
-              "status",
-              "slug",
-              "created_at",
-              "updated_at",
-              "deleted_at",
-              "metadata",
-              "level"
-            ]
+            }
           },
           {
             "type": "object",
@@ -8838,6 +8858,8 @@ const AcademySchema: Record<string, unknown> = {
                   "name": "invitationv1beta2"
                 },
                 "type": "object",
+                "additionalProperties": false,
+                "description": "Invitation entity schema.",
                 "required": [
                   "id",
                   "owner_id",
@@ -9250,13 +9272,13 @@ const AcademySchema: Record<string, unknown> = {
                         "type": "string",
                         "format": "date-time",
                         "description": "Date when the certificate was issued",
-                        "example": "2023-10-01T12:00:00Z"
+                        "example": "2023-10-01 12:00:00+00:00"
                       },
                       "expirationDate": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                        "example": "2025-10-01T12:00:00Z"
+                        "example": "2025-10-01 12:00:00+00:00"
                       },
                       "expiresIn": {
                         "type": "integer",
@@ -9361,6 +9383,21 @@ const AcademySchema: Record<string, unknown> = {
         "allOf": [
           {
             "type": "object",
+            "additionalProperties": false,
+            "description": "AcademyCurricula entity schema.",
+            "required": [
+              "id",
+              "type",
+              "org_id",
+              "visibility",
+              "status",
+              "slug",
+              "created_at",
+              "updated_at",
+              "deleted_at",
+              "metadata",
+              "level"
+            ],
             "properties": {
               "id": {
                 "type": "string",
@@ -9666,13 +9703,13 @@ const AcademySchema: Record<string, unknown> = {
                             "type": "string",
                             "format": "date-time",
                             "description": "Date when the certificate was issued",
-                            "example": "2023-10-01T12:00:00Z"
+                            "example": "2023-10-01 12:00:00+00:00"
                           },
                           "expirationDate": {
                             "type": "string",
                             "format": "date-time",
                             "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                            "example": "2025-10-01T12:00:00Z"
+                            "example": "2025-10-01 12:00:00+00:00"
                           },
                           "expiresIn": {
                             "type": "integer",
@@ -9762,20 +9799,7 @@ const AcademySchema: Record<string, unknown> = {
                   }
                 ]
               }
-            },
-            "required": [
-              "id",
-              "type",
-              "org_id",
-              "visibility",
-              "status",
-              "slug",
-              "created_at",
-              "updated_at",
-              "deleted_at",
-              "metadata",
-              "level"
-            ]
+            }
           },
           {
             "type": "object",
@@ -9807,6 +9831,21 @@ const AcademySchema: Record<string, unknown> = {
             "items": {
               "x-go-type": "AcademyCurricula",
               "type": "object",
+              "additionalProperties": false,
+              "description": "AcademyCurricula entity schema.",
+              "required": [
+                "id",
+                "type",
+                "org_id",
+                "visibility",
+                "status",
+                "slug",
+                "created_at",
+                "updated_at",
+                "deleted_at",
+                "metadata",
+                "level"
+              ],
               "properties": {
                 "id": {
                   "type": "string",
@@ -10112,13 +10151,13 @@ const AcademySchema: Record<string, unknown> = {
                               "type": "string",
                               "format": "date-time",
                               "description": "Date when the certificate was issued",
-                              "example": "2023-10-01T12:00:00Z"
+                              "example": "2023-10-01 12:00:00+00:00"
                             },
                             "expirationDate": {
                               "type": "string",
                               "format": "date-time",
                               "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                              "example": "2025-10-01T12:00:00Z"
+                              "example": "2025-10-01 12:00:00+00:00"
                             },
                             "expiresIn": {
                               "type": "integer",
@@ -10208,20 +10247,7 @@ const AcademySchema: Record<string, unknown> = {
                     }
                   ]
                 }
-              },
-              "required": [
-                "id",
-                "type",
-                "org_id",
-                "visibility",
-                "status",
-                "slug",
-                "created_at",
-                "updated_at",
-                "deleted_at",
-                "metadata",
-                "level"
-              ]
+              }
             }
           }
         },
@@ -10246,6 +10272,21 @@ const AcademySchema: Record<string, unknown> = {
               "allOf": [
                 {
                   "type": "object",
+                  "additionalProperties": false,
+                  "description": "AcademyCurricula entity schema.",
+                  "required": [
+                    "id",
+                    "type",
+                    "org_id",
+                    "visibility",
+                    "status",
+                    "slug",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at",
+                    "metadata",
+                    "level"
+                  ],
                   "properties": {
                     "id": {
                       "type": "string",
@@ -10551,13 +10592,13 @@ const AcademySchema: Record<string, unknown> = {
                                   "type": "string",
                                   "format": "date-time",
                                   "description": "Date when the certificate was issued",
-                                  "example": "2023-10-01T12:00:00Z"
+                                  "example": "2023-10-01 12:00:00+00:00"
                                 },
                                 "expirationDate": {
                                   "type": "string",
                                   "format": "date-time",
                                   "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                                  "example": "2025-10-01T12:00:00Z"
+                                  "example": "2025-10-01 12:00:00+00:00"
                                 },
                                 "expiresIn": {
                                   "type": "integer",
@@ -10647,20 +10688,7 @@ const AcademySchema: Record<string, unknown> = {
                         }
                       ]
                     }
-                  },
-                  "required": [
-                    "id",
-                    "type",
-                    "org_id",
-                    "visibility",
-                    "status",
-                    "slug",
-                    "created_at",
-                    "updated_at",
-                    "deleted_at",
-                    "metadata",
-                    "level"
-                  ]
+                  }
                 },
                 {
                   "type": "object",
@@ -10801,13 +10829,13 @@ const AcademySchema: Record<string, unknown> = {
                 "type": "string",
                 "format": "date-time",
                 "description": "Date when the certificate was issued",
-                "example": "2023-10-01T12:00:00Z"
+                "example": "2023-10-01 12:00:00+00:00"
               },
               "expirationDate": {
                 "type": "string",
                 "format": "date-time",
                 "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                "example": "2025-10-01T12:00:00Z"
+                "example": "2025-10-01 12:00:00+00:00"
               },
               "expiresIn": {
                 "type": "integer",
@@ -11010,13 +11038,13 @@ const AcademySchema: Record<string, unknown> = {
                 "type": "string",
                 "format": "date-time",
                 "description": "Date when the certificate was issued",
-                "example": "2023-10-01T12:00:00Z"
+                "example": "2023-10-01 12:00:00+00:00"
               },
               "expirationDate": {
                 "type": "string",
                 "format": "date-time",
                 "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                "example": "2025-10-01T12:00:00Z"
+                "example": "2025-10-01 12:00:00+00:00"
               },
               "expiresIn": {
                 "type": "integer",
@@ -11211,13 +11239,13 @@ const AcademySchema: Record<string, unknown> = {
             "type": "string",
             "format": "date-time",
             "description": "Date when the certificate was issued",
-            "example": "2023-10-01T12:00:00Z"
+            "example": "2023-10-01 12:00:00+00:00"
           },
           "expirationDate": {
             "type": "string",
             "format": "date-time",
             "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-            "example": "2025-10-01T12:00:00Z"
+            "example": "2025-10-01 12:00:00+00:00"
           },
           "expiresIn": {
             "type": "integer",
@@ -11340,13 +11368,13 @@ const AcademySchema: Record<string, unknown> = {
                 "type": "string",
                 "format": "date-time",
                 "description": "Date when the certificate was issued",
-                "example": "2023-10-01T12:00:00Z"
+                "example": "2023-10-01 12:00:00+00:00"
               },
               "expirationDate": {
                 "type": "string",
                 "format": "date-time",
                 "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                "example": "2025-10-01T12:00:00Z"
+                "example": "2025-10-01 12:00:00+00:00"
               },
               "expiresIn": {
                 "type": "integer",
@@ -11638,13 +11666,13 @@ const AcademySchema: Record<string, unknown> = {
                 "type": "string",
                 "format": "date-time",
                 "description": "Date when the certificate was issued",
-                "example": "2023-10-01T12:00:00Z"
+                "example": "2023-10-01 12:00:00+00:00"
               },
               "expirationDate": {
                 "type": "string",
                 "format": "date-time",
                 "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                "example": "2025-10-01T12:00:00Z"
+                "example": "2025-10-01 12:00:00+00:00"
               },
               "expiresIn": {
                 "type": "integer",
@@ -12564,13 +12592,13 @@ const AcademySchema: Record<string, unknown> = {
                       "type": "string",
                       "format": "date-time",
                       "description": "Date when the certificate was issued",
-                      "example": "2023-10-01T12:00:00Z"
+                      "example": "2023-10-01 12:00:00+00:00"
                     },
                     "expirationDate": {
                       "type": "string",
                       "format": "date-time",
                       "description": "Date when the certificate expires. Dynamically calculated from issued_date and expires_in; not specified by instructors.",
-                      "example": "2025-10-01T12:00:00Z"
+                      "example": "2025-10-01 12:00:00+00:00"
                     },
                     "expiresIn": {
                       "type": "integer",
