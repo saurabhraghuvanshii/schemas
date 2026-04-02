@@ -4164,11 +4164,11 @@ export type GetDesignsOfWorkspaceApiResponse = /** status 200 Designs */ {
             /** Connection Name */
             name: string;
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
-            credential_id?: string;
+            credentialId?: string;
             /** Connection Type (platform, telemetry, collaboration) */
             type: string;
             /** Connection Subtype (cloud, identity, metrics, chat, git, orchestration) */
-            sub_type: string;
+            subType: string;
             /** Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github) */
             kind: string;
             /** Additional connection metadata */
@@ -7107,7 +7107,7 @@ export type RegisterConnectionApiArg = {
     /** Connection type */
     type: string;
     /** Connection sub-type */
-    sub_type: string;
+    subType: string;
     /** Credential secret data */
     credentialSecret?: object;
     /** Connection metadata */
@@ -7115,7 +7115,7 @@ export type RegisterConnectionApiArg = {
     /** Connection status */
     status: string;
     /** Associated credential ID */
-    credential_id?: string;
+    credentialId?: string;
   };
 };
 export type GetConnectionByIdApiResponse = /** status 200 Connection details */ {
@@ -7249,7 +7249,7 @@ export type UpdateConnectionApiArg = {
     /** Connection type */
     type: string;
     /** Connection sub-type */
-    sub_type: string;
+    subType: string;
     /** Credential secret data */
     credentialSecret?: object;
     /** Connection metadata */
@@ -7257,7 +7257,7 @@ export type UpdateConnectionApiArg = {
     /** Connection status */
     status: string;
     /** Associated credential ID */
-    credential_id?: string;
+    credentialId?: string;
   };
 };
 export type DeleteConnectionApiResponse = unknown;
@@ -7399,11 +7399,11 @@ export type GetPatternsApiResponse = /** status 200 Designs response */ {
             /** Connection Name */
             name: string;
             /** Associated Credential ID */
-            credential_id?: string;
+            credentialId?: string;
             /** Connection Type (platform, telemetry, collaboration) */
             type: string;
             /** Connection Subtype (cloud, identity, metrics, chat, git, orchestration) */
-            sub_type: string;
+            subType: string;
             /** Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github) */
             kind: string;
             /** Additional connection metadata */
@@ -8457,11 +8457,11 @@ export type UpsertPatternApiResponse = /** status 200 Design saved */ {
           /** Connection Name */
           name: string;
           /** Associated Credential ID */
-          credential_id?: string;
+          credentialId?: string;
           /** Connection Type (platform, telemetry, collaboration) */
           type: string;
           /** Connection Subtype (cloud, identity, metrics, chat, git, orchestration) */
-          sub_type: string;
+          subType: string;
           /** Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github) */
           kind: string;
           /** Additional connection metadata */
@@ -9493,11 +9493,11 @@ export type UpsertPatternApiArg = {
               /** Connection Name */
               name: string;
               /** Associated Credential ID */
-              credential_id?: string;
+              credentialId?: string;
               /** Connection Type (platform, telemetry, collaboration) */
               type: string;
               /** Connection Subtype (cloud, identity, metrics, chat, git, orchestration) */
-              sub_type: string;
+              subType: string;
               /** Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github) */
               kind: string;
               /** Additional connection metadata */
@@ -10567,11 +10567,11 @@ export type GetPatternApiResponse = /** status 200 Design response */ {
           /** Connection Name */
           name: string;
           /** Associated Credential ID */
-          credential_id?: string;
+          credentialId?: string;
           /** Connection Type (platform, telemetry, collaboration) */
           type: string;
           /** Connection Subtype (cloud, identity, metrics, chat, git, orchestration) */
-          sub_type: string;
+          subType: string;
           /** Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github) */
           kind: string;
           /** Additional connection metadata */
@@ -11609,11 +11609,11 @@ export type ClonePatternApiResponse = /** status 200 Design cloned */ {
           /** Connection Name */
           name: string;
           /** Associated Credential ID */
-          credential_id?: string;
+          credentialId?: string;
           /** Connection Type (platform, telemetry, collaboration) */
           type: string;
           /** Connection Subtype (cloud, identity, metrics, chat, git, orchestration) */
-          sub_type: string;
+          subType: string;
           /** Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github) */
           kind: string;
           /** Additional connection metadata */
@@ -12689,11 +12689,11 @@ export type GetCatalogContentApiResponse = /** status 200 Catalog content page *
             /** Connection Name */
             name: string;
             /** Associated Credential ID */
-            credential_id?: string;
+            credentialId?: string;
             /** Connection Type (platform, telemetry, collaboration) */
             type: string;
             /** Connection Subtype (cloud, identity, metrics, chat, git, orchestration) */
-            sub_type: string;
+            subType: string;
             /** Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github) */
             kind: string;
             /** Additional connection metadata */

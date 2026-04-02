@@ -44,13 +44,13 @@ type Connection struct {
 	Name string `db:"name" json:"name" yaml:"name"`
 
 	// CredentialId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	CredentialID *core.Uuid `db:"credential_id" json:"credentialId,omitempty" yaml:"credentialId"`
+	CredentialID *core.Uuid `db:"credential_id" json:"credential_id,omitempty" yaml:"credential_id"`
 
 	// Type Connection Type (platform, telemetry, collaboration)
 	Type string `db:"type" json:"type" yaml:"type"`
 
 	// SubType Connection Subtype (cloud, identity, metrics, chat, git, orchestration)
-	SubType string `db:"sub_type" json:"subType" yaml:"subType"`
+	SubType string `db:"sub_type" json:"sub_type" yaml:"sub_type"`
 
 	// Kind Connection Kind (meshery, kubernetes, prometheus, grafana, gke, aws, azure, slack, github)
 	Kind string `db:"kind" json:"kind" yaml:"kind"`
@@ -99,11 +99,11 @@ type ConnectionPage struct {
 
 // ConnectionPayload Payload for creating or updating a connection
 type ConnectionPayload struct {
-	// CredentialSecret Credential secret data
-	CredentialSecret core.Map `json:"credentialSecret" yaml:"credentialSecret"`
-
 	// CredentialID Associated credential ID
 	CredentialID *openapi_types.UUID `json:"credentialId,omitempty" yaml:"credentialId,omitempty"`
+
+	// CredentialSecret Credential secret data
+	CredentialSecret core.Map `json:"credentialSecret" yaml:"credentialSecret"`
 
 	// ConnectionID Connection ID
 	ConnectionID *openapi_types.UUID `json:"id,omitempty" yaml:"id,omitempty"`
@@ -121,7 +121,7 @@ type ConnectionPayload struct {
 	Status string `json:"status" yaml:"status"`
 
 	// SubType Connection sub-type
-	SubType string `db:"sub_type" json:"subType" yaml:"subType"`
+	SubType string `json:"subType" yaml:"subType"`
 
 	// Type Connection type
 	Type string `json:"type" yaml:"type"`
