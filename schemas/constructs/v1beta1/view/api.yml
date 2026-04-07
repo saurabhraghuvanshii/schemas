@@ -146,6 +146,7 @@ components:
           x-go-type: uuid.UUID
           x-go-type-import:
             path: github.com/gofrs/uuid
+          x-go-name: WorkspaceID
           x-go-type-skip-optional-pointer: true
           x-oapi-codegen-extra-tags:
             db: workspace_id
@@ -157,6 +158,7 @@ components:
           x-go-type: uuid.UUID
           x-go-type-import:
             path: github.com/gofrs/uuid
+          x-go-name: OrganizationID
           x-go-type-skip-optional-pointer: true
           x-oapi-codegen-extra-tags:
             db: organization_id
