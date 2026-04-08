@@ -177,7 +177,7 @@ Every element in the API has exactly one correct casing. The table below is the 
 
 ## Per-Property Validation Constraints
 
-The schema validator (`build/validate-schemas.js`) enforces per-property constraints as advisory rules (Rules 37–41). These do not block CI but are reported on `--warn` runs and should be resolved in new schemas.
+The schema validator (`build/validate-schemas.js`) enforces per-property constraints as advisory rules (Rules 37–42). These do not block CI but are reported on `--warn` runs and should be resolved in new schemas.
 
 | Rule | What it checks |
 |---|---|
@@ -186,6 +186,7 @@ The schema validator (`build/validate-schemas.js`) enforces per-property constra
 | 39 | Numeric properties have `minimum`, `maximum`, or `const` |
 | 40 | ID-like properties (`id`, `*_id`, `*Id`) have `format: uuid` or `$ref` to a UUID type |
 | 41 | Page-size properties (`page_size`, `pagesize`, `pageSize`) have `minimum: 1` |
+| 42 | `format` values must be from the known OpenAPI 3.0 / JSON Schema set (e.g., `date-time`, `email`, `uri`, `uuid`) |
 
 ### `x-id-format: external` — exempting non-UUID IDs
 
