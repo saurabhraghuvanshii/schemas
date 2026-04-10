@@ -178,7 +178,8 @@ components:
 		t.Fatal(err)
 	}
 
-	vs := checkRule15("api.yml", nil, AuditOptions{RootDir: tmpDir})
+	raw, _ := loadYAMLDoc(apiPath)
+	vs := checkRule15("api.yml", raw, nil, AuditOptions{})
 	if len(vs) != 1 {
 		t.Fatalf("expected 1 violation for cross-construct $ref without x-go-type, got %d", len(vs))
 	}
@@ -214,7 +215,8 @@ components:
 		t.Fatal(err)
 	}
 
-	vs := checkRule15("api.yml", nil, AuditOptions{RootDir: tmpDir})
+	raw, _ := loadYAMLDoc(apiPath)
+	vs := checkRule15("api.yml", raw, nil, AuditOptions{})
 	if len(vs) != 0 {
 		t.Errorf("expected 0 violations when x-go-type is present, got %d", len(vs))
 	}
@@ -240,7 +242,8 @@ components:
 		t.Fatal(err)
 	}
 
-	vs := checkRule15("api.yml", nil, AuditOptions{RootDir: tmpDir})
+	raw, _ := loadYAMLDoc(apiPath)
+	vs := checkRule15("api.yml", raw, nil, AuditOptions{})
 	if len(vs) != 0 {
 		t.Errorf("expected 0 violations for internal $ref, got %d", len(vs))
 	}
@@ -266,7 +269,8 @@ components:
 		t.Fatal(err)
 	}
 
-	vs := checkRule15("api.yml", nil, AuditOptions{RootDir: tmpDir})
+	raw, _ := loadYAMLDoc(apiPath)
+	vs := checkRule15("api.yml", raw, nil, AuditOptions{})
 	if len(vs) != 0 {
 		t.Errorf("expected 0 violations for core $ref, got %d", len(vs))
 	}
@@ -293,7 +297,8 @@ components:
 		t.Fatal(err)
 	}
 
-	vs := checkRule15("api.yml", nil, AuditOptions{RootDir: tmpDir})
+	raw, _ := loadYAMLDoc(apiPath)
+	vs := checkRule15("api.yml", raw, nil, AuditOptions{})
 	if len(vs) != 1 {
 		t.Fatalf("expected 1 violation for missing x-go-type-import, got %d", len(vs))
 	}
@@ -326,7 +331,8 @@ components:
 		t.Fatal(err)
 	}
 
-	vs := checkRule15("api.yml", nil, AuditOptions{RootDir: tmpDir})
+	raw, _ := loadYAMLDoc(apiPath)
+	vs := checkRule15("api.yml", raw, nil, AuditOptions{})
 	if len(vs) != 1 {
 		t.Fatalf("expected 1 violation for alias mismatch, got %d", len(vs))
 	}
@@ -359,7 +365,8 @@ components:
 		t.Fatal(err)
 	}
 
-	vs := checkRule15("api.yml", nil, AuditOptions{RootDir: tmpDir})
+	raw, _ := loadYAMLDoc(apiPath)
+	vs := checkRule15("api.yml", raw, nil, AuditOptions{})
 	if len(vs) != 1 {
 		t.Fatalf("expected 1 violation for cross-construct $ref inside allOf, got %d", len(vs))
 	}
@@ -381,7 +388,8 @@ info:
 		t.Fatal(err)
 	}
 
-	vs := checkRule15("api.yml", nil, AuditOptions{RootDir: tmpDir})
+	raw, _ := loadYAMLDoc(apiPath)
+	vs := checkRule15("api.yml", raw, nil, AuditOptions{})
 	if len(vs) != 0 {
 		t.Errorf("expected 0 violations when no schemas section, got %d", len(vs))
 	}

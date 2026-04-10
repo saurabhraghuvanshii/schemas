@@ -28,8 +28,8 @@ on:
       - 'go.sum'
 
 jobs:
-  strict-consistency-audit:
-    name: Strict schema consistency audit
+  blocking-validation:
+    name: Blocking schema validation
     runs-on: ubuntu-24.04
     permissions:
       contents: read

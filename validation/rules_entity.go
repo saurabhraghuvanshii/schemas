@@ -362,8 +362,9 @@ func walkEntityPropertyConstraints(filePath, scope string, properties map[string
 				Severity: classifyDesignIssue(opts), RuleNumber: 36})
 		}
 
-		// Rule 38: string constraints.
-		if propDef.Type == "string" && propDef.Ref == "" && len(propDef.Enum) == 0 {
+		// Rule 38: string constraints. A `const` value is inherently
+		// constrained and does not need additional bounds.
+		if propDef.Type == "string" && propDef.Ref == "" && len(propDef.Enum) == 0 && propDef.Const == nil {
 			hasConstraint := propDef.MinLength != nil || propDef.MaxLength != nil ||
 				propDef.Pattern != "" || propDef.Format != ""
 			if !hasConstraint {
@@ -450,6 +451,8 @@ func walkEntityPropertyConstraints(filePath, scope string, properties map[string
 }
 
 // parseRawProperties converts raw YAML property maps to propertyDef structs.
+// This populates all constraint fields so the walker applied to nested combiner
+// subtrees has the same semantics as the top-level entity property walk.
 func parseRawProperties(rawProps map[string]any) map[string]*propertyDef {
 	result := make(map[string]*propertyDef)
 	for name, val := range rawProps {
@@ -457,7 +460,7 @@ func parseRawProperties(rawProps map[string]any) map[string]*propertyDef {
 		if !ok {
 			continue
 		}
-		p := &propertyDef{}
+		p := &propertyDef{raw: m}
 		if t, ok := m["type"].(string); ok {
 			p.Type = t
 		}
@@ -470,10 +473,97 @@ func parseRawProperties(rawProps map[string]any) map[string]*propertyDef {
 		if f, ok := m["format"].(string); ok {
 			p.Format = f
 		}
-		p.raw = m
+		if pat, ok := m["pattern"].(string); ok {
+			p.Pattern = pat
+		}
+		if enum, ok := m["enum"].([]any); ok {
+			p.Enum = enum
+		}
+		if c, ok := m["const"]; ok {
+			p.Const = c
+		}
+		if ml, ok := rawInt(m, "minLength"); ok {
+			p.MinLength = &ml
+		}
+		if ml, ok := rawInt(m, "maxLength"); ok {
+			p.MaxLength = &ml
+		}
+		if mn, ok := rawFloat(m, "minimum"); ok {
+			p.Minimum = &mn
+		}
+		if mx, ok := rawFloat(m, "maximum"); ok {
+			p.Maximum = &mx
+		}
+		if nestedProps, ok := m["properties"].(map[string]any); ok {
+			p.Properties = parseRawProperties(nestedProps)
+		}
+		if items, ok := m["items"].(map[string]any); ok {
+			p.Items = parseRawPropertyDef(items)
+		}
+		if aa, ok := m["allOf"].([]any); ok {
+			p.AllOf = rawMapSlice(aa)
+		}
+		if ao, ok := m["anyOf"].([]any); ok {
+			p.AnyOf = rawMapSlice(ao)
+		}
+		if oo, ok := m["oneOf"].([]any); ok {
+			p.OneOf = rawMapSlice(oo)
+		}
 		result[name] = p
 	}
 	return result
+}
+
+// parseRawPropertyDef converts a single raw YAML schema map to a propertyDef.
+func parseRawPropertyDef(m map[string]any) *propertyDef {
+	wrapped := map[string]any{"item": m}
+	parsed := parseRawProperties(wrapped)
+	return parsed["item"]
+}
+
+// rawInt extracts an integer value from a raw YAML map.
+func rawInt(m map[string]any, key string) (int, bool) {
+	v, ok := m[key]
+	if !ok {
+		return 0, false
+	}
+	switch n := v.(type) {
+	case int:
+		return n, true
+	case int64:
+		return int(n), true
+	case float64:
+		return int(n), true
+	}
+	return 0, false
+}
+
+// rawFloat extracts a float value from a raw YAML map.
+func rawFloat(m map[string]any, key string) (float64, bool) {
+	v, ok := m[key]
+	if !ok {
+		return 0, false
+	}
+	switch n := v.(type) {
+	case float64:
+		return n, true
+	case int:
+		return float64(n), true
+	case int64:
+		return float64(n), true
+	}
+	return 0, false
+}
+
+// rawMapSlice converts a []any of raw YAML entries into []map[string]any.
+func rawMapSlice(arr []any) []map[string]any {
+	out := make([]map[string]any, 0, len(arr))
+	for _, item := range arr {
+		if m, ok := item.(map[string]any); ok {
+			out = append(out, m)
+		}
+	}
+	return out
 }
 
 // rawMapString returns a string value from a raw map by key, or ("", false).

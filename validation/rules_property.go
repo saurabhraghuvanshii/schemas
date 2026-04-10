@@ -138,9 +138,12 @@ func walkSchemaConstraints(filePath, scope string, schema *openapi3.Schema, opts
 					Severity: classifyDesignIssue(opts), RuleNumber: 36})
 			}
 
-			// Rule 38: string constraints.
+			// Rule 38: string constraints. A `const` value is inherently
+			// constrained and does not need additional bounds.
 			if p.Type != nil && p.Type.Is("string") && propRef.Ref == "" && len(p.Enum) == 0 {
-				hasConstraint := p.MinLength != 0 || p.MaxLength != nil || p.Pattern != "" || p.Format != ""
+				_, hasConst := p.Extensions["const"]
+				hasConstraint := p.MinLength != 0 || p.MaxLength != nil ||
+					p.Pattern != "" || p.Format != "" || hasConst
 				if !hasConstraint {
 					*out = append(*out, Violation{File: filePath,
 						Message:  fmt.Sprintf(`Schema %q — string property %q has no validation constraint (minLength, maxLength, pattern, or format).`, scope, propName),

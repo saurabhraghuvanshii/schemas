@@ -2,7 +2,6 @@ package validation
 
 import (
 	"fmt"
-	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -95,14 +94,12 @@ var bundledBaseSchemas = map[string]bool{"core": true, "capability": true, "sele
 
 // checkRule15 validates cross-construct $ref annotations (Rules 15/16).
 // In OpenAPI 3.0 sibling properties next to $ref are ignored by kin-openapi,
-// so we load the raw YAML to access x-go-type alongside $ref.
-func checkRule15(filePath string, _ *openapi3.T, opts AuditOptions) []Violation {
-	absPath := filepath.Join(opts.RootDir, filePath)
-	raw, err := loadYAMLDoc(absPath)
-	if err != nil {
+// so this rule walks the raw YAML to access x-go-type alongside $ref. The
+// raw doc is passed in from auditAPISpec to avoid re-reading api.yml.
+func checkRule15(filePath string, raw map[string]any, _ *openapi3.T, _ AuditOptions) []Violation {
+	if raw == nil {
 		return nil
 	}
-
 	schemas, ok := getNestedMap(raw, "components", "schemas")
 	if !ok {
 		return nil

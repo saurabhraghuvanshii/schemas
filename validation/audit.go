@@ -235,6 +235,10 @@ func auditAPISpec(apiYmlPath, constructDir string, opts AuditOptions,
 		return
 	}
 
+	// Load the raw YAML doc once for rules that need $ref sibling access
+	// (Rule 15/16). kin-openapi resolves $ref and discards siblings.
+	rawDoc, _ := loadAPISpecRaw(apiYmlPath)
+
 	// Run all API spec rules.
 	ruleChecks := []func(string, *openapi3.T, AuditOptions) []Violation{
 		checkRule2, checkRule3, checkRule4, checkRule5,
@@ -252,8 +256,8 @@ func auditAPISpec(apiYmlPath, constructDir string, opts AuditOptions,
 		}
 	}
 
-	// Rules 15-16: cross-construct refs (needs constructDir context).
-	for _, v := range checkRule15(relPath, doc, opts) {
+	// Rules 15-16: cross-construct refs (raw YAML needed for $ref siblings).
+	for _, v := range checkRule15(relPath, rawDoc, doc, opts) {
 		addViolation(result, v, baseline)
 	}
 

@@ -7,6 +7,40 @@ import (
 )
 
 // ---------------------------------------------------------------------------
+// Rule 38: const is a valid constraint for string properties
+// ---------------------------------------------------------------------------
+
+func TestCheckPropertyConstraints_Rule38_ConstSatisfiesConstraint(t *testing.T) {
+	// A string property with const should NOT trigger Rule 38.
+	schema := &openapi3.Schema{
+		Type: &openapi3.Types{"object"},
+		Properties: openapi3.Schemas{
+			"kind": &openapi3.SchemaRef{
+				Value: &openapi3.Schema{
+					Type:        &openapi3.Types{"string"},
+					Description: "Kind",
+					Extensions:  map[string]any{"const": "connection"},
+				},
+			},
+		},
+	}
+	doc := &openapi3.T{
+		Components: &openapi3.Components{
+			Schemas: openapi3.Schemas{
+				"Test": &openapi3.SchemaRef{Value: schema},
+			},
+		},
+	}
+
+	vs := checkPropertyConstraints("test.yml", doc, AuditOptions{})
+	for _, v := range vs {
+		if v.RuleNumber == 38 {
+			t.Errorf("expected no Rule 38 violation when const is set, got: %s", v.Message)
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
 // Rule 39: const is a valid bound for numeric properties
 // ---------------------------------------------------------------------------
 
@@ -134,6 +168,29 @@ func contains(s, substr string) bool {
 }
 
 // ---------------------------------------------------------------------------
+// Entity Rule 38: const is a valid constraint for string properties
+// ---------------------------------------------------------------------------
+
+func TestCheckEntityPropertyConstraints_Rule38_ConstSatisfiesConstraint(t *testing.T) {
+	entity := &entitySchema{
+		Type: "object",
+		Properties: map[string]*propertyDef{
+			"kind": {
+				Type:        "string",
+				Description: "Kind",
+				Const:       "connection",
+			},
+		},
+	}
+	vs := checkEntityPropertyConstraints("entity.yaml", entity, AuditOptions{})
+	for _, v := range vs {
+		if v.RuleNumber == 38 {
+			t.Errorf("expected no Rule 38 violation when entity const is set, got: %s", v.Message)
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
 // Entity Rule 39: const is a valid bound
 // ---------------------------------------------------------------------------
 
@@ -227,6 +284,90 @@ func TestCheckEntityPropertyConstraints_RecursesIntoNestedProperties(t *testing.
 		for _, v := range vs {
 			t.Logf("  violation: %s", v.Message)
 		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// parseRawProperties: all constraint fields preserved
+// ---------------------------------------------------------------------------
+
+func TestParseRawProperties_PopulatesConstraintFields(t *testing.T) {
+	raw := map[string]any{
+		"name": map[string]any{
+			"type":        "string",
+			"description": "Name",
+			"minLength":   1,
+			"maxLength":   100,
+			"pattern":     "^[A-Za-z]+$",
+		},
+		"count": map[string]any{
+			"type":    "integer",
+			"minimum": 0,
+			"maximum": 1000,
+		},
+		"kind": map[string]any{
+			"type":  "string",
+			"const": "fixed",
+		},
+		"tags": map[string]any{
+			"type": "array",
+			"items": map[string]any{
+				"type":      "string",
+				"maxLength": 50,
+			},
+		},
+		"option": map[string]any{
+			"oneOf": []any{
+				map[string]any{"type": "string"},
+				map[string]any{"type": "integer"},
+			},
+		},
+	}
+
+	parsed := parseRawProperties(raw)
+
+	// Check name — minLength, maxLength, pattern preserved.
+	name := parsed["name"]
+	if name == nil {
+		t.Fatal("expected 'name' property to be parsed")
+	}
+	if name.MinLength == nil || *name.MinLength != 1 {
+		t.Errorf("expected MinLength=1, got %v", name.MinLength)
+	}
+	if name.MaxLength == nil || *name.MaxLength != 100 {
+		t.Errorf("expected MaxLength=100, got %v", name.MaxLength)
+	}
+	if name.Pattern != "^[A-Za-z]+$" {
+		t.Errorf("expected Pattern to be preserved, got %q", name.Pattern)
+	}
+
+	// Check count — Minimum, Maximum preserved.
+	count := parsed["count"]
+	if count.Minimum == nil || *count.Minimum != 0 {
+		t.Errorf("expected Minimum=0, got %v", count.Minimum)
+	}
+	if count.Maximum == nil || *count.Maximum != 1000 {
+		t.Errorf("expected Maximum=1000, got %v", count.Maximum)
+	}
+
+	// Check kind — Const preserved.
+	kind := parsed["kind"]
+	if kind.Const == nil {
+		t.Error("expected Const to be preserved")
+	}
+
+	// Check tags — Items parsed recursively.
+	tags := parsed["tags"]
+	if tags.Items == nil {
+		t.Error("expected Items to be populated")
+	} else if tags.Items.MaxLength == nil || *tags.Items.MaxLength != 50 {
+		t.Errorf("expected Items.MaxLength=50, got %v", tags.Items.MaxLength)
+	}
+
+	// Check option — OneOf preserved with raw map entries.
+	option := parsed["option"]
+	if len(option.OneOf) != 2 {
+		t.Errorf("expected OneOf to have 2 entries, got %d", len(option.OneOf))
 	}
 }
 

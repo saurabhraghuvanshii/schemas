@@ -29,6 +29,14 @@ func loadAPISpec(filePath string) (*openapi3.T, error) {
 	return doc, nil
 }
 
+// loadAPISpecRaw loads the raw YAML representation of an api.yml file as a
+// map. Rule 15/16 uses this to access $ref-sibling annotations that
+// kin-openapi discards during resolution. Callers should prefer reusing this
+// via auditAPISpec rather than re-reading the file directly.
+func loadAPISpecRaw(filePath string) (map[string]any, error) {
+	return loadYAMLDoc(filePath)
+}
+
 // entitySchema is a minimal representation of a standalone entity YAML file
 // (e.g., design.yaml). These are JSON Schema objects without an OpenAPI
 // envelope, so kin-openapi's loader rejects them. We load them with yaml.v3.
