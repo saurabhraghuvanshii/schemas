@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Scans schemas/constructs/ and generates _data/constructs.json
+ * Scans schemas/constructs/ and generates ui/_data/constructs.json
  * so the Jekyll site always reflects the actual schema directory structure.
  *
  * No external dependencies — uses only Node built-in modules.
@@ -26,7 +26,18 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const CONSTRUCTS_DIR = path.join(ROOT, 'schemas', 'constructs');
-const OUT_FILE = path.join(ROOT, '_data', 'constructs.json');
+const OUT_FILE = path.join(ROOT, 'ui', '_data', 'constructs.json');
+const UI_CONSTRUCTS_DIR = path.join(ROOT, 'ui', 'schemas', 'constructs');
+const OPENAPI_BUILD_DIR = path.join(ROOT, '_openapi_build');
+const UI_OPENAPI_BUILD_DIR = path.join(ROOT, 'ui', '_openapi_build');
+
+function replaceDirectory(sourceDir, targetDir) {
+  fs.rmSync(targetDir, { recursive: true, force: true });
+  if (fs.existsSync(sourceDir)) {
+    fs.mkdirSync(path.dirname(targetDir), { recursive: true });
+    fs.cpSync(sourceDir, targetDir, { recursive: true });
+  }
+}
 
 // Version ordering: higher = newer.  v1beta2 > v1beta1 > v1alpha3 > v1alpha2 > v1alpha1
 function versionRank(v) {
@@ -100,26 +111,57 @@ for (const ver of versionDirs) {
         versions: [],
         hasApi: false,
         hasTemplate: false,
+        hasEntity: false,
+        entityFile: null,
+        hasJsonTemplate: false,
+        hasYamlTemplate: false,
+        versionDetails: {},
       };
     }
 
     constructMap[name].versions.push(ver);
+    constructMap[name].versionDetails[ver] = {
+      hasApi: false,
+      hasTemplate: false,
+      hasEntity: false,
+      entityFile: null,
+      hasJsonTemplate: false,
+      hasYamlTemplate: false,
+    };
 
     // Try to get description from entity YAML (prefer latest version)
     const entityYaml = path.join(cPath, name + '.yaml');
-    if (fs.existsSync(entityYaml) && !constructMap[name].description) {
-      constructMap[name].description = extractDescription(entityYaml);
+    if (fs.existsSync(entityYaml)) {
+      constructMap[name].hasEntity = true;
+      constructMap[name].versionDetails[ver].hasEntity = true;
+      constructMap[name].versionDetails[ver].entityFile = name + '.yaml';
+      if (!constructMap[name].entityFile) {
+        constructMap[name].entityFile = name + '.yaml';
+      }
+      if (!constructMap[name].description) {
+        constructMap[name].description = extractDescription(entityYaml);
+      }
     }
 
     // Check for api.yml
     if (fs.existsSync(path.join(cPath, 'api.yml'))) {
       constructMap[name].hasApi = true;
+      constructMap[name].versionDetails[ver].hasApi = true;
     }
 
     // Check for templates
     const tplDir = path.join(cPath, 'templates');
     if (fs.existsSync(tplDir) && fs.statSync(tplDir).isDirectory()) {
-      constructMap[name].hasTemplate = true;
+      const jsonTemplate = path.join(tplDir, name + '_template.json');
+      const yamlTemplate = path.join(tplDir, name + '_template.yaml');
+      const hasJsonTemplate = fs.existsSync(jsonTemplate);
+      const hasYamlTemplate = fs.existsSync(yamlTemplate);
+      constructMap[name].versionDetails[ver].hasJsonTemplate = hasJsonTemplate;
+      constructMap[name].versionDetails[ver].hasYamlTemplate = hasYamlTemplate;
+      constructMap[name].versionDetails[ver].hasTemplate = hasJsonTemplate || hasYamlTemplate;
+      constructMap[name].hasJsonTemplate = constructMap[name].hasJsonTemplate || hasJsonTemplate;
+      constructMap[name].hasYamlTemplate = constructMap[name].hasYamlTemplate || hasYamlTemplate;
+      constructMap[name].hasTemplate = constructMap[name].hasJsonTemplate || constructMap[name].hasYamlTemplate;
     }
   }
 }
@@ -141,9 +183,11 @@ const output = {
 
 fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
 fs.writeFileSync(OUT_FILE, JSON.stringify(output, null, 2) + '\n');
+replaceDirectory(CONSTRUCTS_DIR, UI_CONSTRUCTS_DIR);
+replaceDirectory(OPENAPI_BUILD_DIR, UI_OPENAPI_BUILD_DIR);
 
 console.log(
-  'Generated _data/constructs.json — %d versions, %d constructs',
+  'Generated ui/_data/constructs.json and staged schema assets — %d versions, %d constructs',
   versionDirs.length,
   items.length
 );

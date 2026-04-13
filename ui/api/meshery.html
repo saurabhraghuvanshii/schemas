@@ -1,0 +1,78 @@
+---
+layout: default
+title: "Meshery Server API"
+description: Interactive API documentation for Meshery Server endpoints.
+permalink: /api/meshery
+---
+
+<div class="page-content">
+  <h1>Meshery Server API</h1>
+  <p>
+    OpenAPI specification for all Meshery Server REST endpoints. This is generated from
+    <code>_openapi_build/meshery_openapi.yml</code>.
+  </p>
+
+  <div class="callout callout-info">
+    <strong>OpenAPI spec</strong>
+    Run <code>make bundle-openapi</code> locally to generate the latest spec, then view/download the file below or open
+    it in any OpenAPI tool.
+  </div>
+
+  <p>
+    <a class="btn btn-outline" href="{{ '/_openapi_build/meshery_openapi.yml' | relative_url }}"
+      >Download meshery_openapi.yml</a
+    >
+  </p>
+
+  <div id="spec-container">
+    <p><em>Loading OpenAPI specification...</em></p>
+    <noscript>
+      <p>
+        JavaScript is required to render the in-page specification preview. Alternatively, run
+        <code>make bundle-openapi</code> locally and open <code>_openapi_build/meshery_openapi.yml</code> in an OpenAPI
+        viewer.
+      </p>
+    </noscript>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var specUrl = '{{ "/_openapi_build/meshery_openapi.yml" | relative_url }}';
+    var container = document.getElementById("spec-container");
+
+    fetch(specUrl)
+      .then(function (response) {
+        if (response.ok) {
+          return response.text();
+        } else {
+          showFallback();
+          return null;
+        }
+      })
+      .then(function (text) {
+        if (!text) return;
+        container.innerHTML = "<h2>Specification Preview</h2>" + "<pre><code>" + escapeHtml(text) + "</code></pre>";
+      })
+      .catch(function () {
+        showFallback();
+      });
+
+    function showFallback() {
+      container.innerHTML =
+        '<div class="callout callout-warning">' +
+        "<strong>OpenAPI spec not found</strong>" +
+        "<p>The bundled spec has not been generated yet. Run the following to generate it:</p>" +
+        "<pre><code>make bundle-openapi</code></pre>" +
+        "<p>Then rebuild the site to include the spec file.</p>" +
+        "</div>";
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement("div");
+      div.appendChild(document.createTextNode(String(str)));
+      return div.innerHTML;
+    }
+  });
+</script>
+

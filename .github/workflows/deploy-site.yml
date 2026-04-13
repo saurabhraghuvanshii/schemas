@@ -34,14 +34,37 @@ jobs:
         with:
           ruby-version: "3.3"
           bundler-cache: true
+          working-directory: ui
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Generate Jekyll runtime config
+        run: |
+          if [ -f CNAME ]; then
+            DOMAIN="$(tr -d '\n' < CNAME)"
+            cat > ui/_config.runtime.yml <<EOF
+url: "https://${DOMAIN}"
+baseurl: ""
+EOF
+          else
+            REPO_NAME="${GITHUB_REPOSITORY#*/}"
+            cat > ui/_config.runtime.yml <<EOF
+url: "https://${GITHUB_REPOSITORY_OWNER}.github.io"
+baseurl: "/${REPO_NAME}"
+EOF
+          fi
+
       - name: Build Jekyll site
-        run: bundle exec jekyll build --destination ./_site
+        run: cd ui && bundle exec jekyll build --config _config.yml,_config.runtime.yml --destination ../_site
         env:
           JEKYLL_ENV: production
+
+      - name: Copy CNAME
+        run: |
+          if [ -f CNAME ]; then
+            cp CNAME _site/CNAME
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -24,7 +24,7 @@ jekyll = bundle exec jekyll
 
 ## Build and run schemas.meshery.io website
 site:
-	bundle install; $(jekyll) serve --drafts --incremental --livereload
+	node build/generate-constructs-data.js; cd ui && bundle install && $(jekyll) serve --config _config.yml,_config.local.yml --drafts --incremental --no-watch
 
 #-----------------------------------------------------------------------------
 # OpenAPI spec
