@@ -48,6 +48,7 @@ type consumerAssessment struct {
 type shapeAssessment struct {
 	status shapeStatus
 	diffs  []fieldDiff
+	drift  []string
 	reason string
 }
 
@@ -239,6 +240,26 @@ func verifyShapeDetailed(shape *schemaShape, info *goTypeInfo, requestSide bool)
 			reason: fmt.Sprintf("%s type could not be resolved from handler body", sideLabel),
 		}
 	}
+	if info.IsFromSchema {
+		expected := schemaTypeCandidates(shape)
+		if len(expected) == 0 {
+			typeName := info.TypeName
+			if typeName == "" {
+				typeName = "(unknown type)"
+			}
+			return shapeAssessment{
+				status: shapeUnverified,
+				reason: fmt.Sprintf("%s schema-backed type %q could not be matched to a named schema component", sideLabel, typeName),
+			}
+		}
+		if schemaTypeMatches(shape, info) {
+			return shapeAssessment{status: shapeOK}
+		}
+		return shapeAssessment{
+			status: shapeDiff,
+			drift:  []string{fmt.Sprintf("%s uses schema type %q but spec expects %s", sideLabel, info.TypeName, formatSchemaTypeCandidates(expected))},
+		}
+	}
 	if len(info.Fields) == 0 {
 		typeName := info.TypeName
 		if typeName == "" {
@@ -357,6 +378,9 @@ func assessConsumer(c *consumerEndpoint, requestShape, responseShape *schemaShap
 		switch assessment.status {
 		case shapeDiff:
 			sawDiff = true
+			for _, msg := range assessment.drift {
+				drift = append(drift, fmt.Sprintf("%s %s", c.Repo, msg))
+			}
 			drift = append(drift, formatFieldDiffs(c.Repo, side, assessment.diffs)...)
 		case shapeUnverified:
 			sawUnverified = true
@@ -508,4 +532,68 @@ func isPrimitive(goType string) bool {
 		return true
 	}
 	return false
+}
+
+func schemaTypeMatches(shape *schemaShape, info *goTypeInfo) bool {
+	if shape == nil || info == nil {
+		return false
+	}
+	actualArrayDepth, actualBase := normalizeTypeIdentity(info.TypeName)
+	if actualBase == "" {
+		return false
+	}
+	for _, candidate := range schemaTypeCandidates(shape) {
+		candidateArrayDepth, candidateBase := normalizeTypeIdentity(candidate)
+		if candidateBase == "" {
+			continue
+		}
+		if candidateArrayDepth == actualArrayDepth && candidateBase == actualBase {
+			return true
+		}
+	}
+	return false
+}
+
+func schemaTypeCandidates(shape *schemaShape) []string {
+	if shape == nil {
+		return nil
+	}
+	var out []string
+	for _, candidate := range []string{shape.Name, shape.GoType} {
+		candidate = strings.TrimSpace(candidate)
+		if candidate == "" {
+			continue
+		}
+		out = append(out, candidate)
+	}
+	return uniqueStrings(out)
+}
+
+func formatSchemaTypeCandidates(candidates []string) string {
+	switch len(candidates) {
+	case 0:
+		return "an unknown schema type"
+	case 1:
+		return fmt.Sprintf("%q", candidates[0])
+	default:
+		quoted := make([]string, 0, len(candidates))
+		for _, candidate := range candidates {
+			quoted = append(quoted, fmt.Sprintf("%q", candidate))
+		}
+		return strings.Join(quoted, " or ")
+	}
+}
+
+func normalizeTypeIdentity(typeName string) (arrayDepth int, base string) {
+	s := strings.TrimSpace(typeName)
+	for strings.HasPrefix(s, "[]") {
+		arrayDepth++
+		s = strings.TrimPrefix(s, "[]")
+	}
+	s = strings.TrimLeft(s, "*")
+	s = strings.TrimSpace(s)
+	if i := strings.LastIndex(s, "."); i >= 0 {
+		s = s[i+1:]
+	}
+	return arrayDepth, s
 }

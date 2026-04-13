@@ -5,7 +5,9 @@ import (
 	"go/parser"
 	"go/token"
 	"path"
+	"reflect"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -45,7 +47,7 @@ type handlerInfo struct {
 // supplied list of consumerEndpoints. When multiple handler files expose the
 // same function name, the endpoint is left unresolved with an explicit note
 // instead of silently binding to the first match.
-func indexHandlers(tree sourceTree, endpoints []consumerEndpoint, schemaIdx *goTypeIndex) []consumerEndpoint {
+func indexHandlers(tree sourceTree, endpoints []consumerEndpoint) []consumerEndpoint {
 	if tree == nil {
 		return endpoints
 	}
@@ -126,7 +128,7 @@ func indexHandlers(tree sourceTree, endpoints []consumerEndpoint, schemaIdx *goT
 				continue
 			}
 			name := fn.Name.Name
-			req, resp := scanHandlerBody(fn, c.imports, localPkgTypes[c.dir], schemaIdx)
+			req, resp := scanHandlerBody(fn, c.imports, localPkgTypes[c.dir])
 			handlers[name] = append(handlers[name], handlerInfo{
 				File:           c.path,
 				ImportsSchemas: importsSchemas,
@@ -377,15 +379,13 @@ func receiverLooksLikeHandlerContainer(expr ast.Expr) bool {
 // type contexts.
 //
 // localTypes is the per-package map of struct types defined in the same
-// directory as the handler file (handler-local payload types). schemaIdx is
-// the global index of meshery-schemas types loaded from the local models
-// tree. imports maps each package alias used in the file to its full import
-// path so SelectorExpr type references can be resolved against schemaIdx.
+// directory as the handler file (handler-local payload types). imports maps
+// each package alias used in the file to its full import path so schema-backed
+// type references can be identified without walking generated models.
 func scanHandlerBody(
 	fn *ast.FuncDecl,
 	imports map[string]string,
 	localTypes map[string]map[string]string,
-	schemaIdx *goTypeIndex,
 ) (*goTypeInfo, *goTypeInfo) {
 	if fn == nil || fn.Body == nil {
 		return nil, nil
@@ -398,7 +398,7 @@ func scanHandlerBody(
 		if info == nil {
 			info = lookupLocalVar(arg, locals)
 		}
-		populateFields(info, imports, localTypes, schemaIdx)
+		populateFields(info, imports, localTypes)
 		return info
 	}
 
@@ -531,16 +531,14 @@ func lookupLocalVar(expr ast.Expr, locals map[string]*goTypeInfo) *goTypeInfo {
 }
 
 // populateFields fills in info.Fields and info.IsFromSchema by looking the
-// type up in the supplied contexts. If info has a Package qualifier the
-// resolution prefers the schemas index (using imports to map alias → path);
-// otherwise the local per-package type map is consulted. Fields that are
-// already populated are left alone — verifyShape's contract is "non-empty
-// Fields means we can compare", and once that holds we should not redo work.
+// type up in the supplied contexts. Schema-backed types are identified by
+// import path only; we intentionally do not inspect generated models for
+// field-level comparisons. Handler-local struct types remain comparable by
+// their declared fields.
 func populateFields(
 	info *goTypeInfo,
 	imports map[string]string,
 	localTypes map[string]map[string]string,
-	schemaIdx *goTypeIndex,
 ) {
 	if info == nil || len(info.Fields) > 0 {
 		return
@@ -548,13 +546,8 @@ func populateFields(
 	if info.Package != "" {
 		importPath := imports[info.Package]
 		if importPath != "" {
-			if strings.HasPrefix(importPath, "github.com/meshery/schemas/models/") {
-				info.IsFromSchema = true
-			}
-			if fields := schemaIdx.lookup(importPath, stripArrayPrefix(info.TypeName)); len(fields) > 0 {
-				info.Fields = fields
-				return
-			}
+			info.IsFromSchema = strings.HasPrefix(importPath, "github.com/meshery/schemas/models/")
+			return
 		}
 	}
 	if fields := localTypes[stripArrayPrefix(info.TypeName)]; len(fields) > 0 {
@@ -615,6 +608,76 @@ func typeFromExpr(expr ast.Expr) *goTypeInfo {
 		return inner
 	}
 	return nil
+}
+
+// extractStructFields walks a struct type definition and returns a JSON-tag
+// → Go-type-string map. Fields tagged `json:"-"` are skipped; embedded
+// fields are skipped because the audit compares top-level payload shape only.
+func extractStructFields(st *ast.StructType) map[string]string {
+	if st == nil || st.Fields == nil {
+		return nil
+	}
+	out := make(map[string]string)
+	for _, field := range st.Fields.List {
+		if len(field.Names) == 0 {
+			continue
+		}
+		jsonName := ""
+		skip := false
+		if field.Tag != nil {
+			raw, err := strconv.Unquote(field.Tag.Value)
+			if err == nil {
+				tag := reflect.StructTag(raw)
+				if jt := tag.Get("json"); jt != "" {
+					parts := strings.Split(jt, ",")
+					if parts[0] == "-" {
+						skip = true
+					} else if parts[0] != "" {
+						jsonName = parts[0]
+					}
+				}
+			}
+		}
+		if skip {
+			continue
+		}
+		typeStr := exprToString(field.Type)
+		for _, name := range field.Names {
+			n := jsonName
+			if n == "" {
+				n = name.Name
+			}
+			out[n] = typeStr
+		}
+	}
+	return out
+}
+
+// exprToString returns a compact textual rendering of a Go type expression
+// suitable for the relaxed comparisons in matcher.go.
+func exprToString(expr ast.Expr) string {
+	switch e := expr.(type) {
+	case *ast.Ident:
+		return e.Name
+	case *ast.StarExpr:
+		return "*" + exprToString(e.X)
+	case *ast.ArrayType:
+		return "[]" + exprToString(e.Elt)
+	case *ast.SelectorExpr:
+		if id, ok := e.X.(*ast.Ident); ok && e.Sel != nil {
+			return id.Name + "." + e.Sel.Name
+		}
+		if e.Sel != nil {
+			return e.Sel.Name
+		}
+	case *ast.MapType:
+		return "map[" + exprToString(e.Key) + "]" + exprToString(e.Value)
+	case *ast.InterfaceType:
+		return "interface{}"
+	case *ast.StructType:
+		return "struct{}"
+	}
+	return ""
 }
 
 // sortConsumerEndpoints orders endpoints deterministically by path then method.

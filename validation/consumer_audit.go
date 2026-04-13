@@ -194,18 +194,13 @@ func runConsumerAudit(opts ConsumerAuditOptions, mesheryTree, cloudTree sourceTr
 		cloudTree = localTree{root: opts.CloudRepo}
 	}
 
-	// Build the meshery-schemas Go-type index once. This drives field-level
-	// verification of payloads in handlers that decode into a schemas type;
-	// without it verifyShape always falls through to shapeUnverified.
-	schemaTypes := loadSchemasGoTypes(opts.RootDir)
-
 	var mesheryEndpoints []consumerEndpoint
 	if mesheryTree != nil {
 		mesheryEndpoints, err = parseGorillaRoutes(mesheryTree)
 		if err != nil {
 			return nil, fmt.Errorf("consumer-audit: parse meshery routes: %w", err)
 		}
-		mesheryEndpoints = indexHandlers(mesheryTree, mesheryEndpoints, schemaTypes)
+		mesheryEndpoints = indexHandlers(mesheryTree, mesheryEndpoints)
 	}
 
 	var cloudEndpoints []consumerEndpoint
@@ -214,7 +209,7 @@ func runConsumerAudit(opts ConsumerAuditOptions, mesheryTree, cloudTree sourceTr
 		if err != nil {
 			return nil, fmt.Errorf("consumer-audit: parse cloud routes: %w", err)
 		}
-		cloudEndpoints = indexHandlers(cloudTree, cloudEndpoints, schemaTypes)
+		cloudEndpoints = indexHandlers(cloudTree, cloudEndpoints)
 	}
 
 	match := matchEndpoints(idx, mesheryEndpoints, cloudEndpoints)
