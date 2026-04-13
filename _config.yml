@@ -2,8 +2,8 @@ title: Meshery Schemas
 description: >-
   The central schema repository for Meshery — browse constructs, validate documents,
   explore the REST API, and learn schema-driven development.
-url: "https://schemas.meshery.io"
-baseurl: ""
+url: "https://saurabhraghuvanshii.github.io"
+baseurl: "/schemas"
 
 markdown: kramdown
 highlighter: rouge
