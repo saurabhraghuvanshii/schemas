@@ -1,0 +1,40 @@
+main:
+  - title: Guide
+    url: /guide/
+    children:
+      - title: Schema-Driven Development
+        url: /guide/schema-driven-dev
+      - title: Add a Construct
+        url: /guide/add-a-construct
+      - title: Naming Rules
+        url: /guide/naming-rules
+      - title: Versioning
+        url: /guide/versioning
+      - title: Build Pipeline
+        url: /guide/build-pipeline
+  - title: Constructs
+    url: /constructs/
+  - title: API
+    url: /api/
+    children:
+      - title: Meshery Server
+        url: /api/meshery
+      - title: Layer5 Cloud
+        url: /api/cloud
+  - title: Validate
+    url: /validate/
+  - title: Go
+    url: /go/
+    children:
+      - title: Generated Structs
+        url: /go/structs
+      - title: Helper Conventions
+        url: /go/helpers
+  - title: TypeScript
+    url: /typescript/
+    children:
+      - title: Package Guide
+        url: /typescript/package-guide
+      - title: RTK Query Hooks
+        url: /typescript/rtk-hooks
+
