@@ -1,18 +1,15 @@
-// Command api-audit runs the consumer audit: it walks meshery/schemas, joins
+// Command consumer-audit runs the consumer audit: it walks meshery/schemas, joins
 // it against handler implementations in meshery/meshery and meshery-cloud,
 // and reports per-endpoint coverage and implementation drift.
 //
 // Usage:
 //
-//	go run ./cmd/api-audit                                                 # summary only
-//	go run ./cmd/api-audit --meshery-repo=../meshery --cloud-repo=../meshery-cloud
-//	go run ./cmd/api-audit --dry-run --output=audit.csv                    # local CSV export
-//	go run ./cmd/api-audit --dry-run --baseline-csv=prev.csv               # diff against explicit baseline
-//	go run ./cmd/api-audit --sheet-id=<id> --credentials=<path>            # canonical sheet write
+//	go run ./cmd/consumer-audit
+//	go run ./cmd/consumer-audit --meshery-repo=../meshery --cloud-repo=../meshery-cloud
+//	go run ./cmd/consumer-audit --sheet-id=<id> --credentials=<path>      # reconcile and update the canonical sheet
 package main
 
 import (
-	"encoding/csv"
 	"flag"
 	"fmt"
 	"io"
@@ -27,11 +24,8 @@ func main() {
 	mesheryRepo := flag.String("meshery-repo", "", "Path to a meshery/meshery checkout (Gorilla router)")
 	cloudRepo := flag.String("cloud-repo", "", "Path to a meshery-cloud checkout (Echo router)")
 	verbose := flag.Bool("verbose", false, "Print per-construct breakdown and Schema-only / Consumer-only lists")
-	sheetID := flag.String("sheet-id", "", "Google Sheet ID to read/write canonical audit state")
-	credentials := flag.String("credentials", "", "Path to Google service-account JSON credentials (for --sheet-id)")
-	dryRun := flag.Bool("dry-run", false, "Do not touch Google Sheets; optionally diff against --baseline-csv and emit CSV to --output or stdout")
-	outputPath := flag.String("output", "", "Write CSV output to this file. Use - for stdout. When omitted, CSV is only written during --dry-run and goes to stdout")
-	baselineCSV := flag.String("baseline-csv", "", "Optional baseline CSV used for dry-run diffs and refreshed after a successful sheet write")
+	sheetID := flag.String("sheet-id", "", "Google Sheet ID to reconcile against and update")
+	credentials := flag.String("credentials", "", "Path to Google service-account JSON credentials (required with --sheet-id)")
 	flag.Parse()
 
 	rootDir, err := findRepoRoot()
@@ -40,8 +34,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	if *dryRun && *sheetID != "" {
-		fmt.Fprintln(os.Stderr, "consumer-audit: --dry-run and --sheet-id are mutually exclusive")
+	if (*sheetID == "") != (*credentials == "") {
+		fmt.Fprintln(os.Stderr, "consumer-audit: --sheet-id and --credentials must be provided together")
 		os.Exit(1)
 	}
 
@@ -53,26 +47,13 @@ func main() {
 	}
 
 	if *sheetID != "" {
-		if *credentials == "" {
-			fmt.Fprintln(os.Stderr, "consumer-audit: --credentials is required when --sheet-id is set")
-			os.Exit(1)
-		}
-		creds, err := os.ReadFile(*credentials)
+		creds, err := os.ReadFile(resolvePath(rootDir, *credentials))
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "consumer-audit: read credentials: %v\n", err)
 			os.Exit(1)
 		}
 		opts.SheetID = *sheetID
 		opts.SheetsCredentials = creds
-	}
-
-	if *baselineCSV != "" {
-		previous, err := readCSVCache(resolvePath(rootDir, *baselineCSV))
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "consumer-audit: read baseline %s: %v\n", *baselineCSV, err)
-			os.Exit(1)
-		}
-		opts.PreviousRows = previous
 	}
 
 	result, err := validation.RunConsumerAudit(opts)
@@ -82,9 +63,6 @@ func main() {
 	}
 
 	summaryOut := io.Writer(os.Stdout)
-	if shouldWriteStdoutCSV(*dryRun, *outputPath) {
-		summaryOut = os.Stderr
-	}
 	printSummary(summaryOut, result, *mesheryRepo != "", *cloudRepo != "")
 
 	if *verbose {
@@ -93,26 +71,6 @@ func main() {
 
 	if len(result.Tracked) > 0 {
 		printDiff(summaryOut, result.Tracked)
-	}
-
-	if *sheetID != "" && *baselineCSV != "" {
-		if err := writeCSVCache(resolvePath(rootDir, *baselineCSV), result); err != nil {
-			fmt.Fprintf(os.Stderr, "consumer-audit: warning: could not refresh %s: %v\n", *baselineCSV, err)
-		}
-	}
-
-	if *outputPath != "" {
-		if err := writeCSVPath(resolvePath(rootDir, *outputPath), result); err != nil {
-			fmt.Fprintf(os.Stderr, "consumer-audit: write CSV: %v\n", err)
-			os.Exit(1)
-		}
-	}
-
-	if shouldWriteStdoutCSV(*dryRun, *outputPath) {
-		if err := writeCSV(os.Stdout, result); err != nil {
-			fmt.Fprintf(os.Stderr, "consumer-audit: write CSV: %v\n", err)
-			os.Exit(1)
-		}
 	}
 }
 
@@ -186,7 +144,7 @@ func printVerbose(out io.Writer, result *validation.ConsumerAuditResult) {
 }
 
 // printDiff prints a short summary of the reconciliation state transitions.
-// Only runs when a previous state (sheet or cache) was available.
+// Only runs when a previous sheet state was available.
 func printDiff(out io.Writer, tracked []validation.TrackedEndpoint) {
 	type bucket struct {
 		label string
@@ -232,61 +190,6 @@ func printDiff(out io.Writer, tracked []validation.TrackedEndpoint) {
 			fmt.Fprintf(out, "    %-7s %s  %s\n", t.Row.Method, t.Row.Endpoint, t.ChangeLog)
 		}
 	}
-}
-
-// writeCSV emits the full audit result (header + rows) as CSV to the given
-// writer. When reconciliation has run, the reconciled rows are preferred so
-// the emitted Change Log column reflects the state transitions.
-func writeCSV(out io.Writer, result *validation.ConsumerAuditResult) error {
-	rows := result.CSVRows()
-	w := csv.NewWriter(out)
-	if err := w.WriteAll(rows); err != nil {
-		return err
-	}
-	w.Flush()
-	return w.Error()
-}
-
-func readCSVCache(path string) ([][]string, error) {
-	f, err := os.Open(path)
-	if err != nil {
-		if os.IsNotExist(err) {
-			return nil, nil
-		}
-		return nil, err
-	}
-	defer f.Close()
-	r := csv.NewReader(f)
-	r.FieldsPerRecord = -1
-	return r.ReadAll()
-}
-
-func writeCSVCache(path string, result *validation.ConsumerAuditResult) error {
-	f, err := os.Create(path)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-	return writeCSV(f, result)
-}
-
-func writeCSVPath(path string, result *validation.ConsumerAuditResult) error {
-	if path == "-" {
-		return writeCSV(os.Stdout, result)
-	}
-	f, err := os.Create(path)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-	return writeCSV(f, result)
-}
-
-func shouldWriteStdoutCSV(dryRun bool, outputPath string) bool {
-	if outputPath == "-" {
-		return true
-	}
-	return dryRun && outputPath == ""
 }
 
 func resolvePath(rootDir, path string) string {

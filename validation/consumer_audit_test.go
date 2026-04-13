@@ -1,8 +1,6 @@
 package validation
 
 import (
-	"bytes"
-	"encoding/csv"
 	"strings"
 	"testing"
 )
@@ -43,7 +41,7 @@ func TestComputeSummaryCountsPartial(t *testing.T) {
 }
 
 // TestSortAuditRows confirms the canonical ordering: Category, SubCategory,
-// Endpoint, Method. The ordering is what downstream CSV/sheet writes rely on
+// Endpoint, Method. The ordering is what downstream sheet writes rely on
 // for deterministic output.
 func TestSortAuditRows(t *testing.T) {
 	rows := []AuditRow{
@@ -73,7 +71,7 @@ func TestSortAuditRows(t *testing.T) {
 // reconcile() contract; narrower per-state tests would just duplicate it.
 func TestReconcileNewExistingChangedDeleted(t *testing.T) {
 	previous := [][]string{
-		append([]string(nil), auditCSVHeader...),
+		append([]string(nil), auditHeader...),
 		// Unchanged: same audited columns in current.
 		{"Identity", "user", "/api/users", "GET", "TRUE", "TRUE", "TRUE", "", "", "", "+added 2026-01-01", "users/api.yml"},
 		// Changed: Schema-Driven (Meshery) flips TRUE -> Partial below.
@@ -137,8 +135,8 @@ func TestReconcileNewExistingChangedDeleted(t *testing.T) {
 	}
 }
 
-// TestReconcileHeaderOptional confirms parsePreviousRows tolerates a missing
-// header row (e.g., a hand-written CSV) and does not mistake a data row for
+// TestReconcileHeaderOptional confirms parseSheetRows tolerates a missing
+// header row and does not mistake a data row for
 // the header.
 func TestReconcileHeaderOptional(t *testing.T) {
 	previous := [][]string{
@@ -156,10 +154,10 @@ func TestReconcileHeaderOptional(t *testing.T) {
 	}
 }
 
-// TestAuditRowCSVRoundtrip ensures AuditRow -> []string -> AuditRow preserves
+// TestAuditRowSheetRoundtrip ensures AuditRow -> []string -> AuditRow preserves
 // every field. rowFromStrings is also used to parse sheet reads, so this
 // covers the serialization contract in both directions.
-func TestAuditRowCSVRoundtrip(t *testing.T) {
+func TestAuditRowSheetRoundtrip(t *testing.T) {
 	original := AuditRow{
 		Category:            "Identity",
 		SubCategory:         "user",
@@ -176,8 +174,8 @@ func TestAuditRowCSVRoundtrip(t *testing.T) {
 	}
 
 	cols := original.toRow()
-	if len(cols) != len(auditCSVHeader) {
-		t.Fatalf("toRow length: got %d, want %d", len(cols), len(auditCSVHeader))
+	if len(cols) != len(auditHeader) {
+		t.Fatalf("toRow length: got %d, want %d", len(cols), len(auditHeader))
 	}
 
 	round := rowFromStrings(cols)
@@ -192,57 +190,30 @@ func TestAuditRowCSVRoundtrip(t *testing.T) {
 	}
 }
 
-// TestCSVRowsPrefersTracked verifies the CSV export picks reconciled rows
+// TestSheetRowsPrefersTracked verifies the sheet output picks reconciled rows
 // when reconciliation has run, and falls back to plain rows otherwise. This
-// is the contract the CLI relies on for dry-run diffs vs clean runs.
-func TestCSVRowsPrefersTracked(t *testing.T) {
-	result := &APIAuditResult{
+// is the contract the update path relies on after reconciliation.
+func TestSheetRowsPrefersTracked(t *testing.T) {
+	result := &ConsumerAuditResult{
 		Rows: []AuditRow{{Endpoint: "/a", Method: "GET", ChangeLog: "plain"}},
 	}
-	out := result.CSVRows()
+	out := result.SheetRows()
 	if len(out) != 2 || out[1][10] != "plain" {
-		t.Errorf("plain rows CSV: got %v", out)
+		t.Errorf("plain rows: got %v", out)
 	}
 
 	result.Tracked = []TrackedEndpoint{
 		{Row: AuditRow{Endpoint: "/a", Method: "GET", ChangeLog: "reconciled"}, State: StateExisting},
 	}
-	out = result.CSVRows()
+	out = result.SheetRows()
 	if len(out) != 2 || out[1][10] != "reconciled" {
-		t.Errorf("tracked CSV: got %v", out)
+		t.Errorf("tracked rows: got %v", out)
 	}
 
-	// A nil receiver must still emit a header-only CSV — the CLI passes
-	// whatever result validation returns, even on early errors.
-	var nilResult *APIAuditResult
-	out = nilResult.CSVRows()
+	// A nil receiver must still emit a header-only set of rows.
+	var nilResult *ConsumerAuditResult
+	out = nilResult.SheetRows()
 	if len(out) != 1 || out[0][0] != "Category" {
-		t.Errorf("nil CSVRows should be header-only: got %v", out)
-	}
-}
-
-// TestCSVRowsAreParsableCSV guards against any row containing characters
-// (quotes, commas, newlines) that would break encoding/csv round-trip.
-func TestCSVRowsAreParsableCSV(t *testing.T) {
-	result := &APIAuditResult{
-		Rows: []AuditRow{
-			{Category: "Identity", Endpoint: "/api/users", Method: "GET", Notes: `a, "b", c`},
-		},
-	}
-	var buf bytes.Buffer
-	w := csv.NewWriter(&buf)
-	if err := w.WriteAll(result.CSVRows()); err != nil {
-		t.Fatalf("write: %v", err)
-	}
-	w.Flush()
-
-	r := csv.NewReader(&buf)
-	r.FieldsPerRecord = -1
-	parsed, err := r.ReadAll()
-	if err != nil {
-		t.Fatalf("read: %v", err)
-	}
-	if len(parsed) != 2 || parsed[1][9] != `a, "b", c` {
-		t.Errorf("CSV roundtrip failed: got %v", parsed)
+		t.Errorf("nil SheetRows should be header-only: got %v", out)
 	}
 }

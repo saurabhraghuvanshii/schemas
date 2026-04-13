@@ -115,34 +115,30 @@ audit-schemas-debt-full:
 #-----------------------------------------------------------------------------
 # Consumer audit (schemas vs. consumer repos)
 #-----------------------------------------------------------------------------
-.PHONY: api-audit api-audit-update
+.PHONY: consumer-audit consumer-audit-update
 
-# Override via: make api-audit MESHERY_REPO=../meshery CLOUD_REPO=../meshery-cloud
+# Override via: make consumer-audit MESHERY_REPO=../meshery CLOUD_REPO=../meshery-cloud
 MESHERY_REPO ?=
 CLOUD_REPO   ?=
 SHEET_ID     ?=
 CREDENTIALS  ?=
-OUTPUT       ?=
-BASELINE_CSV ?=
 
-## Dry-run the consumer audit. Emits CSV to stdout, or use OUTPUT=/path.csv and BASELINE_CSV=/path.csv.
-api-audit:
-	@go run ./cmd/api-audit \
+## Dry-run the consumer audit without reconciling or updating Google Sheets.
+consumer-audit:
+	@go run ./cmd/consumer-audit \
 		$(if $(MESHERY_REPO),--meshery-repo=$(MESHERY_REPO)) \
 		$(if $(CLOUD_REPO),--cloud-repo=$(CLOUD_REPO)) \
-		$(if $(OUTPUT),--output=$(OUTPUT)) \
-		$(if $(BASELINE_CSV),--baseline-csv=$(BASELINE_CSV)) \
-		--dry-run
+		$(if $(VERBOSE),--verbose)
 
-## Push the consumer audit result to the canonical Google Sheet. Requires SHEET_ID and CREDENTIALS.
-api-audit-update:
+## Reconcile the consumer audit against the canonical Google Sheet and update it.
+consumer-audit-update:
 	@if [ -z "$(SHEET_ID)" ] || [ -z "$(CREDENTIALS)" ]; then \
-		echo "api-audit-update: SHEET_ID and CREDENTIALS are required"; exit 1; \
+		echo "consumer-audit-update: SHEET_ID and CREDENTIALS are required"; exit 1; \
 	fi
-	@go run ./cmd/api-audit \
+	@go run ./cmd/consumer-audit \
 		$(if $(MESHERY_REPO),--meshery-repo=$(MESHERY_REPO)) \
 		$(if $(CLOUD_REPO),--cloud-repo=$(CLOUD_REPO)) \
-		$(if $(BASELINE_CSV),--baseline-csv=$(BASELINE_CSV)) \
+		$(if $(VERBOSE),--verbose) \
 		--sheet-id=$(SHEET_ID) \
 		--credentials=$(CREDENTIALS)
 

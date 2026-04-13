@@ -19,15 +19,8 @@ type ConsumerAuditOptions struct {
 	SheetID           string
 	SheetsCredentials []byte
 
-	// Previous state for dry-run reconciliation. Nil = no diff available.
-	PreviousRows [][]string
-
 	Verbose bool
 }
-
-// APIAuditOptions is kept as a compatibility alias while the naming surface
-// moves toward consumer-audit terminology.
-type APIAuditOptions = ConsumerAuditOptions
 
 // ConsumerAuditResult is the output of RunConsumerAudit.
 type ConsumerAuditResult struct {
@@ -38,16 +31,12 @@ type ConsumerAuditResult struct {
 	// Reconciled state (nil if no previous state was provided).
 	Tracked []TrackedEndpoint
 
-	// Output rows for CSV/sheet (sorted, deterministic).
+	// Output rows for sheet serialization (sorted, deterministic).
 	Rows []AuditRow
 
 	// Summary counts for terminal display.
 	Summary auditSummary
 }
-
-// APIAuditResult is kept as a compatibility alias while the naming surface
-// moves toward consumer-audit terminology.
-type APIAuditResult = ConsumerAuditResult
 
 // ConsumerAuditRow is one row of the audit output.
 type ConsumerAuditRow struct {
@@ -65,11 +54,11 @@ type ConsumerAuditRow struct {
 	SchemaSource        string
 }
 
-// AuditRow remains as a compatibility alias for existing tests and callers.
+// AuditRow remains a short alias used throughout the validation package.
 type AuditRow = ConsumerAuditRow
 
-// auditCSVHeader is the canonical header for CSV/sheet output.
-var auditCSVHeader = []string{
+// auditHeader is the canonical header for sheet row output.
+var auditHeader = []string{
 	"Category",
 	"Sub-Category",
 	"Endpoint",
@@ -175,28 +164,23 @@ type auditSummary struct {
 	CloudDrivenNotAud    int
 }
 
-// CSVRows returns the audit output as a header-plus-rows [][]string suitable
-// for csv.Writer.WriteAll. When reconciliation has run, the reconciled rows
+// SheetRows returns the audit output as header-plus-rows [][]string suitable
+// for Google Sheets writes. When reconciliation has run, the reconciled rows
 // are used so the emitted Change Log column reflects state transitions;
 // otherwise the plain analysis rows are returned.
-func (r *ConsumerAuditResult) CSVRows() [][]string {
+func (r *ConsumerAuditResult) SheetRows() [][]string {
 	if r == nil {
-		return [][]string{append([]string(nil), auditCSVHeader...)}
+		return [][]string{append([]string(nil), auditHeader...)}
 	}
 	if len(r.Tracked) > 0 {
-		return trackedToCSV(r.Tracked)
+		return trackedToSheetRows(r.Tracked)
 	}
-	return rowsToCSV(r.Rows)
+	return rowsToSheetRows(r.Rows)
 }
 
 // RunConsumerAudit is the single entry point for the consumer audit pipeline.
 func RunConsumerAudit(opts ConsumerAuditOptions) (*ConsumerAuditResult, error) {
 	return runConsumerAudit(opts, nil, nil)
-}
-
-// RunAPIAudit remains as a compatibility wrapper.
-func RunAPIAudit(opts APIAuditOptions) (*ConsumerAuditResult, error) {
-	return RunConsumerAudit(opts)
 }
 
 // runConsumerAudit is the test-friendly version that accepts pre-built

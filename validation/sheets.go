@@ -38,12 +38,12 @@ func keyOf(r ConsumerAuditRow) reconcileKey {
 }
 
 // reconcile compares the current audit rows against a previous serialized
-// view (sheet rows or local CSV cache) and produces tracked endpoints with
+// view from Google Sheets and produces tracked endpoints with
 // state transitions. It is pure logic — no I/O — so it is fully testable.
 func reconcile(current []ConsumerAuditRow, previous [][]string) []TrackedEndpoint {
 	today := time.Now().Format("2006-01-02")
 
-	prevRows := parsePreviousRows(previous)
+	prevRows := parseSheetRows(previous)
 	prevByKey := make(map[reconcileKey]ConsumerAuditRow, len(prevRows))
 	for _, r := range prevRows {
 		prevByKey[keyOf(r)] = r
@@ -97,10 +97,10 @@ func reconcile(current []ConsumerAuditRow, previous [][]string) []TrackedEndpoin
 	return tracked
 }
 
-// parsePreviousRows accepts the raw [][]string we received from a sheet read
-// or CSV file. It strips a header row if present (first column == "Category"
-// is the canonical header) and converts each row into an AuditRow.
-func parsePreviousRows(rows [][]string) []ConsumerAuditRow {
+// parseSheetRows accepts the raw [][]string we received from a sheet read. It
+// strips a header row if present (first column == "Category", the canonical
+// header) and converts each row into an AuditRow.
+func parseSheetRows(rows [][]string) []ConsumerAuditRow {
 	if len(rows) == 0 {
 		return nil
 	}
@@ -135,22 +135,22 @@ func withChangeLog(r ConsumerAuditRow, log string) ConsumerAuditRow {
 	return r
 }
 
-// trackedToCSV converts a slice of TrackedEndpoints back into the [][]string
-// shape that downstream sheet/CSV writers expect (header + rows).
-func trackedToCSV(tracked []TrackedEndpoint) [][]string {
+// trackedToSheetRows converts a slice of TrackedEndpoints back into the
+// [][]string shape that downstream sheet writers expect (header + rows).
+func trackedToSheetRows(tracked []TrackedEndpoint) [][]string {
 	rows := make([][]string, 0, len(tracked)+1)
-	rows = append(rows, append([]string(nil), auditCSVHeader...))
+	rows = append(rows, append([]string(nil), auditHeader...))
 	for _, t := range tracked {
 		rows = append(rows, t.Row.toRow())
 	}
 	return rows
 }
 
-// rowsToCSV converts plain audit rows (no reconciliation) into the
-// header+rows shape used by CSV/sheet writers.
-func rowsToCSV(rows []ConsumerAuditRow) [][]string {
+// rowsToSheetRows converts plain audit rows (no reconciliation) into the
+// header+rows shape used by sheet writers.
+func rowsToSheetRows(rows []ConsumerAuditRow) [][]string {
 	out := make([][]string, 0, len(rows)+1)
-	out = append(out, append([]string(nil), auditCSVHeader...))
+	out = append(out, append([]string(nil), auditHeader...))
 	for _, r := range rows {
 		out = append(out, r.toRow())
 	}
@@ -193,7 +193,7 @@ func writeSheet(ctx context.Context, sheetID string, creds []byte, tracked []Tra
 		return fmt.Errorf("clear sheet: %w", err)
 	}
 
-	rows := trackedToCSV(tracked)
+	rows := trackedToSheetRows(tracked)
 	values := make([][]any, 0, len(rows))
 	for _, r := range rows {
 		row := make([]any, 0, len(r))
@@ -231,9 +231,8 @@ func newSheetsService(ctx context.Context, creds []byte) (*sheets.Service, error
 }
 
 // reconcileFromOpts applies the requested reconciliation flow:
-//   - SheetID set  → read sheet, reconcile, write sheet, install tracked rows
-//   - PreviousRows → reconcile in-memory only
-//   - neither      → no-op
+//   - SheetID set → read sheet, reconcile, write sheet, install tracked rows
+//   - neither     → no-op
 func reconcileFromOpts(opts ConsumerAuditOptions, result *ConsumerAuditResult) error {
 	if result == nil {
 		return nil
@@ -250,11 +249,6 @@ func reconcileFromOpts(opts ConsumerAuditOptions, result *ConsumerAuditResult) e
 			return err
 		}
 		result.Tracked = tracked
-		return nil
-	}
-
-	if len(opts.PreviousRows) > 0 {
-		result.Tracked = reconcile(result.Rows, opts.PreviousRows)
 		return nil
 	}
 
