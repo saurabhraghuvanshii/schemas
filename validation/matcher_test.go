@@ -12,8 +12,8 @@ func TestNormalizeMatchKey(t *testing.T) {
 	}{
 		{"get", "/api/users/", matchKey{Method: "GET", Path: "/api/users"}},
 		{"POST", "api/users", matchKey{Method: "POST", Path: "/api/users"}},
-		{"put", "/api/users/{orgID}", matchKey{Method: "PUT", Path: "/api/users/{orgid}"}},
-		{"delete", "/api/users/{orgId}", matchKey{Method: "DELETE", Path: "/api/users/{orgid}"}},
+		{"put", "/api/users/{orgID}", matchKey{Method: "PUT", Path: "/api/users/{orgID}"}},
+		{"delete", "/api/users/{orgId}", matchKey{Method: "DELETE", Path: "/api/users/{orgId}"}},
 	}
 	for _, tc := range cases {
 		got := normalizeMatchKey(tc.method, tc.path)
@@ -112,7 +112,7 @@ func TestClassifySchemaBacked(t *testing.T) {
 	if got := classifySchemaBacked(true, schemaEndpoint{HasSuccessRef: true}); got != "TRUE" {
 		t.Errorf("with ref: got %q", got)
 	}
-	if got := classifySchemaBacked(true, schemaEndpoint{HasSuccessRef: false}); got != "Partial" {
+	if got := classifySchemaBacked(true, schemaEndpoint{HasSuccessRef: false}); got != "TRUE" {
 		t.Errorf("no ref: got %q", got)
 	}
 }
@@ -137,20 +137,20 @@ func TestClassifySchemaDriven(t *testing.T) {
 		t.Errorf("no import: got %q", got)
 	}
 	// Handler found, imports schemas, no shape verifiable —
-	// Partial, not TRUE.
+	// Not Audited, not TRUE.
 	c = &consumerEndpoint{HandlerName: "X", HandlerFile: "f.go", ImportsSchemas: true}
-	if got := classifySchemaDriven(true, c, nil, nil); got != "Partial" {
-		t.Errorf("imports schemas no shape: want Partial, got %q", got)
+	if got := classifySchemaDriven(true, c, nil, nil); got != "Not Audited" {
+		t.Errorf("imports schemas no shape: want Not Audited, got %q", got)
 	}
 	// Handler imports schemas, schema shape exists but consumer type
-	// info is missing — still Partial (we can't actually verify).
+	// info is missing — still Not Audited (we can't actually verify).
 	shape := &schemaShape{
 		Fields: map[string]fieldShape{
 			"name": {Name: "name", Type: "string"},
 		},
 	}
-	if got := classifySchemaDriven(true, c, shape, nil); got != "Partial" {
-		t.Errorf("imports schemas, no consumer type: want Partial, got %q", got)
+	if got := classifySchemaDriven(true, c, shape, nil); got != "Not Audited" {
+		t.Errorf("imports schemas, no consumer type: want Not Audited, got %q", got)
 	}
 	// Handler imports schemas and the request type was actually
 	// inspected and matches → TRUE.

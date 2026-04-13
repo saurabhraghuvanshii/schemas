@@ -11,10 +11,10 @@ import (
 // MesheryDrivenPartial / CloudDrivenPartial / SchemaDrivenPartial.
 func TestComputeSummaryCountsPartial(t *testing.T) {
 	rows := []AuditRow{
-		{SchemaBacked: "TRUE", SchemaDrivenMeshery: "Partial", SchemaDrivenCloud: "Not Audited"},
-		{SchemaBacked: "TRUE", SchemaDrivenMeshery: "TRUE", SchemaDrivenCloud: "Partial"},
-		{SchemaBacked: "TRUE", SchemaDrivenMeshery: "FALSE", SchemaDrivenCloud: "Partial"},
-		{SchemaBacked: "Partial", SchemaDrivenMeshery: "Partial", SchemaDrivenCloud: "N/A"},
+		{SchemaBacked: "TRUE", SchemaCompleteness: "TRUE", SchemaDrivenMeshery: "Partial", SchemaDrivenCloud: "Not Audited"},
+		{SchemaBacked: "TRUE", SchemaCompleteness: "TRUE", SchemaDrivenMeshery: "TRUE", SchemaDrivenCloud: "Partial"},
+		{SchemaBacked: "TRUE", SchemaCompleteness: "TRUE", SchemaDrivenMeshery: "FALSE", SchemaDrivenCloud: "Partial"},
+		{SchemaBacked: "TRUE", SchemaCompleteness: "FALSE", SchemaDrivenMeshery: "Partial", SchemaDrivenCloud: ""},
 	}
 	idx := &schemaIndex{Endpoints: []schemaEndpoint{
 		{Method: "GET", Path: "/a"},
@@ -75,18 +75,18 @@ func TestReconcileNewExistingChangedDeleted(t *testing.T) {
 	previous := [][]string{
 		append([]string(nil), auditCSVHeader...),
 		// Unchanged: same audited columns in current.
-		{"Identity", "user", "/api/users", "GET", "TRUE", "TRUE", "N/A", "", "+added 2026-01-01", "users/api.yml"},
+		{"Identity", "user", "/api/users", "GET", "TRUE", "TRUE", "TRUE", "", "", "", "+added 2026-01-01", "users/api.yml"},
 		// Changed: Schema-Driven (Meshery) flips TRUE -> Partial below.
-		{"Identity", "user", "/api/users", "POST", "TRUE", "TRUE", "N/A", "", "+added 2026-01-01", "users/api.yml"},
+		{"Identity", "user", "/api/users", "POST", "TRUE", "TRUE", "TRUE", "", "", "", "+added 2026-01-01", "users/api.yml"},
 		// Deleted: absent from current.
-		{"Auth", "key", "/api/keys", "DELETE", "TRUE", "TRUE", "N/A", "", "+added 2026-01-01", "keys/api.yml"},
+		{"Auth", "key", "/api/keys", "DELETE", "TRUE", "TRUE", "TRUE", "", "", "", "+added 2026-01-01", "keys/api.yml"},
 	}
 
 	current := []AuditRow{
-		{Category: "Identity", SubCategory: "user", Endpoint: "/api/users", Method: "GET", SchemaBacked: "TRUE", SchemaDrivenMeshery: "TRUE", SchemaDrivenCloud: "N/A"},
-		{Category: "Identity", SubCategory: "user", Endpoint: "/api/users", Method: "POST", SchemaBacked: "TRUE", SchemaDrivenMeshery: "Partial", SchemaDrivenCloud: "N/A"},
+		{Category: "Identity", SubCategory: "user", Endpoint: "/api/users", Method: "GET", SchemaBacked: "TRUE", SchemaCompleteness: "TRUE", SchemaDrivenMeshery: "TRUE"},
+		{Category: "Identity", SubCategory: "user", Endpoint: "/api/users", Method: "POST", SchemaBacked: "TRUE", SchemaCompleteness: "TRUE", SchemaDrivenMeshery: "Partial"},
 		// New row not present in previous.
-		{Category: "Content", SubCategory: "design", Endpoint: "/api/designs", Method: "GET", SchemaBacked: "TRUE", SchemaDrivenMeshery: "TRUE", SchemaDrivenCloud: "N/A"},
+		{Category: "Content", SubCategory: "design", Endpoint: "/api/designs", Method: "GET", SchemaBacked: "TRUE", SchemaCompleteness: "TRUE", SchemaDrivenMeshery: "TRUE"},
 	}
 
 	tracked := reconcile(current, previous)
@@ -142,10 +142,10 @@ func TestReconcileNewExistingChangedDeleted(t *testing.T) {
 // the header.
 func TestReconcileHeaderOptional(t *testing.T) {
 	previous := [][]string{
-		{"Identity", "user", "/api/users", "GET", "TRUE", "TRUE", "N/A", "", "+added 2026-01-01", "users/api.yml"},
+		{"Identity", "user", "/api/users", "GET", "TRUE", "TRUE", "TRUE", "", "", "", "+added 2026-01-01", "users/api.yml"},
 	}
 	current := []AuditRow{
-		{Category: "Identity", SubCategory: "user", Endpoint: "/api/users", Method: "GET", SchemaBacked: "TRUE", SchemaDrivenMeshery: "TRUE", SchemaDrivenCloud: "N/A"},
+		{Category: "Identity", SubCategory: "user", Endpoint: "/api/users", Method: "GET", SchemaBacked: "TRUE", SchemaCompleteness: "TRUE", SchemaDrivenMeshery: "TRUE"},
 	}
 	tracked := reconcile(current, previous)
 	if len(tracked) != 1 {
@@ -166,8 +166,10 @@ func TestAuditRowCSVRoundtrip(t *testing.T) {
 		Endpoint:            "/api/users",
 		Method:              "GET",
 		SchemaBacked:        "TRUE",
+		SchemaCompleteness:  "TRUE",
 		SchemaDrivenMeshery: "Partial",
-		SchemaDrivenCloud:   "N/A",
+		SchemaDrivenCloud:   "",
+		ImplementationDrift: "meshery request missing field \"name\" (string)",
 		Notes:               "a; b",
 		ChangeLog:           "~changed 2026-01-02: Schema-Driven (Meshery)",
 		SchemaSource:        "users/api.yml",
@@ -198,7 +200,7 @@ func TestCSVRowsPrefersTracked(t *testing.T) {
 		Rows: []AuditRow{{Endpoint: "/a", Method: "GET", ChangeLog: "plain"}},
 	}
 	out := result.CSVRows()
-	if len(out) != 2 || out[1][8] != "plain" {
+	if len(out) != 2 || out[1][10] != "plain" {
 		t.Errorf("plain rows CSV: got %v", out)
 	}
 
@@ -206,7 +208,7 @@ func TestCSVRowsPrefersTracked(t *testing.T) {
 		{Row: AuditRow{Endpoint: "/a", Method: "GET", ChangeLog: "reconciled"}, State: StateExisting},
 	}
 	out = result.CSVRows()
-	if len(out) != 2 || out[1][8] != "reconciled" {
+	if len(out) != 2 || out[1][10] != "reconciled" {
 		t.Errorf("tracked CSV: got %v", out)
 	}
 
@@ -240,32 +242,7 @@ func TestCSVRowsAreParsableCSV(t *testing.T) {
 	if err != nil {
 		t.Fatalf("read: %v", err)
 	}
-	if len(parsed) != 2 || parsed[1][7] != `a, "b", c` {
+	if len(parsed) != 2 || parsed[1][9] != `a, "b", c` {
 		t.Errorf("CSV roundtrip failed: got %v", parsed)
-	}
-}
-
-// TestAssertCanonicalInputsBlocksNonCanonical verifies the safety guard that
-// prevents accidentally writing forked/local-override data to the canonical
-// sheet. The error message must name the offending flags so contributors can
-// tell what to drop.
-func TestAssertCanonicalInputsBlocksNonCanonical(t *testing.T) {
-	// No sheet: always allowed.
-	if err := assertCanonicalInputs(APIAuditOptions{}); err != nil {
-		t.Errorf("no-sheet run should be allowed: %v", err)
-	}
-
-	// Sheet with canonical (empty) inputs: allowed.
-	if err := assertCanonicalInputs(APIAuditOptions{SheetID: "s"}); err != nil {
-		t.Errorf("canonical sheet write should be allowed: %v", err)
-	}
-
-	// Sheet with repo override: blocked.
-	err := assertCanonicalInputs(APIAuditOptions{SheetID: "s", MesheryRepo: "/tmp/meshery"})
-	if err == nil {
-		t.Fatal("expected error for non-canonical sheet write")
-	}
-	if !strings.Contains(err.Error(), "--meshery-repo") {
-		t.Errorf("error should name --meshery-repo: %v", err)
 	}
 }

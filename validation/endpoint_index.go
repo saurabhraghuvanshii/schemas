@@ -1,6 +1,7 @@
 package validation
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"sort"
@@ -23,6 +24,7 @@ type schemaEndpoint struct {
 	Public        bool         // true if explicitly security: []
 	HasSuccessRef bool         // true if a 2xx response has a $ref schema
 	Has2xx        bool         // true if there is a 2xx response at all
+	RequestBody   bool         // true if the operation declares a requestBody
 	Construct     string       // "connection" — from extractConstructName
 	Version       string       // "v1beta1"
 	SourceFile    string       // "schemas/constructs/v1beta1/connection/api.yml"
@@ -50,6 +52,17 @@ type schemaIndex struct {
 	Endpoints []schemaEndpoint // sorted by (Path, Method)
 }
 
+type constructSpec struct {
+	Version      string
+	Construct    string
+	ConstructDir string
+	APIYMLPath   string
+	RelativePath string
+	APIExists    bool
+	Doc          *openapi3.T
+	LoadErr      error
+}
+
 // buildEndpointIndex walks the meshery/schemas constructs tree and produces
 // a deterministic index of every API endpoint defined across api.yml files.
 //
@@ -58,16 +71,86 @@ type schemaIndex struct {
 //   - isDeprecatedDoc drops constructs marked x-deprecated: true
 func buildEndpointIndex(rootDir string) (*schemaIndex, error) {
 	index := &schemaIndex{}
+	if err := walkValidatedConstructSpecs(rootDir, func(spec constructSpec) error {
+		if !spec.APIExists {
+			return nil
+		}
+		if spec.LoadErr != nil {
+			return spec.LoadErr
+		}
+		doc := spec.Doc
+		if doc == nil || doc.Paths == nil {
+			return nil
+		}
+		for path, pathItem := range doc.Paths.Map() {
+			if pathItem == nil {
+				continue
+			}
+			for _, method := range httpMethods {
+				op := getOperation(pathItem, method)
+				if op == nil {
+					continue
+				}
+
+				xInternal, err := parseXInternal(op.Extensions)
+				if err != nil {
+					return err
+				}
+
+				ep := schemaEndpoint{
+					Method:      strings.ToUpper(method),
+					Path:        path,
+					OperationID: op.OperationID,
+					Tags:        append([]string(nil), op.Tags...),
+					XInternal:   xInternal,
+					Deprecated:  op.Deprecated,
+					Public:      isExplicitlyPublic(op, doc),
+					Construct:   spec.Construct,
+					Version:     spec.Version,
+					SourceFile:  spec.RelativePath,
+				}
+
+				if op.RequestBody != nil && op.RequestBody.Value != nil {
+					ep.RequestBody = true
+					for _, media := range op.RequestBody.Value.Content {
+						if media != nil && media.Schema != nil {
+							ep.RequestShape = buildSchemaShape(media.Schema)
+							break
+						}
+					}
+				}
+
+				ep.ResponseShape, ep.HasSuccessRef, ep.Has2xx = pickResponseShape(op)
+
+				index.Endpoints = append(index.Endpoints, ep)
+			}
+		}
+		return nil
+	}); err != nil {
+		return nil, err
+	}
+
+	sort.Slice(index.Endpoints, func(i, j int) bool {
+		if index.Endpoints[i].Path != index.Endpoints[j].Path {
+			return index.Endpoints[i].Path < index.Endpoints[j].Path
+		}
+		return index.Endpoints[i].Method < index.Endpoints[j].Method
+	})
+
+	return index, nil
+}
+
+func walkValidatedConstructSpecs(rootDir string, fn func(constructSpec) error) error {
 	constructsDir := filepath.Join(rootDir, "schemas", "constructs")
 
 	info, err := os.Stat(constructsDir)
 	if err != nil || !info.IsDir() {
-		return index, nil
+		return nil
 	}
 
 	versionEntries, err := os.ReadDir(constructsDir)
 	if err != nil {
-		return index, err
+		return err
 	}
 	sort.Slice(versionEntries, func(i, j int) bool {
 		return versionEntries[i].Name() < versionEntries[j].Name()
@@ -85,7 +168,7 @@ func buildEndpointIndex(rootDir string) (*schemaIndex, error) {
 		versionDir := filepath.Join(constructsDir, version)
 		constructEntries, err := os.ReadDir(versionDir)
 		if err != nil {
-			continue
+			return err
 		}
 		sort.Slice(constructEntries, func(i, j int) bool {
 			return constructEntries[i].Name() < constructEntries[j].Name()
@@ -95,116 +178,87 @@ func buildEndpointIndex(rootDir string) (*schemaIndex, error) {
 			if !cEntry.IsDir() {
 				continue
 			}
+
 			constructDir := filepath.Join(versionDir, cEntry.Name())
 			apiYmlPath := filepath.Join(constructDir, "api.yml")
-			if _, err := os.Stat(apiYmlPath); err != nil {
-				continue
+			spec := constructSpec{
+				Version:      version,
+				Construct:    cEntry.Name(),
+				ConstructDir: constructDir,
+				APIYMLPath:   apiYmlPath,
+				RelativePath: relativeToRoot(apiYmlPath, rootDir),
 			}
 
-			doc, err := loadAPISpec(apiYmlPath)
-			if err != nil || doc == nil {
-				continue
-			}
-			if isDeprecatedDoc(doc) {
-				continue
-			}
-
-			relPath := relativeToRoot(apiYmlPath, rootDir)
-			construct := extractConstructName(relPath)
-
-			if doc.Paths == nil {
-				continue
-			}
-			for path, pathItem := range doc.Paths.Map() {
-				if pathItem == nil {
-					continue
-				}
-				for _, method := range httpMethods {
-					op := getOperation(pathItem, method)
-					if op == nil {
+			if _, err := os.Stat(apiYmlPath); err == nil {
+				spec.APIExists = true
+				doc, loadErr := loadAPISpec(apiYmlPath)
+				if loadErr != nil {
+					spec.LoadErr = loadErr
+				} else {
+					if isDeprecatedDoc(doc) {
 						continue
 					}
-
-					ep := schemaEndpoint{
-						Method:      strings.ToUpper(method),
-						Path:        path,
-						OperationID: op.OperationID,
-						Tags:        append([]string(nil), op.Tags...),
-						XInternal:   parseXInternal(op.Extensions),
-						Deprecated:  op.Deprecated,
-						Public:      isExplicitlyPublic(op, doc),
-						Construct:   construct,
-						Version:     version,
-						SourceFile:  relPath,
-					}
-
-					if op.RequestBody != nil && op.RequestBody.Value != nil {
-						for _, media := range op.RequestBody.Value.Content {
-							if media != nil && media.Schema != nil {
-								ep.RequestShape = buildSchemaShape(media.Schema)
-								break
-							}
-						}
-					}
-
-					ep.ResponseShape, ep.HasSuccessRef, ep.Has2xx = pickResponseShape(op)
-
-					index.Endpoints = append(index.Endpoints, ep)
+					spec.Doc = doc
 				}
+			}
+
+			if err := fn(spec); err != nil {
+				return err
 			}
 		}
 	}
 
-	sort.Slice(index.Endpoints, func(i, j int) bool {
-		if index.Endpoints[i].Path != index.Endpoints[j].Path {
-			return index.Endpoints[i].Path < index.Endpoints[j].Path
-		}
-		return index.Endpoints[i].Method < index.Endpoints[j].Method
-	})
-
-	return index, nil
+	return nil
 }
 
 // parseXInternal extracts x-internal target list from operation extensions.
 // Returns nil if not present (= the endpoint applies to all consumer repos).
-func parseXInternal(extensions map[string]any) []string {
+func parseXInternal(extensions map[string]any) ([]string, error) {
 	if extensions == nil {
-		return nil
+		return nil, nil
 	}
 	raw, ok := extensions["x-internal"]
 	if !ok {
-		return nil
+		return nil, nil
 	}
+	return parseXInternalTargets(raw)
+}
+
+func parseXInternalTargets(raw any) ([]string, error) {
 	switch v := raw.(type) {
+	case nil:
+		return nil, nil
 	case []any:
 		out := make([]string, 0, len(v))
 		for _, item := range v {
-			if s, ok := item.(string); ok && s != "" {
-				out = append(out, s)
+			s, ok := item.(string)
+			if !ok {
+				return nil, fmt.Errorf("x-internal array values must be strings")
 			}
+			if !validInternalTags[s] {
+				return nil, fmt.Errorf(`x-internal value %q is invalid`, s)
+			}
+			out = append(out, s)
 		}
 		if len(out) == 0 {
-			return nil
+			return nil, nil
 		}
-		return out
+		return out, nil
 	case []string:
 		out := make([]string, 0, len(v))
 		for _, item := range v {
-			if item != "" {
-				out = append(out, item)
+			if !validInternalTags[item] {
+				return nil, fmt.Errorf(`x-internal value %q is invalid`, item)
 			}
+			out = append(out, item)
 		}
 		if len(out) == 0 {
-			return nil
+			return nil, nil
 		}
-		return out
-	case string:
-		if v == "" {
-			return nil
-		}
-		return []string{v}
+		return out, nil
+	default:
+		return nil, fmt.Errorf("x-internal must be an array")
 	}
-	return nil
 }
 
 // pickResponseShape selects the primary 2xx response and converts it to a

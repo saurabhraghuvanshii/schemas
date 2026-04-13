@@ -116,17 +116,27 @@ func TestParseXInternal(t *testing.T) {
 		name string
 		in   map[string]any
 		want []string
+		err  bool
 	}{
-		{"nil extensions", nil, nil},
-		{"missing key", map[string]any{"x-other": "x"}, nil},
-		{"slice of any", map[string]any{"x-internal": []any{"cloud", "meshery"}}, []string{"cloud", "meshery"}},
-		{"slice of string", map[string]any{"x-internal": []string{"cloud"}}, []string{"cloud"}},
-		{"single string", map[string]any{"x-internal": "meshery"}, []string{"meshery"}},
-		{"empty slice", map[string]any{"x-internal": []any{}}, nil},
+		{"nil extensions", nil, nil, false},
+		{"missing key", map[string]any{"x-other": "x"}, nil, false},
+		{"slice of any", map[string]any{"x-internal": []any{"cloud", "meshery"}}, []string{"cloud", "meshery"}, false},
+		{"slice of string", map[string]any{"x-internal": []string{"cloud"}}, []string{"cloud"}, false},
+		{"single string", map[string]any{"x-internal": "meshery"}, nil, true},
+		{"empty slice", map[string]any{"x-internal": []any{}}, nil, false},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			got := parseXInternal(tc.in)
+			got, err := parseXInternal(tc.in)
+			if tc.err {
+				if err == nil {
+					t.Fatalf("expected error, got nil")
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
 			if len(got) != len(tc.want) {
 				t.Fatalf("got %v want %v", got, tc.want)
 			}

@@ -11,9 +11,6 @@ import (
 
 // echoConstResolver maps the small set of package-qualified constants that
 // appear inside fmt.Sprintf-built route paths in meshery-cloud's router.
-// Adding to this table is the right move when a new constant shows up in a
-// route registration; the alternative — full type-aware constant resolution
-// — is significant scope creep relative to the audit's needs.
 var echoConstResolver = map[string]string{
 	// models.KUBERNETES is used in
 	// meshery-cloud/server/router/router.go:824 to build the
@@ -22,8 +19,7 @@ var echoConstResolver = map[string]string{
 }
 
 // echoRouterFiles are the well-known files where meshery-cloud registers
-// Echo routes. The parser scans them in order; missing files are treated as
-// empty (the consumer repo may not be available).
+// Echo routes. The parser scans them in order.
 var echoRouterFiles = []string{
 	"server/router/router.go",
 	"server/handlers/invitations/handlers.go",
@@ -44,9 +40,6 @@ var echoVerbs = map[string]bool{
 
 // echoGroupPrefixes maps known group/router variable identifiers to the
 // prefix they apply to all routes registered through them.
-//
-// In the meshery-cloud router these are aliases for the same /api group;
-// the architecture doc lists them explicitly so the parser is deterministic.
 var echoGroupPrefixes = map[string]string{
 	"authedAPI":               "/api",
 	"authByPasskeyAPI":        "/api",
@@ -78,9 +71,12 @@ func parseEchoRoutes(tree sourceTree) ([]consumerEndpoint, error) {
 		fset := token.NewFileSet()
 		file, err := parser.ParseFile(fset, path, data, parser.ParseComments)
 		if err != nil {
-			continue
+			return nil, fmt.Errorf("%s: parse %s: %w", tree.Ref(), path, err)
 		}
-		eps := extractEchoEndpoints(file, fset, path)
+		eps, err := extractEchoEndpoints(file, fset, path)
+		if err != nil {
+			return nil, err
+		}
 		endpoints = append(endpoints, eps...)
 	}
 
@@ -93,11 +89,15 @@ func parseEchoRoutes(tree sourceTree) ([]consumerEndpoint, error) {
 }
 
 // extractEchoEndpoints walks an AST file and pulls out every echo route
-// registration call (Pattern E1, E2, E3, E4 from the architecture doc).
-func extractEchoEndpoints(file *ast.File, fset *token.FileSet, routerFile string) []consumerEndpoint {
+// registration call.
+func extractEchoEndpoints(file *ast.File, fset *token.FileSet, routerFile string) ([]consumerEndpoint, error) {
 	var endpoints []consumerEndpoint
+	var firstErr error
 
 	ast.Inspect(file, func(n ast.Node) bool {
+		if firstErr != nil {
+			return false
+		}
 		call, ok := n.(*ast.CallExpr)
 		if !ok {
 			return true
@@ -127,7 +127,12 @@ func extractEchoEndpoints(file *ast.File, fset *token.FileSet, routerFile string
 		}
 		path, ok := resolveEchoPathArg(call.Args[0])
 		if !ok {
-			return true
+			line := 0
+			if call.Pos().IsValid() && fset != nil {
+				line = fset.Position(call.Pos()).Line
+			}
+			firstErr = fmt.Errorf("%s:%d: could not resolve Echo route path expression", routerFile, line)
+			return false
 		}
 		path = normalizeEchoPath(prefix, path)
 
@@ -164,7 +169,7 @@ func extractEchoEndpoints(file *ast.File, fset *token.FileSet, routerFile string
 		return true
 	})
 
-	return endpoints
+	return endpoints, firstErr
 }
 
 // receiverString turns a receiver expression into a flat dotted identifier
@@ -194,9 +199,7 @@ func receiverString(expr ast.Expr) string {
 //     resolved through echoConstResolver
 //
 // The boolean return distinguishes "resolved successfully" from
-// "couldn't resolve, skip this route". Returning false silently drops the
-// registration (matching prior behavior); returning true with an empty
-// string never happens.
+// "couldn't resolve".
 func resolveEchoPathArg(expr ast.Expr) (string, bool) {
 	if s := stringLit(expr); s != "" {
 		return s, true

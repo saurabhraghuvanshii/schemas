@@ -212,14 +212,14 @@ func TestEchoFmtSprintfPath(t *testing.T) {
 }
 
 func TestEchoFmtSprintfPathUnresolved(t *testing.T) {
-	// fmt.Sprintf with an unknown identifier — must drop the route, not
-	// emit a placeholder path.
+	// fmt.Sprintf with an unknown identifier must now fail explicitly so the
+	// audit cannot silently undercount routes.
 	body := `authedAPI.GET(fmt.Sprintf("/x/%s", models.UNKNOWN_THING), s.h.UpdateUserPreference)`
-	eps := runEcho(t, map[string][]byte{
+	tree := mapTree{files: map[string][]byte{
 		"server/router/router.go": echoMain(body),
-	})
-	if len(eps) != 0 {
-		t.Fatalf("expected route to be skipped, got %d endpoints: %+v", len(eps), eps)
+	}, label: "echo-test"}
+	if _, err := parseEchoRoutes(tree); err == nil {
+		t.Fatalf("expected unresolved fmt.Sprintf route to return an error")
 	}
 }
 

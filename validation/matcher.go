@@ -1,13 +1,14 @@
 package validation
 
 import (
-	"regexp"
+	"fmt"
 	"strings"
 )
 
 // matchKey is the canonical (method, path) key used for the schema↔consumer
-// outer join. Methods are uppercased, paths are normalized so {orgID} and
-// {orgId} hash the same way.
+// outer join. Methods are uppercased and paths are normalized for slashes
+// only; published path-parameter casing remains exact so contract drift is
+// visible instead of normalized away.
 type matchKey struct {
 	Method string
 	Path   string
@@ -38,7 +39,17 @@ type fieldDiff struct {
 	ConsumerType string
 }
 
-var paramRE = regexp.MustCompile(`\{([^}]+)\}`)
+type consumerAssessment struct {
+	Status string
+	Drift  []string
+	Notes  []string
+}
+
+type shapeAssessment struct {
+	status shapeStatus
+	diffs  []fieldDiff
+	reason string
+}
 
 // normalizeMatchKey produces the canonical match key for a (method, path)
 // tuple. The display value of the path is preserved on the original
@@ -54,15 +65,11 @@ func normalizeMatchKey(method, path string) matchKey {
 	if len(path) > 1 {
 		path = strings.TrimRight(path, "/")
 	}
-	path = paramRE.ReplaceAllStringFunc(path, func(m string) string {
-		inner := m[1 : len(m)-1]
-		return "{" + strings.ToLower(inner) + "}"
-	})
 	return matchKey{Method: method, Path: path}
 }
 
-// matchEndpoints performs the full outer join described in section 9 of the
-// architecture doc.
+// matchEndpoints performs the full outer join between schema and consumer
+// endpoints.
 func matchEndpoints(schema *schemaIndex, mesheryConsumers, cloudConsumers []consumerEndpoint) *matchResult {
 	result := &matchResult{}
 	if schema == nil {
@@ -156,38 +163,40 @@ func xInternalAllows(xInternal []string, repo string) bool {
 }
 
 // classifySchemaBacked returns the Schema-Backed value for a given match.
-//   - TRUE: schema endpoint exists with a 2xx response that has a $ref schema
-//   - Partial: schema endpoint exists but no 2xx $ref
-//   - FALSE: no schema endpoint
-func classifySchemaBacked(schemaPresent bool, ep schemaEndpoint) string {
+func classifySchemaBacked(schemaPresent bool, _ schemaEndpoint) string {
 	if !schemaPresent {
 		return "FALSE"
 	}
-	if ep.HasSuccessRef {
-		return "TRUE"
-	}
-	return "Partial"
+	return "TRUE"
 }
 
-// classifySchemaDriven returns the Schema-Driven value for the given consumer
-// endpoint and the matched schema's request/response shapes. The contract is
-// stricter than file-level import detection: TRUE requires that we
-// successfully verified at least one of the request or response shapes
-// against the consumer's actually-inspected Go type, with no field diffs.
-//
-//   - N/A:         consumer repo not provided / no consumer endpoint
-//   - Not Audited: handler unresolved or marked anonymous
-//   - FALSE:       handler does not import meshery/schemas
-//   - TRUE:        handler imports schemas AND at least one shape was
-//     verified successfully (no diffs) AND no shape verification produced
-//     diffs
-//   - Partial:     handler imports schemas but verification either produced
-//     diffs OR could not be performed for any shape (e.g. body-scan didn't
-//     find a usable type). This is the honest fallback when we know the
-//     file imports schemas but cannot prove conformance.
-//
-// This classification is intentionally conservative: if inspection could not
-// prove schema conformance, the result falls back to Partial instead of TRUE.
+func classifySchemaCompleteness(ep schemaEndpoint) (string, string) {
+	var notes []string
+	if ep.Deprecated {
+		notes = append(notes, "deprecated schema endpoint")
+	}
+	if ep.Public {
+		notes = append(notes, "explicitly public endpoint")
+	}
+	if !ep.Has2xx {
+		notes = append(notes, "schema has no 2xx response")
+		return "FALSE", strings.Join(notes, "; ")
+	}
+	if !ep.HasSuccessRef {
+		notes = append(notes, "schema 2xx response is not backed by a component $ref")
+		return "FALSE", strings.Join(notes, "; ")
+	}
+	if ep.RequestBody && ep.RequestShape == nil {
+		notes = append(notes, "schema requestBody could not be resolved to a comparable shape")
+		return "FALSE", strings.Join(notes, "; ")
+	}
+	return "TRUE", strings.Join(notes, "; ")
+}
+
+// classifySchemaDriven returns the Schema-Driven value for a single consumer
+// endpoint and the matched schema shapes. It is intentionally conservative:
+// any tooling limitation falls back to Not Audited, while Partial is reserved
+// for concrete verified drift.
 func classifySchemaDriven(consumerProvided bool, c *consumerEndpoint, requestShape, responseShape *schemaShape) string {
 	if !consumerProvided {
 		return "N/A"
@@ -195,31 +204,7 @@ func classifySchemaDriven(consumerProvided bool, c *consumerEndpoint, requestSha
 	if c == nil {
 		return "Not Audited"
 	}
-	if c.HandlerName == "" || c.HandlerName == "(anonymous)" {
-		return "Not Audited"
-	}
-	if c.HandlerFile == "" {
-		return "Not Audited"
-	}
-	if !c.ImportsSchemas {
-		return "FALSE"
-	}
-
-	reqStatus := verifyShape(requestShape, c.RequestType, true)
-	respStatus := verifyShape(responseShape, c.ResponseType, false)
-
-	// Any concrete diff downgrades the result to Partial — even if the
-	// other side verified cleanly.
-	if reqStatus == shapeDiff || respStatus == shapeDiff {
-		return "Partial"
-	}
-	// At least one side must have been successfully verified.
-	if reqStatus == shapeOK || respStatus == shapeOK {
-		return "TRUE"
-	}
-	// Neither side could be verified. We have a positive import signal but
-	// no field-level proof — Partial is the honest answer.
-	return "Partial"
+	return assessConsumers(true, c.Repo, []consumerEndpoint{*c}, requestShape, responseShape).Status
 }
 
 // shapeStatus is the per-side outcome of verifyShape.
@@ -236,25 +221,185 @@ const (
 	shapeDiff
 )
 
-// verifyShape compares one schema shape against the corresponding consumer
-// type info and reports whether the comparison succeeded, failed, or could
-// not be performed.
-//
-// A "successful" verification requires that the consumer side has a
-// non-empty Fields map. The current handler-body scanner usually can't
-// populate Fields, so most calls return shapeUnverified — that is the
-// truthful state of the analysis pipeline today.
 func verifyShape(shape *schemaShape, info *goTypeInfo, requestSide bool) shapeStatus {
-	if shape == nil || info == nil {
-		return shapeUnverified
+	return verifyShapeDetailed(shape, info, requestSide).status
+}
+
+func verifyShapeDetailed(shape *schemaShape, info *goTypeInfo, requestSide bool) shapeAssessment {
+	sideLabel := "response"
+	if requestSide {
+		sideLabel = "request"
+	}
+	if shape == nil {
+		return shapeAssessment{}
+	}
+	if info == nil {
+		return shapeAssessment{
+			status: shapeUnverified,
+			reason: fmt.Sprintf("%s type could not be resolved from handler body", sideLabel),
+		}
 	}
 	if len(info.Fields) == 0 {
-		return shapeUnverified
+		typeName := info.TypeName
+		if typeName == "" {
+			typeName = "(unknown type)"
+		}
+		return shapeAssessment{
+			status: shapeUnverified,
+			reason: fmt.Sprintf("%s type %q has no comparable field metadata", sideLabel, typeName),
+		}
 	}
-	if len(diffFields(shape, info, requestSide)) > 0 {
-		return shapeDiff
+	diffs := diffFields(shape, info, requestSide)
+	if len(diffs) > 0 {
+		return shapeAssessment{
+			status: shapeDiff,
+			diffs:  diffs,
+		}
 	}
-	return shapeOK
+	return shapeAssessment{status: shapeOK}
+}
+
+func assessConsumers(consumerProvided bool, repo string, consumers []consumerEndpoint, requestShape, responseShape *schemaShape) consumerAssessment {
+	if !consumerProvided {
+		return consumerAssessment{}
+	}
+	if len(consumers) == 0 {
+		return consumerAssessment{
+			Status: "Not Audited",
+			Notes:  []string{fmt.Sprintf("handler not found in %s", repo)},
+		}
+	}
+
+	combined := consumerAssessment{Status: "TRUE"}
+	statusRank := func(status string) int {
+		switch status {
+		case "Not Audited":
+			return 4
+		case "Partial":
+			return 3
+		case "FALSE":
+			return 2
+		case "TRUE":
+			return 1
+		default:
+			return 0
+		}
+	}
+
+	if len(consumers) > 1 {
+		var handlers []string
+		for _, c := range consumers {
+			handlers = append(handlers, describeHandler(c))
+		}
+		combined.Notes = append(combined.Notes, fmt.Sprintf("%s has multiple registrations: %s", repo, strings.Join(handlers, ", ")))
+	}
+
+	for i := range consumers {
+		assessment := assessConsumer(&consumers[i], requestShape, responseShape)
+		combined.Drift = append(combined.Drift, assessment.Drift...)
+		combined.Notes = append(combined.Notes, assessment.Notes...)
+		if statusRank(assessment.Status) > statusRank(combined.Status) {
+			combined.Status = assessment.Status
+		}
+	}
+
+	combined.Drift = uniqueStrings(combined.Drift)
+	combined.Notes = uniqueStrings(combined.Notes)
+	return combined
+}
+
+func assessConsumer(c *consumerEndpoint, requestShape, responseShape *schemaShape) consumerAssessment {
+	if c == nil {
+		return consumerAssessment{Status: "Not Audited"}
+	}
+
+	var notes []string
+	notes = append(notes, c.Notes...)
+	if c.HandlerName == "" {
+		return consumerAssessment{
+			Status: "Not Audited",
+			Notes:  append(notes, fmt.Sprintf("%s handler could not be resolved from route registration", c.Repo)),
+		}
+	}
+	if c.HandlerName == "(anonymous)" {
+		return consumerAssessment{
+			Status: "Not Audited",
+			Notes:  append(notes, fmt.Sprintf("%s handler is anonymous and could not be audited", c.Repo)),
+		}
+	}
+	if c.HandlerFile == "" {
+		return consumerAssessment{
+			Status: "Not Audited",
+			Notes:  append(notes, fmt.Sprintf("%s handler %q could not be joined to a source file", c.Repo, c.HandlerName)),
+		}
+	}
+	if !c.ImportsSchemas {
+		return consumerAssessment{
+			Status: "FALSE",
+			Notes:  append(notes, fmt.Sprintf("%s handler %s does not import github.com/meshery/schemas/models", c.Repo, describeHandler(*c))),
+		}
+	}
+
+	reqAssessment := verifyShapeDetailed(requestShape, c.RequestType, true)
+	respAssessment := verifyShapeDetailed(responseShape, c.ResponseType, false)
+	assessments := []shapeAssessment{reqAssessment, respAssessment}
+
+	var hadComparable, sawDiff, sawUnverified bool
+	var drift []string
+	for side, assessment := range map[string]shapeAssessment{
+		"request":  reqAssessment,
+		"response": respAssessment,
+	} {
+		if assessment.status == 0 && len(assessment.diffs) == 0 && assessment.reason == "" {
+			continue
+		}
+		hadComparable = true
+		switch assessment.status {
+		case shapeDiff:
+			sawDiff = true
+			drift = append(drift, formatFieldDiffs(c.Repo, side, assessment.diffs)...)
+		case shapeUnverified:
+			sawUnverified = true
+			if assessment.reason != "" {
+				notes = append(notes, fmt.Sprintf("%s: %s", c.Repo, assessment.reason))
+			}
+		}
+	}
+
+	if !hadComparable {
+		return consumerAssessment{
+			Status: "Not Audited",
+			Notes:  append(notes, fmt.Sprintf("%s handler %s had no comparable request or response schema", c.Repo, describeHandler(*c))),
+		}
+	}
+	if sawUnverified {
+		return consumerAssessment{
+			Status: "Not Audited",
+			Drift:  uniqueStrings(drift),
+			Notes:  uniqueStrings(notes),
+		}
+	}
+	if sawDiff {
+		return consumerAssessment{
+			Status: "Partial",
+			Drift:  uniqueStrings(drift),
+			Notes:  uniqueStrings(notes),
+		}
+	}
+
+	for _, assessment := range assessments {
+		if assessment.status == shapeOK {
+			return consumerAssessment{
+				Status: "TRUE",
+				Notes:  uniqueStrings(notes),
+			}
+		}
+	}
+
+	return consumerAssessment{
+		Status: "Not Audited",
+		Notes:  append(uniqueStrings(notes), fmt.Sprintf("%s handler %s could not be compared", c.Repo, describeHandler(*c))),
+	}
 }
 
 // diffFields compares a schema shape against a Go type's field set. When
@@ -304,6 +449,28 @@ func diffFields(shape *schemaShape, info *goTypeInfo, requestSide bool) []fieldD
 		})
 	}
 	return diffs
+}
+
+func formatFieldDiffs(repo, side string, diffs []fieldDiff) []string {
+	out := make([]string, 0, len(diffs))
+	for _, diff := range diffs {
+		switch {
+		case diff.InSchema && !diff.InConsumer:
+			out = append(out, fmt.Sprintf("%s %s missing field %q (%s)", repo, side, diff.FieldName, diff.SchemaType))
+		case !diff.InSchema && diff.InConsumer:
+			out = append(out, fmt.Sprintf("%s %s has extra field %q (%s)", repo, side, diff.FieldName, diff.ConsumerType))
+		default:
+			out = append(out, fmt.Sprintf("%s %s field %q type mismatch (schema %s, consumer %s)", repo, side, diff.FieldName, diff.SchemaType, diff.ConsumerType))
+		}
+	}
+	return out
+}
+
+func describeHandler(c consumerEndpoint) string {
+	if c.HandlerFile == "" {
+		return c.HandlerName
+	}
+	return fmt.Sprintf("%s (%s)", c.HandlerName, c.HandlerFile)
 }
 
 // typesCompatible relaxes the comparison between OpenAPI scalar names and Go

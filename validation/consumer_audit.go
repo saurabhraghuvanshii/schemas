@@ -1,16 +1,3 @@
-// Package validation hosts both the schema design validator and the API
-// audit pipeline. The audit compares schemas in this repo against handler
-// implementations in meshery/meshery and meshery-cloud and reports coverage
-// per endpoint.
-//
-// The exported surface area of the audit is intentionally tiny:
-//
-//	validation.RunAPIAudit(opts) (*APIAuditResult, error)
-//	validation.APIAuditOptions
-//	validation.APIAuditResult
-//
-// Everything else is unexported. The CLI in cmd/api-audit consumes only
-// these symbols.
 package validation
 
 import (
@@ -19,8 +6,8 @@ import (
 	"strings"
 )
 
-// APIAuditOptions configures a single audit run.
-type APIAuditOptions struct {
+// ConsumerAuditOptions configures a single consumer-audit run.
+type ConsumerAuditOptions struct {
 	// Schema repo root (required).
 	RootDir string
 
@@ -32,15 +19,18 @@ type APIAuditOptions struct {
 	SheetID           string
 	SheetsCredentials []byte
 
-	// Previous state for dry-run reconciliation. Passed by cmd/api-audit
-	// from the local CSV cache. Nil = no diff available.
+	// Previous state for dry-run reconciliation. Nil = no diff available.
 	PreviousRows [][]string
 
 	Verbose bool
 }
 
-// APIAuditResult is the output of RunAPIAudit.
-type APIAuditResult struct {
+// APIAuditOptions is kept as a compatibility alias while the naming surface
+// moves toward consumer-audit terminology.
+type APIAuditOptions = ConsumerAuditOptions
+
+// ConsumerAuditResult is the output of RunConsumerAudit.
+type ConsumerAuditResult struct {
 	// Analysis results.
 	SchemaIndex *schemaIndex
 	Match       *matchResult
@@ -55,20 +45,28 @@ type APIAuditResult struct {
 	Summary auditSummary
 }
 
-// AuditRow is one row of the audit output, matching the sheet column schema
-// exactly. See section 11.1 of the architecture doc.
-type AuditRow struct {
+// APIAuditResult is kept as a compatibility alias while the naming surface
+// moves toward consumer-audit terminology.
+type APIAuditResult = ConsumerAuditResult
+
+// ConsumerAuditRow is one row of the audit output.
+type ConsumerAuditRow struct {
 	Category            string
 	SubCategory         string
 	Endpoint            string
 	Method              string
 	SchemaBacked        string
+	SchemaCompleteness  string
 	SchemaDrivenMeshery string
 	SchemaDrivenCloud   string
+	ImplementationDrift string
 	Notes               string
 	ChangeLog           string
 	SchemaSource        string
 }
+
+// AuditRow remains as a compatibility alias for existing tests and callers.
+type AuditRow = ConsumerAuditRow
 
 // auditCSVHeader is the canonical header for CSV/sheet output.
 var auditCSVHeader = []string{
@@ -77,23 +75,27 @@ var auditCSVHeader = []string{
 	"Endpoint",
 	"Method",
 	"Schema-Backed",
+	"Schema Completeness",
 	"Schema-Driven (Meshery)",
 	"Schema-Driven (Cloud)",
+	"Implementation Drift",
 	"Notes",
 	"Change Log",
 	"Schema Source",
 }
 
 // toRow converts the audit row to its serialized string slice.
-func (r AuditRow) toRow() []string {
+func (r ConsumerAuditRow) toRow() []string {
 	return []string{
 		r.Category,
 		r.SubCategory,
 		r.Endpoint,
 		r.Method,
 		r.SchemaBacked,
+		r.SchemaCompleteness,
 		r.SchemaDrivenMeshery,
 		r.SchemaDrivenCloud,
+		r.ImplementationDrift,
 		r.Notes,
 		r.ChangeLog,
 		r.SchemaSource,
@@ -102,30 +104,31 @@ func (r AuditRow) toRow() []string {
 
 // rowFromStrings reconstructs an AuditRow from a serialized string slice.
 // Missing trailing columns are tolerated.
-func rowFromStrings(cols []string) AuditRow {
+func rowFromStrings(cols []string) ConsumerAuditRow {
 	get := func(i int) string {
 		if i < len(cols) {
 			return cols[i]
 		}
 		return ""
 	}
-	return AuditRow{
+	return ConsumerAuditRow{
 		Category:            get(0),
 		SubCategory:         get(1),
 		Endpoint:            get(2),
 		Method:              get(3),
 		SchemaBacked:        get(4),
-		SchemaDrivenMeshery: get(5),
-		SchemaDrivenCloud:   get(6),
-		Notes:               get(7),
-		ChangeLog:           get(8),
-		SchemaSource:        get(9),
+		SchemaCompleteness:  get(5),
+		SchemaDrivenMeshery: get(6),
+		SchemaDrivenCloud:   get(7),
+		ImplementationDrift: get(8),
+		Notes:               get(9),
+		ChangeLog:           get(10),
+		SchemaSource:        get(11),
 	}
 }
 
 // EndpointState enumerates the four reconciliation states an audit row can
-// be in. The full reconciliation logic lives in sheets.go (Session 2);
-// declaring the type here keeps APIAuditResult self-contained.
+// be in. Declaring the type here keeps the result surface self-contained.
 type EndpointState int
 
 const (
@@ -138,7 +141,7 @@ const (
 // TrackedEndpoint is one reconciled row with state transition. The CLI
 // consumes this to render the diff section; fields are intentionally simple.
 type TrackedEndpoint struct {
-	Row       AuditRow
+	Row       ConsumerAuditRow
 	State     EndpointState
 	ChangeLog string
 }
@@ -151,7 +154,11 @@ type auditSummary struct {
 	Matched              int
 	SchemaOnly           int
 	ConsumerOnly         int
+	ConsumerOnlyMeshery  int
+	ConsumerOnlyCloud    int
 	SchemaBackedTrue     int
+	SchemaCompletenessOK int
+	SchemaCompletenessNo int
 	SchemaDrivenTrue     int
 	SchemaDrivenPartial  int
 	SchemaDrivenFalse    int
@@ -172,7 +179,7 @@ type auditSummary struct {
 // for csv.Writer.WriteAll. When reconciliation has run, the reconciled rows
 // are used so the emitted Change Log column reflects state transitions;
 // otherwise the plain analysis rows are returned.
-func (r *APIAuditResult) CSVRows() [][]string {
+func (r *ConsumerAuditResult) CSVRows() [][]string {
 	if r == nil {
 		return [][]string{append([]string(nil), auditCSVHeader...)}
 	}
@@ -182,21 +189,26 @@ func (r *APIAuditResult) CSVRows() [][]string {
 	return rowsToCSV(r.Rows)
 }
 
-// RunAPIAudit is the single entry point for the API audit pipeline.
-func RunAPIAudit(opts APIAuditOptions) (*APIAuditResult, error) {
-	return runAPIAudit(opts, nil, nil)
+// RunConsumerAudit is the single entry point for the consumer audit pipeline.
+func RunConsumerAudit(opts ConsumerAuditOptions) (*ConsumerAuditResult, error) {
+	return runConsumerAudit(opts, nil, nil)
 }
 
-// runAPIAudit is the test-friendly version that accepts pre-built sourceTrees
-// in place of repo paths. RunAPIAudit wraps this with localTree instances.
-func runAPIAudit(opts APIAuditOptions, mesheryTree, cloudTree sourceTree) (*APIAuditResult, error) {
+// RunAPIAudit remains as a compatibility wrapper.
+func RunAPIAudit(opts APIAuditOptions) (*ConsumerAuditResult, error) {
+	return RunConsumerAudit(opts)
+}
+
+// runConsumerAudit is the test-friendly version that accepts pre-built
+// sourceTrees in place of repo paths.
+func runConsumerAudit(opts ConsumerAuditOptions, mesheryTree, cloudTree sourceTree) (*ConsumerAuditResult, error) {
 	if opts.RootDir == "" {
-		return nil, fmt.Errorf("api-audit: RootDir is required")
+		return nil, fmt.Errorf("consumer-audit: RootDir is required")
 	}
 
 	idx, err := buildEndpointIndex(opts.RootDir)
 	if err != nil {
-		return nil, fmt.Errorf("api-audit: build endpoint index: %w", err)
+		return nil, fmt.Errorf("consumer-audit: build endpoint index: %w", err)
 	}
 
 	if mesheryTree == nil && opts.MesheryRepo != "" {
@@ -215,7 +227,7 @@ func runAPIAudit(opts APIAuditOptions, mesheryTree, cloudTree sourceTree) (*APIA
 	if mesheryTree != nil {
 		mesheryEndpoints, err = parseGorillaRoutes(mesheryTree)
 		if err != nil {
-			return nil, fmt.Errorf("api-audit: parse meshery routes: %w", err)
+			return nil, fmt.Errorf("consumer-audit: parse meshery routes: %w", err)
 		}
 		mesheryEndpoints = indexHandlers(mesheryTree, mesheryEndpoints, schemaTypes)
 	}
@@ -224,7 +236,7 @@ func runAPIAudit(opts APIAuditOptions, mesheryTree, cloudTree sourceTree) (*APIA
 	if cloudTree != nil {
 		cloudEndpoints, err = parseEchoRoutes(cloudTree)
 		if err != nil {
-			return nil, fmt.Errorf("api-audit: parse cloud routes: %w", err)
+			return nil, fmt.Errorf("consumer-audit: parse cloud routes: %w", err)
 		}
 		cloudEndpoints = indexHandlers(cloudTree, cloudEndpoints, schemaTypes)
 	}
@@ -239,15 +251,14 @@ func runAPIAudit(opts APIAuditOptions, mesheryTree, cloudTree sourceTree) (*APIA
 
 	summary := computeSummary(idx, mesheryEndpoints, cloudEndpoints, match, rows, mesheryProvided, cloudProvided)
 
-	result := &APIAuditResult{
+	result := &ConsumerAuditResult{
 		SchemaIndex: idx,
 		Match:       match,
 		Rows:        rows,
 		Summary:     summary,
 	}
 
-	// Step 6 — sheet/reconciliation. Implemented in sheets.go in Session 2.
-	if err := applyReconciliation(opts, result); err != nil {
+	if err := reconcileFromOpts(opts, result); err != nil {
 		return result, err
 	}
 
@@ -262,20 +273,16 @@ func buildAuditRows(
 	match *matchResult,
 	mesheryEndpoints, cloudEndpoints []consumerEndpoint,
 	mesheryProvided, cloudProvided bool,
-) []AuditRow {
+) []ConsumerAuditRow {
 	rows := make([]AuditRow, 0, len(idx.Endpoints)+len(match.ConsumerOnly))
+	matchIndex := make(map[schemaRowKey]endpointMatch, len(match.Matched))
+	for _, m := range match.Matched {
+		matchIndex[schemaRowKeyOf(m.Schema)] = m
+	}
 
 	// Schema-defined endpoints (matched + schema-only).
 	for _, ep := range idx.Endpoints {
-		var matchedConsumers []consumerEndpoint
-		for _, m := range match.Matched {
-			if m.Schema.SourceFile == ep.SourceFile && m.Schema.Method == ep.Method && m.Schema.Path == ep.Path {
-				matchedConsumers = m.Consumers
-				break
-			}
-		}
-
-		row := newSchemaRow(ep, matchedConsumers, mesheryProvided, cloudProvided)
+		row := newSchemaRow(ep, matchIndex[schemaRowKeyOf(ep)].Consumers, mesheryProvided, cloudProvided)
 		rows = append(rows, row)
 	}
 
@@ -287,8 +294,18 @@ func buildAuditRows(
 	return rows
 }
 
-func newSchemaRow(ep schemaEndpoint, consumers []consumerEndpoint, mesheryProvided, cloudProvided bool) AuditRow {
-	row := AuditRow{
+type schemaRowKey struct {
+	SourceFile string
+	Method     string
+	Path       string
+}
+
+func schemaRowKeyOf(ep schemaEndpoint) schemaRowKey {
+	return schemaRowKey{SourceFile: ep.SourceFile, Method: ep.Method, Path: ep.Path}
+}
+
+func newSchemaRow(ep schemaEndpoint, consumers []consumerEndpoint, mesheryProvided, cloudProvided bool) ConsumerAuditRow {
+	row := ConsumerAuditRow{
 		Category:     categoryFromTags(ep.Tags),
 		SubCategory:  ep.Construct,
 		Endpoint:     ep.Path,
@@ -297,76 +314,57 @@ func newSchemaRow(ep schemaEndpoint, consumers []consumerEndpoint, mesheryProvid
 		SchemaSource: ep.SourceFile,
 	}
 
-	mesheryConsumer := pickConsumer(consumers, "meshery")
-	cloudConsumer := pickConsumer(consumers, "meshery-cloud")
-
 	mesheryAllowed := xInternalAllows(ep.XInternal, "meshery")
 	cloudAllowed := xInternalAllows(ep.XInternal, "cloud")
+	row.SchemaCompleteness, row.Notes = classifySchemaCompleteness(ep)
 
-	if !mesheryProvided || !mesheryAllowed {
-		row.SchemaDrivenMeshery = "N/A"
-	} else {
-		row.SchemaDrivenMeshery = classifySchemaDriven(true, mesheryConsumer, ep.RequestShape, ep.ResponseShape)
+	mesheryConsumers := filterConsumersByRepo(consumers, "meshery")
+	cloudConsumers := filterConsumersByRepo(consumers, "meshery-cloud")
+	mesheryAssessment := assessConsumers(mesheryProvided && mesheryAllowed, "meshery", mesheryConsumers, ep.RequestShape, ep.ResponseShape)
+	cloudAssessment := assessConsumers(cloudProvided && cloudAllowed, "meshery-cloud", cloudConsumers, ep.RequestShape, ep.ResponseShape)
+
+	if mesheryProvided && mesheryAllowed {
+		row.SchemaDrivenMeshery = mesheryAssessment.Status
 	}
-
-	if !cloudProvided || !cloudAllowed {
-		row.SchemaDrivenCloud = "N/A"
-	} else {
-		row.SchemaDrivenCloud = classifySchemaDriven(true, cloudConsumer, ep.RequestShape, ep.ResponseShape)
+	if cloudProvided && cloudAllowed {
+		row.SchemaDrivenCloud = cloudAssessment.Status
 	}
-
-	row.Notes = buildNotes(ep, mesheryConsumer, cloudConsumer, mesheryAllowed, cloudAllowed)
+	row.ImplementationDrift = strings.Join(uniqueStrings(append(mesheryAssessment.Drift, cloudAssessment.Drift...)), "; ")
+	row.Notes = buildNotes(ep, row.Notes, mesheryAssessment, cloudAssessment, mesheryAllowed, cloudAllowed)
 	return row
 }
 
-func newConsumerOnlyRow(c consumerEndpoint, mesheryProvided, cloudProvided bool) AuditRow {
-	row := AuditRow{
-		Category:     "Uncategorized",
-		SubCategory:  "(consumer-only)",
+func newConsumerOnlyRow(c consumerEndpoint, mesheryProvided, cloudProvided bool) ConsumerAuditRow {
+	category, subCategory := deriveConsumerLocation(c.Path)
+	row := ConsumerAuditRow{
+		Category:     category,
+		SubCategory:  subCategory,
 		Endpoint:     c.Path,
 		Method:       c.Method,
 		SchemaBacked: "FALSE",
 	}
+	assessment := assessConsumers(true, c.Repo, []consumerEndpoint{c}, nil, nil)
 	notes := []string{"schema not defined"}
-	if c.HandlerName == "" || c.HandlerName == "(anonymous)" {
-		notes = append(notes, "anonymous handler; cannot determine schema usage")
-	}
-	if len(c.Notes) > 0 {
-		notes = append(notes, c.Notes...)
-	}
-	row.Notes = strings.Join(notes, "; ")
+	notes = append(notes, assessment.Notes...)
 
 	switch c.Repo {
 	case "meshery":
-		row.SchemaDrivenMeshery = classifySchemaDriven(true, &c, nil, nil)
-		if cloudProvided {
-			row.SchemaDrivenCloud = "Not Audited"
-		} else {
-			row.SchemaDrivenCloud = "N/A"
-		}
+		row.SchemaDrivenMeshery = assessment.Status
 	case "meshery-cloud":
-		row.SchemaDrivenCloud = classifySchemaDriven(true, &c, nil, nil)
-		if mesheryProvided {
-			row.SchemaDrivenMeshery = "Not Audited"
-		} else {
-			row.SchemaDrivenMeshery = "N/A"
-		}
-	default:
-		row.SchemaDrivenMeshery = "N/A"
-		row.SchemaDrivenCloud = "N/A"
+		row.SchemaDrivenCloud = assessment.Status
 	}
+	row.Notes = strings.Join(uniqueStrings(notes), "; ")
 	return row
 }
 
-// pickConsumer returns the first consumer entry from a matched bundle that
-// belongs to the named repo, or nil if absent.
-func pickConsumer(consumers []consumerEndpoint, repo string) *consumerEndpoint {
+func filterConsumersByRepo(consumers []consumerEndpoint, repo string) []consumerEndpoint {
+	out := make([]consumerEndpoint, 0, len(consumers))
 	for i := range consumers {
 		if consumers[i].Repo == repo {
-			return &consumers[i]
+			out = append(out, consumers[i])
 		}
 	}
-	return nil
+	return out
 }
 
 // categoryFromTags maps an operation's first tag (or "Uncategorized") to the
@@ -378,31 +376,43 @@ func categoryFromTags(tags []string) string {
 	return tags[0]
 }
 
-func buildNotes(ep schemaEndpoint, meshery, cloud *consumerEndpoint, mesheryAllowed, cloudAllowed bool) string {
-	var notes []string
-	if ep.Deprecated {
-		notes = append(notes, "deprecated")
+func deriveConsumerLocation(endpoint string) (string, string) {
+	trimmed := strings.Trim(endpoint, "/")
+	if trimmed == "" {
+		return "Uncategorized", "(consumer-only)"
 	}
-	if ep.Public {
-		notes = append(notes, "explicitly public")
+	parts := strings.Split(trimmed, "/")
+	if len(parts) == 0 {
+		return "Uncategorized", "(consumer-only)"
+	}
+	if parts[0] == "api" && len(parts) > 1 {
+		category := parts[1]
+		subCategory := category
+		for _, part := range parts[2:] {
+			if strings.HasPrefix(part, "{") && strings.HasSuffix(part, "}") {
+				continue
+			}
+			subCategory = part
+			break
+		}
+		return category, subCategory
+	}
+	return parts[0], parts[0]
+}
+
+func buildNotes(ep schemaEndpoint, schemaNote string, meshery, cloud consumerAssessment, mesheryAllowed, cloudAllowed bool) string {
+	var notes []string
+	if schemaNote != "" {
+		notes = append(notes, schemaNote)
 	}
 	if !mesheryAllowed {
-		notes = append(notes, "cloud-only endpoint")
+		notes = append(notes, "schema applies only to meshery-cloud")
 	}
 	if !cloudAllowed {
-		notes = append(notes, "meshery-only endpoint")
+		notes = append(notes, "schema applies only to meshery")
 	}
-	if mesheryAllowed && meshery == nil {
-		notes = append(notes, "handler not found in meshery")
-	}
-	if cloudAllowed && cloud == nil {
-		notes = append(notes, "handler not found in meshery-cloud")
-	}
-	for _, c := range []*consumerEndpoint{meshery, cloud} {
-		if c == nil {
-			continue
-		}
-		for _, n := range c.Notes {
+	for _, assessment := range []consumerAssessment{meshery, cloud} {
+		for _, n := range assessment.Notes {
 			if n != "" {
 				notes = append(notes, n)
 			}
@@ -425,7 +435,7 @@ func uniqueStrings(in []string) []string {
 }
 
 // sortAuditRows orders rows by (Category, SubCategory, Endpoint, Method).
-func sortAuditRows(rows []AuditRow) {
+func sortAuditRows(rows []ConsumerAuditRow) {
 	sort.Slice(rows, func(i, j int) bool {
 		if rows[i].Category != rows[j].Category {
 			return rows[i].Category < rows[j].Category
@@ -444,27 +454,31 @@ func computeSummary(
 	idx *schemaIndex,
 	meshery, cloud []consumerEndpoint,
 	match *matchResult,
-	rows []AuditRow,
+	rows []ConsumerAuditRow,
 	mesheryProvided, cloudProvided bool,
 ) auditSummary {
 	s := auditSummary{
-		SchemaEndpoints:  len(idx.Endpoints),
-		MesheryEndpoints: len(meshery),
-		CloudEndpoints:   len(cloud),
-		Matched:          len(match.Matched),
-		SchemaOnly:       len(match.SchemaOnly),
-		ConsumerOnly:     len(match.ConsumerOnly),
+		SchemaEndpoints:     len(idx.Endpoints),
+		MesheryEndpoints:    len(meshery),
+		CloudEndpoints:      len(cloud),
+		Matched:             len(match.Matched),
+		SchemaOnly:          len(match.SchemaOnly),
+		ConsumerOnly:        len(match.ConsumerOnly),
+		ConsumerOnlyMeshery: countConsumerOnly(match, "meshery"),
+		ConsumerOnlyCloud:   countConsumerOnly(match, "meshery-cloud"),
 	}
 	for _, r := range rows {
 		if r.SchemaBacked == "TRUE" {
 			s.SchemaBackedTrue++
 		}
+		switch r.SchemaCompleteness {
+		case "TRUE":
+			s.SchemaCompletenessOK++
+		case "FALSE":
+			s.SchemaCompletenessNo++
+		}
 		if mesheryProvided {
-			// Per-repo Schema-Backed = TRUE count: a row contributes
-			// when the schema endpoint has a 2xx $ref (SchemaBacked
-			// == "TRUE") AND Meshery is in scope for that row (i.e.
-			// Schema-Driven (Meshery) is not "N/A").
-			if r.SchemaBacked == "TRUE" && r.SchemaDrivenMeshery != "N/A" {
+			if r.SchemaBacked == "TRUE" && r.SchemaDrivenMeshery != "" {
 				s.MesheryBackedTrue++
 			}
 			switch r.SchemaDrivenMeshery {
@@ -483,7 +497,7 @@ func computeSummary(
 			}
 		}
 		if cloudProvided {
-			if r.SchemaBacked == "TRUE" && r.SchemaDrivenCloud != "N/A" {
+			if r.SchemaBacked == "TRUE" && r.SchemaDrivenCloud != "" {
 				s.CloudBackedTrue++
 			}
 			switch r.SchemaDrivenCloud {
@@ -505,9 +519,15 @@ func computeSummary(
 	return s
 }
 
-// applyReconciliation is a stub that gets a real implementation in sheets.go
-// during Session 2. Defining it here keeps the orchestrator self-contained
-// and avoids forcing the test build to import sheets-only symbols.
-var applyReconciliation = func(opts APIAuditOptions, result *APIAuditResult) error {
-	return nil
+func countConsumerOnly(match *matchResult, repo string) int {
+	if match == nil {
+		return 0
+	}
+	count := 0
+	for _, c := range match.ConsumerOnly {
+		if c.Repo == repo {
+			count++
+		}
+	}
+	return count
 }

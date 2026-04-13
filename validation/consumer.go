@@ -42,13 +42,9 @@ type handlerInfo struct {
 
 // indexHandlers walks the handler directories under a consumer source tree,
 // builds a map keyed by handler function name, and joins it back into the
-// supplied list of consumerEndpoints. Endpoints whose HandlerName cannot be
-// resolved are returned unchanged with HandlerFile blank.
-//
-// The schemaIdx, when non-nil, is used to populate goTypeInfo.Fields for
-// any handler-decoded type that maps to a schemas-generated struct. Local
-// types defined in the same package as the handler file are added to the
-// index on the fly so per-handler structs can also be verified.
+// supplied list of consumerEndpoints. When multiple handler files expose the
+// same function name, the endpoint is left unresolved with an explicit note
+// instead of silently binding to the first match.
 func indexHandlers(tree sourceTree, endpoints []consumerEndpoint, schemaIdx *goTypeIndex) []consumerEndpoint {
 	if tree == nil {
 		return endpoints
@@ -121,7 +117,7 @@ func indexHandlers(tree sourceTree, endpoints []consumerEndpoint, schemaIdx *goT
 		}
 	}
 
-	handlers := make(map[string]handlerInfo)
+	handlers := make(map[string][]handlerInfo)
 	for _, c := range ctxs {
 		importsSchemas := fileImportsSchemas(c.file)
 		for _, decl := range c.file.Decls {
@@ -130,19 +126,13 @@ func indexHandlers(tree sourceTree, endpoints []consumerEndpoint, schemaIdx *goT
 				continue
 			}
 			name := fn.Name.Name
-			if _, exists := handlers[name]; exists {
-				// Keep the first occurrence — handlers in different
-				// receivers with the same name are rare and the join
-				// is best-effort.
-				continue
-			}
 			req, resp := scanHandlerBody(fn, c.imports, localPkgTypes[c.dir], schemaIdx)
-			handlers[name] = handlerInfo{
+			handlers[name] = append(handlers[name], handlerInfo{
 				File:           c.path,
 				ImportsSchemas: importsSchemas,
 				RequestType:    req,
 				ResponseType:   resp,
-			}
+			})
 		}
 	}
 
@@ -151,10 +141,20 @@ func indexHandlers(tree sourceTree, endpoints []consumerEndpoint, schemaIdx *goT
 		if ep.HandlerName == "" {
 			continue
 		}
-		info, ok := handlers[ep.HandlerName]
-		if !ok {
+		candidates, ok := handlers[ep.HandlerName]
+		if !ok || len(candidates) == 0 {
 			continue
 		}
+		if len(candidates) > 1 {
+			var files []string
+			for _, candidate := range candidates {
+				files = append(files, candidate.File)
+			}
+			sort.Strings(files)
+			ep.Notes = append(ep.Notes, "multiple handler definitions named "+ep.HandlerName+": "+strings.Join(files, ", "))
+			continue
+		}
+		info := candidates[0]
 		ep.HandlerFile = info.File
 		ep.ImportsSchemas = info.ImportsSchemas
 		if ep.RequestType == nil {
@@ -215,8 +215,7 @@ func fileImportsSchemas(file *ast.File) bool {
 }
 
 // extractHandlerName recursively unwraps a handler expression to find the
-// innermost named handler function. Implements the algorithm described in
-// the architecture doc, plus extra unwraps for:
+// innermost named handler function, plus extra unwraps for:
 //   - http.StripPrefix(prefix, inner)
 //   - echo.WrapHandler(http.HandlerFunc(receiver.X))
 //   - func literal handlers (scan body for h.X / s.h.X calls)

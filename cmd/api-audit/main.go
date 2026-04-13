@@ -1,16 +1,14 @@
-// Command api-audit walks meshery/schemas, joins it against handler
-// implementations in meshery/meshery (Gorilla/mux) and meshery-cloud (Echo),
-// and reports per-endpoint coverage.
+// Command api-audit runs the consumer audit: it walks meshery/schemas, joins
+// it against handler implementations in meshery/meshery and meshery-cloud,
+// and reports per-endpoint coverage and implementation drift.
 //
 // Usage:
 //
-//	go run ./cmd/api-audit                                                 # schema-only summary
+//	go run ./cmd/api-audit                                                 # summary only
 //	go run ./cmd/api-audit --meshery-repo=../meshery --cloud-repo=../meshery-cloud
+//	go run ./cmd/api-audit --dry-run --output=audit.csv                    # local CSV export
+//	go run ./cmd/api-audit --dry-run --baseline-csv=prev.csv               # diff against explicit baseline
 //	go run ./cmd/api-audit --sheet-id=<id> --credentials=<path>            # canonical sheet write
-//	go run ./cmd/api-audit --dry-run > audit.csv                           # no sheet I/O
-//
-// Session 2 adds Google Sheets integration, the local CSV cache diff, and
-// CSV output on stdout.
 package main
 
 import (
@@ -25,32 +23,29 @@ import (
 	"github.com/meshery/schemas/validation"
 )
 
-// cacheFile is the local on-disk CSV cache used for dry-run diffs. It is
-// written after a successful sheet update and read at the start of every
-// dry-run so contributors can see what would change before pushing.
-const cacheFile = ".api-audit-cache.csv"
-
 func main() {
 	mesheryRepo := flag.String("meshery-repo", "", "Path to a meshery/meshery checkout (Gorilla router)")
 	cloudRepo := flag.String("cloud-repo", "", "Path to a meshery-cloud checkout (Echo router)")
 	verbose := flag.Bool("verbose", false, "Print per-construct breakdown and Schema-only / Consumer-only lists")
 	sheetID := flag.String("sheet-id", "", "Google Sheet ID to read/write canonical audit state")
 	credentials := flag.String("credentials", "", "Path to Google service-account JSON credentials (for --sheet-id)")
-	dryRun := flag.Bool("dry-run", false, "Do not touch Google Sheets; diff against local .api-audit-cache.csv and print CSV to stdout")
+	dryRun := flag.Bool("dry-run", false, "Do not touch Google Sheets; optionally diff against --baseline-csv and emit CSV to --output or stdout")
+	outputPath := flag.String("output", "", "Write CSV output to this file. Use - for stdout. When omitted, CSV is only written during --dry-run and goes to stdout")
+	baselineCSV := flag.String("baseline-csv", "", "Optional baseline CSV used for dry-run diffs and refreshed after a successful sheet write")
 	flag.Parse()
 
 	rootDir, err := findRepoRoot()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "api-audit: could not find repository root: %v\n", err)
+		fmt.Fprintf(os.Stderr, "consumer-audit: could not find repository root: %v\n", err)
 		os.Exit(1)
 	}
 
 	if *dryRun && *sheetID != "" {
-		fmt.Fprintln(os.Stderr, "api-audit: --dry-run and --sheet-id are mutually exclusive")
+		fmt.Fprintln(os.Stderr, "consumer-audit: --dry-run and --sheet-id are mutually exclusive")
 		os.Exit(1)
 	}
 
-	opts := validation.APIAuditOptions{
+	opts := validation.ConsumerAuditOptions{
 		RootDir:     rootDir,
 		MesheryRepo: *mesheryRepo,
 		CloudRepo:   *cloudRepo,
@@ -59,38 +54,35 @@ func main() {
 
 	if *sheetID != "" {
 		if *credentials == "" {
-			fmt.Fprintln(os.Stderr, "api-audit: --credentials is required when --sheet-id is set")
+			fmt.Fprintln(os.Stderr, "consumer-audit: --credentials is required when --sheet-id is set")
 			os.Exit(1)
 		}
 		creds, err := os.ReadFile(*credentials)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "api-audit: read credentials: %v\n", err)
+			fmt.Fprintf(os.Stderr, "consumer-audit: read credentials: %v\n", err)
 			os.Exit(1)
 		}
 		opts.SheetID = *sheetID
 		opts.SheetsCredentials = creds
 	}
 
-	if *dryRun {
-		cachePath := filepath.Join(rootDir, cacheFile)
-		previous, err := readCSVCache(cachePath)
+	if *baselineCSV != "" {
+		previous, err := readCSVCache(resolvePath(rootDir, *baselineCSV))
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "api-audit: read cache %s: %v\n", cachePath, err)
+			fmt.Fprintf(os.Stderr, "consumer-audit: read baseline %s: %v\n", *baselineCSV, err)
 			os.Exit(1)
 		}
 		opts.PreviousRows = previous
 	}
 
-	result, err := validation.RunAPIAudit(opts)
+	result, err := validation.RunConsumerAudit(opts)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "api-audit: %v\n", err)
+		fmt.Fprintf(os.Stderr, "consumer-audit: %v\n", err)
 		os.Exit(1)
 	}
 
-	// Only write the summary table to stderr when we're producing CSV
-	// on stdout. Otherwise the summary is the primary output.
 	summaryOut := io.Writer(os.Stdout)
-	if *dryRun {
+	if shouldWriteStdoutCSV(*dryRun, *outputPath) {
 		summaryOut = os.Stderr
 	}
 	printSummary(summaryOut, result, *mesheryRepo != "", *cloudRepo != "")
@@ -103,17 +95,22 @@ func main() {
 		printDiff(summaryOut, result.Tracked)
 	}
 
-	if *sheetID != "" {
-		// On a successful sheet write, refresh the local cache so the
-		// next dry-run diffs against reality.
-		if err := writeCSVCache(filepath.Join(rootDir, cacheFile), result); err != nil {
-			fmt.Fprintf(os.Stderr, "api-audit: warning: could not refresh %s: %v\n", cacheFile, err)
+	if *sheetID != "" && *baselineCSV != "" {
+		if err := writeCSVCache(resolvePath(rootDir, *baselineCSV), result); err != nil {
+			fmt.Fprintf(os.Stderr, "consumer-audit: warning: could not refresh %s: %v\n", *baselineCSV, err)
 		}
 	}
 
-	if *dryRun {
+	if *outputPath != "" {
+		if err := writeCSVPath(resolvePath(rootDir, *outputPath), result); err != nil {
+			fmt.Fprintf(os.Stderr, "consumer-audit: write CSV: %v\n", err)
+			os.Exit(1)
+		}
+	}
+
+	if shouldWriteStdoutCSV(*dryRun, *outputPath) {
 		if err := writeCSV(os.Stdout, result); err != nil {
-			fmt.Fprintf(os.Stderr, "api-audit: write CSV: %v\n", err)
+			fmt.Fprintf(os.Stderr, "consumer-audit: write CSV: %v\n", err)
 			os.Exit(1)
 		}
 	}
@@ -137,26 +134,22 @@ func findRepoRoot() (string, error) {
 	}
 }
 
-func printSummary(out io.Writer, result *validation.APIAuditResult, mesheryProvided, cloudProvided bool) {
+func printSummary(out io.Writer, result *validation.ConsumerAuditResult, mesheryProvided, cloudProvided bool) {
 	s := result.Summary
-	consumerOnly := 0
-	if result.Match != nil {
-		consumerOnly = len(result.Match.ConsumerOnly)
-	}
-	fmt.Fprintln(out, "api-audit: scanning schemas...")
+	fmt.Fprintln(out, "consumer-audit: scanning schemas...")
 	fmt.Fprintf(out, "  found %d schema-defined endpoints (+ %d consumer-only handlers = %d audit rows)\n",
-		s.SchemaEndpoints, consumerOnly, len(result.Rows))
+		s.SchemaEndpoints, s.ConsumerOnly, len(result.Rows))
 
 	if mesheryProvided {
-		fmt.Fprintf(out, "\napi-audit: scanning meshery/meshery...\n")
+		fmt.Fprintf(out, "\nconsumer-audit: scanning meshery/meshery...\n")
 		fmt.Fprintf(out, "  parsed %d Gorilla route registrations\n", s.MesheryEndpoints)
 	}
 	if cloudProvided {
-		fmt.Fprintf(out, "\napi-audit: scanning meshery-cloud...\n")
+		fmt.Fprintf(out, "\nconsumer-audit: scanning meshery-cloud...\n")
 		fmt.Fprintf(out, "  parsed %d Echo route registrations\n", s.CloudEndpoints)
 	}
 
-	fmt.Fprintln(out, "\napi-audit: matching...")
+	fmt.Fprintln(out, "\nconsumer-audit: matching...")
 	fmt.Fprintln(out)
 	fmt.Fprintln(out, "+---------------------------------+----------+----------+----------+")
 	fmt.Fprintln(out, "|                                 |  Schema  | Meshery  |  Cloud   |")
@@ -164,9 +157,11 @@ func printSummary(out io.Writer, result *validation.APIAuditResult, mesheryProvi
 	fmt.Fprintf(out, "| %-31s | %8d | %8d | %8d |\n", "Total endpoints", s.SchemaEndpoints, s.MesheryEndpoints, s.CloudEndpoints)
 	fmt.Fprintf(out, "| %-31s | %8d | %8s | %8s |\n", "Matched (schema <-> consumer)", s.Matched, "--", "--")
 	fmt.Fprintf(out, "| %-31s | %8d | %8s | %8s |\n", "Schema-only (no handler)", s.SchemaOnly, "--", "--")
-	fmt.Fprintf(out, "| %-31s | %8s | %8d | %8d |\n", "Consumer-only (no schema)", "--", consumerOnlyForRepo(result, "meshery"), consumerOnlyForRepo(result, "meshery-cloud"))
+	fmt.Fprintf(out, "| %-31s | %8s | %8d | %8d |\n", "Consumer-only (no schema)", "--", s.ConsumerOnlyMeshery, s.ConsumerOnlyCloud)
 	fmt.Fprintln(out, "+---------------------------------+----------+----------+----------+")
 	fmt.Fprintf(out, "| %-31s | %8s | %8d | %8d |\n", "Schema-Backed = TRUE", "--", s.MesheryBackedTrue, s.CloudBackedTrue)
+	fmt.Fprintf(out, "| %-31s | %8d | %8s | %8s |\n", "Schema Completeness = TRUE", s.SchemaCompletenessOK, "--", "--")
+	fmt.Fprintf(out, "| %-31s | %8d | %8s | %8s |\n", "Schema Completeness = FALSE", s.SchemaCompletenessNo, "--", "--")
 	fmt.Fprintf(out, "| %-31s | %8s | %8d | %8d |\n", "Schema-Driven = TRUE", "--", s.MesheryDrivenTrue, s.CloudDrivenTrue)
 	fmt.Fprintf(out, "| %-31s | %8s | %8d | %8d |\n", "Schema-Driven = Partial", "--", s.MesheryDrivenPartial, s.CloudDrivenPartial)
 	fmt.Fprintf(out, "| %-31s | %8s | %8d | %8d |\n", "Schema-Driven = FALSE", "--", s.MesheryDrivenFalse, s.CloudDrivenFalse)
@@ -174,20 +169,7 @@ func printSummary(out io.Writer, result *validation.APIAuditResult, mesheryProvi
 	fmt.Fprintln(out, "+---------------------------------+----------+----------+----------+")
 }
 
-func consumerOnlyForRepo(result *validation.APIAuditResult, repo string) int {
-	if result == nil || result.Match == nil {
-		return 0
-	}
-	count := 0
-	for _, c := range result.Match.ConsumerOnly {
-		if c.Repo == repo {
-			count++
-		}
-	}
-	return count
-}
-
-func printVerbose(out io.Writer, result *validation.APIAuditResult) {
+func printVerbose(out io.Writer, result *validation.ConsumerAuditResult) {
 	if result == nil || result.Match == nil {
 		return
 	}
@@ -230,10 +212,10 @@ func printDiff(out io.Writer, tracked []validation.TrackedEndpoint) {
 	}
 	fmt.Fprintln(out)
 	if !anyChanges {
-		fmt.Fprintln(out, "api-audit: no changes since last run")
+		fmt.Fprintln(out, "consumer-audit: no changes since last run")
 		return
 	}
-	fmt.Fprintln(out, "api-audit: diff against previous state")
+	fmt.Fprintln(out, "consumer-audit: diff against previous state")
 	for _, st := range order {
 		b := buckets[st]
 		if len(b.rows) == 0 {
@@ -255,7 +237,7 @@ func printDiff(out io.Writer, tracked []validation.TrackedEndpoint) {
 // writeCSV emits the full audit result (header + rows) as CSV to the given
 // writer. When reconciliation has run, the reconciled rows are preferred so
 // the emitted Change Log column reflects the state transitions.
-func writeCSV(out io.Writer, result *validation.APIAuditResult) error {
+func writeCSV(out io.Writer, result *validation.ConsumerAuditResult) error {
 	rows := result.CSVRows()
 	w := csv.NewWriter(out)
 	if err := w.WriteAll(rows); err != nil {
@@ -265,9 +247,6 @@ func writeCSV(out io.Writer, result *validation.APIAuditResult) error {
 	return w.Error()
 }
 
-// readCSVCache loads a previously written .api-audit-cache.csv. A missing
-// file is not an error — the first dry-run in a clean checkout legitimately
-// has no previous state.
 func readCSVCache(path string) ([][]string, error) {
 	f, err := os.Open(path)
 	if err != nil {
@@ -282,14 +261,37 @@ func readCSVCache(path string) ([][]string, error) {
 	return r.ReadAll()
 }
 
-// writeCSVCache persists the reconciled state to disk for subsequent dry-run
-// diffs. It is called after a successful sheet write; dry-runs never write
-// the cache (otherwise a no-sheet run would poison the baseline).
-func writeCSVCache(path string, result *validation.APIAuditResult) error {
+func writeCSVCache(path string, result *validation.ConsumerAuditResult) error {
 	f, err := os.Create(path)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 	return writeCSV(f, result)
+}
+
+func writeCSVPath(path string, result *validation.ConsumerAuditResult) error {
+	if path == "-" {
+		return writeCSV(os.Stdout, result)
+	}
+	f, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	return writeCSV(f, result)
+}
+
+func shouldWriteStdoutCSV(dryRun bool, outputPath string) bool {
+	if outputPath == "-" {
+		return true
+	}
+	return dryRun && outputPath == ""
+}
+
+func resolvePath(rootDir, path string) string {
+	if path == "" || path == "-" || filepath.IsAbs(path) {
+		return path
+	}
+	return filepath.Join(rootDir, path)
 }

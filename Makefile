@@ -113,7 +113,7 @@ audit-schemas-debt-full:
 	go run ./cmd/validate-schemas --warn --no-baseline --style-debt --contract-debt
 
 #-----------------------------------------------------------------------------
-# API audit (schema vs. consumer repos)
+# Consumer audit (schemas vs. consumer repos)
 #-----------------------------------------------------------------------------
 .PHONY: api-audit api-audit-update
 
@@ -122,15 +122,19 @@ MESHERY_REPO ?=
 CLOUD_REPO   ?=
 SHEET_ID     ?=
 CREDENTIALS  ?=
+OUTPUT       ?=
+BASELINE_CSV ?=
 
-## Dry-run the API audit. Diffs against local .api-audit-cache.csv; emits CSV on stdout.
+## Dry-run the consumer audit. Emits CSV to stdout, or use OUTPUT=/path.csv and BASELINE_CSV=/path.csv.
 api-audit:
 	@go run ./cmd/api-audit \
 		$(if $(MESHERY_REPO),--meshery-repo=$(MESHERY_REPO)) \
 		$(if $(CLOUD_REPO),--cloud-repo=$(CLOUD_REPO)) \
+		$(if $(OUTPUT),--output=$(OUTPUT)) \
+		$(if $(BASELINE_CSV),--baseline-csv=$(BASELINE_CSV)) \
 		--dry-run
 
-## Push the audit result to the canonical Google Sheet. Requires SHEET_ID and CREDENTIALS.
+## Push the consumer audit result to the canonical Google Sheet. Requires SHEET_ID and CREDENTIALS.
 api-audit-update:
 	@if [ -z "$(SHEET_ID)" ] || [ -z "$(CREDENTIALS)" ]; then \
 		echo "api-audit-update: SHEET_ID and CREDENTIALS are required"; exit 1; \
@@ -138,6 +142,7 @@ api-audit-update:
 	@go run ./cmd/api-audit \
 		$(if $(MESHERY_REPO),--meshery-repo=$(MESHERY_REPO)) \
 		$(if $(CLOUD_REPO),--cloud-repo=$(CLOUD_REPO)) \
+		$(if $(BASELINE_CSV),--baseline-csv=$(BASELINE_CSV)) \
 		--sheet-id=$(SHEET_ID) \
 		--credentials=$(CREDENTIALS)
 

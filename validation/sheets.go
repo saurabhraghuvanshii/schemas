@@ -11,13 +11,20 @@ import (
 	"google.golang.org/api/sheets/v4"
 )
 
-// auditedColumns is the set of cells whose change between two runs causes
-// the row to be marked StateChanged. The other columns (Notes, Change Log,
-// Schema Source) are derived/metadata and never trigger reconciliation.
-var auditedColumns = map[string]func(AuditRow) string{
-	"Schema-Backed":           func(r AuditRow) string { return r.SchemaBacked },
-	"Schema-Driven (Meshery)": func(r AuditRow) string { return r.SchemaDrivenMeshery },
-	"Schema-Driven (Cloud)":   func(r AuditRow) string { return r.SchemaDrivenCloud },
+type auditedColumn struct {
+	name string
+	get  func(ConsumerAuditRow) string
+}
+
+// auditedColumns is the ordered set of cells whose change between two runs
+// causes the row to be marked StateChanged. The other columns (Notes, Change
+// Log, Schema Source) are derived/metadata and never trigger reconciliation.
+var auditedColumns = []auditedColumn{
+	{name: "Schema-Backed", get: func(r ConsumerAuditRow) string { return r.SchemaBacked }},
+	{name: "Schema Completeness", get: func(r ConsumerAuditRow) string { return r.SchemaCompleteness }},
+	{name: "Schema-Driven (Meshery)", get: func(r ConsumerAuditRow) string { return r.SchemaDrivenMeshery }},
+	{name: "Schema-Driven (Cloud)", get: func(r ConsumerAuditRow) string { return r.SchemaDrivenCloud }},
+	{name: "Implementation Drift", get: func(r ConsumerAuditRow) string { return r.ImplementationDrift }},
 }
 
 // reconcileKey for reconciliation: (Endpoint, Method) per architecture §10.2.
@@ -26,18 +33,18 @@ type reconcileKey struct {
 	Method   string
 }
 
-func keyOf(r AuditRow) reconcileKey {
+func keyOf(r ConsumerAuditRow) reconcileKey {
 	return reconcileKey{Endpoint: r.Endpoint, Method: r.Method}
 }
 
 // reconcile compares the current audit rows against a previous serialized
 // view (sheet rows or local CSV cache) and produces tracked endpoints with
 // state transitions. It is pure logic — no I/O — so it is fully testable.
-func reconcile(current []AuditRow, previous [][]string) []TrackedEndpoint {
+func reconcile(current []ConsumerAuditRow, previous [][]string) []TrackedEndpoint {
 	today := time.Now().Format("2006-01-02")
 
 	prevRows := parsePreviousRows(previous)
-	prevByKey := make(map[reconcileKey]AuditRow, len(prevRows))
+	prevByKey := make(map[reconcileKey]ConsumerAuditRow, len(prevRows))
 	for _, r := range prevRows {
 		prevByKey[keyOf(r)] = r
 	}
@@ -93,7 +100,7 @@ func reconcile(current []AuditRow, previous [][]string) []TrackedEndpoint {
 // parsePreviousRows accepts the raw [][]string we received from a sheet read
 // or CSV file. It strips a header row if present (first column == "Category"
 // is the canonical header) and converts each row into an AuditRow.
-func parsePreviousRows(rows [][]string) []AuditRow {
+func parsePreviousRows(rows [][]string) []ConsumerAuditRow {
 	if len(rows) == 0 {
 		return nil
 	}
@@ -113,17 +120,17 @@ func parsePreviousRows(rows [][]string) []AuditRow {
 
 // changedColumns compares the audited columns of two rows and returns the
 // names of any that differ.
-func changedColumns(a, b AuditRow) []string {
+func changedColumns(a, b ConsumerAuditRow) []string {
 	var changed []string
-	for name, f := range auditedColumns {
-		if f(a) != f(b) {
-			changed = append(changed, name)
+	for _, col := range auditedColumns {
+		if col.get(a) != col.get(b) {
+			changed = append(changed, col.name)
 		}
 	}
 	return changed
 }
 
-func withChangeLog(r AuditRow, log string) AuditRow {
+func withChangeLog(r ConsumerAuditRow, log string) ConsumerAuditRow {
 	r.ChangeLog = log
 	return r
 }
@@ -141,40 +148,13 @@ func trackedToCSV(tracked []TrackedEndpoint) [][]string {
 
 // rowsToCSV converts plain audit rows (no reconciliation) into the
 // header+rows shape used by CSV/sheet writers.
-func rowsToCSV(rows []AuditRow) [][]string {
+func rowsToCSV(rows []ConsumerAuditRow) [][]string {
 	out := make([][]string, 0, len(rows)+1)
 	out = append(out, append([]string(nil), auditCSVHeader...))
 	for _, r := range rows {
 		out = append(out, r.toRow())
 	}
 	return out
-}
-
-// assertCanonicalInputs guards canonical sheet writes against accidental
-// non-canonical inputs. The audit refuses to write to the canonical sheet
-// when the user has overridden one of the consumer repo paths, because the
-// resulting state would diverge from what an upstream run would produce.
-//
-// Fork contributors can still write to a personal --sheet-id; this guard
-// only fires when the canonical sheet is targeted.
-func assertCanonicalInputs(opts APIAuditOptions) error {
-	if opts.SheetID == "" {
-		return nil
-	}
-	var nonCanonical []string
-	if opts.MesheryRepo != "" {
-		nonCanonical = append(nonCanonical, "--meshery-repo")
-	}
-	if opts.CloudRepo != "" {
-		nonCanonical = append(nonCanonical, "--cloud-repo")
-	}
-	if len(nonCanonical) > 0 {
-		return fmt.Errorf(
-			"api-audit: refusing canonical sheet write with non-canonical inputs (%s); "+
-				"omit them, or use a personal --sheet-id",
-			strings.Join(nonCanonical, ", "))
-	}
-	return nil
 }
 
 // readSheet pulls every value out of the first sheet (range "A1:Z10000") of
@@ -237,7 +217,7 @@ func writeSheet(ctx context.Context, sheetID string, creds []byte, tracked []Tra
 // google.CredentialsFromJSON understands.
 func newSheetsService(ctx context.Context, creds []byte) (*sheets.Service, error) {
 	if len(creds) == 0 {
-		return nil, fmt.Errorf("api-audit: empty Google credentials")
+		return nil, fmt.Errorf("consumer-audit: empty Google credentials")
 	}
 	gc, err := google.CredentialsFromJSON(ctx, creds, sheets.SpreadsheetsScope)
 	if err != nil {
@@ -250,29 +230,16 @@ func newSheetsService(ctx context.Context, creds []byte) (*sheets.Service, error
 	return srv, nil
 }
 
-// init wires sheets-aware reconciliation into the orchestrator. apiaudit.go
-// declares applyReconciliation as a stub variable; sheets.go replaces it at
-// package init time so apiaudit.go has no compile-time dependency on the
-// google sheets packages.
-func init() {
-	applyReconciliation = reconcileFromOpts
-}
-
-// reconcileFromOpts is the runtime hook installed into apiaudit.go's
-// applyReconciliation. It implements step 6 of the data flow:
-//
-//   - SheetID set    → guard, read sheet, reconcile, write sheet, install Tracked
-//   - PreviousRows   → reconcile in-memory only (dry-run with local CSV cache)
-//   - neither        → no-op
-func reconcileFromOpts(opts APIAuditOptions, result *APIAuditResult) error {
+// reconcileFromOpts applies the requested reconciliation flow:
+//   - SheetID set  → read sheet, reconcile, write sheet, install tracked rows
+//   - PreviousRows → reconcile in-memory only
+//   - neither      → no-op
+func reconcileFromOpts(opts ConsumerAuditOptions, result *ConsumerAuditResult) error {
 	if result == nil {
 		return nil
 	}
 
 	if opts.SheetID != "" {
-		if err := assertCanonicalInputs(opts); err != nil {
-			return err
-		}
 		ctx := context.Background()
 		previous, err := readSheet(ctx, opts.SheetID, opts.SheetsCredentials)
 		if err != nil {
