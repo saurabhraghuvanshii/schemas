@@ -1,40 +1,13 @@
 <header class="site-header">
   <div class="wrapper">
     <a class="site-title" href="{{ '/' | relative_url }}">
-      <img
-        src="https://raw.githubusercontent.com/meshery/meshery/master/.github/assets/images/readme/meshery-logo-light-text-side.svg"
-        alt="Meshery"
-      />
+      <img src="https://raw.githubusercontent.com/meshery/meshery/master/.github/assets/images/readme/meshery-logo-light-text-side.svg" alt="Meshery" />
       <span>Schemas</span>
     </a>
-    <button
-      class="nav-toggle"
-      aria-label="Toggle navigation"
-      onclick="document.querySelector('.site-nav').classList.toggle('open')"
-    >
-      &#9776;
-    </button>
+    <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.site-nav').classList.toggle('open')">&#9776;</button>
     <nav class="site-nav">
-      {% for item in site.data.navigation.main %}
-      <a
-        href="{{ item.url | relative_url }}"
-        {%
-        if
-        page.url
-        contains
-        item.url
-        and
-        item.url
-        !="/"
-        %}class="active"
-        {%
-        endif
-        %}
-        >{{ item.title }}</a
-      >
-      {% endfor %}
+      {% for item in site.data.navigation.main %}<a href="{{ item.url | relative_url }}"{% if page.url contains item.url and item.url != '/' %} class="active"{% endif %}>{{ item.title }}</a>{% endfor %}
       <a href="https://github.com/meshery/schemas">GitHub</a>
     </nav>
   </div>
 </header>
-
