@@ -10,6 +10,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: write
 
 concurrency:
   group: pages
@@ -34,10 +35,8 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
-          bundler-cache: false
-
-      - name: Install Jekyll dependencies
-        run: cd ui && bundle install
+          bundler-cache: true
+          working-directory: ui
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -46,16 +45,10 @@ jobs:
         run: |
           if [ -f CNAME ]; then
             DOMAIN="$(tr -d '\n' < CNAME)"
-            cat > ui/_config.runtime.yml <<EOF
-url: "https://${DOMAIN}"
-baseurl: ""
-EOF
+            printf '%s\n' "url: \"https://${DOMAIN}\"" 'baseurl: ""' > ui/_config.runtime.yml
           else
             REPO_NAME="${GITHUB_REPOSITORY#*/}"
-            cat > ui/_config.runtime.yml <<EOF
-url: "https://${GITHUB_REPOSITORY_OWNER}.github.io"
-baseurl: "/${REPO_NAME}"
-EOF
+            printf '%s\n' "url: \"https://${GITHUB_REPOSITORY_OWNER}.github.io\"" "baseurl: \"/${REPO_NAME}\"" > ui/_config.runtime.yml
           fi
 
       - name: Build Jekyll site
@@ -71,15 +64,19 @@ EOF
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
 
   deploy:
     runs-on: ubuntu-24.04
     needs: build
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
-
+        uses: actions/deploy-pages@v5
