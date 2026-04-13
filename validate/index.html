@@ -1,0 +1,266 @@
+---
+layout: default
+title: Schema Validator
+description: Validate YAML or JSON documents against published Meshery construct schemas — no repo clone needed.
+permalink: /validate/
+---
+
+<div class="page-content">
+  <h1>Schema Validator</h1>
+  <p>
+    Paste or type a YAML/JSON document below, select the construct and version, and validate it against the published
+    schema.
+  </p>
+
+  <div class="validator-controls">
+    <select id="version-select" aria-label="API version">
+      <option value="v1beta2">v1beta2 (current)</option>
+      <option value="v1beta1">v1beta1</option>
+      <option value="v1alpha1">v1alpha1</option>
+    </select>
+    <select id="construct-select" aria-label="Construct">
+      <option value="">Select a construct…</option>
+    </select>
+    <select id="format-select" aria-label="Document format">
+      <option value="yaml">YAML</option>
+      <option value="json">JSON</option>
+    </select>
+    <button class="btn btn-primary" id="validate-btn">Validate</button>
+    <button class="btn btn-outline" id="clear-btn">Clear</button>
+  </div>
+
+  <div class="validator-container">
+    <div class="validator-input">
+      <label for="doc-input">Document</label>
+      <textarea id="doc-input" placeholder="Paste your YAML or JSON document here..." spellcheck="false"></textarea>
+    </div>
+    <div class="validator-output">
+      <label>Validation Result</label>
+      <div class="validation-result" id="validation-result">
+        <span class="text-muted">Results will appear here after validation.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-info" style="margin-top: 1.5rem">
+    <strong>How it works</strong>
+    <p>
+      The validator fetches the construct's entity schema (<code>&lt;construct&gt;.yaml</code>) from the repository,
+      parses your document, and checks it against the schema using client-side JSON Schema validation. All processing
+      happens in your browser — nothing is sent to a server.
+    </p>
+  </div>
+
+  <h2>What Gets Checked</h2>
+  <ul>
+    <li><strong>Required fields</strong> — are all required properties present?</li>
+    <li>
+      <strong>Additional properties</strong> — schemas use <code>additionalProperties: false</code>, so unknown fields
+      are rejected.
+    </li>
+    <li><strong>Types</strong> — does each field match its declared type?</li>
+    <li><strong>Formats</strong> — do <code>uuid</code>, <code>date-time</code>, and other format constraints pass?</li>
+    <li>
+      <strong>Constraints</strong> — <code>minLength</code>, <code>maxLength</code>, <code>minimum</code>,
+      <code>maximum</code>, <code>pattern</code>
+    </li>
+    <li><strong>Enum values</strong> — is the value one of the allowed options?</li>
+  </ul>
+
+  <h2>Limitations</h2>
+  <ul>
+    <li>
+      Cross-file <code>$ref</code> resolution is limited — the validator resolves refs within the entity schema but may
+      not follow deep external references.
+    </li>
+    <li>
+      This validates structure, not semantics. A valid document may still be rejected by the server for business-logic
+      reasons.
+    </li>
+    <li>For full server-side validation, use the Meshery API directly.</li>
+  </ul>
+</div>
+
+<!-- js-yaml for YAML parsing -->
+<script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+<!-- Ajv for JSON Schema validation -->
+<script src="https://cdn.jsdelivr.net/npm/ajv@8/dist/ajv2020.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ajv-formats@3/dist/formats.min.js"></script>
+
+<script>
+  (function () {
+    var constructs = {
+      v1beta2: [
+        "academy",
+        "catalog",
+        "component",
+        "connection",
+        "design",
+        "event",
+        "invitation",
+        "plan",
+        "relationship",
+        "selector",
+        "subscription",
+        "token",
+      ],
+      v1beta1: [
+        "academy",
+        "badge",
+        "capability",
+        "catalog",
+        "category",
+        "component",
+        "connection",
+        "credential",
+        "design",
+        "environment",
+        "evaluation",
+        "event",
+        "feature",
+        "invitation",
+        "key",
+        "keychain",
+        "model",
+        "organization",
+        "plan",
+        "relationship",
+        "role",
+        "schedule",
+        "selector",
+        "subcategory",
+        "subscription",
+        "team",
+        "token",
+        "user",
+        "view",
+        "workspace",
+      ],
+      v1alpha1: ["capability", "component", "model", "relationship", "selector"],
+    };
+
+    var versionSelect = document.getElementById("version-select");
+    var constructSelect = document.getElementById("construct-select");
+    var formatSelect = document.getElementById("format-select");
+    var docInput = document.getElementById("doc-input");
+    var resultEl = document.getElementById("validation-result");
+    var validateBtn = document.getElementById("validate-btn");
+    var clearBtn = document.getElementById("clear-btn");
+
+    function populateConstructs() {
+      var version = versionSelect.value;
+      var list = constructs[version] || [];
+      constructSelect.innerHTML = '<option value="">Select a construct…</option>';
+      list.forEach(function (c) {
+        var opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        constructSelect.appendChild(opt);
+      });
+    }
+
+    versionSelect.addEventListener("change", populateConstructs);
+    populateConstructs();
+
+    clearBtn.addEventListener("click", function () {
+      docInput.value = "";
+      resultEl.innerHTML = '<span class="text-muted">Results will appear here after validation.</span>';
+    });
+
+    validateBtn.addEventListener("click", function () {
+      var construct = constructSelect.value;
+      var version = versionSelect.value;
+      var raw = docInput.value.trim();
+
+      if (!construct) {
+        resultEl.innerHTML = '<span class="error">Please select a construct.</span>';
+        return;
+      }
+      if (!raw) {
+        resultEl.innerHTML = '<span class="error">Please enter a document to validate.</span>';
+        return;
+      }
+
+      // Parse the document
+      var doc;
+      try {
+        if (formatSelect.value === "yaml") {
+          doc = jsyaml.load(raw);
+        } else {
+          doc = JSON.parse(raw);
+        }
+      } catch (e) {
+        resultEl.innerHTML = '<span class="error">Parse error: ' + escapeHtml(e.message) + "</span>";
+        return;
+      }
+
+      resultEl.innerHTML = '<span class="text-muted">Fetching schema…</span>';
+
+      // Determine schema URL — entity schema file
+      var schemaFile = construct + ".yaml";
+      // Handle special cases
+      if (version === "v1alpha1") {
+        if (construct === "component") schemaFile = "component.yaml";
+        if (construct === "model") schemaFile = "model.yaml";
+        if (construct === "relationship") schemaFile = "relationship.yaml";
+      }
+
+      var schemaUrl =
+        "https://raw.githubusercontent.com/meshery/schemas/master/schemas/constructs/" +
+        version +
+        "/" +
+        construct +
+        "/" +
+        schemaFile;
+
+      fetch(schemaUrl)
+        .then(function (resp) {
+          if (!resp.ok) throw new Error("Schema not found (HTTP " + resp.status + ")");
+          return resp.text();
+        })
+        .then(function (text) {
+          var schema;
+          try {
+            schema = jsyaml.load(text);
+          } catch (e) {
+            throw new Error("Failed to parse schema: " + e.message);
+          }
+
+          // Validate using Ajv
+          var ajv = new ajv2020({ allErrors: true, strict: false });
+          ajvFormats(ajv);
+          var valid = ajv.validate(schema, doc);
+
+          if (valid) {
+            resultEl.innerHTML =
+              '<span class="success">✓ Document is valid against ' + construct + " (" + version + ").</span>";
+          } else {
+            var errors = ajv.errors.map(function (err) {
+              return (
+                '<span class="error">✗ ' +
+                escapeHtml(err.instancePath || "/") +
+                ": " +
+                escapeHtml(err.message) +
+                (err.params && err.params.additionalProperty
+                  ? " (" + escapeHtml(err.params.additionalProperty) + ")"
+                  : "") +
+                "</span>"
+              );
+            });
+            resultEl.innerHTML =
+              '<span class="error">Found ' + errors.length + " error(s):</span>\n\n" + errors.join("\n");
+          }
+        })
+        .catch(function (err) {
+          resultEl.innerHTML = '<span class="error">Error: ' + escapeHtml(err.message) + "</span>";
+        });
+    });
+
+    function escapeHtml(str) {
+      var div = document.createElement("div");
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+  })();
+</script>
+

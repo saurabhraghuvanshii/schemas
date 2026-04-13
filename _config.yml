@@ -1,5 +1,60 @@
+title: Meshery Schemas
+description: >-
+  The central schema repository for Meshery — browse constructs, validate documents,
+  explore the REST API, and learn schema-driven development.
+url: "https://schemas.meshery.io"
+baseurl: ""
+
+markdown: kramdown
+highlighter: rouge
+
 plugins:
   - jekyll-redirect-from
+  - jekyll-seo-tag
 
 include:
   - schemas/constructs
+  - _openapi_build
+
+exclude:
+  - node_modules
+  - vendor
+  - models
+  - build
+  - cmd
+  - tests
+  - validation
+  - Makefile
+  - go.mod
+  - go.sum
+  - package.json
+  - package-lock.json
+  - tsconfig.json
+  - tsup.config.ts
+  - schema.go
+  - dist
+  - .github
+  - CLAUDE.md
+  - AGENTS.md
+  - specs
+  - permissions_history
+  - artifacthub
+  - todo.md
+  - test.json
+  - config.yml
+  - typescript/index.ts
+  - typescript/permissions.ts
+  - typescript/generated
+  - typescript/rtk
+  - typescript/README.md
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+  - scope:
+      path: "guide"
+    values:
+      layout: "guide"
+

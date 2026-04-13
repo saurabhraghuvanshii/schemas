@@ -1,0 +1,74 @@
+---
+layout: default
+title: "Layer5 Cloud API"
+description: Interactive API documentation for Layer5 Cloud endpoints.
+permalink: /api/cloud
+---
+
+<div class="page-content">
+  <h1>Layer5 Cloud API</h1>
+  <p>
+    Interactive documentation for all Layer5 Cloud REST endpoints. This is generated from
+    <code>_openapi_build/cloud_openapi.yml</code>.
+  </p>
+
+  <div class="callout callout-info">
+    <strong>Live documentation</strong>
+    Run <code>make bundle-openapi</code> locally to generate the latest spec, then use the ReDoc viewer below or open
+    the file in any OpenAPI tool.
+  </div>
+
+  <div id="redoc-container">
+    <p><em>Loading API documentation...</em></p>
+    <noscript>
+      <p>
+        JavaScript is required to render the interactive API documentation. Alternatively, run
+        <code>make bundle-openapi</code> locally and open <code>_openapi_build/cloud_openapi.yml</code> in an OpenAPI
+        viewer.
+      </p>
+    </noscript>
+  </div>
+</div>
+
+<script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var specUrl = '{{ "/_openapi_build/cloud_openapi.yml" | relative_url }}';
+    var container = document.getElementById("redoc-container");
+
+    fetch(specUrl, { method: "HEAD" })
+      .then(function (response) {
+        if (response.ok) {
+          Redoc.init(
+            specUrl,
+            {
+              theme: {
+                colors: { primary: { main: "#00b39f" } },
+                typography: { fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
+              },
+              hideDownloadButton: false,
+              expandResponses: "200",
+              pathInMiddlePanel: true,
+            },
+            container,
+          );
+        } else {
+          showFallback();
+        }
+      })
+      .catch(function () {
+        showFallback();
+      });
+
+    function showFallback() {
+      container.innerHTML =
+        '<div class="callout callout-warning">' +
+        "<strong>OpenAPI spec not found</strong>" +
+        "<p>The bundled spec has not been generated yet. Run the following to generate it:</p>" +
+        "<pre><code>make bundle-openapi</code></pre>" +
+        "<p>Then rebuild the site to include the spec file.</p>" +
+        "</div>";
+    }
+  });
+</script>
+
