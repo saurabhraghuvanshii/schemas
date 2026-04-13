@@ -39,17 +39,15 @@ jobs:
           working-directory: ui
 
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v5
 
       - name: Generate Jekyll runtime config
+        env:
+          PAGES_ORIGIN: ${{ steps.pages.outputs.origin }}
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: |
-          if [ -f CNAME ]; then
-            DOMAIN="$(tr -d '\n' < CNAME)"
-            printf '%s\n' "url: \"https://${DOMAIN}\"" 'baseurl: ""' > ui/_config.runtime.yml
-          else
-            REPO_NAME="${GITHUB_REPOSITORY#*/}"
-            printf '%s\n' "url: \"https://${GITHUB_REPOSITORY_OWNER}.github.io\"" "baseurl: \"/${REPO_NAME}\"" > ui/_config.runtime.yml
-          fi
+          printf '%s\n' "url: \"${PAGES_ORIGIN}\"" "baseurl: \"${PAGES_BASE_PATH}\"" > ui/_config.runtime.yml
 
       - name: Build Jekyll site
         run: cd ui && bundle exec jekyll build --config _config.yml,_config.runtime.yml --destination ../_site
