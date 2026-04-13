@@ -1,0 +1,337 @@
+{
+  "versions": [
+    "v1beta2",
+    "v1beta1",
+    "v1alpha3",
+    "v1alpha2",
+    "v1alpha1"
+  ],
+  "items": [
+    {
+      "name": "academy",
+      "description": "AcademyCurricula entity schema.",
+      "versions": [
+        "v1beta2",
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "badge",
+      "description": "",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": false,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "capability",
+      "description": "Meshery manages entities in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, ...",
+      "versions": [
+        "v1beta1",
+        "v1alpha1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "catalog",
+      "description": "",
+      "versions": [
+        "v1beta2",
+        "v1beta1",
+        "v1alpha2"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "catalog_data",
+      "description": "",
+      "versions": [
+        "v1alpha1"
+      ],
+      "hasApi": false,
+      "hasTemplate": true,
+      "latestVersion": "v1alpha1"
+    },
+    {
+      "name": "category",
+      "description": "Category of the model.",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "component",
+      "description": "Components are reusable building blocks for depicting capabilities defined within models. Learn more at https://docs.meshery.io/concepts/components",
+      "versions": [
+        "v1beta2",
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "connection",
+      "description": "Meshery Connections are managed and unmanaged resources that either through discovery or manual entry are tracked by Meshery. Learn more at https://docs.meshery.io/concepts/logical/connections",
+      "versions": [
+        "v1beta2",
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "credential",
+      "description": "",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": false,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "design",
+      "description": "Designs are your primary tool for collaborative authorship of your infrastructure, workflow, and processes.",
+      "versions": [
+        "v1beta2",
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "environment",
+      "description": "Environments allow you to logically group related Connections and their associated Credentials. Learn more at https://docs.meshery.io/concepts/logical/environments",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "evaluation",
+      "description": "",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": false,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "event",
+      "description": "EventResult entity schema.",
+      "versions": [
+        "v1beta2",
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "feature",
+      "description": "",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": false,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "invitation",
+      "description": "Invitation entity schema.",
+      "versions": [
+        "v1beta2",
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "key",
+      "description": "Represents an authorization key used for access control.",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "keychain",
+      "description": "Represents a collection of keys.",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "model",
+      "description": "Meshery Models serve as a portable unit of packaging to define managed entities, their relationships, and capabilities.",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "organization",
+      "description": "",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": false,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "plan",
+      "description": "Plan entity schema.",
+      "versions": [
+        "v1beta2",
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "relationship",
+      "description": "\"Relationships define the nature of interaction between interconnected components in Meshery. The combination of relationship properties kind, type, and subtype characterize various genealogical re...",
+      "versions": [
+        "v1beta2",
+        "v1beta1",
+        "v1alpha3"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "role",
+      "description": "",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": false,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "schedule",
+      "description": "",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": false,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "selector",
+      "description": "Reusable relationships selectors schema elements",
+      "versions": [
+        "v1beta2",
+        "v1beta1",
+        "v1alpha3"
+      ],
+      "hasApi": false,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "subcategory",
+      "description": "Sub category of the model determines the secondary grouping.",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "subscription",
+      "description": "Subscription entity schema.",
+      "versions": [
+        "v1beta2",
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "team",
+      "description": "A Team is a group of one or more users. Teams are often used as a grouping mechanism for assigning permissions, whether in the context of an organization, a workspace, or some other domain within M...",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "token",
+      "description": "Represents a user-owned API token or OAuth session.",
+      "versions": [
+        "v1beta2",
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta2"
+    },
+    {
+      "name": "user",
+      "description": "",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": false,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "view",
+      "description": "A saved view with filters and metadata that defines a customized perspective of Meshery resources. Learn more at https://docs.meshery.io/concepts/logical/views",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta1"
+    },
+    {
+      "name": "workspace",
+      "description": "A workspace is a logical grouping of resources within an organization. Workspaces provide a way to organize environments, designs, teams, and views. Learn more at https://docs.meshery.io/concepts/l...",
+      "versions": [
+        "v1beta1"
+      ],
+      "hasApi": true,
+      "hasTemplate": true,
+      "latestVersion": "v1beta1"
+    }
+  ]
+}

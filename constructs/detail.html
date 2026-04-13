@@ -9,6 +9,7 @@ permalink: /constructs/detail
     <p><a href="{{ '/constructs/' | relative_url }}">&larr; All Constructs</a></p>
     <h1 id="construct-title">Loading…</h1>
     <div id="construct-badges"></div>
+    <div id="version-switcher" class="version-filter" style="margin-top:0.75rem"></div>
   </div>
 
   <div class="tabs" id="detail-tabs">
@@ -50,22 +51,78 @@ permalink: /constructs/detail
 
 <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
 <script>
+// Constructs metadata generated at build time
+var CONSTRUCTS_DATA = {{ site.data.constructs | jsonify }};
+// Base URL for local schema files (served as static assets by Jekyll)
+var SITE_BASE = '{{ "/" | relative_url }}';
+</script>
+<script>
 (function() {
   var params = new URLSearchParams(window.location.search);
   var construct = params.get('name');
-  var version = params.get('version') || 'v1beta1';
+  var version = params.get('version');
 
   if (!construct) {
     document.getElementById('construct-title').textContent = 'No construct specified';
     return;
   }
 
-  var BASE = 'https://raw.githubusercontent.com/meshery/schemas/master/schemas/constructs';
+  // Look up this construct in the build-time data
+  var meta = null;
+  if (CONSTRUCTS_DATA && CONSTRUCTS_DATA.items) {
+    for (var i = 0; i < CONSTRUCTS_DATA.items.length; i++) {
+      if (CONSTRUCTS_DATA.items[i].name === construct) {
+        meta = CONSTRUCTS_DATA.items[i];
+        break;
+      }
+    }
+  }
+
+  // Default to latest version if none specified or invalid
+  if (meta) {
+    if (!version || meta.versions.indexOf(version) === -1) {
+      version = meta.latestVersion;
+    }
+  } else if (!version) {
+    version = 'v1beta1';
+  }
+
+  // Schema files are served locally at {baseurl}/schemas/constructs/...
+  var BASE = SITE_BASE + 'schemas/constructs';
 
   document.getElementById('construct-title').textContent = construct;
   document.title = construct + ' — Meshery Schemas';
-  document.getElementById('construct-badges').innerHTML =
-    '<span class="version-badge">' + escapeHtml(version) + '</span>';
+
+  // --- Render version badges ---
+  var badgesEl = document.getElementById('construct-badges');
+  if (meta) {
+    badgesEl.innerHTML = meta.versions.map(function(v) {
+      var cls = v === version ? 'version-badge' : 'version-badge deprecated';
+      return '<span class="' + cls + '">' + escapeHtml(v) + '</span>';
+    }).join(' ');
+    if (meta.hasApi) {
+      badgesEl.innerHTML += ' <span class="version-badge" style="background:#e8f5e9;color:#2e7d32">API</span>';
+    }
+  } else {
+    badgesEl.innerHTML = '<span class="version-badge">' + escapeHtml(version) + '</span>';
+  }
+
+  // --- Render version switcher ---
+  var switcherEl = document.getElementById('version-switcher');
+  if (meta && meta.versions.length > 1) {
+    switcherEl.innerHTML = '<span style="font-size:0.85rem;margin-right:0.5rem;color:var(--color-text-muted)">Switch version:</span>' +
+      meta.versions.map(function(v) {
+        if (v === version) return '<button class="active" disabled>' + escapeHtml(v) + '</button>';
+        return '<button data-switch-version="' + escapeHtml(v) + '">' + escapeHtml(v) + '</button>';
+      }).join('');
+
+    switcherEl.querySelectorAll('[data-switch-version]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var newUrl = window.location.pathname + '?name=' + encodeURIComponent(construct) + '&version=' + encodeURIComponent(btn.getAttribute('data-switch-version'));
+        window.location.href = newUrl;
+      });
+    });
+  }
 
   // --- Tabs ---
   document.querySelectorAll('.tab-btn').forEach(function(btn) {
@@ -113,8 +170,12 @@ permalink: /constructs/detail
   });
 
   // --- Load example template ---
-  var exUrl = BASE + '/' + version + '/' + construct + '/templates/' + construct + '_template.json';
-  fetch(exUrl).then(function(r) {
+  var exJsonUrl = BASE + '/' + version + '/' + construct + '/templates/' + construct + '_template.json';
+  var exYamlUrl = BASE + '/' + version + '/' + construct + '/templates/' + construct + '_template.yaml';
+  fetch(exJsonUrl).then(function(r) {
+    if (!r.ok) return fetch(exYamlUrl);
+    return r;
+  }).then(function(r) {
     if (!r.ok) throw new Error('Not found');
     return r.text();
   }).then(function(text) {
@@ -167,7 +228,7 @@ permalink: /constructs/detail
   function propType(p) {
     if (p.$ref) {
       var parts = p.$ref.split('/');
-      return '$ref → ' + parts[parts.length - 1];
+      return '$ref \u2192 ' + parts[parts.length - 1];
     }
     var t = p.type || 'any';
     if (p.format) t += ' (' + p.format + ')';
@@ -199,7 +260,6 @@ permalink: /constructs/detail
         if (!methods[method]) return;
         var op = methods[method];
         var methodUpper = method.toUpperCase();
-        var statusClass = method === 'get' ? 'info' : method === 'post' ? 'success' : method === 'delete' ? 'error' : 'warning';
         html += '<div class="endpoint-card">';
         html += '<div class="endpoint-header">';
         html += '<span class="endpoint-method endpoint-method--' + method + '">' + methodUpper + '</span>';
@@ -207,6 +267,7 @@ permalink: /constructs/detail
         html += '</div>';
         if (op.summary) html += '<p class="endpoint-summary">' + escapeHtml(op.summary) + '</p>';
         if (op.operationId) html += '<p class="endpoint-meta"><strong>operationId:</strong> <code>' + escapeHtml(op.operationId) + '</code></p>';
+        if (op.tags && op.tags.length) html += '<p class="endpoint-meta"><strong>tags:</strong> ' + op.tags.map(function(t){return escapeHtml(t);}).join(', ') + '</p>';
 
         // Parameters
         var allParams = (methods.parameters || []).concat(op.parameters || []);
@@ -216,7 +277,7 @@ permalink: /constructs/detail
           allParams.forEach(function(param) {
             if (param.$ref) {
               var refParts = param.$ref.split('/');
-              html += '<tr><td colspan="4"><code>$ref → ' + escapeHtml(refParts[refParts.length - 1]) + '</code></td></tr>';
+              html += '<tr><td colspan="4"><code>$ref \u2192 ' + escapeHtml(refParts[refParts.length - 1]) + '</code></td></tr>';
             } else {
               var pType = param.schema ? (param.schema.type || param.schema.$ref || 'any') : 'any';
               if (param.schema && param.schema.$ref) {
@@ -237,9 +298,9 @@ permalink: /constructs/detail
             var s = content[mime].schema;
             if (s && s.$ref) {
               var rParts = s.$ref.split('/');
-              html += '<p><code>' + escapeHtml(mime) + '</code> → <strong>' + escapeHtml(rParts[rParts.length - 1]) + '</strong></p>';
+              html += '<p><code>' + escapeHtml(mime) + '</code> \u2192 <strong>' + escapeHtml(rParts[rParts.length - 1]) + '</strong></p>';
             } else if (s) {
-              html += '<p><code>' + escapeHtml(mime) + '</code> → <code>' + escapeHtml(s.type || 'object') + '</code></p>';
+              html += '<p><code>' + escapeHtml(mime) + '</code> \u2192 <code>' + escapeHtml(s.type || 'object') + '</code></p>';
             }
           });
           html += '</details>';
@@ -257,7 +318,7 @@ permalink: /constructs/detail
                 var rs = resp.content[mime].schema;
                 if (rs && rs.$ref) {
                   var xParts = rs.$ref.split('/');
-                  html += ' → <strong>' + escapeHtml(xParts[xParts.length - 1]) + '</strong>';
+                  html += ' \u2192 <strong>' + escapeHtml(xParts[xParts.length - 1]) + '</strong>';
                 }
               });
             }
@@ -281,8 +342,9 @@ permalink: /constructs/detail
         var sc = schemas[name];
         shtml += '<div class="schema-card">';
         shtml += '<h4>' + escapeHtml(name) + '</h4>';
+        if (sc.description) shtml += '<p class="text-muted" style="margin:0.25rem 0">' + escapeHtml(sc.description) + '</p>';
         if (sc.$ref) {
-          shtml += '<p><code>$ref → ' + escapeHtml(sc.$ref) + '</code></p>';
+          shtml += '<p><code>$ref \u2192 ' + escapeHtml(sc.$ref) + '</code></p>';
         } else if (sc.properties) {
           shtml += '<table class="prop-table"><thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody>';
           var sReq = sc.required || [];
