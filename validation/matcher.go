@@ -163,14 +163,6 @@ func xInternalAllows(xInternal []string, repo string) bool {
 	return false
 }
 
-// classifySchemaBacked returns the Schema-Backed value for a given match.
-func classifySchemaBacked(schemaPresent bool, _ schemaEndpoint) string {
-	if !schemaPresent {
-		return "FALSE"
-	}
-	return "TRUE"
-}
-
 func classifySchemaCompleteness(ep schemaEndpoint) (string, string) {
 	var notes []string
 	if ep.Deprecated {

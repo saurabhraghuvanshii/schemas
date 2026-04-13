@@ -17,14 +17,16 @@ type auditedColumn struct {
 }
 
 // auditedColumns is the ordered set of cells whose change between two runs
-// causes the row to be marked StateChanged. The other columns (Notes, Change
-// Log, Schema Source) are derived/metadata and never trigger reconciliation.
+// causes the row to be marked StateChanged. Notes and Change Log are
+// derived/metadata and never trigger reconciliation.
 var auditedColumns = []auditedColumn{
-	{name: "Schema-Backed", get: func(r ConsumerAuditRow) string { return r.SchemaBacked }},
+	{name: "Endpoint Status", get: func(r ConsumerAuditRow) string { return r.EndpointStatus }},
+	{name: "x-annotated", get: func(r ConsumerAuditRow) string { return r.XAnnotated }},
+	{name: "Schema-Backed (Meshery)", get: func(r ConsumerAuditRow) string { return r.SchemaBackedMeshery }},
+	{name: "Schema-Backed (Cloud)", get: func(r ConsumerAuditRow) string { return r.SchemaBackedCloud }},
 	{name: "Schema Completeness", get: func(r ConsumerAuditRow) string { return r.SchemaCompleteness }},
 	{name: "Schema-Driven (Meshery)", get: func(r ConsumerAuditRow) string { return r.SchemaDrivenMeshery }},
 	{name: "Schema-Driven (Cloud)", get: func(r ConsumerAuditRow) string { return r.SchemaDrivenCloud }},
-	{name: "Implementation Drift", get: func(r ConsumerAuditRow) string { return r.ImplementationDrift }},
 }
 
 // reconcileKey for reconciliation: (Endpoint, Method) per architecture §10.2.

@@ -95,7 +95,7 @@ func findRepoRoot() (string, error) {
 func printSummary(out io.Writer, result *validation.ConsumerAuditResult, mesheryProvided, cloudProvided bool) {
 	s := result.Summary
 	fmt.Fprintln(out, "consumer-audit: scanning schemas...")
-	fmt.Fprintf(out, "  found %d schema-defined endpoints (+ %d consumer-only handlers = %d audit rows)\n",
+	fmt.Fprintf(out, "  found %d schema-defined endpoints (+ %d consumer-only handlers; %d audit rows)\n",
 		s.SchemaEndpoints, s.ConsumerOnly, len(result.Rows))
 
 	if mesheryProvided {
@@ -121,7 +121,6 @@ func printSummary(out io.Writer, result *validation.ConsumerAuditResult, meshery
 	fmt.Fprintf(out, "| %-31s | %8d | %8s | %8s |\n", "Schema Completeness = TRUE", s.SchemaCompletenessOK, "--", "--")
 	fmt.Fprintf(out, "| %-31s | %8d | %8s | %8s |\n", "Schema Completeness = FALSE", s.SchemaCompletenessNo, "--", "--")
 	fmt.Fprintf(out, "| %-31s | %8s | %8d | %8d |\n", "Schema-Driven = TRUE", "--", s.Meshery.DrivenTrue, s.Cloud.DrivenTrue)
-	fmt.Fprintf(out, "| %-31s | %8s | %8d | %8d |\n", "Schema-Driven = Partial", "--", s.Meshery.DrivenPartial, s.Cloud.DrivenPartial)
 	fmt.Fprintf(out, "| %-31s | %8s | %8d | %8d |\n", "Schema-Driven = FALSE", "--", s.Meshery.DrivenFalse, s.Cloud.DrivenFalse)
 	fmt.Fprintf(out, "| %-31s | %8s | %8d | %8d |\n", "Schema-Driven = Not Audited", "--", s.Meshery.DrivenNotAud, s.Cloud.DrivenNotAud)
 	fmt.Fprintln(out, "+---------------------------------+----------+----------+----------+")

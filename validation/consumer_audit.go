@@ -44,14 +44,15 @@ type ConsumerAuditRow struct {
 	SubCategory         string
 	Endpoint            string
 	Method              string
-	SchemaBacked        string
+	EndpointStatus      string
+	XAnnotated          string
+	SchemaBackedMeshery string
+	SchemaBackedCloud   string
 	SchemaCompleteness  string
 	SchemaDrivenMeshery string
 	SchemaDrivenCloud   string
-	ImplementationDrift string
 	Notes               string
 	ChangeLog           string
-	SchemaSource        string
 }
 
 // AuditRow remains a short alias used throughout the validation package.
@@ -63,14 +64,15 @@ var auditHeader = []string{
 	"Sub-Category",
 	"Endpoint",
 	"Method",
-	"Schema-Backed",
+	"Endpoint Status",
+	"x-annotated",
+	"Schema-Backed (Meshery)",
+	"Schema-Backed (Cloud)",
 	"Schema Completeness",
 	"Schema-Driven (Meshery)",
 	"Schema-Driven (Cloud)",
-	"Implementation Drift",
 	"Notes",
 	"Change Log",
-	"Schema Source",
 }
 
 // toRow converts the audit row to its serialized string slice.
@@ -80,14 +82,15 @@ func (r ConsumerAuditRow) toRow() []string {
 		r.SubCategory,
 		r.Endpoint,
 		r.Method,
-		r.SchemaBacked,
+		r.EndpointStatus,
+		r.XAnnotated,
+		r.SchemaBackedMeshery,
+		r.SchemaBackedCloud,
 		r.SchemaCompleteness,
 		r.SchemaDrivenMeshery,
 		r.SchemaDrivenCloud,
-		r.ImplementationDrift,
 		r.Notes,
 		r.ChangeLog,
-		r.SchemaSource,
 	}
 }
 
@@ -105,14 +108,15 @@ func rowFromStrings(cols []string) ConsumerAuditRow {
 		SubCategory:         get(1),
 		Endpoint:            get(2),
 		Method:              get(3),
-		SchemaBacked:        get(4),
-		SchemaCompleteness:  get(5),
-		SchemaDrivenMeshery: get(6),
-		SchemaDrivenCloud:   get(7),
-		ImplementationDrift: get(8),
-		Notes:               get(9),
-		ChangeLog:           get(10),
-		SchemaSource:        get(11),
+		EndpointStatus:      get(4),
+		XAnnotated:          get(5),
+		SchemaBackedMeshery: get(6),
+		SchemaBackedCloud:   get(7),
+		SchemaCompleteness:  get(8),
+		SchemaDrivenMeshery: get(9),
+		SchemaDrivenCloud:   get(10),
+		Notes:               get(11),
+		ChangeLog:           get(12),
 	}
 }
 
@@ -145,13 +149,8 @@ type auditSummary struct {
 	ConsumerOnly         int
 	ConsumerOnlyMeshery  int
 	ConsumerOnlyCloud    int
-	SchemaBackedTrue     int
 	SchemaCompletenessOK int
 	SchemaCompletenessNo int
-	SchemaDrivenTrue     int
-	SchemaDrivenPartial  int
-	SchemaDrivenFalse    int
-	SchemaDrivenNotAud   int
 	Meshery              repoTally
 	Cloud                repoTally
 }
@@ -251,15 +250,32 @@ func buildAuditRows(
 		matchIndex[schemaRowKeyOf(m.Schema)] = m
 	}
 
+	type auditDisplayKey struct {
+		Endpoint string
+		Method   string
+	}
+	consumerOnlyByKey := make(map[auditDisplayKey][]consumerEndpoint, len(match.ConsumerOnly))
+	for _, c := range match.ConsumerOnly {
+		key := auditDisplayKey{Endpoint: c.Path, Method: c.Method}
+		consumerOnlyByKey[key] = append(consumerOnlyByKey[key], c)
+	}
+
 	// Schema-defined endpoints (matched + schema-only).
 	for _, ep := range idx.Endpoints {
-		row := newSchemaRow(ep, matchIndex[schemaRowKeyOf(ep)].Consumers, mesheryProvided, cloudProvided)
+		key := auditDisplayKey{Endpoint: ep.Path, Method: ep.Method}
+		consumers := append([]consumerEndpoint(nil), matchIndex[schemaRowKeyOf(ep)].Consumers...)
+		if extra := consumerOnlyByKey[key]; len(extra) > 0 {
+			consumers = append(consumers, extra...)
+			delete(consumerOnlyByKey, key)
+		}
+		row := newSchemaRow(ep, consumers, mesheryProvided, cloudProvided)
 		rows = append(rows, row)
 	}
 
-	// Consumer-only rows (no schema endpoint).
-	for _, c := range match.ConsumerOnly {
-		row := newConsumerOnlyRow(c, mesheryProvided, cloudProvided)
+	// Consumer-only rows are consolidated by (method, path) so the same
+	// schema-less endpoint implemented in both consumers appears once.
+	for _, consumers := range consumerOnlyByKey {
+		row := newConsumerOnlyRow(consumers, mesheryProvided, cloudProvided)
 		rows = append(rows, row)
 	}
 	return rows
@@ -277,55 +293,162 @@ func schemaRowKeyOf(ep schemaEndpoint) schemaRowKey {
 
 func newSchemaRow(ep schemaEndpoint, consumers []consumerEndpoint, mesheryProvided, cloudProvided bool) ConsumerAuditRow {
 	row := ConsumerAuditRow{
-		Category:     categoryFromTags(ep.Tags),
-		SubCategory:  ep.Construct,
-		Endpoint:     ep.Path,
-		Method:       ep.Method,
-		SchemaBacked: classifySchemaBacked(true, ep),
-		SchemaSource: ep.SourceFile,
+		Category:    categoryFromTags(ep.Tags),
+		SubCategory: ep.Construct,
+		Endpoint:    ep.Path,
+		Method:      ep.Method,
+		XAnnotated:  classifyXAnnotated(ep.XInternal),
 	}
 
 	mesheryAllowed := xInternalAllows(ep.XInternal, "meshery")
 	cloudAllowed := xInternalAllows(ep.XInternal, "cloud")
-	row.SchemaCompleteness, row.Notes = classifySchemaCompleteness(ep)
+
+	completeness, schemaNote := classifySchemaCompleteness(ep)
+	row.SchemaCompleteness = completeness
 
 	mesheryConsumers := filterConsumersByRepo(consumers, "meshery")
 	cloudConsumers := filterConsumersByRepo(consumers, "meshery-cloud")
 	mesheryAssessment := assessConsumers(mesheryProvided && mesheryAllowed, "meshery", mesheryConsumers, ep.RequestShape, ep.ResponseShape)
 	cloudAssessment := assessConsumers(cloudProvided && cloudAllowed, "meshery-cloud", cloudConsumers, ep.RequestShape, ep.ResponseShape)
 
+	row.EndpointStatus = computeEndpointStatus(true, mesheryAllowed, cloudAllowed, len(mesheryConsumers) > 0, len(cloudConsumers) > 0)
+	row.SchemaBackedMeshery = schemaBackedFor(mesheryProvided, mesheryAllowed, mesheryConsumers)
+	row.SchemaBackedCloud = schemaBackedFor(cloudProvided, cloudAllowed, cloudConsumers)
+
 	if mesheryProvided && mesheryAllowed {
-		row.SchemaDrivenMeshery = mesheryAssessment.Status
+		row.SchemaDrivenMeshery = normalizeDrivenStatus(mesheryAssessment.Status)
 	}
 	if cloudProvided && cloudAllowed {
-		row.SchemaDrivenCloud = cloudAssessment.Status
+		row.SchemaDrivenCloud = normalizeDrivenStatus(cloudAssessment.Status)
 	}
-	row.ImplementationDrift = strings.Join(uniqueStrings(append(mesheryAssessment.Drift, cloudAssessment.Drift...)), "; ")
-	row.Notes = buildNotes(ep, row.Notes, mesheryAssessment, cloudAssessment, mesheryAllowed, cloudAllowed)
+
+	row.Notes = buildLabeledNotes(schemaNote, mesheryAssessment, cloudAssessment)
 	return row
 }
 
-func newConsumerOnlyRow(c consumerEndpoint, mesheryProvided, cloudProvided bool) ConsumerAuditRow {
-	category, subCategory := deriveConsumerLocation(c.Path)
-	row := ConsumerAuditRow{
-		Category:     category,
-		SubCategory:  subCategory,
-		Endpoint:     c.Path,
-		Method:       c.Method,
-		SchemaBacked: "FALSE",
+func newConsumerOnlyRow(consumers []consumerEndpoint, mesheryProvided, cloudProvided bool) ConsumerAuditRow {
+	if len(consumers) == 0 {
+		return ConsumerAuditRow{}
 	}
-	assessment := assessConsumers(true, c.Repo, []consumerEndpoint{c}, nil, nil)
-	notes := []string{"schema not defined"}
-	notes = append(notes, assessment.Notes...)
 
-	switch c.Repo {
-	case "meshery":
-		row.SchemaDrivenMeshery = assessment.Status
-	case "meshery-cloud":
-		row.SchemaDrivenCloud = assessment.Status
+	category, subCategory := deriveConsumerLocation(consumers[0].Path)
+	row := ConsumerAuditRow{
+		Category:    category,
+		SubCategory: subCategory,
+		Endpoint:    consumers[0].Path,
+		Method:      consumers[0].Method,
+		XAnnotated:  "No schema",
 	}
-	row.Notes = strings.Join(uniqueStrings(notes), "; ")
+	mesheryConsumers := filterConsumersByRepo(consumers, "meshery")
+	cloudConsumers := filterConsumersByRepo(consumers, "meshery-cloud")
+
+	row.EndpointStatus = computeEndpointStatus(false, false, false, len(mesheryConsumers) > 0, len(cloudConsumers) > 0)
+
+	// No schema → Schema-Backed is FALSE for the repo that registered it, blank
+	// for the other repo. Schema-Driven / Schema-Completeness stay blank (no
+	// schema to evaluate against).
+	if len(mesheryConsumers) > 0 {
+		row.SchemaBackedMeshery = "FALSE"
+	}
+	if len(cloudConsumers) > 0 {
+		row.SchemaBackedCloud = "FALSE"
+	}
+
+	mesheryAssessment := assessConsumers(mesheryProvided && len(mesheryConsumers) > 0, "meshery", mesheryConsumers, nil, nil)
+	cloudAssessment := assessConsumers(cloudProvided && len(cloudConsumers) > 0, "meshery-cloud", cloudConsumers, nil, nil)
+	row.Notes = buildConsumerOnlyAggregateNotes(mesheryAssessment, cloudAssessment)
 	return row
+}
+
+// classifyXAnnotated returns the x-annotated column value derived from an
+// endpoint's x-internal list.
+func classifyXAnnotated(xInternal []string) string {
+	has := func(s string) bool {
+		for _, x := range xInternal {
+			if x == s {
+				return true
+			}
+		}
+		return false
+	}
+	switch {
+	case len(xInternal) == 0:
+		return "None"
+	case has("meshery") && has("cloud"):
+		return "None"
+	case has("cloud"):
+		return "Cloud only"
+	case has("meshery"):
+		return "Meshery"
+	}
+	return "None"
+}
+
+// computeEndpointStatus reports whether the endpoint is live in each consumer
+// relative to the schema's scope. See the column legend in the audit sheet.
+func computeEndpointStatus(schemaPresent, mApplies, cApplies, mActive, cActive bool) string {
+	if !schemaPresent {
+		switch {
+		case mActive && cActive:
+			return "Active - Both"
+		case mActive:
+			return "Active - Meshery Server"
+		case cActive:
+			return "Active - Meshery Cloud"
+		}
+		return ""
+	}
+	switch {
+	case mActive && cActive:
+		return "Active - Both"
+	case mActive && cApplies:
+		return "Active Meshery Server, Unimplemented Meshery Cloud"
+	case mActive:
+		return "Active - Meshery Server"
+	case cActive && mApplies:
+		return "Active Meshery Cloud, Unimplemented Meshery Server"
+	case cActive:
+		return "Active - Meshery Cloud"
+	case mApplies && cApplies:
+		return "Unimplemented Both"
+	case mApplies:
+		return "Unimplemented Meshery Server"
+	case cApplies:
+		return "Unimplemented Meshery Cloud"
+	}
+	return ""
+}
+
+// schemaBackedFor returns the per-consumer Schema-Backed column value for a
+// schema-backed row. Blank means the column does not apply (the consumer was
+// not scanned, or the spec does not target that consumer and no handler was
+// found). TRUE means the registered handler imports the shared schema types.
+func schemaBackedFor(provided, applies bool, repoConsumers []consumerEndpoint) string {
+	if !provided {
+		return ""
+	}
+	if !applies && len(repoConsumers) == 0 {
+		return ""
+	}
+	if len(repoConsumers) == 0 {
+		return "FALSE"
+	}
+	for _, c := range repoConsumers {
+		if c.ImportsSchemas {
+			return "TRUE"
+		}
+	}
+	return "FALSE"
+}
+
+// normalizeDrivenStatus folds internal assessment statuses into the small set
+// surfaced to the sheet: TRUE, FALSE, or Not Audited. Partial drift is treated
+// as FALSE; the diff details live in Notes.
+func normalizeDrivenStatus(s string) string {
+	if s == "Partial" {
+		return "FALSE"
+	}
+	return s
 }
 
 func filterConsumersByRepo(consumers []consumerEndpoint, repo string) []consumerEndpoint {
@@ -371,25 +494,84 @@ func deriveConsumerLocation(endpoint string) (string, string) {
 	return parts[0], parts[0]
 }
 
-func buildNotes(ep schemaEndpoint, schemaNote string, meshery, cloud consumerAssessment, mesheryAllowed, cloudAllowed bool) string {
-	var notes []string
-	if schemaNote != "" {
-		notes = append(notes, schemaNote)
+// labeledNote is one actionable note paired with the source that produced it
+// (schema / meshery / cloud). Rendered as "[source] message" one per line.
+type labeledNote struct {
+	Source  string
+	Message string
+}
+
+// buildLabeledNotes produces the Notes column for a schema-backed row. Every
+// note is attributed to its source and joined by a newline so the sheet shows
+// one actionable line per issue.
+func buildLabeledNotes(schemaNote string, meshery, cloud consumerAssessment) string {
+	var notes []labeledNote
+	for _, n := range splitSchemaNote(schemaNote) {
+		notes = append(notes, labeledNote{Source: "schema", Message: n})
 	}
-	if !mesheryAllowed {
-		notes = append(notes, "schema applies only to meshery-cloud")
+	notes = append(notes, collectRepoNotes("meshery", "meshery", meshery)...)
+	notes = append(notes, collectRepoNotes("cloud", "meshery-cloud", cloud)...)
+	return joinLabeledNotes(notes)
+}
+
+func buildConsumerOnlyAggregateNotes(meshery, cloud consumerAssessment) string {
+	var notes []labeledNote
+	notes = append(notes, collectRepoNotes("meshery", "meshery", meshery)...)
+	notes = append(notes, collectRepoNotes("cloud", "meshery-cloud", cloud)...)
+	return joinLabeledNotes(notes)
+}
+
+func collectRepoNotes(source, repo string, a consumerAssessment) []labeledNote {
+	var out []labeledNote
+	for _, n := range a.Notes {
+		out = append(out, labeledNote{Source: source, Message: stripRepoPrefix(n, repo)})
 	}
-	if !cloudAllowed {
-		notes = append(notes, "schema applies only to meshery")
+	for _, n := range a.Drift {
+		out = append(out, labeledNote{Source: source, Message: stripRepoPrefix(n, repo)})
 	}
-	for _, assessment := range []consumerAssessment{meshery, cloud} {
-		for _, n := range assessment.Notes {
-			if n != "" {
-				notes = append(notes, n)
-			}
+	return out
+}
+
+// stripRepoPrefix removes a "<repo>: " or "<repo> " prefix from a note so the
+// repo name is not duplicated with the label tag.
+func stripRepoPrefix(note, repo string) string {
+	for _, prefix := range []string{repo + ": ", repo + " "} {
+		if strings.HasPrefix(note, prefix) {
+			return strings.TrimPrefix(note, prefix)
 		}
 	}
-	return strings.Join(uniqueStrings(notes), "; ")
+	return note
+}
+
+func splitSchemaNote(joined string) []string {
+	if joined == "" {
+		return nil
+	}
+	parts := strings.Split(joined, "; ")
+	out := make([]string, 0, len(parts))
+	for _, p := range parts {
+		if p = strings.TrimSpace(p); p != "" {
+			out = append(out, p)
+		}
+	}
+	return out
+}
+
+func joinLabeledNotes(notes []labeledNote) string {
+	seen := make(map[string]bool, len(notes))
+	out := make([]string, 0, len(notes))
+	for _, n := range notes {
+		if n.Message == "" {
+			continue
+		}
+		line := fmt.Sprintf("[%s] %s", n.Source, n.Message)
+		if seen[line] {
+			continue
+		}
+		seen[line] = true
+		out = append(out, line)
+	}
+	return strings.Join(out, "\n")
 }
 
 func uniqueStrings(in []string) []string {
@@ -421,28 +603,25 @@ func sortAuditRows(rows []ConsumerAuditRow) {
 	})
 }
 
-// repoTally holds per-repo driven counts produced by tallyRepo.
+// repoTally holds per-repo schema-backed and schema-driven counts.
 type repoTally struct {
-	BackedTrue    int
-	DrivenTrue    int
-	DrivenPartial int
-	DrivenFalse   int
-	DrivenNotAud  int
+	BackedTrue   int
+	DrivenTrue   int
+	DrivenFalse  int
+	DrivenNotAud int
 }
 
 // tallyRepo counts schema-backed and schema-driven metrics for a single repo.
-// driven extracts the SchemaDriven field relevant to that repo from each row.
-func tallyRepo(rows []ConsumerAuditRow, driven func(ConsumerAuditRow) string) repoTally {
+// backed / driven extract the repo-specific column values from each row.
+func tallyRepo(rows []ConsumerAuditRow, backed, driven func(ConsumerAuditRow) string) repoTally {
 	var t repoTally
 	for _, r := range rows {
-		if r.SchemaBacked == "TRUE" && driven(r) != "" {
+		if backed(r) == "TRUE" {
 			t.BackedTrue++
 		}
 		switch driven(r) {
 		case "TRUE":
 			t.DrivenTrue++
-		case "Partial":
-			t.DrivenPartial++
 		case "FALSE":
 			t.DrivenFalse++
 		case "Not Audited":
@@ -470,9 +649,6 @@ func computeSummary(
 		ConsumerOnlyCloud:   len(filterConsumersByRepo(match.ConsumerOnly, "meshery-cloud")),
 	}
 	for _, r := range rows {
-		if r.SchemaBacked == "TRUE" {
-			s.SchemaBackedTrue++
-		}
 		switch r.SchemaCompleteness {
 		case "TRUE":
 			s.SchemaCompletenessOK++
@@ -481,15 +657,14 @@ func computeSummary(
 		}
 	}
 	if mesheryProvided {
-		s.Meshery = tallyRepo(rows, func(r ConsumerAuditRow) string { return r.SchemaDrivenMeshery })
+		s.Meshery = tallyRepo(rows,
+			func(r ConsumerAuditRow) string { return r.SchemaBackedMeshery },
+			func(r ConsumerAuditRow) string { return r.SchemaDrivenMeshery })
 	}
 	if cloudProvided {
-		s.Cloud = tallyRepo(rows, func(r ConsumerAuditRow) string { return r.SchemaDrivenCloud })
+		s.Cloud = tallyRepo(rows,
+			func(r ConsumerAuditRow) string { return r.SchemaBackedCloud },
+			func(r ConsumerAuditRow) string { return r.SchemaDrivenCloud })
 	}
-	// Global driven counts are the union of per-repo tallies.
-	s.SchemaDrivenTrue = s.Meshery.DrivenTrue + s.Cloud.DrivenTrue
-	s.SchemaDrivenPartial = s.Meshery.DrivenPartial + s.Cloud.DrivenPartial
-	s.SchemaDrivenFalse = s.Meshery.DrivenFalse + s.Cloud.DrivenFalse
-	s.SchemaDrivenNotAud = s.Meshery.DrivenNotAud + s.Cloud.DrivenNotAud
 	return s
 }
