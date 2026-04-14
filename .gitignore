@@ -56,6 +56,11 @@ dist/
 
 yarn.lock
 
+# Jekyll UI: copied from schemas/constructs and schemas by build/generate-constructs-data.js
+# (run before `jekyll`; `make site` and deploy-site.yml do this automatically)
+ui/schemas/constructs/
+ui/_data/constructs.json
+
 # Generated files
 **/bin
 *.Identifier
