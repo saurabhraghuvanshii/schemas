@@ -10,6 +10,44 @@ import (
 	"google.golang.org/api/sheets/v4"
 )
 
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+const sheetName = "Verification of API Endpoints - Combined"
+
+func sheetRange(r string) string {
+	return fmt.Sprintf("'%s'!%s", sheetName, r)
+}
+
+func ensureSheetExists(ctx context.Context, srv *sheets.Service, sheetID string) error {
+	ss, err := srv.Spreadsheets.Get(sheetID).Context(ctx).Do()
+	if err != nil {
+		return fmt.Errorf("get spreadsheet: %w", err)
+	}
+	for _, sh := range ss.Sheets {
+		if sh != nil && sh.Properties != nil && sh.Properties.Title == sheetName {
+			return nil
+		}
+	}
+	_, err = srv.Spreadsheets.BatchUpdate(sheetID, &sheets.BatchUpdateSpreadsheetRequest{
+		Requests: []*sheets.Request{
+			{
+				AddSheet: &sheets.AddSheetRequest{
+					Properties: &sheets.SheetProperties{Title: sheetName},
+				},
+			},
+		},
+	}).Context(ctx).Do()
+	if err != nil {
+		return fmt.Errorf("create sheet %q: %w", sheetName, err)
+	}
+	return nil
+}
+
 type auditedColumn struct {
 	name string
 	get  func(ConsumerAuditRow) string
@@ -63,7 +101,7 @@ type reconcileOutput struct {
 // deletion ledger (previous ledger + deletions detected on this run). It
 // is pure logic — no I/O — so it is fully testable.
 func reconcile(current []ConsumerAuditRow, previous [][]string) reconcileOutput {
-	now := time.Now().UTC().Format("2006-01-02 15:04:05 UTC")
+	now := time.Now().UTC().Format("2006-01-02 15:04:05")
 
 	prevRows, prevLedger := parseSheetRows(previous)
 	prevByKey := make(map[reconcileKey]ConsumerAuditRow, len(prevRows))
@@ -215,10 +253,10 @@ func rowsToSheetRows(rows []ConsumerAuditRow, ledger []DeletionRecord) [][]strin
 	return out
 }
 
-// readSheet pulls every value out of the first sheet (range "A1:Z10000") of
-// the given spreadsheet. The returned rows are exactly what reconcile expects.
+// readSheet pulls every value out of the combined audit sheet.
+// The returned rows are exactly what reconcile expects.
 func readSheet(ctx context.Context, srv *sheets.Service, sheetID string) ([][]string, error) {
-	resp, err := srv.Spreadsheets.Values.Get(sheetID, "A1:Z10000").Context(ctx).Do()
+	resp, err := srv.Spreadsheets.Values.Get(sheetID, sheetRange("A1:Z10000")).Context(ctx).Do()
 	if err != nil {
 		return nil, fmt.Errorf("read sheet: %w", err)
 	}
@@ -233,31 +271,57 @@ func readSheet(ctx context.Context, srv *sheets.Service, sheetID string) ([][]st
 	return rows, nil
 }
 
-// writeSheet clears the destination sheet and writes the reconciled rows to
-// it. Deletion history is stored in Z1 as a JSON ledger; deleted rows do
-// not appear in the sheet body.
-func writeSheet(ctx context.Context, srv *sheets.Service, sheetID string, tracked []TrackedEndpoint, ledger []DeletionRecord) error {
-	_, err := srv.Spreadsheets.Values.Clear(sheetID, "A1:Z10000", &sheets.ClearValuesRequest{}).
-		Context(ctx).Do()
-	if err != nil {
-		return fmt.Errorf("clear sheet: %w", err)
-	}
-
-	rows := trackedToSheetRows(tracked, ledger)
+func subsetValueRange(rows [][]string, start, end int) [][]any {
 	values := make([][]any, 0, len(rows))
 	for _, r := range rows {
-		row := make([]any, 0, len(r))
-		for _, cell := range r {
+		row := make([]any, 0, end-start+1)
+		for i := start; i <= end; i++ {
+			cell := ""
+			if i < len(r) {
+				cell = r[i]
+			}
 			row = append(row, cell)
 		}
 		values = append(values, row)
 	}
+	return values
+}
 
-	_, err = srv.Spreadsheets.Values.Update(sheetID, "A1", &sheets.ValueRange{
-		Values: values,
-	}).ValueInputOption("RAW").Context(ctx).Do()
+// writeSheet clears the destination sheet and writes the reconciled rows to
+// it. Deletion history is stored in Z1 as a JSON ledger; deleted rows do
+// not appear in the sheet body. User-owned columns M..Y are left untouched.
+func writeSheet(ctx context.Context, srv *sheets.Service, sheetID string, previous [][]string, tracked []TrackedEndpoint, ledger []DeletionRecord) error {
+	rows := trackedToSheetRows(tracked, ledger)
+	maxRows := max(len(previous), len(rows))
+	if maxRows == 0 {
+		maxRows = 1
+	}
+
+	_, err := srv.Spreadsheets.Values.BatchClear(sheetID, &sheets.BatchClearValuesRequest{
+		Ranges: []string{
+			sheetRange(fmt.Sprintf("A1:L%d", maxRows)),
+			sheetRange(fmt.Sprintf("Z1:Z%d", maxRows)),
+		},
+	}).Context(ctx).Do()
 	if err != nil {
-		return fmt.Errorf("update sheet: %w", err)
+		return fmt.Errorf("clear managed sheet ranges: %w", err)
+	}
+
+	_, err = srv.Spreadsheets.Values.BatchUpdate(sheetID, &sheets.BatchUpdateValuesRequest{
+		ValueInputOption: "RAW",
+		Data: []*sheets.ValueRange{
+			{
+				Range:  sheetRange("A1"),
+				Values: subsetValueRange(rows, 0, generatedColumnCount-1),
+			},
+			{
+				Range:  sheetRange("Z1"),
+				Values: subsetValueRange(rows, metadataColumnIndex, metadataColumnIndex),
+			},
+		},
+	}).Context(ctx).Do()
+	if err != nil {
+		return fmt.Errorf("update managed sheet ranges: %w", err)
 	}
 	return nil
 }
@@ -297,12 +361,15 @@ func reconcileFromOpts(opts ConsumerAuditOptions, result *ConsumerAuditResult) e
 		if err != nil {
 			return err
 		}
+		if err := ensureSheetExists(ctx, srv, opts.SheetID); err != nil {
+			return err
+		}
 		previous, err := readSheet(ctx, srv, opts.SheetID)
 		if err != nil {
 			return err
 		}
 		out := reconcile(result.Rows, previous)
-		if err := writeSheet(ctx, srv, opts.SheetID, out.Tracked, out.DeletionLedger); err != nil {
+		if err := writeSheet(ctx, srv, opts.SheetID, previous, out.Tracked, out.DeletionLedger); err != nil {
 			return err
 		}
 		result.Tracked = out.Tracked

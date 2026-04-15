@@ -7,12 +7,13 @@ import (
 	"strings"
 )
 
-// Sheet layout constants. Cols 0..12 are the primary human-facing view
-// (A..M); cols 13..24 (N..Y) are intentionally left blank so the sheet
-// looks uncluttered; col 25 (Z) holds machine-only metadata as JSON.
+// Sheet layout constants. Cols 0..11 map to generated audit columns
+// (A..L); cols 12..24 (M..Y) are reserved for user-entered values or
+// formulas; col 25 (Z) holds machine-only metadata as JSON.
 const (
-	metadataColumnIndex = 25
-	totalColumns        = 26
+	metadataColumnIndex  = 25
+	totalColumns         = 26
+	generatedColumnCount = 12
 )
 
 // RowMetadata is the opaque JSON blob stored in column Z of each data
@@ -158,8 +159,8 @@ type ConsumerAuditRow struct {
 type AuditRow = ConsumerAuditRow
 
 // auditHeader is the canonical header for sheet row output. Columns
-// N..Y are blank spacers; column Z holds the deletion ledger in row 1
-// and per-row metadata in all other rows.
+// M..Y are user-owned; column Z holds the deletion ledger in row 1 and
+// per-row metadata in all other rows.
 var auditHeader = func() []string {
 	h := make([]string, totalColumns)
 	h[0] = "Category"
@@ -179,8 +180,8 @@ var auditHeader = func() []string {
 }()
 
 // toRow converts the audit row to its serialized string slice. The
-// returned slice is always totalColumns wide, with N..Y padded empty
-// and Z carrying the JSON-encoded metadata.
+// returned slice is always totalColumns wide, with M..Y left empty for
+// user-owned cells and Z carrying the JSON-encoded metadata.
 func (r ConsumerAuditRow) toRow() []string {
 	cells := make([]string, totalColumns)
 	cells[0] = r.Category
@@ -272,7 +273,7 @@ func normalizeLegacyChangeLog(changeLog string, meta RowMetadata) (string, RowMe
 	} else {
 		date = strings.TrimSpace(date)
 	}
-	ts := date + " 00:00:00 UTC"
+	ts := date + " 00:00:00 "
 	if meta.State == "" {
 		meta.State = state
 	}
