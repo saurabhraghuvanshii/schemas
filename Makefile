@@ -18,13 +18,26 @@ include build/Makefile.show-help.mk
 #-----------------------------------------------------------------------------
 # Schemas Site and public reference
 #-----------------------------------------------------------------------------
-.PHONY: site
+.PHONY: site site-prepare site-build site-build-pages
 
 jekyll = bundle exec jekyll
+PAGES_CONFIG_FILE ?= _config.dev.yml
+
+## Prepare generated UI artifacts for the website
+site-prepare:
+	node build/generate-constructs-data.js
+
+## Build the static website into _site/ for local preview
+site-build: site-prepare
+	cd ui && bundle install && $(jekyll) build --config _config.yml,_config.local.yml --destination ../_site
+
+## Build the static website into _site/ for GitHub Pages deployments
+site-build-pages: site-prepare
+	cd ui && bundle install && $(jekyll) build --config _config.yml,$(PAGES_CONFIG_FILE) --destination ../_site
 
 ## Build and run schemas.meshery.io website
-site:
-	node build/generate-constructs-data.js; cd ui && bundle install && $(jekyll) serve --config _config.yml,_config.local.yml --drafts --incremental --no-watch
+site: site-prepare
+	cd ui && bundle install && $(jekyll) serve --config _config.yml,_config.local.yml --drafts --incremental --no-watch
 
 #-----------------------------------------------------------------------------
 # OpenAPI spec

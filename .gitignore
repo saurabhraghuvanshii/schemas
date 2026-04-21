@@ -60,6 +60,7 @@ yarn.lock
 # (run before `jekyll`; `make site` and deploy-site.yml do this automatically)
 ui/schemas/constructs/
 ui/_data/constructs.json
+ui/_config.runtime.yml
 
 # Generated files
 **/bin

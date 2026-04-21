@@ -28,8 +28,8 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Generate constructs data
-        run: node build/generate-constructs-data.js
+      - name: Prepare generated UI schema assets
+        run: make site-prepare
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -50,7 +50,7 @@ jobs:
           printf '%s\n' "url: \"${PAGES_ORIGIN}\"" "baseurl: \"${PAGES_BASE_PATH}\"" > ui/_config.runtime.yml
 
       - name: Build Jekyll site
-        run: cd ui && bundle exec jekyll build --config _config.yml,_config.runtime.yml --destination ../_site
+        run: make site-build-pages PAGES_CONFIG_FILE=_config.runtime.yml
         env:
           JEKYLL_ENV: production
 
